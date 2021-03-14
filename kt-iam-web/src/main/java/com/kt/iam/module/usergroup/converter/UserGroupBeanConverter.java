@@ -38,17 +38,21 @@ public class UserGroupBeanConverter {
         iamUserGroup.setPid(dto.getPid());
         iamUserGroup.setInheritType(dto.getInheritType());
         iamUserGroup.setType(dto.getType());
+        iamUserGroup.setPid(dto.getPid());
         return iamUserGroup;
     }
 
     public UserGroupDetailVO convertToUserGroupDetailVO(IamUserGroup userGroup) {
-        UserGroupDetailVO userGroupDetailVO = new UserGroupDetailVO();
-        userGroupDetailVO.setId(userGroup.getId());
-        userGroupDetailVO.setPid(userGroup.getPid());
-        userGroupDetailVO.setName(userGroup.getName());
-        userGroupDetailVO.setStatus(userGroup.getStatus());
-        userGroupDetailVO.setLevel(userGroup.getLevel());
-        userGroupDetailVO.setRoleIds(iRoleService.getRoleIdsByUserGroupId(userGroup.getId()));
-        return userGroupDetailVO;
+        UserGroupDetailVO vo = new UserGroupDetailVO();
+        vo.setId(userGroup.getId());
+        vo.setPid(userGroup.getPid());
+        vo.setName(userGroup.getName());
+        vo.setStatus(userGroup.getStatus());
+        vo.setLevel(userGroup.getLevel());
+        vo.setRoleIds(iRoleService.getRoleIdsByUserGroupId(userGroup.getId()));
+        vo.setInheritType(userGroup.getInheritType());
+        vo.setType(userGroup.getType());
+        vo.setLevelPath(userGroup.getLevelPath());
+        return vo;
     }
 }

@@ -108,21 +108,15 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
      * 获取用户的所有角色
      */
     private Set<Long> getUserAllRoles(Long userId) {
-        List<Long> roleIds = getRoleIdsByUserId(userId);
-        List<Long> userGroupIds = getUserGroupIdsByUserId(userId);
+        // 用户自身拥有的角色
+        List<Long> roleIds = iRoleService.getRoleIdsByUserId(userId);
+        // 用户所归属的用户组所拥有的角色
+        List<Long> userGroupIds = iUserGroupService.getUserGroupsIdIncludeParentByUserId(userId);
         List<Long> userGroupsRoleIds = iRoleService.getRoleIdsByUserGroupIds(userGroupIds);
         roleIds.addAll(userGroupsRoleIds);
         Set<Long> roleIdSet = new HashSet<>(roleIds);
         log.debug("角色交集 --------> {}", roleIdSet);
         return roleIdSet;
-    }
-
-    private List<Long> getUserGroupIdsByUserId(Long userId) {
-        return iUserGroupService.getUserGroupIdsByUserId(userId);
-    }
-
-    private List<Long> getRoleIdsByUserId(Long userId) {
-        return iRoleService.getRoleIdsByUserId(userId);
     }
 
     private List<UserPermissionRouteNavVO> getUserRoutesByPermissionIds(List<IamPermission> userRoutePermissions) {

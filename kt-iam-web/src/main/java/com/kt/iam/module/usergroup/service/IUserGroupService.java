@@ -30,6 +30,8 @@ public interface IUserGroupService extends IService<IamUserGroup> {
 
     List<Long> getUserGroupIdsByUserId(Long userId);
 
+    List<Long> getUserGroupsIdIncludeParentByUserId(Long userId);
+
     List<UserGroupTreeVO> getTree(UserGroupQueryDTO dto);
 
     List<UserGroupBaseVO> listAllVos();
