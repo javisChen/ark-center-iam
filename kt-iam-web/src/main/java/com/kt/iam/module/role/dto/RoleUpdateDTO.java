@@ -20,6 +20,8 @@ public class RoleUpdateDTO implements Serializable {
     @NotBlank(message = "name 不能为空", groups = {ValidateGroup.Add.class})
     private String name;
 
+    private String code;
+
     @NotNull(groups = ValidateGroup.Update.class, message = "status 不能为空")
     @Range(min = 0, max = 1)
     private Integer status;

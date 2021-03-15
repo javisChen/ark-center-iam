@@ -114,6 +114,7 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
         List<Long> userGroupIds = iUserGroupService.getUserGroupsIdIncludeParentByUserId(userId);
         List<Long> userGroupsRoleIds = iRoleService.getRoleIdsByUserGroupIds(userGroupIds);
         roleIds.addAll(userGroupsRoleIds);
+        // 排重
         Set<Long> roleIdSet = new HashSet<>(roleIds);
         log.debug("角色交集 --------> {}", roleIdSet);
         return roleIdSet;
@@ -131,11 +132,18 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
     @Override
     public boolean checkHasApiPermission(String applicationCode, String userCode, String url, String method) {
         IamUser user = iUserService.getUserByCode(userCode);
+        // 超管账号直接通过
         if (isSuperAdmin(user.getCode())) {
             return true;
         }
         Long userId = user.getId();
-        Set<ApiPermissionBO> apiPermissions = getUserApiPermissions(applicationCode, userId);
+        Set<Long> roleIdSet = getUserAllRoles(userId);
+        // 如果账号包含超管角色，直接通过
+        if (roleIdSet.stream().anyMatch(item -> item.equals(1L))) {
+            return true;
+        }
+        Set<ApiPermissionBO> apiPermissions = iPermissionService
+                .getApiPermissionByRoleIdsAndApplicationCode(applicationCode, roleIdSet);
         return apiPermissions.stream().anyMatch(item -> matchApi(url, method, item));
     }
 
@@ -160,18 +168,4 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
         return remoteAuthCheck.checkPermission(request);
     }
 
-    /**
-     * 获取用户可访问的api并且需要授权认证的API
-     */
-    private Set<ApiPermissionBO> getUserApiPermissions(String applicationCode, Long userId) {
-        Set<Long> roleIdSet = getUserAllRoles(userId);
-        return iPermissionService.getApiPermissionByRoleIdsAndApplicationCode(applicationCode, roleIdSet);
-    }
-
-    private List<ApiPermissionBO> getApiPermissionByPermissionIds(List<Long> permissionIds) {
-        if (CollectionUtil.isEmpty(permissionIds)) {
-            return CollectionUtil.newArrayList();
-        }
-        return iPermissionService.getApiPermissionByIds(permissionIds);
-    }
 }

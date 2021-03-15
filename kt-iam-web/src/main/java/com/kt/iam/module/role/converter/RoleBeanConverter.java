@@ -17,6 +17,7 @@ public class RoleBeanConverter {
         RoleListVO roleListVO = new RoleListVO();
         roleListVO.setId(item.getId());
         roleListVO.setName(item.getName());
+        roleListVO.setCode(item.getCode());
         roleListVO.setCreateTime(item.getGmtCreate());
         roleListVO.setUpdateTime(item.getGmtModified());
         return roleListVO;
@@ -25,6 +26,7 @@ public class RoleBeanConverter {
     public IamRole convertToDO(RoleUpdateDTO dto) {
         IamRole iamRole = new IamRole();
         iamRole.setId(dto.getId());
+        iamRole.setCode(dto.getCode());
         iamRole.setName(dto.getName());
         iamRole.setStatus(dto.getStatus());
         return iamRole;

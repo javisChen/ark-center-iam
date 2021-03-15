@@ -195,7 +195,8 @@ public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUse
     public List<Long> getUserGroupsIdIncludeParentByUserId(Long userId) {
         LambdaQueryWrapper<IamUserGroupUserRel> qw = new LambdaQueryWrapper<>();
         qw.eq(IamUserGroupUserRel::getUserId, userId);
-        List<Long> userGroupIds = iamUserGroupUserRelMapper.selectList(qw).stream().map(IamUserGroupUserRel::getUserGroupId)
+        List<Long> userGroupIds = iamUserGroupUserRelMapper.selectList(qw)
+                .stream().map(IamUserGroupUserRel::getUserGroupId)
                 .collect(Collectors.toList());
         if (CollectionUtil.isEmpty(userGroupIds)) {
             return CollectionUtil.newArrayList();

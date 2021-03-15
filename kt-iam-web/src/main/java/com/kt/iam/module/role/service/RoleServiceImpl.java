@@ -1,6 +1,7 @@
 package com.kt.iam.module.role.service;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -26,6 +27,7 @@ import com.kt.iam.module.user.persistence.IamUserRoleRel;
 import com.kt.iam.module.user.persistence.dao.IamUserRoleRelMapper;
 import com.kt.iam.module.usergroup.persistence.IamUserGroupRoleRel;
 import com.kt.iam.module.usergroup.persistence.dao.IamUserGroupRoleRelMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,16 +74,35 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
 
     @Override
     public void saveRole(RoleUpdateDTO dto) {
-        int count = countRoleByName(dto);
-        Assert.isTrue(count > 0, BizEnums.ROLE_ALREADY_EXISTS);
-
+        int count = countRoleByName(dto.getName());
+        Assert.isTrue(count > 0, BizEnums.ROLE_NAME_ALREADY_EXISTS);
+        if (StringUtils.isNotBlank(dto.getCode())) {
+            count = countRoleByCode(dto.getCode());
+            Assert.isTrue(count > 0, BizEnums.ROLE_CODE_ALREADY_EXISTS);
+        } else {
+            dto.setCode(generateRoleCode());
+        }
         IamRole role = beanConverter.convertToDO(dto);
         this.save(role);
     }
 
-    private int countRoleByName(RoleUpdateDTO dto) {
+    private String generateRoleCode() {
+        String code;
+        do {
+            code = IdUtil.fastSimpleUUID();
+        } while (countRoleByCode(code) > 0);
+        return code;
+    }
+
+    private int countRoleByName(String name) {
         LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
-                .eq(IamRole::getName, dto.getName());
+                .eq(IamRole::getName, name);
+        return this.count(queryWrapper);
+    }
+
+    private int countRoleByCode(String code) {
+        LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
+                .eq(IamRole::getCode, code);
         return this.count(queryWrapper);
     }
 
@@ -91,7 +112,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
                 .eq(IamRole::getName, dto.getName())
                 .ne(IamRole::getId, dto.getId());
         int count = this.count(queryWrapper);
-        Assert.isTrue(count > 0, BizEnums.ROLE_ALREADY_EXISTS);
+        Assert.isTrue(count > 0, BizEnums.ROLE_NAME_ALREADY_EXISTS);
 
         IamRole role = beanConverter.convertToDO(dto);
         this.updateById(role);
