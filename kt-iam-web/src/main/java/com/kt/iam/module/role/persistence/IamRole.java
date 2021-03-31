@@ -28,6 +28,12 @@ public class IamRole extends BaseEntity {
     private String name;
 
     /**
+     * 角色编码
+     */
+    @TableField("code")
+    private String code;
+
+    /**
      * 状态 1-已启用；2-已禁用；
      */
     @TableField("status")

@@ -7,7 +7,7 @@ public enum BizEnums {
      */
     USER_ALREADY_EXISTS("A0101", "手机号已存在"),
     USER_GROUP_ALREADY_EXISTS("A0102", "用户组名称已存在"),
-    ROLE_ALREADY_EXISTS("A0103", "角色名称已存在"),
+    ROLE_NAME_ALREADY_EXISTS("A0103", "角色名称已存在"),
     PERMISSION_ALREADY_EXISTS("A0104", "权限已存在"),
     ROUTE_ALREADY_EXISTS("A0105", "路由已存在"),
     PARENT_ROUTE_NOT_EXISTS("A0106", "父级路由不存在"),
@@ -19,6 +19,7 @@ public enum BizEnums {
     APPLICATION_CODE_ALREADY_EXISTS("A0112", "应用编码已存在"),
     API_ALREADY_EXISTS("A0113", "接口已存在"),
     API_CATEGORY_ALREADY_EXISTS("A0114", "接口已存在"),
+    ROLE_CODE_ALREADY_EXISTS("A0115", "角色编码已存在"),
 
     USER_LOGIN_INVALID("A0200", "用户名或密码错误");
 

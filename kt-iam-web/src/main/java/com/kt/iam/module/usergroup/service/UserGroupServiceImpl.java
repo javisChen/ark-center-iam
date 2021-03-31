@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.iam.common.util.Assert;
 import com.kt.iam.enums.BizEnums;
 import com.kt.iam.enums.DeletedEnums;
+import com.kt.iam.enums.UserGroupInheritTypeEnums;
 import com.kt.iam.module.usergroup.converter.UserGroupBeanConverter;
 import com.kt.iam.module.usergroup.dto.UserGroupQueryDTO;
 import com.kt.iam.module.usergroup.dto.UserGroupUpdateDTO;
@@ -27,9 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -165,8 +164,9 @@ public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUse
         this.updateById(update);
 
         Long userGroupId = update.getId();
+        // 清除用户角色和用户组的关联关系
         removeUserGroupRoleRelByUserGroupId(userGroupId);
-
+        // 重新绑定用户角色和用户组的关联关系
         updateUserGroupRoleRel(userGroupId, dto.getRoleIds());
     }
 
@@ -192,6 +192,48 @@ public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUse
     }
 
     @Override
+    public List<Long> getUserGroupsIdIncludeParentByUserId(Long userId) {
+        LambdaQueryWrapper<IamUserGroupUserRel> qw = new LambdaQueryWrapper<>();
+        qw.eq(IamUserGroupUserRel::getUserId, userId);
+        List<Long> userGroupIds = iamUserGroupUserRelMapper.selectList(qw)
+                .stream().map(IamUserGroupUserRel::getUserGroupId)
+                .collect(Collectors.toList());
+        if (CollectionUtil.isEmpty(userGroupIds)) {
+            return CollectionUtil.newArrayList();
+        }
+        List<IamUserGroup> userGroups = listByIds(userGroupIds);
+        Set<Long> userGroupIdSets = filterUserGroupParentIds(userGroups);
+        userGroupIdSets.addAll(userGroupIds);
+        return CollectionUtil.newArrayList(userGroupIdSets);
+    }
+
+    public Set<Long> filterUserGroupParentIds(List<IamUserGroup> userGroups) {
+
+        // 继承类型为只继承父类的话，把pid提取出来
+        List<Long> collect = userGroups.stream()
+                .filter(item -> !item.getPid().equals(0L) &&
+                        Objects.equals(item.getInheritType(), UserGroupInheritTypeEnums.INHERIT_PARENT.getValue()))
+                .map(IamUserGroup::getPid)
+                .collect(Collectors.toList());
+
+        // 继承类型为继承所有上级的话，把levelPath取出来，拆解后存到Set中进行排重
+        List<String> inheritAllLevelPath = userGroups.stream()
+                .filter(item -> !item.getPid().equals(0L) &&
+                        Objects.equals(item.getInheritType(), UserGroupInheritTypeEnums.INHERIT_ALL.getValue()))
+                .map(IamUserGroup::getLevelPath)
+                .collect(Collectors.toList());
+        Set<String> tempStrSet = new HashSet<>();
+        for (String item : inheritAllLevelPath) {
+            List<String> split = StrUtil.splitTrim(item, ".");
+            tempStrSet.addAll(CollectionUtil.newHashSet(split));
+        }
+        Set<Long> longs = tempStrSet.stream().map(Long::valueOf).collect(Collectors.toSet());
+        Set<Long> userGroupIdSets = new HashSet<>(collect);
+        userGroupIdSets.addAll(longs);
+        return userGroupIdSets;
+    }
+
+    @Override
     public List<UserGroupTreeVO> getTree(UserGroupQueryDTO dto) {
         List<IamUserGroup> list = Optional.ofNullable(this.list()).orElseGet(ArrayList::new);
         return list.stream().map(assembleUserGroupUserGroupTreeVO()).collect(Collectors.toList());
@@ -202,7 +244,9 @@ public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUse
         LambdaQueryWrapper<IamUserGroup> queryWrapper = new LambdaQueryWrapper<IamUserGroup>()
                 .orderByAsc(IamUserGroup::getGmtCreate)
                 .orderByAsc(IamUserGroup::getLevel);
-        return list(queryWrapper).stream().map(this::assembleUserGroupVO).collect(Collectors.toList());
+        return list(queryWrapper).stream()
+                .map(this::assembleUserGroupVO)
+                .collect(Collectors.toList());
     }
 
     @Override
