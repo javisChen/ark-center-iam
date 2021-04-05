@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY ./target/kt-iam-web-1.0.0-SNAPSHOT.jar /app
 
-RUN ['java ', ' -jar', ' kt-iam-web-1.0.0-SNAPSHOT.jar']
+#RUN ['java ', ' -jar', ' kt-iam-web-1.0.0-SNAPSHOT.jar']
