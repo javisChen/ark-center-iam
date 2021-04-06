@@ -38,7 +38,7 @@ public class AlertController extends BaseController {
 
     @RequestMapping("/docker")
     @SkipCheck
-    public ServerResponse docker(@RequestBody JSONObject jsonObject) throws UnknownHostException {
+    public ServerResponse docker() throws UnknownHostException {
         log.info("request from " + getRequest().getRemoteAddr());
         InetAddress inetAddress= InetAddress.getLocalHost();
         log.info("you've hit " + inetAddress.getHostName());
