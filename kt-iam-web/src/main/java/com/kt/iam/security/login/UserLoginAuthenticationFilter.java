@@ -34,17 +34,14 @@ import java.io.IOException;
 public class UserLoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private String filterProcessesUrl = "/auth/login";
-    private SecurityCoreProperties securityCoreProperties;
     private UserTokenCache userTokenCache;
 
     public UserLoginAuthenticationFilter(AuthenticationManager authenticationManager,
-                                         SecurityCoreProperties securityCoreProperties,
                                          UserTokenCache userTokenCache) {
         setAuthenticationSuccessHandler(authenticationSuccessHandler());
         setAuthenticationFailureHandler(authenticationFailureHandler());
         setAuthenticationManager(authenticationManager);
         setFilterProcessesUrl(filterProcessesUrl);
-        this.securityCoreProperties = securityCoreProperties;
         this.userTokenCache = userTokenCache;
     }
 

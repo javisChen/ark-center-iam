@@ -16,6 +16,7 @@ public abstract class AbstractUserTokenCache implements UserTokenCache {
     private int expires = (60 * 60 * 24 * 7) * 1000;
 
     public AbstractUserTokenCache() {
+
     }
 
     public AbstractUserTokenCache(int expires) {

@@ -1,6 +1,6 @@
 package com.kt.auth.security;
 
-import com.kt.iam.auth.core.SkipCheck;
+import com.kt.iam.auth.core.SkipPermissionCheck;
 import com.kt.iam.auth.core.check.AuthCheckFilter;
 import com.kt.iam.auth.core.context.LoginUserContextPersistenceFilter;
 import com.kt.iam.config.AuthProperties;
@@ -77,9 +77,9 @@ public class AuthSecurityConfig extends WebSecurityConfigurerAdapter implements 
             Object value = entry.getValue();
             // 如果Controller上有SkipPermissionCheck注解的话，里面的所有接口都跳过权限校验
             // 如果没有的话，则根据接口上的注解决定是否跳过
-            Annotation classAnnotation = value.getClass().getAnnotation(SkipCheck.class);
+            Annotation classAnnotation = value.getClass().getAnnotation(SkipPermissionCheck.class);
             for (Method method : value.getClass().getDeclaredMethods()) {
-                if (classAnnotation != null || method.getAnnotation(SkipCheck.class) != null) {
+                if (classAnnotation != null || method.getAnnotation(SkipPermissionCheck.class) != null) {
                     addToAllowList(method);
                 }
             }

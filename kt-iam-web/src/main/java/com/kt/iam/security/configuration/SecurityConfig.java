@@ -134,7 +134,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     public UserLoginAuthenticationFilter userLoginAuthenticationFilter() throws Exception {
-        return new UserLoginAuthenticationFilter(authenticationManagerBean(), securityCoreProperties, userTokenCache);
+        return new UserLoginAuthenticationFilter(authenticationManagerBean(), userTokenCache);
     }
 
     private LogoutSuccessHandler logoutSuccessHandler() {

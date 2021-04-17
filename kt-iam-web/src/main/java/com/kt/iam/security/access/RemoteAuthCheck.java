@@ -28,7 +28,6 @@ public class RemoteAuthCheck extends AbstractAuthCheck {
         super(securityCoreProperties, apiCacheHolder, iApplicationService);
     }
 
-
     private boolean doCheck(AuthRequest request) {
         boolean result = false;
         boolean accessToken = StringUtils.isNotBlank(request.getAccessToken());

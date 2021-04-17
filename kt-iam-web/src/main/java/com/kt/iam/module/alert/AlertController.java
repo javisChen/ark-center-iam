@@ -4,7 +4,7 @@ package com.kt.iam.module.alert;
 import com.alibaba.fastjson.JSONObject;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.web.base.BaseController;
-import com.kt.iam.auth.core.SkipCheck;
+import com.kt.iam.auth.core.SkipPermissionCheck;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +23,12 @@ import java.net.UnknownHostException;
  */
 @RestController
 @RequestMapping
-@SkipCheck
+@SkipPermissionCheck
 @Slf4j
 public class AlertController extends BaseController {
 
-
     @RequestMapping("/alert")
-    @SkipCheck
+    @SkipPermissionCheck
     public ServerResponse list(@RequestBody JSONObject jsonObject) {
         System.out.println(jsonObject);
         return ServerResponse.ok();
@@ -37,7 +36,7 @@ public class AlertController extends BaseController {
 
 
     @RequestMapping("/docker")
-    @SkipCheck
+    @SkipPermissionCheck
     public ServerResponse docker() throws UnknownHostException {
         log.info("request from " + getRequest().getRemoteAddr());
         InetAddress inetAddress= InetAddress.getLocalHost();
