@@ -33,7 +33,7 @@ INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_
 VALUES (14, 1, '标准列表', 'basic-list', 'StandardList', 5, '5.14.', 2, '/list/basic-list', '', 0, 1, 0, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
-VALUES (15, 1, '卡片列表', 'card', 'CardList', 5, '5.15.', 2, '/list/card', '', 0, 1, 0, 1, '2020-12-24 15:58:43');
+VALUES (15, 1, '卡片列表', 'card', 'CardList', 5, '5.15.', 2, '/list/card', '', 0, 1, 0, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (16, 1, '搜索列表', 'search', 'SearchLayout', 5, '5.16.', 2, '/list/search', '', 0, 1, 0, 1);
@@ -48,13 +48,13 @@ INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_
 VALUES (19, 1, '成功', 'success', 'ResultSuccess', 3, '3.19.', 2, '/result/success', '', 0, 1, 0, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
-VALUES (20, 1, '失败', 'fail', 'ResultFail', 3, '3.20.', 2, '/result/fail', '', 0, 1, 0, 1, '2020-12-24 16:02:53');
+VALUES (20, 1, '失败', 'fail', 'ResultFail', 3, '3.20.', 2, '/result/fail', '', 0, 1, 0, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
-VALUES (22, 1, '404', '404', 'Exception404', 7, '7.22.', 2, '/exception/404', '', 0, 1, 0, 1, '2020-12-24 16:02:53');
+VALUES (22, 1, '404', '404', 'Exception404', 7, '7.22.', 2, '/exception/404', '', 0, 1, 0, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
-VALUES (23, 1, '500', '500', 'Exception500', 7, '7.23.', 2, '/exception/500', '', 0, 1, 0, 1, '2020-12-24 16:02:53');
+VALUES (23, 1, '500', '500', 'Exception500', 7, '7.23.', 2, '/exception/500', '', 0, 1, 0, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (24, 1, '个人中心', 'center', 'AccountCenter', 2, '2.24.', 2, '/account/center', '', 0, 2, 0, 1);
@@ -88,14 +88,14 @@ INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_
 VALUES (34, 1, '搜索列表（文章）', 'article', 'SearchArticles', 16, '5.16.27.', 3, '/list/search/article', '', 0, 1, 0, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
-VALUES (35, 1, '其他组件', 'other', 'PageView', 0, '35.', 1, '', 'slack', 0, 1, 800, 1, '2020-12-25 17:23:07');
+VALUES (35, 1, '其他组件', 'other', 'PageView', 0, '35.', 1, '', 'slack', 0, 1, 800, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (36, 1, 'IconSelector', 'TestIconSelect', 'EditList', 35, '35.36.', 2, '/other/icon-selector', 'tool', 0, 1, 810,
         1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
-VALUES (37, 1, '业务布局', 'bizLayout', 'RouteView', 35, '35.37.', 2, '', 'layout', 0, 1, 820, 1, '2020-12-25 17:23:20');
+VALUES (37, 1, '业务布局', 'bizLayout', 'RouteView', 35, '35.37.', 2, '', 'layout', 0, 1, 820, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (38, 1, '树目录表格', 'TreeList', 'TreeList', 37, '35.37.38.', 3, '/other/list/tree-list', '', 0, 1, 821, 1);
@@ -104,7 +104,7 @@ INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_
 VALUES (39, 1, '内联编辑表格', 'EditList', 'EditList', 37, '35.37.39.', 3, '/other/list/edit-table', '', 0, 1, 822, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
-VALUES (40, 1, '权限列表', 'PermissionList', 'PermissionList', 37, '35.37.40.', 3, '/other/list/system-permission', '', 0);
+VALUES (40, 1, '权限列表', 'PermissionList', 'PermissionList', 37, '35.37.40.', 3, '/other/list/system-permission', '', 0, 1, 823, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (42, 1, '角色列表', 'RoleList', 'RoleList', 37, '35.37.42.', 3, '/other/list/role-list', '', 0, 1, 825, 1);
@@ -119,7 +119,7 @@ INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_
 VALUES (45, 1, '路由管理', 'permission:route', 'PermissionRoute', 44, '44.45.', 2, '/permission/route', '', 0, 2, 910, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
-VALUES (57, 1, '表单页', 'form', 'RouteView', 0, '57.', 1, '', 'form', 0, 1, 2, 1, '2020-12-29 17:17:56');
+VALUES (57, 1, '表单页', 'form', 'RouteView', 0, '57.', 1, '', 'form', 0, 1, 2, 1);
 INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (58, 1, '高级表单', 'advanced-form', 'AdvanceForm', 57, '57.58.', 2, '/form/advanced-form', '', 0, 1, 0, 1);
@@ -602,23 +602,20 @@ INSERT INTO kt.iam_permission_role_rel (id, permission_id, role_id)
 VALUES (140, 119, 1);
 TRUNCATE TABLE iam_user;
 INSERT INTO kt.iam_user (id, name, phone, code, password, status)
-VALUES (1, 'Admin', 'Admin', 'SuperAdmin', '$2a$10$79zDkVaAzVBa2otTZ82vkea4MBFQfqnNxHArRSTXc2zeZrgNEHYDa', 1,
-        '2021-01-21 10:40:47', '2021-01-21 10:41:29', 0, 0, 0);
+VALUES (1, 'Admin', 'Admin', 'SuperAdmin', '$2a$10$79zDkVaAzVBa2otTZ82vkea4MBFQfqnNxHArRSTXc2zeZrgNEHYDa', 1);
 TRUNCATE TABLE iam_role;
 INSERT INTO kt.iam_role (id, name, status)
-VALUES (1, '超级管理员', 1, '2021-01-21 10:37:00', '2021-01-21 10:37:00', 0, 0, 0);
+VALUES (1, '超级管理员', 1);
 TRUNCATE TABLE iam_user_role_rel;
 INSERT INTO kt.iam_user_role_rel (id, user_id, role_id)
-VALUES (1, 1, 1, '2021-01-21 10:40:47', '2021-01-21 10:40:47', 0, 0);
+VALUES (1, 1, 1);
 TRUNCATE TABLE iam_api;
 INSERT INTO kt.iam_api (id, application_id, name, url, method, status, category_id, auth_type, has_path_variable)
 VALUES (1, 1, '/api/category', '/api/category', 'PUT', 1, 5, 3, 0);
 INSERT INTO kt.iam_api (id, application_id, name, url, method, status, category_id, auth_type, has_path_variable)
-VALUES (2, 1, '/api/category', '/api/category', 'DELETE', 1, 5, 3, 0, '2021-01-26 15:13:19', '2021-01-26 15:13:19', 0,
-        0, 0);
+VALUES (2, 1, '/api/category', '/api/category', 'DELETE', 1, 5, 3, 0);
 INSERT INTO kt.iam_api (id, application_id, name, url, method, status, category_id, auth_type, has_path_variable)
-VALUES (3, 1, '/api/categories', '/api/categories', 'GET', 1, 5, 3, 0, '2021-01-26 15:13:19', '2021-01-26 15:13:19', 0,
-        0, 0);
+VALUES (3, 1, '/api/categories', '/api/categories', 'GET', 1, 5, 3, 0);
 INSERT INTO kt.iam_api (id, application_id, name, url, method, status, category_id, auth_type, has_path_variable)
 VALUES (4, 1, '/api/category', '/api/category', 'POST', 1, 5, 3, 0);
 INSERT INTO kt.iam_api (id, application_id, name, url, method, status, category_id, auth_type, has_path_variable)
@@ -729,5 +726,3 @@ INSERT INTO kt.iam_api_category (id, application_id, name)
 VALUES (6, 1, '路由管理');
 INSERT INTO kt.iam_api_category (id, application_id, name)
 VALUES (7, 2, '订单管理');
-INSERT INTO kt.iam_api_category (id, application_id, name)
-VALUES (8, 1, '用户组管理');

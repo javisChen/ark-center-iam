@@ -41,4 +41,6 @@ public interface IUserGroupService extends IService<IamUserGroup> {
     void removeUserGroupUserRelByUserId(Long userId);
 
     UserGroupDetailVO getUserGroupVOById(Long id);
+
+    void removeUserGroupById(Long id);
 }

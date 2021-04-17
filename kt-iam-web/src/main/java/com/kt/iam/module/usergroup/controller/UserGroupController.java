@@ -67,5 +67,11 @@ public class UserGroupController extends BaseController {
         return ServerResponse.ok();
     }
 
+    @DeleteMapping("/usergroup")
+    public ServerResponse removeUserGroup(Long id) {
+        iUserGroupService.removeUserGroupById(id);
+        return ServerResponse.ok();
+    }
+
 }
 

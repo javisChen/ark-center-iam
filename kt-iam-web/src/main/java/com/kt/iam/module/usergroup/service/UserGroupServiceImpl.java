@@ -41,8 +41,7 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
-public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUserGroup>
-        implements IUserGroupService {
+public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUserGroup> implements IUserGroupService {
 
     private final static Long DEFAULT_PID = 0L;
     private final static Integer FIRST_LEVEL = 1;
@@ -147,7 +146,7 @@ public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUse
 
     private int getUserGroupByName(String name) {
         LambdaQueryWrapper<IamUserGroup> queryWrapper = new LambdaQueryWrapper<IamUserGroup>()
-                .eq(IamUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
+//                .eq(IamUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
                 .eq(IamUserGroup::getName, name);
         return this.count(queryWrapper);
     }
@@ -266,6 +265,30 @@ public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUse
         IamUserGroup userGroup = getUserGroupById(id);
         return beanConverter.convertToUserGroupDetailVO(userGroup);
     }
+
+    @Override
+    public void removeUserGroupById(Long id) {
+        IamUserGroup route = getUserGroupById(id);
+        List<Long> ids = getChildRoutes(route).stream().map(IamUserGroup::getId).collect(Collectors.toList());
+        removeRouteByIds(ids);
+    }
+
+    private List<IamUserGroup> getChildRoutes(IamUserGroup route) {
+        LambdaQueryWrapper<IamUserGroup> wrapper = new LambdaQueryWrapper<IamUserGroup>()
+                .likeRight(IamUserGroup::getLevelPath, route.getLevelPath());
+        return this.list(wrapper);
+    }
+
+    private void removeRouteByIds(List<Long> ids) {
+        for (Long item : ids) {
+            LambdaUpdateWrapper<IamUserGroup> qw = new LambdaUpdateWrapper<>();
+            qw.eq(IamUserGroup::getIsDeleted, DeletedEnums.NOT.getCode());
+            qw.eq(IamUserGroup::getId, item);
+            qw.set(IamUserGroup::getIsDeleted, item);
+            this.update(qw);
+        }
+    }
+
 
     private Function<IamUserGroup, UserGroupTreeVO> assembleUserGroupUserGroupTreeVO() {
         return item -> {
