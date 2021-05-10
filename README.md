@@ -13,8 +13,8 @@
 
 ```
 ├── asserts         -- 项目资源（sql等）
-├── kt-iam-auth    -- 认证模块
-├── kt-iam-web     -- 权限系统运行模块
+├── kt-cloud-iam-auth    -- 认证模块
+├── kt-cloud-iam-web     -- 权限系统运行模块
 └── pom.xml
 
 ```
@@ -25,7 +25,7 @@
 
 ## ER图
 
-![](asserts/kt-iam-er.png)
+![](asserts/kt-cloud-iam-er.png)
 
 ## 表说明
 
