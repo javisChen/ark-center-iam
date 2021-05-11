@@ -4,7 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan(basePackages = "com.kt.iam.module.*.persistence.dao")
+@MapperScan(basePackages = "com.kt.cloud.iam.module.*.persistence.dao")
 @SpringBootApplication
 public class MainApplication {
 
