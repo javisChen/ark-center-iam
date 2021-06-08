@@ -37,7 +37,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping
-@CatchAndLog
 public class UserController extends BaseController {
 
     @Autowired

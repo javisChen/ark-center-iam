@@ -27,7 +27,6 @@ public class ApiAccessChecker {
     }
 
     private AuthRequest createAuthenticationRequest(String method, String requestUri, String userCode, String applicationCode) {
-        // 检查是否有权限
         AuthRequest authReq = new AuthRequest();
         authReq.setUserCode(userCode);
         authReq.setRequestUri(requestUri);

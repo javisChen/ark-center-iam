@@ -51,7 +51,6 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
-@CatchAndLog
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> implements IUserService {
 

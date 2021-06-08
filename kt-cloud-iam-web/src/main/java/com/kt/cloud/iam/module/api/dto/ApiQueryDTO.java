@@ -1,6 +1,6 @@
 package com.kt.cloud.iam.module.api.dto;
 
-import com.kt.component.dto.PagingDTO;
+import com.kt.component.dto.PagingQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ApiQueryDTO extends PagingDTO {
+public class ApiQueryDTO extends PagingQuery {
 
     private Long applicationId;
 

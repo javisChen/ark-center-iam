@@ -33,8 +33,10 @@ public class RolePermissionController extends BaseController {
 
     /**
      * 角色路由权限授权
+     * /role/permission/user/
+     * /role/permission/1/
      */
-    @PostMapping("/role/permission/route")
+    @PostMapping("/role/permission/{1}}")
     public ServerResponse updateRoleRoutePermissions(@RequestBody RoleRoutePermissionUpdateDTO dto) {
         iRoleService.updateRoleRoutePermissions(dto);
         return ServerResponse.ok();

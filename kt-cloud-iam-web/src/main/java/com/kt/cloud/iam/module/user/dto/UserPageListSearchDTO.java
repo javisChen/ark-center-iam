@@ -1,7 +1,7 @@
 package com.kt.cloud.iam.module.user.dto;
 
 
-import com.kt.component.dto.PagingDTO;
+import com.kt.component.dto.PagingQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserPageListSearchDTO extends PagingDTO {
+public class UserPageListSearchDTO extends PagingQuery {
 
     /**
      * 用户名称

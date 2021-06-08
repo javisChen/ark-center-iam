@@ -34,7 +34,6 @@ import javax.validation.groups.Default;
  */
 @RestController
 @RequestMapping
-@CatchAndLog
 public class RouteController extends BaseController {
 
     @Autowired
