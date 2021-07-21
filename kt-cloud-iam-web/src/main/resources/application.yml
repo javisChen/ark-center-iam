@@ -26,6 +26,11 @@ spring:
     database: 0
     host: localhost
     port: 6379
+  cloud:
+    nacos:
+      discovery:
+        enabled: true
+        server-addr: localhost:8848
 
 # mybatis
 mybatis-plus:
@@ -38,5 +43,5 @@ kt:
       - /iam/auth/kick
       - /iam/api/init
       - /iam/user/permission/check
-      - /iam/alert
+      - /iam/alert/*
       - /iam/docker
