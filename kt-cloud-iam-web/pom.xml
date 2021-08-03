@@ -48,7 +48,7 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-loadbalancer</artifactId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
         <dependency>
@@ -101,7 +101,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.kt.cloud.iam.MainApplication</mainClass>
+                    <mainClass>com.kt.cloud.iam.IamApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>

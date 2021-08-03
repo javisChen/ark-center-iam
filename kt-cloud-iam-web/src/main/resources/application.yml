@@ -31,7 +31,8 @@ spring:
       discovery:
         enabled: true
         server-addr: localhost:8848
-
+        namespace: a6bebdf0-e578-486f-ba12-df785ddfd2b2
+        group: DEFAULT_GROUP
 # mybatis
 mybatis-plus:
   mapper-locations: classpath:com/kt/iam/module/*/persistence/dao/*.xml
