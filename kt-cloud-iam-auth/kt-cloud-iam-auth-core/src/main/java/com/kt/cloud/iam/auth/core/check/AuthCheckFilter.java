@@ -2,12 +2,12 @@ package com.kt.cloud.iam.auth.core.check;
 
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.kt.cloud.iam.api.user.permission.request.AuthRequest;
+import com.kt.cloud.iam.api.user.permission.response.AuthResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.cloud.iam.auth.core.context.LoginUserContextHolder;
 import com.kt.cloud.iam.auth.core.extractor.DefaultTokenExtractor;
 import com.kt.cloud.iam.auth.core.extractor.TokenExtractor;
-import com.kt.cloud.iam.auth.core.model.AuthRequest;
-import com.kt.cloud.iam.auth.core.model.AuthResponse;
 import com.kt.cloud.iam.config.AccessTokenProperties;
 import com.kt.cloud.iam.config.AuthProperties;
 import lombok.extern.slf4j.Slf4j;

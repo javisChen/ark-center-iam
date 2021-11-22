@@ -1,6 +1,6 @@
 package com.kt.cloud.iam.auth.core.cache;
 
-import com.kt.cloud.iam.auth.core.model.LoginUserContext;
+import com.kt.cloud.iam.api.user.permission.response.LoginUserContext;
 
 /**
  * 用户Token缓存

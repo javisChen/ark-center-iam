@@ -1,8 +1,8 @@
 package com.kt.cloud.iam.auth.core.cache;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kt.cloud.iam.api.user.permission.response.LoginUserContext;
 import com.kt.cloud.iam.auth.core.common.RedisKeyConst;
-import com.kt.cloud.iam.auth.core.model.LoginUserContext;
 import com.kt.cloud.iam.auth.core.token.UUIDUserTokenGenerator;
 import com.kt.cloud.iam.auth.core.token.UserTokenGenerator;
 import lombok.extern.slf4j.Slf4j;
