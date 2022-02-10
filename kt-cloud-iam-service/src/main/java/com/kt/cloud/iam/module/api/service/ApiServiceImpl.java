@@ -41,7 +41,7 @@ public class ApiServiceImpl extends ServiceImpl<IamApiMapper, IamApi> implements
     private IPermissionService iPermissionService;
 
     @Override
-    public Integer countByApplicationId(Long applicationId) {
+    public long countByApplicationId(Long applicationId) {
         return this.count(new LambdaQueryWrapper<IamApi>().eq(IamApi::getApplicationId, applicationId));
     }
 
@@ -82,7 +82,7 @@ public class ApiServiceImpl extends ServiceImpl<IamApiMapper, IamApi> implements
         LambdaQueryWrapper<IamApi> qw = new LambdaQueryWrapper<>();
         qw.eq(IamApi::getApplicationId, dto.getApplicationId());
         qw.eq(IamApi::getCategoryId, dto.getCategoryId());
-        qw.in(dto.getAuthType() != null, IamApi::getAuthType, dto.getAuthType());
+        qw.eq(dto.getAuthType() != null, IamApi::getAuthType, dto.getAuthType());
         qw.eq(IamApi::getIsDeleted, DeletedEnums.NOT.getCode());
         return this.list(qw).stream().map(beanConverter::convertToApiListVO).collect(Collectors.toList());
     }

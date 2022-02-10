@@ -4,7 +4,6 @@ package com.kt.cloud.iam.module.api.controller;
 import com.kt.component.dto.MultiResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
-import com.kt.component.logger.CatchAndLog;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
 import com.kt.cloud.iam.module.api.cache.ApiCacheHolder;

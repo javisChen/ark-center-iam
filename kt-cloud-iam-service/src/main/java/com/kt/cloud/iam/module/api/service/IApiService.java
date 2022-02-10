@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface IApiService extends IService<IamApi> {
 
-    Integer countByApplicationId(Long applicationId);
+    long countByApplicationId(Long applicationId);
 
     void saveApplication(ApiUpdateDTO dto);
 

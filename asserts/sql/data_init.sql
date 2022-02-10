@@ -709,8 +709,7 @@ VALUES (48, 1, '/usergroups', '/usergroups', 'POST', 1, 2, 3, 0);
 INSERT INTO kt.iam_api (id, application_id, name, url, method, status, category_id, auth_type, has_path_variable)
 VALUES (49, 1, '/usergroups/tree', '/usergroups/tree', 'POST', 1, 2, 3, 0);
 TRUNCATE TABLE iam_application;
-INSERT INTO kt.iam_application (id, name, code, status, type)
-VALUES (1, '权限中心', 'permission', 1, 1);
+INSERT INTO kt.iam_application (id, name, code, status, type) VALUES (1, '权限中心', 'permission', 1, 1);
 TRUNCATE TABLE iam_api_category;
 INSERT INTO kt.iam_api_category (id, application_id, name)
 VALUES (1, 1, '用户管理');

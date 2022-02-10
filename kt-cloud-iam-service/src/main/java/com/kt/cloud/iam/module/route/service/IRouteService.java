@@ -42,7 +42,7 @@ public interface IRouteService extends IService<IamRoute> {
 
     String getRouteNameById(Long pid);
 
-    Integer countByApplicationId(Long applicationId);
+    long countByApplicationId(Long applicationId);
 
     List<UserPermissionRouteNavVO> getRouteVOSByIds(List<Long> routeIds);
 }

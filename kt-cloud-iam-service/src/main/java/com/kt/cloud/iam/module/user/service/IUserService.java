@@ -8,7 +8,6 @@ import com.kt.cloud.iam.module.user.dto.UserPageListSearchDTO;
 import com.kt.cloud.iam.module.user.dto.UserUpdateDTO;
 import com.kt.cloud.iam.module.user.vo.UserDetailVO;
 import com.kt.cloud.iam.module.user.vo.UserPageListVO;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public interface IUserService extends IService<IamUser> {
 
     void saveUser(UserUpdateDTO entity);
 
-    int countUserByCode(String code);
+    long countUserByCode(String code);
 
     void updateUserById(UserUpdateDTO userUpdateDTO);
 
@@ -40,7 +39,7 @@ public interface IUserService extends IService<IamUser> {
 
     UserDetailVO getUserDetailVOById(Long userId);
 
-    User getUserInfoByPhone(String phone);
+//    User getUserInfoByPhone(String phone);
 
     IamUser getUserByCode(String userCode);
 

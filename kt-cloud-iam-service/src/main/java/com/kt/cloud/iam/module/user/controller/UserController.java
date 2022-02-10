@@ -1,16 +1,8 @@
 package com.kt.cloud.iam.module.user.controller;
 
 
-import com.kt.cloud.iam.api.user.permission.request.AuthRequest;
-import com.kt.cloud.iam.api.user.permission.response.AuthResponse;
-import com.kt.cloud.iam.api.user.permission.response.LoginUserContext;
-import com.kt.component.dto.MultiResponse;
-import com.kt.component.dto.PageResponse;
-import com.kt.component.dto.ServerResponse;
-import com.kt.component.dto.SingleResponse;
-import com.kt.component.validator.ValidateGroup;
-import com.kt.component.web.base.BaseController;
-import com.kt.cloud.iam.auth.core.context.LoginUserContextHolder;
+import com.kt.cloud.iam.api.user.permission.request.ApiAuthRequest;
+import com.kt.cloud.iam.api.user.permission.response.ApiAuthResponse;
 import com.kt.cloud.iam.module.permission.vo.PermissionVO;
 import com.kt.cloud.iam.module.user.dto.UserPageListSearchDTO;
 import com.kt.cloud.iam.module.user.dto.UserUpdateDTO;
@@ -19,6 +11,14 @@ import com.kt.cloud.iam.module.user.service.IUserService;
 import com.kt.cloud.iam.module.user.vo.UserDetailVO;
 import com.kt.cloud.iam.module.user.vo.UserPageListVO;
 import com.kt.cloud.iam.module.user.vo.UserPermissionRouteNavVO;
+import com.kt.component.context.LoginUserContext;
+import com.kt.component.context.ServiceContext;
+import com.kt.component.dto.MultiResponse;
+import com.kt.component.dto.PageResponse;
+import com.kt.component.dto.ServerResponse;
+import com.kt.component.dto.SingleResponse;
+import com.kt.component.validator.ValidateGroup;
+import com.kt.component.web.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -92,7 +92,8 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/info")
     public SingleResponse<LoginUserContext> getLoginUserInfo() {
-        return SingleResponse.ok(LoginUserContextHolder.getContext());
+        com.kt.component.context.LoginUserContext loginUserContext = ServiceContext.getLoginUserContext();
+        return SingleResponse.ok(loginUserContext);
     }
 
     /**
@@ -100,7 +101,7 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/permission/routes")
     public MultiResponse<UserPermissionRouteNavVO> getUserRoutePermission() {
-        String userCode = LoginUserContextHolder.getContext().getUserCode();
+        String userCode = ServiceContext.getLoginUserContext().getUserCode();
         List<UserPermissionRouteNavVO> userRoutes = iUserPermissionService.getUserRoutes(userCode);
         return MultiResponse.ok(userRoutes);
     }
@@ -110,7 +111,7 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/permission/elements")
     public MultiResponse<PermissionVO> getUserElementPermission() {
-        String userCode = LoginUserContextHolder.getContext().getUserCode();
+        String userCode = ServiceContext.getLoginUserContext().getUserCode();
         List<PermissionVO> userRoutes = iUserPermissionService.getUserPermissionPageElements(userCode);
         return MultiResponse.ok(userRoutes);
     }
@@ -119,7 +120,7 @@ public class UserController extends BaseController {
      * 用户权限校验
      */
     @PostMapping("/user/permission/check")
-    public AuthResponse checkPermission(@RequestBody AuthRequest request) {
+    public ApiAuthResponse checkPermission(@RequestBody ApiAuthRequest request) {
         return iUserPermissionService.accessCheck(request);
     }
 

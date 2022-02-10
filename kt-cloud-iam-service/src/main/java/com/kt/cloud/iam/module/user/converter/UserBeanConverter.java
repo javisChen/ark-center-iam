@@ -76,6 +76,7 @@ public class UserBeanConverter {
         iamUser.setStatus(dto.getStatus());
         String code = generateUserCode();
         iamUser.setCode(code);
+        // 用户规则=bcrypt(前端md5(md5(password)) + salt)
         iamUser.setPassword(iUserPasswordHelper.enhancePassword(DigestUtil.md5Hex(iamUser.getPassword())));
         return iamUser;
     }

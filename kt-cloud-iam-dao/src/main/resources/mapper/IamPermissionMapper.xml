@@ -46,7 +46,7 @@
           and up.is_deleted = 0
     </select>
 
-    <select id="selectApiPermissionByIds" resultType="com.kt.cloud.iam.module.permission.bo.ApiPermissionBO">
+    <select id="selectApiPermissionByIds" resultType="com.kt.cloud.iam.dao.bo.ApiPermissionBO">
 
         select up.id permissionId,
         up.code permissionCode,
@@ -66,7 +66,7 @@
         </foreach>
 
     </select>
-    <select id="selectApiPermissionsByRoleIdsAndApplicationId" resultType="com.kt.cloud.iam.module.permission.bo.ApiPermissionBO">
+    <select id="selectApiPermissionsByRoleIdsAndApplicationId" resultType="com.kt.cloud.iam.dao.bo.ApiPermissionBO">
         select
             up.id permissionId,
             up.code permissionCode,
@@ -83,7 +83,7 @@
         and up.is_deleted = 0
         and ua.status = 1
         and up.status = 1
-        and ua.application_id = #{applicationId}
+--         and ua.application_id = #{applicationId}
         and uprr.role_id in
         <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
             #{item}

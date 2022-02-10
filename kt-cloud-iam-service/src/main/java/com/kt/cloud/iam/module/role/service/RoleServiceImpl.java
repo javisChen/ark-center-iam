@@ -74,7 +74,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
 
     @Override
     public void saveRole(RoleUpdateDTO dto) {
-        int count = countRoleByName(dto.getName());
+        long count = countRoleByName(dto.getName());
         Assert.isTrue(count > 0, BizEnums.ROLE_NAME_ALREADY_EXISTS);
         if (StringUtils.isNotBlank(dto.getCode())) {
             count = countRoleByCode(dto.getCode());
@@ -94,13 +94,13 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
         return code;
     }
 
-    private int countRoleByName(String name) {
+    private long countRoleByName(String name) {
         LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
                 .eq(IamRole::getName, name);
         return this.count(queryWrapper);
     }
 
-    private int countRoleByCode(String code) {
+    private long countRoleByCode(String code) {
         LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
                 .eq(IamRole::getCode, code);
         return this.count(queryWrapper);
@@ -111,7 +111,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
         LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
                 .eq(IamRole::getName, dto.getName())
                 .ne(IamRole::getId, dto.getId());
-        int count = this.count(queryWrapper);
+        long count = this.count(queryWrapper);
         Assert.isTrue(count > 0, BizEnums.ROLE_NAME_ALREADY_EXISTS);
 
         IamRole role = beanConverter.convertToDO(dto);

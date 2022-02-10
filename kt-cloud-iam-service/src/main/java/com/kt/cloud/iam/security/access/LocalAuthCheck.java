@@ -1,7 +1,7 @@
 package com.kt.cloud.iam.security.access;
 
-import com.kt.cloud.iam.api.user.permission.request.AuthRequest;
-import com.kt.cloud.iam.api.user.permission.response.AuthResponse;
+import com.kt.cloud.iam.api.user.permission.request.ApiAuthRequest;
+import com.kt.cloud.iam.api.user.permission.response.ApiAuthResponse;
 import com.kt.cloud.iam.module.api.cache.ApiCacheHolder;
 import com.kt.cloud.iam.dao.entity.IamApplication;
 import com.kt.cloud.iam.module.application.service.IApplicationService;
@@ -23,25 +23,25 @@ public class LocalAuthCheck extends AbstractAuthCheck {
     }
 
     @Override
-    public AuthResponse checkPermission(AuthRequest authRequest) {
-        String requestUri = authRequest.getRequestUri();
-        String applicationCode = authRequest.getApplicationCode();
-        String method = authRequest.getMethod();
+    public ApiAuthResponse checkPermission(ApiAuthRequest apiAuthRequest) {
+        String requestUri = apiAuthRequest.getRequestUri();
+        String applicationCode = apiAuthRequest.getApplicationCode();
+        String method = apiAuthRequest.getMethod();
         // 先尝试uri是否匹配系统中存在的包含路径参数的api，如果存在的话就替换成统一的格式
         requestUri = attemptReplaceHasPathVariableUrl(requestUri);
 
         // 尝试是否匹配默认设置不需要授权的api
         if (matchDefaultAllowUrl(requestUri)) {
-            return AuthResponse.success();
+            return ApiAuthResponse.success();
         }
 
         IamApplication application = getApplicationByCode(applicationCode);
 
         // 尝试是否匹配不需要授权的api
         if (checkUriIsNoNeedAuthorization(requestUri, method, application.getId())) {
-            return AuthResponse.success();
+            return ApiAuthResponse.success();
         }
 
-        return iUserPermissionService.checkApiPermission(authRequest);
+        return iUserPermissionService.checkApiPermission(apiAuthRequest);
     }
 }

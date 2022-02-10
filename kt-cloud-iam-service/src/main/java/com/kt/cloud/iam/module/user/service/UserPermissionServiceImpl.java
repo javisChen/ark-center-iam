@@ -1,9 +1,9 @@
 package com.kt.cloud.iam.module.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.kt.cloud.iam.api.user.permission.request.AuthRequest;
-import com.kt.cloud.iam.api.user.permission.response.AuthResponse;
-import com.kt.cloud.iam.auth.core.check.AuthCheck;
+import com.kt.cloud.iam.api.user.permission.request.ApiAuthRequest;
+import com.kt.cloud.iam.api.user.permission.response.ApiAuthResponse;
+import com.kt.cloud.iam.security.core.check.AuthCheck;
 import com.kt.cloud.iam.enums.PermissionTypeEnums;
 import com.kt.cloud.iam.dao.bo.ApiPermissionBO;
 import com.kt.cloud.iam.dao.entity.IamPermission;
@@ -48,7 +48,7 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
     @Autowired
     private AuthCheck remoteAuthCheck;
 
-    private AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
     public List<IamPermission> getUserPermissions(Long userId, PermissionTypeEnums permissionTypeEnums) {
@@ -154,17 +154,14 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
     }
 
     @Override
-    public AuthResponse checkApiPermission(AuthRequest request) {
+    public ApiAuthResponse checkApiPermission(ApiAuthRequest request) {
         boolean hasApiPermission = checkHasApiPermission(request.getApplicationCode(), request.getUserCode(),
                 request.getRequestUri(), request.getMethod());
-        if (hasApiPermission) {
-            return AuthResponse.success();
-        }
-        return AuthResponse.fail("No Permission");
+        return hasApiPermission ? ApiAuthResponse.success() : ApiAuthResponse.fail("No Permission");
     }
 
     @Override
-    public AuthResponse accessCheck(AuthRequest request) {
+    public ApiAuthResponse accessCheck(ApiAuthRequest request) {
         return remoteAuthCheck.checkPermission(request);
     }
 

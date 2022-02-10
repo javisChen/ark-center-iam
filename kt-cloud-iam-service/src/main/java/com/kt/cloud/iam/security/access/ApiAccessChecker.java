@@ -1,38 +1,38 @@
-package com.kt.cloud.iam.security.access;
-
-import com.kt.cloud.iam.api.user.permission.request.AuthRequest;
-import com.kt.cloud.iam.auth.core.check.AuthCheck;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
-
-/**
- * 访问校验
- */
-@Component
-public class ApiAccessChecker {
-
-    @Autowired
-    private AuthCheck localAuthCheck;
-
-    public boolean check(HttpServletRequest request, Authentication authentication) {
-        String requestUri = request.getRequestURI();
-        String method = request.getMethod();
-        String userCode = (String) authentication.getPrincipal();
-        String applicationCode = "permission";
-        AuthRequest authReq = createAuthenticationRequest(method, requestUri, userCode, applicationCode);
-        return localAuthCheck.checkPermission(authReq).getHasPermission();
-    }
-
-    private AuthRequest createAuthenticationRequest(String method, String requestUri, String userCode, String applicationCode) {
-        AuthRequest authReq = new AuthRequest();
-        authReq.setUserCode(userCode);
-        authReq.setRequestUri(requestUri);
-        authReq.setMethod(method);
-        authReq.setApplicationCode(applicationCode);
-        return authReq;
-    }
-
-}
+//package com.kt.cloud.iam.security.access;
+//
+//import com.kt.cloud.iam.api.user.permission.request.AuthRequest;
+//import com.kt.cloud.iam.security.core.check.AuthCheck;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.stereotype.Component;
+//
+//import javax.servlet.http.HttpServletRequest;
+//
+///**
+// * 访问校验
+// */
+//@Component
+//public class ApiAccessChecker {
+//
+//    @Autowired
+//    private AuthCheck localAuthCheck;
+//
+//    public boolean check(HttpServletRequest request, Authentication authentication) {
+//        String requestUri = request.getRequestURI();
+//        String method = request.getMethod();
+//        String userCode = (String) authentication.getPrincipal();
+//        String applicationCode = "permission";
+//        AuthRequest authReq = createAuthenticationRequest(method, requestUri, userCode, applicationCode);
+//        return localAuthCheck.checkPermission(authReq).getHasPermission();
+//    }
+//
+//    private AuthRequest createAuthenticationRequest(String method, String requestUri, String userCode, String applicationCode) {
+//        AuthRequest authReq = new AuthRequest();
+//        authReq.setUserCode(userCode);
+//        authReq.setRequestUri(requestUri);
+//        authReq.setMethod(method);
+//        authReq.setApplicationCode(applicationCode);
+//        return authReq;
+//    }
+//
+//}

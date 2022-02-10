@@ -8,8 +8,9 @@
     <artifactId>kt-cloud-iam</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>kt-cloud-iam-auth</module>
+        <module>kt-cloud-iam-acl</module>
         <module>kt-cloud-iam-api</module>
+        <module>kt-cloud-iam-auth</module>
         <module>kt-cloud-iam-dao</module>
         <module>kt-cloud-iam-service</module>
         <module>kt-cloud-iam-start</module>
@@ -35,6 +36,18 @@
             <dependency>
                 <groupId>com.kt.cloud</groupId>
                 <artifactId>kt-cloud-iam-dao</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kt.cloud</groupId>
+                <artifactId>kt-cloud-iam-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kt.cloud</groupId>
+                <artifactId>kt-cloud-iam-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

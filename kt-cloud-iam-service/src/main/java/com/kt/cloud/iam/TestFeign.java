@@ -9,4 +9,5 @@ public interface TestFeign {
 
     @GetMapping("/cop/code-project/test")
     SingleResponse<String> test();
+
 }

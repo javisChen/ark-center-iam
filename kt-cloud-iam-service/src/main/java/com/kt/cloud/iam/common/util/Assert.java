@@ -6,8 +6,12 @@ import com.kt.cloud.iam.enums.BizEnums;
 public class Assert {
 
     public static void isTrue(boolean condition, BizEnums bizEnum) {
+        isTrue(condition, new BizException(bizEnum.getCode(), bizEnum.getMsg()));
+    }
+
+    public static void isTrue(boolean condition, BizException bizException) {
         if (condition) {
-            throw new BizException(bizEnum.getCode(), bizEnum.getMsg());
+            throw bizException;
         }
     }
 

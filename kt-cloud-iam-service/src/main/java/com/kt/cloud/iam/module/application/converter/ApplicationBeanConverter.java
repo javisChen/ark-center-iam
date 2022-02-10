@@ -31,8 +31,8 @@ public class ApplicationBeanConverter {
         vo.setCode(application.getCode());
         vo.setStatus(application.getStatus());
         vo.setType(application.getType());
-        vo.setApiCount(iApiService.countByApplicationId(applicationId));
-        vo.setRouteCount(iRouteService.countByApplicationId(applicationId));
+        vo.setApiCount((int) iApiService.countByApplicationId(applicationId));
+        vo.setRouteCount((int) iRouteService.countByApplicationId(applicationId));
         return vo;
     }
 

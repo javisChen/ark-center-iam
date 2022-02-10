@@ -1,6 +1,6 @@
 package com.kt.cloud.iam.security.configuration;
 
-import com.kt.cloud.iam.config.AccessTokenProperties;
+import com.kt.cloud.iam.security.config.AccessTokenProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;

@@ -1,7 +1,5 @@
 server:
   port: 8080
-  servlet:
-    context-path: /iam
 spring:
   application:
     name: iam
@@ -26,16 +24,9 @@ spring:
     database: 0
     host: localhost
     port: 6379
-  cloud:
-    nacos:
-      discovery:
-        enabled: true
-        server-addr: localhost:8848
-        namespace: public
-        group: DEFAULT_GROUP
 # mybatis
 mybatis-plus:
-  mapper-locations: classpath:com/kt/iam/module/*/persistence/dao/*.xml
+  mapper-locations: classpath:mapper/*.xml
 kt:
   security:
     allow-list:
@@ -46,3 +37,7 @@ kt:
       - /iam/user/permission/check
       - /iam/alert/*
       - /iam/docker
+
+logging:
+  level:
+    root: info

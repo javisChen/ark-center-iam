@@ -96,7 +96,7 @@ public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUse
     @Override
     @Transactional
     public void saveUserGroup(UserGroupUpdateDTO dto) {
-        int count = getUserGroupByName(dto.getName());
+        long count = getUserGroupByName(dto.getName());
         Assert.isTrue(count > 0, BizEnums.USER_GROUP_ALREADY_EXISTS);
 
         IamUserGroup newUserGroup = beanConverter.convertToDO(dto);
@@ -144,7 +144,7 @@ public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUse
         return DEFAULT_PID.equals(userGroup.getPid()) || FIRST_LEVEL.equals(userGroup.getLevel());
     }
 
-    private int getUserGroupByName(String name) {
+    private long getUserGroupByName(String name) {
         LambdaQueryWrapper<IamUserGroup> queryWrapper = new LambdaQueryWrapper<IamUserGroup>()
 //                .eq(IamUserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
                 .eq(IamUserGroup::getName, name);

@@ -1,7 +1,7 @@
 package com.kt.cloud.iam.module.user.service;
 
-import com.kt.cloud.iam.api.user.permission.request.AuthRequest;
-import com.kt.cloud.iam.api.user.permission.response.AuthResponse;
+import com.kt.cloud.iam.api.user.permission.request.ApiAuthRequest;
+import com.kt.cloud.iam.api.user.permission.response.ApiAuthResponse;
 import com.kt.cloud.iam.dao.entity.IamPermission;
 import com.kt.cloud.iam.enums.PermissionTypeEnums;
 import com.kt.cloud.iam.module.permission.vo.PermissionVO;
@@ -57,7 +57,7 @@ public interface IUserPermissionService {
 
     boolean checkHasApiPermission(String applicationCode, String userCode, String url, String method);
 
-    AuthResponse checkApiPermission(AuthRequest request);
+    ApiAuthResponse checkApiPermission(ApiAuthRequest request);
 
-    AuthResponse accessCheck(AuthRequest request);
+    ApiAuthResponse accessCheck(ApiAuthRequest request);
 }

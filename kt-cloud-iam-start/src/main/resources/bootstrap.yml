@@ -1,16 +1,20 @@
 # 启动了consul配置中心，程序启动后会优先读取bootstrap.yml配置文件读取consul配置
 spring:
   application:
-    name: esaleb-service-tbs
+    name: iam
   cloud:
-    consul:
-      host: 192.168.100.134
-      port: 8500
+    nacos:
+      server-addr: 127.0.0.1:8848
       discovery:
-        instance-id: ${spring.application.name}-${spring.cloud.client.ip-address}-${server.port}
-        service-name: ${spring.application.name}
-        health-check-interval: 1s
-        prefer-ip-address: true
         enabled: true
+        group: DEFAULT_GROUP
+        server-addr: 127.0.0.1:8848
       config:
-        enabled: false
+        enabled: true
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        server-addr: 127.0.0.1:8848
+        prefix: iam
+        refresh-enabled: true
+      password: nacos
+      username: nacos

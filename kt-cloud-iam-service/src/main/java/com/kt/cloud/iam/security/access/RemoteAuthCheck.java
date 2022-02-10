@@ -1,10 +1,10 @@
 package com.kt.cloud.iam.security.access;
 
-import com.kt.cloud.iam.api.user.permission.request.AuthRequest;
-import com.kt.cloud.iam.api.user.permission.response.AuthResponse;
+import com.kt.cloud.iam.api.user.permission.request.ApiAuthRequest;
+import com.kt.cloud.iam.api.user.permission.response.ApiAuthResponse;
 import com.kt.cloud.iam.api.user.permission.response.LoginUserContext;
 import com.kt.component.dto.ResponseEnums;
-import com.kt.cloud.iam.auth.core.cache.UserTokenCache;
+import com.kt.cloud.iam.security.core.token.cache.IUserTokenCacheService;
 import com.kt.cloud.iam.module.api.cache.ApiCacheHolder;
 import com.kt.cloud.iam.dao.entity.IamApplication;
 import com.kt.cloud.iam.module.application.service.IApplicationService;
@@ -20,7 +20,7 @@ public class RemoteAuthCheck extends AbstractAuthCheck {
     @Autowired
     private IUserPermissionService iUserPermissionService;
     @Autowired
-    private UserTokenCache userTokenCache;
+    private IUserTokenCacheService iUserTokenCacheService;
 
     public RemoteAuthCheck(SecurityCoreProperties securityCoreProperties,
                            ApiCacheHolder apiCacheHolder,
@@ -28,7 +28,7 @@ public class RemoteAuthCheck extends AbstractAuthCheck {
         super(securityCoreProperties, apiCacheHolder, iApplicationService);
     }
 
-    private boolean doCheck(AuthRequest request) {
+    private boolean doCheck(ApiAuthRequest request) {
         boolean result = false;
         boolean accessToken = StringUtils.isNotBlank(request.getAccessToken());
         boolean url = StringUtils.isNotBlank(request.getRequestUri());
@@ -41,10 +41,10 @@ public class RemoteAuthCheck extends AbstractAuthCheck {
     }
 
     @Override
-    public AuthResponse checkPermission(AuthRequest authRequest) {
+    public ApiAuthResponse checkPermission(ApiAuthRequest authRequest) {
         boolean checkResult = doCheck(authRequest);
         if (!checkResult) {
-            return AuthResponse.fail("Request is invalid");
+            return ApiAuthResponse.fail("Request is invalid");
         }
         String requestUri = authRequest.getRequestUri();
         String applicationCode = authRequest.getApplicationCode();
@@ -52,40 +52,40 @@ public class RemoteAuthCheck extends AbstractAuthCheck {
         String accessToken = authRequest.getAccessToken();
         IamApplication application = getApplicationByCode(applicationCode);
         if (application == null) {
-            return AuthResponse.fail("Application not exists");
+            return ApiAuthResponse.fail("Application not exists");
         }
         requestUri = attemptReplaceHasPathVariableUrl(requestUri);
         // 检查是否需要认证，如果需要的话检查token合法性
         Long applicationId = application.getId();
         if (checkUriIsNoNeedAuthentication(requestUri, method, applicationId)) {
-            return AuthResponse.success();
+            return ApiAuthResponse.success();
         }
         if (StringUtils.isBlank(accessToken)) {
-            return AuthResponse.fail(ResponseEnums.USER_AUTHENTICATION_FAIL.getMsg());
+            return ApiAuthResponse.fail(ResponseEnums.USER_AUTHENTICATION_FAIL.getMsg());
         }
-        LoginUserContext userContext = userTokenCache.get(accessToken);
+        LoginUserContext userContext = iUserTokenCacheService.get(accessToken);
         if (userContext == null) {
-            return AuthResponse.fail(ResponseEnums.USER_AUTHENTICATION_FAIL.getMsg());
+            return ApiAuthResponse.fail(ResponseEnums.USER_AUTHENTICATION_FAIL.getMsg());
         }
 
         if (checkUriIsNoNeedAuthorization(requestUri, method, applicationId)) {
-            return AuthResponse.success(userContext);
+            return ApiAuthResponse.success(userContext);
         }
 
         fillAuthRequest(authRequest, userContext);
-        AuthResponse authResponse = iUserPermissionService.checkApiPermission(authRequest);
+        ApiAuthResponse authResponse = iUserPermissionService.checkApiPermission(authRequest);
         authResponse.setLoginUserContext(userContext);
         return authResponse;
     }
 
-    private void fillAuthRequest(AuthRequest authReq, LoginUserContext userContext) {
+    private void fillAuthRequest(ApiAuthRequest authReq, LoginUserContext userContext) {
         authReq.setUserCode(userContext.getUserCode());
         authReq.setUserId(userContext.getUserId());
     }
 
-    private AuthRequest createAuthenticationRequest(String method, String requestUri, LoginUserContext userContext,
-                                                    String applicationCode) {
-        AuthRequest authReq = new AuthRequest();
+    private ApiAuthRequest createAuthenticationRequest(String method, String requestUri, LoginUserContext userContext,
+                                                       String applicationCode) {
+        ApiAuthRequest authReq = new ApiAuthRequest();
         authReq.setUserCode(userContext.getUserCode());
         authReq.setUserId(userContext.getUserId());
         authReq.setRequestUri(requestUri);

@@ -18,10 +18,15 @@ public class DefaultUserPasswordHelper implements IUserPasswordHelper {
     }
 
     public static void main(String[] args) {
-        String password = "888888";
-        final String bcrypt = DigestUtil.bcrypt(password + IamConsts.USER_SALT);
+        String data = DigestUtil.md5Hex("88888888");
+        System.out.println(data);
+        String password = DigestUtil.md5Hex(data) + IamConsts.USER_SALT;
+        System.out.println(password);
+        // bcrypt
+        final String bcrypt = DigestUtil.bcrypt(password);
         System.out.println(bcrypt);
-        final boolean b = DigestUtil.bcryptCheck(password + IamConsts.USER_SALT, bcrypt);
+        String inputPassword = DigestUtil.md5Hex(DigestUtil.md5Hex("88888888"));
+        final boolean b = DigestUtil.bcryptCheck(inputPassword + IamConsts.USER_SALT, bcrypt);
         System.out.println(b);
     }
 }

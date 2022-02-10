@@ -9,31 +9,28 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.kt.cloud.iam.common.util.Assert;
+import com.kt.cloud.iam.dao.entity.IamPermission;
+import com.kt.cloud.iam.dao.entity.IamUser;
+import com.kt.cloud.iam.dao.entity.IamUserGroupUserRel;
+import com.kt.cloud.iam.dao.entity.IamUserRoleRel;
+import com.kt.cloud.iam.dao.mapper.IamUserGroupUserRelMapper;
+import com.kt.cloud.iam.dao.mapper.IamUserMapper;
+import com.kt.cloud.iam.dao.mapper.IamUserRoleRelMapper;
 import com.kt.cloud.iam.enums.BizEnums;
 import com.kt.cloud.iam.enums.DeletedEnums;
 import com.kt.cloud.iam.enums.PermissionTypeEnums;
 import com.kt.cloud.iam.enums.UserStatusEnums;
-import com.kt.cloud.iam.dao.entity.IamPermission;
 import com.kt.cloud.iam.module.permission.service.IPermissionService;
 import com.kt.cloud.iam.module.permission.vo.PermissionVO;
-import com.kt.cloud.iam.dao.entity.IamUserRoleRel;
 import com.kt.cloud.iam.module.role.service.IRoleService;
 import com.kt.cloud.iam.module.user.converter.UserBeanConverter;
 import com.kt.cloud.iam.module.user.dto.UserPageListSearchDTO;
 import com.kt.cloud.iam.module.user.dto.UserUpdateDTO;
-import com.kt.cloud.iam.dao.entity.IamUser;
-import com.kt.cloud.iam.dao.mapper.IamUserMapper;
-import com.kt.cloud.iam.dao.mapper.IamUserRoleRelMapper;
 import com.kt.cloud.iam.module.user.vo.UserDetailVO;
 import com.kt.cloud.iam.module.user.vo.UserPageListVO;
-import com.kt.cloud.iam.dao.entity.IamUserGroupUserRel;
-import com.kt.cloud.iam.dao.mapper.IamUserGroupUserRelMapper;
 import com.kt.cloud.iam.module.usergroup.service.IUserGroupService;
-import com.kt.cloud.iam.auth.core.model.LoginUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,16 +93,16 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
     }
 
     @Override
-    public int countUserByCode(String code) {
+    public long countUserByCode(String code) {
         return this.count(new LambdaQueryWrapper<>(IamUser.class).eq(IamUser::getCode, code));
     }
 
     private void doCheckBeforeSave(IamUser user) {
-        int count = countUserByPhone(user.getPhone());
+        long count = countUserByPhone(user.getPhone());
         Assert.isTrue(count > 0, BizEnums.USER_ALREADY_EXISTS);
     }
 
-    private int countUserByPhone(String phone) {
+    private long countUserByPhone(String phone) {
         return this.count(new LambdaQueryWrapper<>(IamUser.class).eq(IamUser::getPhone, phone));
     }
 
@@ -171,20 +168,20 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
         return beanConverter.convertToUserDetailVO(user);
     }
 
-    @Override
-    public User getUserInfoByPhone(String phone) {
-        IamUser user = getUserByPhone(phone);
-        if (user == null) {
-            return null;
-        }
-        Long userId = user.getId();
-        List<IamPermission> userPermissions = iUserPermissionService.getUserPermissions(userId, PermissionTypeEnums.FRONT_ROUTE);
-        List<SimpleGrantedAuthority> grantedAuthorities = userPermissions.stream()
-                .map(item -> new SimpleGrantedAuthority(String.format("ROLE_%s", item.getCode())))
-                .collect(Collectors.toList());
-        return new LoginUserDetails(iUserPermissionService.isSuperAdmin(user.getCode()), user.getId(), user.getCode(),
-                user.getName(), user.getPassword(), grantedAuthorities);
-    }
+//    @Override
+//    public User getUserInfoByPhone(String phone) {
+//        IamUser user = getUserByPhone(phone);
+//        if (user == null) {
+//            return null;
+//        }
+//        Long userId = user.getId();
+//        List<IamPermission> userPermissions = iUserPermissionService.getUserPermissions(userId, PermissionTypeEnums.FRONT_ROUTE);
+//        List<SimpleGrantedAuthority> grantedAuthorities = userPermissions.stream()
+//                .map(item -> new SimpleGrantedAuthority(String.format("ROLE_%s", item.getCode())))
+//                .collect(Collectors.toList());
+//        return new LoginUserDetails(iUserPermissionService.isSuperAdmin(user.getCode()), user.getId(), user.getCode(),
+//                user.getName(), user.getPassword(), grantedAuthorities);
+//    }
 
     @Override
     public List<PermissionVO> getUserElements(String userCode) {

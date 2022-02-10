@@ -1,6 +1,6 @@
 package com.kt.cloud.iam.security.access;
 
-import com.kt.cloud.iam.auth.core.check.AuthCheck;
+import com.kt.cloud.iam.security.core.check.AuthCheck;
 import com.kt.cloud.iam.module.api.cache.ApiCacheHolder;
 import com.kt.cloud.iam.dao.entity.IamApplication;
 import com.kt.cloud.iam.module.application.service.IApplicationService;

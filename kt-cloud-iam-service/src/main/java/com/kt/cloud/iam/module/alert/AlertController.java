@@ -3,7 +3,7 @@ package com.kt.cloud.iam.module.alert;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kt.cloud.iam.TestFeign;
-import com.kt.cloud.iam.auth.core.annotation.SkipPermissionCheck;
+import com.kt.cloud.iam.security.core.annotation.SkipPermissionCheck;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.web.base.BaseController;

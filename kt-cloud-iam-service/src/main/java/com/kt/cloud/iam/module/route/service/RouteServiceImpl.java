@@ -359,7 +359,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     }
 
     @Override
-    public Integer countByApplicationId(Long applicationId) {
+    public long countByApplicationId(Long applicationId) {
         return this.count(new LambdaQueryWrapper<IamRoute>().eq(IamRoute::getApplicationId, applicationId));
     }
 
