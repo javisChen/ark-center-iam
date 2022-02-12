@@ -30,19 +30,19 @@ public class ApplicationController extends BaseController {
     @Autowired
     private IApplicationService iApplicationService;
 
-    @PostMapping("/applications")
+    @PostMapping("/v1/applications")
     public MultiResponse<ApplicationBaseVO> list(@RequestBody ApplicationQueryDTO dto) {
         return MultiResponse.ok(iApplicationService.listVos(dto));
     }
 
-    @PostMapping("/application")
+    @PostMapping("/v1/application")
     public ServerResponse saveApplication(@Validated({ValidateGroup.Add.class, Default.class})
                                           @RequestBody ApplicationUpdateDTO dto) {
         iApplicationService.saveApplication(dto);
         return ServerResponse.ok();
     }
 
-    @PutMapping("/application")
+    @PutMapping("/v1/application")
     public ServerResponse updateApplication(@Validated({ValidateGroup.Update.class, Default.class})
                                             @RequestBody ApplicationUpdateDTO dto) {
         iApplicationService.updateApplication(dto);
