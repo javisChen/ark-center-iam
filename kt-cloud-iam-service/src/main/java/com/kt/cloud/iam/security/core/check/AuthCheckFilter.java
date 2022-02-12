@@ -4,7 +4,7 @@
 //import com.alibaba.fastjson.JSONObject;
 //import com.kt.cloud.iam.api.user.permission.request.ApiAuthRequest;
 //import com.kt.cloud.iam.api.user.permission.response.ApiAuthResponse;
-//import com.kt.cloud.iam.security.config.AccessTokenProperties;
+//import com.kt.cloud.iam.security.configuration.AccessTokenProperties;
 //import com.kt.cloud.iam.security.config.AuthProperties;
 //import com.kt.cloud.iam.security.core.context.LoginUserContextHolder;
 //import com.kt.cloud.iam.security.core.token.extractor.DefaultTokenExtractor;
@@ -59,7 +59,7 @@
 //        ApiAuthResponse authResponse = requestCheckPermission(request);
 //        if (authResponse.getHasPermission()) {
 //            logDebug("Auth Filter：Check Result： Pass");
-//            LoginUserContextHolder.setContext(authResponse.getLoginUserContext());
+//            LoginUserContextHolder.setContext(authResponse.getCurrentUser());
 //            chain.doFilter(request, response);
 //            return;
 //        }

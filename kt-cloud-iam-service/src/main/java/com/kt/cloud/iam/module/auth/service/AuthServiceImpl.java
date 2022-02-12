@@ -11,8 +11,8 @@ import com.kt.cloud.iam.module.user.service.IUserService;
 import com.kt.cloud.iam.security.configuration.SecurityCoreProperties;
 import com.kt.cloud.iam.security.core.token.cache.IUserTokenCacheService;
 import com.kt.cloud.iam.security.core.token.cache.UserCacheInfo;
-import com.kt.cloud.iam.security.core.token.extractor.TokenExtractor;
 import com.kt.component.context.LoginUserContext;
+import com.kt.component.context.token.AccessTokenExtractor;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.exception.ExceptionFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +29,7 @@ public class AuthServiceImpl implements IAuthService {
     @Autowired
     private IUserTokenCacheService iUserTokenCacheService;
     @Autowired
-    private TokenExtractor tokenExtractor;
+    private AccessTokenExtractor tokenExtractor;
     @Autowired
     private SecurityCoreProperties coreProperties;
     @Autowired
@@ -45,7 +45,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void logout(HttpServletRequest request) {
-        String accessToken = tokenExtractor.extract(request, coreProperties.getAuthentication());
+        String accessToken = tokenExtractor.extract(request);
         if (StringUtils.isNotBlank(accessToken)) {
             iUserTokenCacheService.remove(accessToken);
         }

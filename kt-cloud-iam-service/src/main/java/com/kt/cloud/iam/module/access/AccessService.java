@@ -9,10 +9,8 @@ import com.kt.cloud.iam.dao.entity.IamApplication;
 import com.kt.cloud.iam.module.api.cache.ApiCacheHolder;
 import com.kt.cloud.iam.module.application.service.IApplicationService;
 import com.kt.cloud.iam.module.user.service.IUserPermissionService;
-import com.kt.cloud.iam.security.config.AccessTokenProperties;
 import com.kt.cloud.iam.security.configuration.SecurityCoreProperties;
 import com.kt.cloud.iam.security.core.token.cache.IUserTokenCacheService;
-import com.kt.cloud.iam.security.core.token.extractor.TokenExtractor;
 import com.kt.cloud.iam.security.exception.AuthenticationException;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -32,8 +30,6 @@ public class AccessService {
     private final ApiCacheHolder apiCacheHolder;
     private final IApplicationService iApplicationService;
     private final IUserPermissionService iUserPermissionService;
-    private final TokenExtractor tokenExtractor;
-    private final AccessTokenProperties accessTokenProperties = new AccessTokenProperties();
     private final IUserTokenCacheService iUserTokenCacheService;
 
     private final AuthenticationException tokenBlankException
@@ -44,12 +40,12 @@ public class AccessService {
     public AccessService(IUserPermissionService iUserPermissionService,
                          SecurityCoreProperties securityCoreProperties,
                          ApiCacheHolder apiCacheHolder,
-                         IApplicationService iApplicationService, TokenExtractor tokenExtractor, IUserTokenCacheService iUserTokenCacheService) {
+                         IApplicationService iApplicationService,
+                         IUserTokenCacheService iUserTokenCacheService) {
         this.apiCacheHolder = apiCacheHolder;
         this.iApplicationService = iApplicationService;
         this.iUserPermissionService = iUserPermissionService;
         this.securityCoreProperties = securityCoreProperties;
-        this.tokenExtractor = tokenExtractor;
         this.iUserTokenCacheService = iUserTokenCacheService;
     }
 

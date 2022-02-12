@@ -10,7 +10,6 @@
     <modules>
         <module>kt-cloud-iam-acl</module>
         <module>kt-cloud-iam-api</module>
-        <module>kt-cloud-iam-auth</module>
         <module>kt-cloud-iam-dao</module>
         <module>kt-cloud-iam-service</module>
         <module>kt-cloud-iam-start</module>

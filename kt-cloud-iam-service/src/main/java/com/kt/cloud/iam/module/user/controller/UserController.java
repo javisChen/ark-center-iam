@@ -1,8 +1,6 @@
 package com.kt.cloud.iam.module.user.controller;
 
 
-import com.kt.cloud.iam.api.user.permission.request.ApiAuthRequest;
-import com.kt.cloud.iam.api.user.permission.response.ApiAuthResponse;
 import com.kt.cloud.iam.module.permission.vo.PermissionVO;
 import com.kt.cloud.iam.module.user.dto.UserPageListSearchDTO;
 import com.kt.cloud.iam.module.user.dto.UserUpdateDTO;
@@ -92,7 +90,7 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/info")
     public SingleResponse<LoginUserContext> getLoginUserInfo() {
-        com.kt.component.context.LoginUserContext loginUserContext = ServiceContext.getLoginUserContext();
+        com.kt.component.context.LoginUserContext loginUserContext = ServiceContext.getCurrentUser();
         return SingleResponse.ok(loginUserContext);
     }
 
@@ -101,7 +99,7 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/permission/routes")
     public MultiResponse<UserPermissionRouteNavVO> getUserRoutePermission() {
-        String userCode = ServiceContext.getLoginUserContext().getUserCode();
+        String userCode = ServiceContext.getCurrentUser().getUserCode();
         List<UserPermissionRouteNavVO> userRoutes = iUserPermissionService.getUserRoutes(userCode);
         return MultiResponse.ok(userRoutes);
     }
@@ -111,17 +109,9 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/permission/elements")
     public MultiResponse<PermissionVO> getUserElementPermission() {
-        String userCode = ServiceContext.getLoginUserContext().getUserCode();
+        String userCode = ServiceContext.getCurrentUser().getUserCode();
         List<PermissionVO> userRoutes = iUserPermissionService.getUserPermissionPageElements(userCode);
         return MultiResponse.ok(userRoutes);
-    }
-
-    /**
-     * 用户权限校验
-     */
-    @PostMapping("/user/permission/check")
-    public ApiAuthResponse checkPermission(@RequestBody ApiAuthRequest request) {
-        return iUserPermissionService.accessCheck(request);
     }
 
 }

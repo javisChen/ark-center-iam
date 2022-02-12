@@ -1,9 +1,9 @@
 package com.kt.cloud.iam.security.interceptor;
 
-import com.kt.cloud.iam.security.config.AccessTokenProperties;
+import com.kt.cloud.iam.security.configuration.AccessTokenProperties;
 import com.kt.cloud.iam.security.core.token.cache.IUserTokenCacheService;
-import com.kt.cloud.iam.security.core.token.extractor.TokenExtractor;
 import com.kt.cloud.iam.security.exception.AuthenticationException;
+import com.kt.component.context.token.AccessTokenExtractor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
-    private final TokenExtractor tokenExtractor;
+    private final AccessTokenExtractor tokenExtractor;
     private final IUserTokenCacheService iUserTokenCacheService;
     private final AccessTokenProperties accessTokenProperties = new AccessTokenProperties();
 
@@ -28,7 +28,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private final AuthenticationException tokenInvalidException
             = AuthenticationException.of("403", "AUTHENTICATION FAILED: [TOKEN IS INVALID]");
 
-    public AuthenticationInterceptor(TokenExtractor tokenExtractor, IUserTokenCacheService iUserTokenCacheService) {
+    public AuthenticationInterceptor(AccessTokenExtractor tokenExtractor,
+                                     IUserTokenCacheService iUserTokenCacheService) {
         this.tokenExtractor = tokenExtractor;
         this.iUserTokenCacheService = iUserTokenCacheService;
     }
@@ -53,7 +54,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        System.out.println(132);
     }
 
 }

@@ -3,17 +3,16 @@ package com.kt.cloud.iam.module.user.service;
 import cn.hutool.core.collection.CollectionUtil;
 import com.kt.cloud.iam.api.user.permission.request.ApiAuthRequest;
 import com.kt.cloud.iam.api.user.permission.response.ApiAuthResponse;
-import com.kt.cloud.iam.security.core.check.AuthCheck;
-import com.kt.cloud.iam.enums.PermissionTypeEnums;
 import com.kt.cloud.iam.dao.bo.ApiPermissionBO;
 import com.kt.cloud.iam.dao.entity.IamPermission;
+import com.kt.cloud.iam.dao.entity.IamUser;
+import com.kt.cloud.iam.enums.PermissionTypeEnums;
 import com.kt.cloud.iam.module.permission.service.IPermissionService;
 import com.kt.cloud.iam.module.permission.vo.PermissionVO;
 import com.kt.cloud.iam.module.role.service.IRoleService;
 import com.kt.cloud.iam.module.route.service.IRouteService;
 import com.kt.cloud.iam.module.user.common.UserConst;
 import com.kt.cloud.iam.module.user.converter.UserBeanConverter;
-import com.kt.cloud.iam.dao.entity.IamUser;
 import com.kt.cloud.iam.module.user.vo.UserPermissionRouteNavVO;
 import com.kt.cloud.iam.module.usergroup.service.IUserGroupService;
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +44,6 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
     private UserBeanConverter beanConverter;
     @Autowired
     private IRouteService iRouteService;
-    @Autowired
-    private AuthCheck remoteAuthCheck;
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
@@ -158,11 +155,6 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
         boolean hasApiPermission = checkHasApiPermission(request.getApplicationCode(), request.getUserCode(),
                 request.getRequestUri(), request.getMethod());
         return hasApiPermission ? ApiAuthResponse.success() : ApiAuthResponse.fail("No Permission");
-    }
-
-    @Override
-    public ApiAuthResponse accessCheck(ApiAuthRequest request) {
-        return remoteAuthCheck.checkPermission(request);
     }
 
 }

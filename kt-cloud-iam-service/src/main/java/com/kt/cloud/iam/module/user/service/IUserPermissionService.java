@@ -59,5 +59,4 @@ public interface IUserPermissionService {
 
     ApiAuthResponse checkApiPermission(ApiAuthRequest request);
 
-    ApiAuthResponse accessCheck(ApiAuthRequest request);
 }
