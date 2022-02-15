@@ -67,7 +67,12 @@ public class AccessService {
 //            return ApiAccessResponse.success();
 //        }
 
-        LoginUserContext userContext = attemptGetUserCache(apiAccessRequest.getAccessToken());
+        LoginUserContext userContext = null;
+        try {
+            userContext = attemptGetUserCache(apiAccessRequest.getAccessToken());
+        } catch (AuthenticationException e) {
+            return ApiAccessResponse.fail(e.getErrCode(), e.getMessage());
+        }
         boolean hasApiPermission = iUserPermissionService.checkHasApiPermission(applicationCode, userContext.getUserCode(), requestUri, method);
         if (!hasApiPermission) {
             return ApiAccessResponse.fail();

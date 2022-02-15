@@ -11,11 +11,13 @@ public class ApiAccessResponse {
     private Boolean hasPermission;
     private UserResponse userResponse;
     private String msg;
+    private String errMsg;
 
     public ApiAccessResponse(String code, Boolean hasPermission, String msg) {
         this.code = code;
         this.hasPermission = hasPermission;
         this.msg = msg;
+        this.errMsg = msg;
     }
 
     public ApiAccessResponse(String code, Boolean hasPermission, UserResponse userResponse) {
@@ -48,6 +50,10 @@ public class ApiAccessResponse {
 
     public static ApiAccessResponse fail() {
         return new ApiAccessResponse(ResponseCode.USER_ACCESS_DENIED.getCode(), false, ResponseCode.USER_ACCESS_DENIED.getMsg());
+    }
+
+    public static ApiAccessResponse fail(String code, String msg) {
+        return new ApiAccessResponse(code, false, msg);
     }
     
     @Getter
