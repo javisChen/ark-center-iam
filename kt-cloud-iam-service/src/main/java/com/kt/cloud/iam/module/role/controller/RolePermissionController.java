@@ -21,7 +21,7 @@ import java.util.List;
  * @since 2020-11-09
  */
 @RestController
-@RequestMapping
+@RequestMapping("/v1")
 public class RolePermissionController extends BaseController {
 
     private final IRoleService iRoleService;

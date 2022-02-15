@@ -24,7 +24,7 @@ import javax.validation.groups.Default;
  * </p>
  */
 @RestController
-@RequestMapping
+@RequestMapping("/v1")
 public class UserGroupController extends BaseController {
 
     private final IUserGroupService iUserGroupService;

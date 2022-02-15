@@ -38,49 +38,49 @@ public class RouteController extends BaseController {
     @Autowired
     private IRouteService iRouteService;
 
-    @PostMapping("/routes")
+    @PostMapping("/v1/routes")
     public SingleResponse<PageResponse<RouteListTreeVO>> listPage(@RequestBody RouteQueryDTO dto) {
         Page<RouteListTreeVO> routeListTreeVOPage = iRouteService.pageList(dto);
         return SingleResponse.ok(PageResponse.build(routeListTreeVOPage));
     }
 
-    @PostMapping("/routes/all")
+    @PostMapping("/v1/routes/all")
     public MultiResponse<RouteListTreeVO> list(@RequestBody RouteQueryDTO dto) {
         return MultiResponse.ok(iRouteService.listAllVOs(dto));
     }
 
-    @PostMapping("/route")
+    @PostMapping("/v1/route")
     public ServerResponse add(@RequestBody @Validated RouteUpdateDTO dto) {
         iRouteService.saveRoute(dto);
         return ServerResponse.ok();
     }
 
-    @PutMapping("/route")
+    @PutMapping("/v1/route")
     public ServerResponse update(@RequestBody @Validated RouteUpdateDTO dto) {
         iRouteService.updateRoute(dto);
         return ServerResponse.ok();
     }
 
-    @PutMapping("/route/parent")
+    @PutMapping("/v1/route/parent")
     public ServerResponse move(@RequestBody @Validated RouteModifyParentDTO dto) {
         iRouteService.modifyParent(dto);
         return ServerResponse.ok();
     }
 
-    @GetMapping("/route")
+    @GetMapping("/v1/route")
     public SingleResponse<RouteDetailVO> get(Long id) {
         RouteDetailVO vo = iRouteService.getRoute(id);
         return SingleResponse.ok(vo);
     }
 
-    @PutMapping("/route/status")
+    @PutMapping("/v1/route/status")
     public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
                                        @RequestBody RouteUpdateDTO dto) {
         iRouteService.updateRouteStatus(dto);
         return ServerResponse.ok();
     }
 
-    @DeleteMapping("/route/{id}")
+    @DeleteMapping("/v1/route/{id}")
     public ServerResponse deleteRoute(@PathVariable String id) {
         iRouteService.deleteRouteById(Long.valueOf(id));
         return ServerResponse.ok();
@@ -91,7 +91,7 @@ public class RouteController extends BaseController {
         return MultiResponse.ok(iRouteService.listRouteElementsById(routeId));
     }
 
-    @PostMapping("/routes/init")
+    @PostMapping("/v1/routes/init")
     public ServerResponse init(@RequestBody UserPermissionRouteNavVO userMenusDTO) {
 //        for (UserRouteVO menu : userMenusDTO.getRoutes()) {
 //            RouteUpdateDTO dto = new RouteUpdateDTO();

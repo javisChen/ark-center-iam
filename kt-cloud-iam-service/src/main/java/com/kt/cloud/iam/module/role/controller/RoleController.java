@@ -26,7 +26,7 @@ import javax.validation.groups.Default;
  * @since 2020-11-09
  */
 @RestController
-@RequestMapping
+@RequestMapping("/v1")
 public class RoleController extends BaseController {
 
     private final IRoleService iRoleService;

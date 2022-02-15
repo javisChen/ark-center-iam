@@ -33,7 +33,7 @@ import java.util.Set;
  * @since 2020-11-09
  */
 @RestController
-@RequestMapping
+@RequestMapping("/v1")
 public class ApiController extends BaseController {
 
     @Autowired

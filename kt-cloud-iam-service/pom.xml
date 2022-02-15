@@ -21,11 +21,6 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.kt</groupId>
-            <artifactId>kt-component-microservice-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.kt.cloud</groupId>
             <artifactId>kt-cloud-iam-api</artifactId>
         </dependency>
@@ -39,6 +34,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kt</groupId>
+            <artifactId>kt-component-microservice-core</artifactId>
         </dependency>
 
         <dependency>

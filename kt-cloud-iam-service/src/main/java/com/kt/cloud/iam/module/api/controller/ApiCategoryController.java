@@ -1,14 +1,13 @@
 package com.kt.cloud.iam.module.api.controller;
 
 
+import com.kt.cloud.iam.module.api.dto.ApiCategoryUpdateDTO;
+import com.kt.cloud.iam.module.api.service.IApiCategoryService;
+import com.kt.cloud.iam.module.api.vo.ApiCategoryBaseVO;
 import com.kt.component.dto.MultiResponse;
 import com.kt.component.dto.ServerResponse;
 import com.kt.component.validator.ValidateGroup;
 import com.kt.component.web.base.BaseController;
-import com.kt.cloud.iam.module.api.dto.ApiCategoryUpdateDTO;
-import com.kt.cloud.iam.module.api.service.IApiCategoryService;
-import com.kt.cloud.iam.module.api.vo.ApiCategoryBaseVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +22,14 @@ import javax.validation.groups.Default;
  * @since 2020-11-09
  */
 @RestController
-@RequestMapping
+@RequestMapping("/v1")
 public class ApiCategoryController extends BaseController {
 
-    @Autowired
-    private IApiCategoryService iApiCategoryService;
+    private final IApiCategoryService iApiCategoryService;
+
+    public ApiCategoryController(IApiCategoryService iApiCategoryService) {
+        this.iApiCategoryService = iApiCategoryService;
+    }
 
     @GetMapping("/api/categories")
     public MultiResponse<ApiCategoryBaseVO> list(Long applicationId) {
