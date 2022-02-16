@@ -90,7 +90,7 @@ public class UserController extends BaseController {
      */
     @GetMapping("/user/info")
     public SingleResponse<LoginUserContext> getLoginUserInfo() {
-        com.kt.component.context.LoginUserContext loginUserContext = ServiceContext.getCurrentUser();
+        LoginUserContext loginUserContext = ServiceContext.getCurrentUser();
         return SingleResponse.ok(loginUserContext);
     }
 
