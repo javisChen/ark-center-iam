@@ -1,5 +1,6 @@
 package com.kt.cloud.iam.module.usergroup.service;
 
+import com.kt.cloud.iam.data.usergroup.service.UserGroupServiceImpl;
 import com.kt.cloud.iam.enums.UserGroupInheritTypeEnums;
 import com.kt.cloud.iam.dao.entity.IamUserGroup;
 import org.junit.Test;

@@ -2,8 +2,8 @@ package com.kt.cloud.iam.api.access;
 
 import com.kt.cloud.iam.api.access.request.ApiAccessRequest;
 import com.kt.cloud.iam.api.access.response.ApiAccessResponse;
-import com.kt.cloud.iam.api.user.permission.FeignExceptionConfiguration;
 import com.kt.component.dto.SingleResponse;
+import com.kt.component.microservice.rpc.exception.FeignCommonErrorDecoder;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
         path = "/v1/access",
         url = "${kt.cloud.iam.authentication.url:}",
         decode404 = true,
-        configuration = FeignExceptionConfiguration.class
+        configuration = FeignCommonErrorDecoder.class
 )
 public interface AccessApi {
 
