@@ -4,8 +4,6 @@ import com.kt.cloud.iam.api.access.request.ApiAccessRequest;
 import com.kt.cloud.iam.api.access.response.ApiAccessResponse;
 import com.kt.cloud.iam.api.access.response.UserResponse;
 import com.kt.cloud.iam.api.user.permission.response.LoginUserContext;
-import com.kt.cloud.iam.common.util.Assert;
-import com.kt.cloud.iam.dao.entity.IamApplication;
 import com.kt.cloud.iam.data.api.cache.ApiCacheHolder;
 import com.kt.cloud.iam.data.api.support.ApiCommonUtils;
 import com.kt.cloud.iam.data.application.service.IApplicationService;
@@ -13,17 +11,14 @@ import com.kt.cloud.iam.data.user.service.IUserPermissionService;
 import com.kt.cloud.iam.security.configuration.SecurityCoreProperties;
 import com.kt.cloud.iam.security.core.token.cache.IUserTokenCacheService;
 import com.kt.cloud.iam.security.exception.AuthenticationException;
-import com.kt.component.dto.ResponseEnums;
-import com.kt.component.dto.SingleResponse;
+import com.kt.component.common.Checker;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class AccessService {
@@ -38,7 +33,9 @@ public class AccessService {
     private final AuthenticationException tokenBlankException
             = AuthenticationException.of("401", "AUTHENTICATION FAILED: [TOKEN CANNOT BE BLANK]");
     private final AuthenticationException tokenInvalidException
-            = AuthenticationException.of("401", "AUTHENTICATION FAILED: [TOKEN IS INVALID]");
+            = AuthenticationException.of("401", "AUTHENTICATION FAILED: [TOKEN IS INVALID OR EXPIRED]");
+    private final AuthenticationException accessDeniedException
+            = AuthenticationException.of("403", "AUTHORIZATION FAILED: [ACCESS IS DENIED]");
 
     public AccessService(IUserPermissionService iUserPermissionService,
                          SecurityCoreProperties securityCoreProperties,
@@ -52,7 +49,7 @@ public class AccessService {
         this.iUserTokenCacheService = iUserTokenCacheService;
     }
 
-    public SingleResponse<ApiAccessResponse> getApiAccess(ApiAccessRequest apiAccessRequest) {
+    public ApiAccessResponse getApiAccess(ApiAccessRequest apiAccessRequest) {
 
         String requestUri = apiAccessRequest.getRequestUri();
         String applicationCode = apiAccessRequest.getApplicationCode();
@@ -61,30 +58,40 @@ public class AccessService {
         requestUri = attemptReplaceHasPathVariableUrl(requestUri);
 
         // 尝试是否匹配白名单中的uri
-        if (matchDefaultAllowUrl(requestUri)) {
-            return SingleResponse.ok(ApiAccessResponse.success());
+        if (isMatchDefaultAllowUrl(requestUri)) {
+            return ApiAccessResponse.success();
         }
 
-        IamApplication application = getApplicationByCode(applicationCode);
-        // 尝试是否匹配不需要授权的api
-        if (checkUriIsNoNeedAuthorization(requestUri, method)) {
-            return SingleResponse.ok(ApiAccessResponse.success());
+        // 检查API是否需要授权
+        if (isMatchNoNeedAuthorizationUri(requestUri, method)) {
+            return ApiAccessResponse.success();
         }
 
-        LoginUserContext userContext = null;
-        try {
-            userContext = attemptGetUserCache(apiAccessRequest.getAccessToken());
-        } catch (AuthenticationException e) {
-            return SingleResponse.error(e.getErrCode(), e.getMessage(), ApiAccessResponse.fail());
-        }
+        // 检查Token是否存在
+        String accessToken = apiAccessRequest.getAccessToken();
+        checkAccessTokenIsEmpty(accessToken);
+
+        // 检查登录用户缓存
+        LoginUserContext userContext = iUserTokenCacheService.get(accessToken);
+        checkLoginUser(userContext);
+
         // 检查是否有API访问权
-        boolean hasApiPermission = iUserPermissionService.checkHasApiPermission(applicationCode, userContext.getUserCode(), requestUri, method);
-        if (!hasApiPermission) {
-            return SingleResponse.error(ResponseEnums.USER_ACCESS_DENIED.getCode(),
-                    ResponseEnums.USER_ACCESS_DENIED.getMsg(), ApiAccessResponse.fail());
-        }
-        UserResponse userResponse = convertToUserResponse(userContext);
-        return SingleResponse.ok(ApiAccessResponse.success(userResponse));
+        checkHasApiAccess(requestUri, applicationCode, method, userContext.getUserCode());
+
+        return ApiAccessResponse.success(convertToUserResponse(userContext));
+    }
+
+    private void checkHasApiAccess(String requestUri, String applicationCode, String method, String userCode) {
+        boolean hasApiPermission = iUserPermissionService.checkHasApiPermission(applicationCode, userCode, requestUri, method);
+        Checker.throwExceptionIfIsTrue(!hasApiPermission, accessDeniedException);
+    }
+
+    private void checkLoginUser(LoginUserContext userContext) {
+        Checker.throwExceptionIfIsNull(userContext, tokenInvalidException);
+    }
+
+    private void checkAccessTokenIsEmpty(String accessToken) {
+        Checker.throwExceptionIfIsEmpty(accessToken, tokenBlankException);
     }
 
     private UserResponse convertToUserResponse(LoginUserContext userContext) {
@@ -98,14 +105,7 @@ public class AccessService {
         return userResponse;
     }
 
-    private LoginUserContext attemptGetUserCache(String accessToken) {
-        Assert.isTrue(StringUtils.isBlank(accessToken), tokenBlankException);
-        LoginUserContext userDetails = iUserTokenCacheService.get(accessToken);
-        Assert.isTrue(Objects.isNull(userDetails), tokenInvalidException);
-        return userDetails;
-    }
-
-    public boolean matchDefaultAllowUrl(String requestUri) {
+    public boolean isMatchDefaultAllowUrl(String requestUri) {
         List<String> allowList = securityCoreProperties.getAllowList();
         if (CollectionUtils.isEmpty(allowList)) {
             return false;
@@ -127,16 +127,12 @@ public class AccessService {
      * 系统的无需授权资源 + 配置上的定义
      * @return 匹配成功=true，不成功=false
      */
-    public boolean checkUriIsNoNeedAuthorization(String requestUri, String method) {
+    public boolean isMatchNoNeedAuthorizationUri(String requestUri, String method) {
         Map<String, String> noNeedAuthorizationApiCache = apiCacheHolder.getNoNeedAuthorizationApiCache();
         if (MapUtils.isEmpty(noNeedAuthorizationApiCache)) {
             return false;
         }
         return noNeedAuthorizationApiCache.get(ApiCommonUtils.createKey(requestUri, method)) != null;
-    }
-
-    public IamApplication getApplicationByCode(String applicationCode) {
-        return iApplicationService.getApplicationByCode(applicationCode);
     }
 
 }

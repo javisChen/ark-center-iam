@@ -22,7 +22,7 @@ public class AccessController implements AccessApi {
 
     @Override
     public SingleResponse<ApiAccessResponse> getApiAccess(ApiAccessRequest request) {
-        return accessService.getApiAccess(request);
+        return SingleResponse.ok(accessService.getApiAccess(request));
     }
 
 }
