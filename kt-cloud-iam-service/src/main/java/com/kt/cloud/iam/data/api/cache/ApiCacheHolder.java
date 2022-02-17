@@ -2,6 +2,7 @@ package com.kt.cloud.iam.data.api.cache;
 
 import com.kt.cloud.iam.dao.entity.IamApi;
 import com.kt.cloud.iam.data.api.service.IApiService;
+import com.kt.cloud.iam.data.api.support.ApiCommonUtils;
 import com.kt.cloud.iam.enums.ApiAuthTypeEnums;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,17 +51,13 @@ public class ApiCacheHolder implements InitializingBean {
         return apis.stream()
                 .filter(item -> item.getAuthType().equals(ApiAuthTypeEnums.NEED_AUTHENTICATION.getValue())
                         || item.getAuthType().equals(ApiAuthTypeEnums.NO_AUTHENTICATION_AND_AUTHORIZATION.getValue()))
-                .collect(Collectors.toMap(this::createKey, IamApi::getUrl));
+                .collect(Collectors.toMap(api -> ApiCommonUtils.createKey(api.getUrl(), api.getMethod()), IamApi::getUrl));
     }
 
     private Map<String, String> filterNoNeedAuthenticationApis(List<IamApi> apis) {
         return apis.stream()
                 .filter(item -> item.getAuthType().equals(ApiAuthTypeEnums.NO_AUTHENTICATION_AND_AUTHORIZATION.getValue()))
-                .collect(Collectors.toMap(this::createKey, IamApi::getUrl));
-    }
-
-    private String createKey(IamApi api) {
-        return api.getUrl() + ":" + api.getMethod() + ":" + api.getApplicationId();
+                .collect(Collectors.toMap(api -> ApiCommonUtils.createKey(api.getUrl(), api.getMethod()), IamApi::getUrl));
     }
 
     private List<String> filterHasPathVariableApis(List<IamApi> apis) {

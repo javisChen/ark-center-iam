@@ -7,6 +7,7 @@ import com.kt.cloud.iam.api.user.permission.response.LoginUserContext;
 import com.kt.cloud.iam.common.util.Assert;
 import com.kt.cloud.iam.dao.entity.IamApplication;
 import com.kt.cloud.iam.data.api.cache.ApiCacheHolder;
+import com.kt.cloud.iam.data.api.support.ApiCommonUtils;
 import com.kt.cloud.iam.data.application.service.IApplicationService;
 import com.kt.cloud.iam.data.user.service.IUserPermissionService;
 import com.kt.cloud.iam.security.configuration.SecurityCoreProperties;
@@ -63,11 +64,12 @@ public class AccessService {
         if (matchDefaultAllowUrl(requestUri)) {
             return SingleResponse.ok(ApiAccessResponse.success());
         }
-//        IamApplication application = getApplicationByCode(applicationCode);
-//        // 尝试是否匹配不需要授权的api
-//        if (checkUriIsNoNeedAuthorization(requestUri, method, application.getId())) {
-//            return ApiAccessResponse.success();
-//        }
+
+        IamApplication application = getApplicationByCode(applicationCode);
+        // 尝试是否匹配不需要授权的api
+        if (checkUriIsNoNeedAuthorization(requestUri, method)) {
+            return SingleResponse.ok(ApiAccessResponse.success());
+        }
 
         LoginUserContext userContext = null;
         try {
@@ -120,20 +122,17 @@ public class AccessService {
                 .orElse(requestUri);
     }
 
-    private String createKey(String url, String method, Long applicationId) {
-        return url + ":" + method + ":" + applicationId;
-    }
-
     /**
      * 尝试匹配无需授权的资源
+     * 系统的无需授权资源 + 配置上的定义
      * @return 匹配成功=true，不成功=false
      */
-    public boolean checkUriIsNoNeedAuthorization(String url, String method, Long applicationId) {
+    public boolean checkUriIsNoNeedAuthorization(String requestUri, String method) {
         Map<String, String> noNeedAuthorizationApiCache = apiCacheHolder.getNoNeedAuthorizationApiCache();
         if (MapUtils.isEmpty(noNeedAuthorizationApiCache)) {
             return false;
         }
-        return noNeedAuthorizationApiCache.get(createKey(url, method, applicationId)) != null;
+        return noNeedAuthorizationApiCache.get(ApiCommonUtils.createKey(requestUri, method)) != null;
     }
 
     public IamApplication getApplicationByCode(String applicationCode) {
