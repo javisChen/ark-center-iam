@@ -11,6 +11,7 @@ import com.kt.cloud.iam.data.user.service.IUserPermissionService;
 import com.kt.cloud.iam.security.configuration.SecurityCoreProperties;
 import com.kt.cloud.iam.security.core.token.cache.IUserTokenCacheService;
 import com.kt.cloud.iam.security.exception.AuthenticationException;
+import com.kt.cloud.iam.security.exception.AuthorizationException;
 import com.kt.component.common.Checker;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -34,8 +35,8 @@ public class AccessService {
             = AuthenticationException.of("401", "AUTHENTICATION FAILED: [TOKEN CANNOT BE BLANK]");
     private final AuthenticationException tokenInvalidException
             = AuthenticationException.of("401", "AUTHENTICATION FAILED: [TOKEN IS INVALID OR EXPIRED]");
-    private final AuthenticationException accessDeniedException
-            = AuthenticationException.of("403", "AUTHORIZATION FAILED: [ACCESS IS DENIED]");
+    private final AuthorizationException accessDeniedException
+            = AuthorizationException.of("403", "AUTHORIZATION FAILED: [ACCESS IS DENIED]");
 
     public AccessService(IUserPermissionService iUserPermissionService,
                          SecurityCoreProperties securityCoreProperties,
@@ -62,11 +63,6 @@ public class AccessService {
             return ApiAccessResponse.success();
         }
 
-        // 检查API是否需要授权
-        if (isMatchNoNeedAuthorizationUri(requestUri, method)) {
-            return ApiAccessResponse.success();
-        }
-
         // 检查Token是否存在
         String accessToken = apiAccessRequest.getAccessToken();
         checkAccessTokenIsEmpty(accessToken);
@@ -74,6 +70,16 @@ public class AccessService {
         // 检查登录用户缓存
         LoginUserContext userContext = iUserTokenCacheService.get(accessToken);
         checkLoginUser(userContext);
+
+        // 检查API是否只需认证
+        if (isMatchJustNeedAuthenticationUri(requestUri, method)) {
+            return ApiAccessResponse.success();
+        }
+
+        // 检查API是否需要授权
+        if (isMatchNoNeedAuthorizationUri(requestUri, method)) {
+            return ApiAccessResponse.success();
+        }
 
         // 检查是否有API访问权
         checkHasApiAccess(requestUri, applicationCode, method, userContext.getUserCode());
@@ -128,11 +134,25 @@ public class AccessService {
      * @return 匹配成功=true，不成功=false
      */
     public boolean isMatchNoNeedAuthorizationUri(String requestUri, String method) {
-        Map<String, String> noNeedAuthorizationApiCache = apiCacheHolder.getNoNeedAuthorizationApiCache();
-        if (MapUtils.isEmpty(noNeedAuthorizationApiCache)) {
+        Map<String, String> cache = apiCacheHolder.getNoNeedAuthorizationApiCache();
+        return isMatchUri(cache, requestUri, method);
+    }
+
+    /**
+     * 尝试匹配无需认证的资源
+     * 系统的无需授权资源 + 配置上的定义
+     * @return 匹配成功=true，不成功=false
+     */
+    public boolean isMatchJustNeedAuthenticationUri(String requestUri, String method) {
+        Map<String, String> cache = apiCacheHolder.getNoNeedAuthenticationApiCache();
+        return isMatchUri(cache, requestUri, method);
+    }
+
+    private boolean isMatchUri(Map<String, String> cache, String requestUri, String method) {
+        if (MapUtils.isEmpty(cache)) {
             return false;
         }
-        return noNeedAuthorizationApiCache.get(ApiCommonUtils.createKey(requestUri, method)) != null;
+        return cache.get(ApiCommonUtils.createKey(requestUri, method)) != null;
     }
 
 }

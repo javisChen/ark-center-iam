@@ -3,7 +3,7 @@ package com.kt.cloud.iam.security.exception;
 import com.kt.component.exception.BizException;
 
 /**
- * 认证异常类
+ * 授权异常类
  * @author jc
  */
 public class AuthenticationException extends BizException {

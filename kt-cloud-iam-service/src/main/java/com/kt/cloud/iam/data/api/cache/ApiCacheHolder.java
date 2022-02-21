@@ -56,7 +56,7 @@ public class ApiCacheHolder implements InitializingBean {
 
     private Map<String, String> filterNoNeedAuthenticationApis(List<IamApi> apis) {
         return apis.stream()
-                .filter(item -> item.getAuthType().equals(ApiAuthTypeEnums.NO_AUTHENTICATION_AND_AUTHORIZATION.getValue()))
+                .filter(item -> item.getAuthType().equals(ApiAuthTypeEnums.NEED_AUTHENTICATION.getValue()))
                 .collect(Collectors.toMap(api -> ApiCommonUtils.createKey(api.getUrl(), api.getMethod()), IamApi::getUrl));
     }
 
