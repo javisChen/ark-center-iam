@@ -12,7 +12,7 @@ import com.kt.cloud.iam.security.configuration.SecurityCoreProperties;
 import com.kt.cloud.iam.security.core.token.cache.IUserTokenCacheService;
 import com.kt.cloud.iam.security.exception.AuthenticationException;
 import com.kt.cloud.iam.security.exception.AuthorizationException;
-import com.kt.component.common.Checker;
+import com.kt.component.common.ParamsChecker;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.stereotype.Service;
@@ -32,11 +32,11 @@ public class AccessService {
     private final IUserTokenCacheService iUserTokenCacheService;
 
     private final AuthenticationException tokenBlankException
-            = AuthenticationException.of("401", "AUTHENTICATION FAILED: [TOKEN CANNOT BE BLANK]");
+            = AuthenticationException.of("authentication failed: [token cannot be blank]");
     private final AuthenticationException tokenInvalidException
-            = AuthenticationException.of("401", "AUTHENTICATION FAILED: [TOKEN IS INVALID OR EXPIRED]");
+            = AuthenticationException.of("authentication failed: [token is invalid or expired]");
     private final AuthorizationException accessDeniedException
-            = AuthorizationException.of("403", "AUTHORIZATION FAILED: [ACCESS IS DENIED]");
+            = AuthorizationException.of("authorization failed: [access is denied]");
 
     public AccessService(IUserPermissionService iUserPermissionService,
                          SecurityCoreProperties securityCoreProperties,
@@ -89,15 +89,15 @@ public class AccessService {
 
     private void checkHasApiAccess(String requestUri, String applicationCode, String method, String userCode) {
         boolean hasApiPermission = iUserPermissionService.checkHasApiPermission(applicationCode, userCode, requestUri, method);
-        Checker.throwExceptionIfIsTrue(!hasApiPermission, accessDeniedException);
+        ParamsChecker.throwIfIsTrue(!hasApiPermission, accessDeniedException);
     }
 
     private void checkLoginUser(LoginUserContext userContext) {
-        Checker.throwExceptionIfIsNull(userContext, tokenInvalidException);
+        ParamsChecker.throwIfIsNull(userContext, tokenInvalidException);
     }
 
     private void checkAccessTokenIsEmpty(String accessToken) {
-        Checker.throwExceptionIfIsEmpty(accessToken, tokenBlankException);
+        ParamsChecker.throwIfIsEmpty(accessToken, tokenBlankException);
     }
 
     private UserResponse convertToUserResponse(LoginUserContext userContext) {

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class IamExceptionHandler extends GlobalExceptionHandler {
-    private static final Logger log = LoggerFactory.getLogger(IamExceptionHandler.class);
+public class IamGlobalExceptionHandler extends GlobalExceptionHandler {
+    private static final Logger log = LoggerFactory.getLogger(IamGlobalExceptionHandler.class);
 
-    public IamExceptionHandler() {
+    public IamGlobalExceptionHandler() {
     }
 
     @ExceptionHandler({AuthenticationException.class})

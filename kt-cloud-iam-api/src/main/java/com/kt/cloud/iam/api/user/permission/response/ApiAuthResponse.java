@@ -1,6 +1,6 @@
 package com.kt.cloud.iam.api.user.permission.response;
 
-import com.kt.component.dto.ResponseEnums;
+import com.kt.component.dto.BizErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -43,14 +43,14 @@ public class ApiAuthResponse {
     }
 
     public static ApiAuthResponse success() {
-        return new ApiAuthResponse(ResponseEnums.OK.getCode(), true);
+        return new ApiAuthResponse(BizErrorCode.OK.getCode(), true);
     }
 
     public static ApiAuthResponse success(LoginUserContext loginUserContext) {
-        return new ApiAuthResponse(ResponseEnums.OK.getCode(), true, loginUserContext);
+        return new ApiAuthResponse(BizErrorCode.OK.getCode(), true, loginUserContext);
     }
 
     public static ApiAuthResponse fail(String msg) {
-        return new ApiAuthResponse(ResponseEnums.USER_ACCESS_DENIED.getCode(), false, msg);
+        return new ApiAuthResponse(BizErrorCode.USER_ERROR.getCode(), false, msg);
     }
 }
