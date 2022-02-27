@@ -49,6 +49,11 @@
                 <artifactId>kt-cloud-iam-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.kt.cloud</groupId>
+                <artifactId>kt-cloud-iam-acl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

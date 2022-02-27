@@ -20,6 +20,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>com.kt.cloud</groupId>
+            <artifactId>kt-cloud-iam-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

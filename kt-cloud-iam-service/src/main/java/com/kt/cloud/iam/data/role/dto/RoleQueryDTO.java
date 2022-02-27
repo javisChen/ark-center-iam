@@ -1,6 +1,5 @@
 package com.kt.cloud.iam.data.role.dto;
 
-
 import com.kt.component.dto.PagingQuery;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
