@@ -9,6 +9,7 @@ import com.kt.cloud.iam.data.application.dto.ApplicationQueryDTO;
 import com.kt.cloud.iam.data.application.dto.ApplicationUpdateDTO;
 import com.kt.cloud.iam.data.application.service.IApplicationService;
 import com.kt.cloud.iam.data.application.vo.ApplicationBaseVO;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,7 @@ import javax.validation.groups.Default;
  * @author
  * @since 2020-11-09
  */
+@Api(tags = "应用")
 @RestController
 @RequestMapping
 public class ApplicationController extends BaseController {

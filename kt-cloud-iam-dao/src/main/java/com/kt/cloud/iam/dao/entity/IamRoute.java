@@ -104,14 +104,4 @@ public class IamRoute extends BaseEntity {
     @TableLogic
     private Long isDeleted;
 
-    public IamRoute(Long id, String name, Long pid, String levelPath, Integer level, String path, String icon) {
-        super(id);
-        this.name = name;
-        this.pid = pid;
-        this.levelPath = levelPath;
-        this.level = level;
-        this.path = path;
-        this.icon = icon;
-    }
-
 }
