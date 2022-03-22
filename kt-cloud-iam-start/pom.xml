@@ -28,6 +28,9 @@
     </dependencies>
 
     <build>
+
+        <finalName>kt-cloud-iam</finalName>
+
         <resources>
         </resources>
 
