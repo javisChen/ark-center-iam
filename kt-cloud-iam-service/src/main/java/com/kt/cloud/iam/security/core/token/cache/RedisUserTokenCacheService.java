@@ -1,9 +1,8 @@
 package com.kt.cloud.iam.security.core.token.cache;
 
 import com.kt.cloud.iam.security.core.token.generate.UserTokenGenerator;
-import com.kt.component.cache.redis.RedisService;
+import com.kt.component.cache.ICacheService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,27 +12,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisUserTokenCacheService extends AbstractUserTokenCacheService {
 
-    @Autowired
-    private RedisService redisService;
+    private final ICacheService cacheService;
 
-    public RedisUserTokenCacheService(UserTokenGenerator userTokenGenerator) {
+    public RedisUserTokenCacheService(UserTokenGenerator userTokenGenerator, ICacheService cacheService) {
         super(userTokenGenerator);
+        this.cacheService = cacheService;
     }
 
 
     @Override
     void saveCache(String key, Object value, long expires) {
-        redisService.set(key, value, expires);
+        cacheService.set(key, value, expires);
     }
 
     @Override
     Object getCache(String key) {
-        return redisService.get(key);
+        return cacheService.get(key);
     }
 
     @Override
     void removeCache(String key) {
-        redisService.remove(key);
+        cacheService.remove(key);
     }
 
 }
