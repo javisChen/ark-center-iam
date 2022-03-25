@@ -1,7 +1,7 @@
 package com.kt.cloud.iam.security.core.token.cache;
 
 import com.kt.cloud.iam.security.core.token.generate.UserTokenGenerator;
-import com.kt.component.cache.ICacheService;
+import com.kt.component.cache.CacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisUserTokenCacheService extends AbstractUserTokenCacheService {
 
-    private final ICacheService cacheService;
+    private final CacheService cacheService;
 
-    public RedisUserTokenCacheService(UserTokenGenerator userTokenGenerator, ICacheService cacheService) {
+    public RedisUserTokenCacheService(UserTokenGenerator userTokenGenerator, CacheService cacheService) {
         super(userTokenGenerator);
         this.cacheService = cacheService;
     }
