@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
-        value = "${kt.cloud.iam.service.name:iam}",
+        value = "${kt.cloud.iam.service.name:iam123}",
         path = "/v1/access",
         url = "${kt.cloud.iam.authentication.url:}",
         decode404 = true,
