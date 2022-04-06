@@ -2,7 +2,7 @@ package com.kt.cloud.iam.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.kt.component.db.base.BaseEntity;
+import com.kt.component.orm.mybatis.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

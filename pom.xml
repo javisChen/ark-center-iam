@@ -28,12 +28,6 @@
 
             <dependency>
                 <groupId>com.kt.cloud</groupId>
-                <artifactId>kt-cloud-iam-auth-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.kt.cloud</groupId>
                 <artifactId>kt-cloud-iam-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
