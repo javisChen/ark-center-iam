@@ -13,7 +13,7 @@ public class ApiAuthResponse {
 
     private String code;
     private Boolean hasPermission;
-    private LoginUserContext loginUserContext;
+    private LoginUserResponse loginUserResponse;
     private String msg;
 
     public ApiAuthResponse(String code, Boolean hasPermission, String msg) {
@@ -22,10 +22,10 @@ public class ApiAuthResponse {
         this.msg = msg;
     }
 
-    public ApiAuthResponse(String code, Boolean hasPermission, LoginUserContext loginUserContext) {
+    public ApiAuthResponse(String code, Boolean hasPermission, LoginUserResponse loginUserResponse) {
         this.code = code;
         this.hasPermission = hasPermission;
-        this.loginUserContext = loginUserContext;
+        this.loginUserResponse = loginUserResponse;
     }
 
     public ApiAuthResponse(String code, Boolean hasPermission) {
@@ -46,8 +46,8 @@ public class ApiAuthResponse {
         return new ApiAuthResponse(BizErrorCode.OK.getCode(), true);
     }
 
-    public static ApiAuthResponse success(LoginUserContext loginUserContext) {
-        return new ApiAuthResponse(BizErrorCode.OK.getCode(), true, loginUserContext);
+    public static ApiAuthResponse success(LoginUserResponse loginUserResponse) {
+        return new ApiAuthResponse(BizErrorCode.OK.getCode(), true, loginUserResponse);
     }
 
     public static ApiAuthResponse fail(String msg) {

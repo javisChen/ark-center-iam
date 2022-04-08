@@ -1,18 +1,18 @@
 package com.kt.cloud.iam.data.auth.service;
 
 import cn.hutool.crypto.digest.DigestUtil;
+import com.kt.cloud.iam.api.user.permission.response.LoginUserResponse;
 import com.kt.cloud.iam.common.constants.IamConsts;
 import com.kt.cloud.iam.dao.entity.IamUser;
+import com.kt.cloud.iam.data.auth.dto.AuthKickDTO;
 import com.kt.cloud.iam.data.auth.dto.AuthLoginReqDTO;
 import com.kt.cloud.iam.data.auth.dto.AuthLoginRespDTO;
 import com.kt.cloud.iam.data.user.common.UserConst;
-import com.kt.cloud.iam.data.auth.dto.AuthKickDTO;
 import com.kt.cloud.iam.data.user.service.IUserService;
 import com.kt.cloud.iam.security.configuration.SecurityCoreProperties;
 import com.kt.cloud.iam.security.core.token.cache.IUserTokenCacheService;
 import com.kt.cloud.iam.security.core.token.cache.UserCacheInfo;
-import com.kt.component.context.LoginUserContext;
-import com.kt.component.context.token.AccessTokenExtractor;
+import com.kt.component.context.core.token.AccessTokenExtractor;
 import com.kt.component.dto.SingleResponse;
 import com.kt.component.exception.ExceptionFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -69,17 +69,17 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     private UserCacheInfo cacheAuthentication(IamUser user) {
-        com.kt.component.context.LoginUserContext loginUserContext = buildLoginUserContext(user);
-        return iUserTokenCacheService.save(loginUserContext);
+        LoginUserResponse loginUserResponse = buildLoginUserContext(user);
+        return iUserTokenCacheService.save(loginUserResponse);
     }
 
-    private com.kt.component.context.LoginUserContext buildLoginUserContext(IamUser iamUser) {
-        LoginUserContext loginUserContext = new LoginUserContext();
-        loginUserContext.setUserId(iamUser.getId());
-        loginUserContext.setUserCode(iamUser.getCode());
-        loginUserContext.setUsername(iamUser.getName());
-        loginUserContext.setIsSuperAdmin(UserConst.SUPER_ADMIN.equals(iamUser.getCode()));
-        return loginUserContext;
+    private LoginUserResponse buildLoginUserContext(IamUser iamUser) {
+        LoginUserResponse loginUserResponse = new LoginUserResponse();
+        loginUserResponse.setUserId(iamUser.getId());
+        loginUserResponse.setUserCode(iamUser.getCode());
+        loginUserResponse.setUsername(iamUser.getName());
+        loginUserResponse.setIsSuperAdmin(UserConst.SUPER_ADMIN.equals(iamUser.getCode()));
+        return loginUserResponse;
     }
 
 

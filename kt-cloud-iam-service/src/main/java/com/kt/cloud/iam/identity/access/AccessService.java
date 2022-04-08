@@ -3,7 +3,7 @@ package com.kt.cloud.iam.identity.access;
 import com.kt.cloud.iam.api.access.request.ApiAccessRequest;
 import com.kt.cloud.iam.api.access.response.ApiAccessResponse;
 import com.kt.cloud.iam.api.access.response.UserResponse;
-import com.kt.cloud.iam.api.user.permission.response.LoginUserContext;
+import com.kt.cloud.iam.api.user.permission.response.LoginUserResponse;
 import com.kt.cloud.iam.data.api.cache.ApiCacheHolder;
 import com.kt.cloud.iam.data.api.support.ApiCommonUtils;
 import com.kt.cloud.iam.data.application.service.IApplicationService;
@@ -68,7 +68,7 @@ public class AccessService {
         checkAccessTokenIsEmpty(accessToken);
 
         // 检查登录用户缓存
-        LoginUserContext userContext = iUserTokenCacheService.get(accessToken);
+        LoginUserResponse userContext = iUserTokenCacheService.get(accessToken);
         checkLoginUser(userContext);
 
         // 检查API是否只需认证
@@ -92,7 +92,7 @@ public class AccessService {
         ParamsChecker.throwIfIsTrue(!hasApiPermission, accessDeniedException);
     }
 
-    private void checkLoginUser(LoginUserContext userContext) {
+    private void checkLoginUser(LoginUserResponse userContext) {
         ParamsChecker.throwIfIsNull(userContext, tokenInvalidException);
     }
 
@@ -100,7 +100,7 @@ public class AccessService {
         ParamsChecker.throwIfIsEmpty(accessToken, tokenBlankException);
     }
 
-    private UserResponse convertToUserResponse(LoginUserContext userContext) {
+    private UserResponse convertToUserResponse(LoginUserResponse userContext) {
         UserResponse userResponse = new UserResponse();
         userResponse.setUserId(userContext.getUserId());
         userResponse.setUserCode(userContext.getUserCode());

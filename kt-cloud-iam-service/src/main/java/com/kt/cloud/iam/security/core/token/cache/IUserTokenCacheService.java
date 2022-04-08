@@ -1,18 +1,18 @@
 package com.kt.cloud.iam.security.core.token.cache;
 
-import com.kt.cloud.iam.api.user.permission.response.LoginUserContext;
+import com.kt.cloud.iam.api.user.permission.response.LoginUserResponse;
 
 /**
  * 用户Token缓存
  */
 public interface IUserTokenCacheService {
 
-    UserCacheInfo save(com.kt.component.context.LoginUserContext value);
+    UserCacheInfo save(LoginUserResponse value);
 
     void remove(String accessToken);
 
     void remove(Long userId);
 
-    LoginUserContext get(String accessToken);
+    LoginUserResponse get(String accessToken);
 
 }

@@ -6,7 +6,7 @@ import lombok.Data;
  * 登录信息信息
  */
 @Data
-public class LoginUserContext {
+public class LoginUserResponse {
 
     private Long userId;
     private String userCode;

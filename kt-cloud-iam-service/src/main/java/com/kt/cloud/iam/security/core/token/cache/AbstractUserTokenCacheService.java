@@ -1,7 +1,7 @@
 package com.kt.cloud.iam.security.core.token.cache;
 
 import com.alibaba.fastjson.JSONObject;
-import com.kt.cloud.iam.api.user.permission.response.LoginUserContext;
+import com.kt.cloud.iam.api.user.permission.response.LoginUserResponse;
 import com.kt.cloud.iam.security.core.common.RedisKeyConst;
 import com.kt.cloud.iam.security.core.token.generate.UserTokenGenerator;
 import lombok.extern.slf4j.Slf4j;
@@ -30,20 +30,20 @@ public abstract class AbstractUserTokenCacheService implements IUserTokenCacheSe
 
     @Override
     public final void remove(String accessToken) {
-        LoginUserContext loginUserContext = get(accessToken);
-        if (loginUserContext != null) {
+        LoginUserResponse loginUserResponse = get(accessToken);
+        if (loginUserResponse != null) {
             removeCache(createAccessTokenKey(accessToken));
-            removeCache(createUserIdKey(loginUserContext.getUserId()));
+            removeCache(createUserIdKey(loginUserResponse.getUserId()));
         }
     }
 
     @Override
-    public final LoginUserContext get(String accessToken) {
+    public final LoginUserResponse get(String accessToken) {
         Object cache = getCache(createAccessTokenKey(accessToken));
         if (cache == null) {
             return null;
         }
-        return JSONObject.parseObject((String) cache, LoginUserContext.class);
+        return JSONObject.parseObject((String) cache, LoginUserResponse.class);
     }
 
     @Override
@@ -56,7 +56,7 @@ public abstract class AbstractUserTokenCacheService implements IUserTokenCacheSe
     }
 
     @Override
-    public final UserCacheInfo save(com.kt.component.context.LoginUserContext userContext) {
+    public final UserCacheInfo save(LoginUserResponse userContext) {
         String accessToken = genAccessToken();
         saveCache(createAccessTokenKey(accessToken), JSONObject.toJSONString(userContext), expires);
         saveCache(createUserIdKey(userContext.getUserId()), accessToken, expires);
@@ -73,8 +73,8 @@ public abstract class AbstractUserTokenCacheService implements IUserTokenCacheSe
     }
 
     private boolean checkAccessTokenIsNotExists(String accessToken) {
-        LoginUserContext loginUserContext = get(accessToken);
-        return loginUserContext == null;
+        LoginUserResponse loginUserResponse = get(accessToken);
+        return loginUserResponse == null;
     }
 
 
