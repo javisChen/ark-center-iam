@@ -6,7 +6,7 @@ docker build -f ./kt-cloud-iam-start/Dockerfile -t kt-cloud-iam:v1 ./kt-cloud-ia
 ```
 ## Docker Run
 ```shell
-docker run --name kt-cloud-iam -d -p 8083:8080 \
+docker run -p 8080:8080 --name kt-cloud-iam -d \
 -e NACOS_DISCOVERY_IP=172.24.80.20 \
 -e DISCOVERY_SERVER_ADDR=172.24.80.20:8848 \
 -e NACOS_CONFIG_SERVER_ADDR=172.24.80.20:8848 \
