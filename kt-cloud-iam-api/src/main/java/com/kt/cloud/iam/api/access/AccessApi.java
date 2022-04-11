@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
-        value = "${kt.cloud.iam.service.name:iam123}",
+        name = "${kt.cloud.iam.service.name:iam}",
         path = "/v1/access",
-        url = "${kt.cloud.iam.authentication.url:}",
+        url = "${kt.cloud.iam.service.uri:}",
         decode404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
