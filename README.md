@@ -1,7 +1,18 @@
-# 介绍
+# 运行
 
-## 有可能是最用心的分布式权限中心
-
+## Docker Build
+```shell
+docker build -f ./kt-cloud-iam-start/Dockerfile -t kt-cloud-iam:v1 ./kt-cloud-iam-start
+```
+## Docker Run
+```shell
+docker run --name kt-cloud-iam -d -p 8082:8080 \
+-e SPRING.CLOUD.NACOS.DISCOVERY.IP=172.24.80.20 \
+-e DISCOVERY-SERVER-ADDR=172.24.80.20:8848 \
+-e CONFIG-SERVER-ADDR=172.24.80.20:8848 \
+-e SYS_OPT=-DSpring.profiles.active=dev \
+kt-cloud-iam:v1
+```
 # 作用
 
 基于RBAC（Role-Based Access Control）模型下沉的通用权限体系系统，可满足98%的Web应用系统。 整体围绕着用户、角色、权限三个实体进行实现。控制粒度达到页面按钮级。
