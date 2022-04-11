@@ -1,10 +1,6 @@
 FROM openjdk:17-oraclelinux8
-
 WORKDIR /app
-
-COPY ./target/kt-cloud-iam-web-1.0.0-SNAPSHOT.jar /app
-
+COPY ./target/kt-cloud-iam.jar /app
 EXPOSE 8080
-
-CMD ["java", "-jar", "/app/kt-cloud-iam-web-1.0.0-SNAPSHOT.jar"]
-#ENTRYPOINT "echo $PATH"
+ENV SYS_OPT=""
+ENTRYPOINT java $SYS_OPT -jar /app/kt-cloud-iam.jar
