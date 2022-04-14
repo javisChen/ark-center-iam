@@ -1,6 +1,7 @@
 package com.kt.cloud.iam.data.route.service;
 
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -52,13 +53,15 @@ public class PageElementServiceImpl extends ServiceImpl<IamPageElementMapper, Ia
 
     @Override
     public void batchSavePageElement(Long routeId, List<RouteUpdateDTO.Element> elements) {
-        elements.forEach(item -> {
-            PageElementUpdateDTO dto = new PageElementUpdateDTO();
-            dto.setRouteId(routeId);
-            dto.setName(item.getName());
-            dto.setType(item.getType());
-            this.savePageElement(dto);
-        });
+        if (CollectionUtil.isNotEmpty(elements)) {
+            for (RouteUpdateDTO.Element item : elements) {
+                PageElementUpdateDTO dto = new PageElementUpdateDTO();
+                dto.setRouteId(routeId);
+                dto.setName(item.getName());
+                dto.setType(item.getType());
+                this.savePageElement(dto);
+            }
+        }
     }
 
     @Override

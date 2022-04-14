@@ -20,10 +20,7 @@ import com.kt.cloud.iam.data.route.vo.RouteDetailVO;
 import com.kt.cloud.iam.data.route.vo.RouteElementVO;
 import com.kt.cloud.iam.data.route.vo.RouteListTreeVO;
 import com.kt.cloud.iam.data.user.vo.UserPermissionRouteNavVO;
-import com.kt.cloud.iam.enums.BizEnums;
-import com.kt.cloud.iam.enums.DeletedEnums;
-import com.kt.cloud.iam.enums.PermissionTypeEnums;
-import com.kt.cloud.iam.enums.RouteStatusEnums;
+import com.kt.cloud.iam.enums.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -390,7 +387,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
         meta.setIcon(item.getIcon());
         meta.setTitle(item.getName());
         meta.setHideChildren(item.getHideChildren());
-        meta.setShow(item.getStatus().equals(RouteStatusEnums.ENABLED.getValue()));
+        meta.setShow(!item.getType().equals(RouteTypeEnums.PAGE_HIDDEN.getValue()));
         return meta;
     }
 
