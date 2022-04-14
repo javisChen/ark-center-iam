@@ -47,7 +47,7 @@ public class IamRoute extends BaseEntity {
     private String component;
 
     /**
-     * 路由类型 1：菜单路由 2：页面路由
+     * 路由类型 1：菜单路由 2：页面路由 3:页面隐藏路由
      */
     @TableField("type")
     private Integer type;

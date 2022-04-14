@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.kt.cloud.iam.common.util.Assert;
 import com.kt.cloud.iam.dao.entity.IamPageElement;
 import com.kt.cloud.iam.dao.entity.IamRoute;
@@ -364,7 +365,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     public List<UserPermissionRouteNavVO> getRouteVOSByIds(List<Long> routeIds) {
         LambdaQueryWrapper<IamRoute> qw = new LambdaQueryWrapper<>();
         qw.in(IamRoute::getId, routeIds);
-        qw.orderByAsc(IamRoute::getLevel, IamRoute::getSequence);
+        qw.orderByAsc(Lists.newArrayList(IamRoute::getLevel, IamRoute::getSequence));
         return this.list(qw).stream()
                 .map(this::convertToUserRouteVO)
                 .collect(Collectors.toList());

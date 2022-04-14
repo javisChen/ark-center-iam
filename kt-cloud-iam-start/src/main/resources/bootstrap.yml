@@ -8,7 +8,7 @@ spring:
         server-addr: ${discovery-server-addr}
         namespace: ${nacos-discovery-namespace}
         group: ${nacos-discovery-group}
-        ip: ${nacos-discovery-ip}
+        ip: ${nacos-discovery-ip:}
       config:
         enabled: ${nacos-config-enabled}
         server-addr: ${config-server-addr}
@@ -28,7 +28,7 @@ spring:
 # 本地开发环境，默认关闭服务注册以及关闭读取远程配置
 spring:
   profiles: local
-nacos-discovery-ip: ${NACOS_DISCOVERY_IP:}
+nacos-discovery-ip: ${NACOS_DISCOVERY_IP:127.0.0.1}
 nacos-discovery-namespace: ${NACOS_DISCOVERY_NAMESPACE:aaff0c75-80b1-4c85-ad3f-c625501368ba}
 nacos-config-namespace: ${NACOS_CONFIG_NAMESPACE:aaff0c75-80b1-4c85-ad3f-c625501368ba}
 discovery-server-addr: ${NACOS_DISCOVERY_SERVER_ADDR:127.0.0.1:8848}
