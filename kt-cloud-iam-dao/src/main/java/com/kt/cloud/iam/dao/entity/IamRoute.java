@@ -104,8 +104,4 @@ public class IamRoute extends BaseEntity {
     @TableLogic
     private Long isDeleted;
 
-    @Override
-    public void setId(Long id) {
-        super.setId(id);
-    }
 }
