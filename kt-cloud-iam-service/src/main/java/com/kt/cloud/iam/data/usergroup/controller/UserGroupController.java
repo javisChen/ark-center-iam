@@ -35,7 +35,7 @@ public class UserGroupController extends BaseController {
 
     @PostMapping("/usergroups")
     public SingleResponse<PageResponse<UserGroupListTreeVO>> list(@RequestBody UserGroupQueryDTO dto) {
-        return SingleResponse.ok(PageResponse.build(iUserGroupService.pageList(dto)));
+        return SingleResponse.ok(PageResponse.of(iUserGroupService.pageList(dto)));
     }
 
     @GetMapping("/usergroups/all")

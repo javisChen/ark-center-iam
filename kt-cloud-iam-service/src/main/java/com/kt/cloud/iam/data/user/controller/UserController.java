@@ -46,7 +46,7 @@ public class UserController extends BaseController {
      */
     @PostMapping("/users")
     public SingleResponse<PageResponse<UserPageListVO>> list(@RequestBody UserPageListSearchDTO pageRequest) {
-        return SingleResponse.ok(PageResponse.build(iUserService.pageList(pageRequest)));
+        return SingleResponse.ok(PageResponse.of(iUserService.pageList(pageRequest)));
     }
 
     /**

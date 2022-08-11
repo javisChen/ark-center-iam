@@ -43,7 +43,7 @@ public class RouteController extends BaseController {
     @PostMapping("/routes")
     public SingleResponse<PageResponse<RouteListTreeVO>> listPage(@RequestBody RouteQueryDTO dto) {
         Page<RouteListTreeVO> routeListTreeVOPage = iRouteService.pageList(dto);
-        return SingleResponse.ok(PageResponse.build(routeListTreeVOPage));
+        return SingleResponse.ok(PageResponse.of(routeListTreeVOPage));
     }
 
     @PostMapping("/routes/all")

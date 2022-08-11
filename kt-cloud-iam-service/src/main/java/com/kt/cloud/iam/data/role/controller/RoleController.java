@@ -37,7 +37,7 @@ public class RoleController extends BaseController {
 
     @PostMapping("/roles")
     public SingleResponse<PageResponse<RoleListVO>> list(@RequestBody RoleQueryDTO dto) {
-        return SingleResponse.ok(PageResponse.build(iRoleService.pageList(dto)));
+        return SingleResponse.ok(PageResponse.of(iRoleService.pageList(dto)));
     }
 
     @GetMapping("/roles/all")
