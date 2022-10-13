@@ -2,16 +2,16 @@
 
 ## Docker Build
 ```shell
-docker build -f ./kt-cloud-iam-start/Dockerfile -t kt-cloud-iam:v1 ./kt-cloud-iam-start
+docker build -f ./ark-center-iam-start/Dockerfile -t ark-center-iam:v1 ./ark-center-iam-start
 ```
 ## Docker Run
 ```shell
-docker run -p 8080:8080 --name kt-cloud-iam -d \
+docker run -p 8080:8080 --name ark-center-iam -d \
 -e NACOS_DISCOVERY_IP=172.24.80.20 \
 -e DISCOVERY_SERVER_ADDR=172.24.80.20:8848 \
 -e NACOS_CONFIG_SERVER_ADDR=172.24.80.20:8848 \
 -e SYS_OPT=-DSpring.profiles.active=dev \
-kt-cloud-iam:v1
+ark-center-iam:v1
 ```
 # 作用
 
@@ -24,8 +24,8 @@ kt-cloud-iam:v1
 
 ```
 ├── asserts         -- 项目资源（sql等）
-├── kt-cloud-iam-auth    -- 认证模块
-├── kt-cloud-iam-web     -- 权限系统运行模块
+├── ark-center-iam-auth    -- 认证模块
+├── ark-center-iam-web     -- 权限系统运行模块
 └── pom.xml
 
 ```
@@ -36,7 +36,7 @@ kt-cloud-iam:v1
 
 ## ER图
 
-![](asserts/kt-cloud-iam-er.png)
+![](asserts/ark-center-iam-er.png)
 
 ## 表说明
 
