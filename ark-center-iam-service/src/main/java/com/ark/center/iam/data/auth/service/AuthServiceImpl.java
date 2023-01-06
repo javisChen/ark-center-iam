@@ -31,8 +31,6 @@ public class AuthServiceImpl implements IAuthService {
     @Autowired
     private AccessTokenExtractor tokenExtractor;
     @Autowired
-    private SecurityCoreProperties coreProperties;
-    @Autowired
     private IUserService iUserService;
     @Autowired
     private PasswordEncoder passwordEncoder;

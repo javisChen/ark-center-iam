@@ -6,7 +6,6 @@ import com.ark.center.iam.api.access.response.UserResponse;
 import com.ark.center.iam.api.user.permission.response.LoginUserResponse;
 import com.ark.center.iam.data.api.cache.ApiCacheHolder;
 import com.ark.center.iam.data.api.support.ApiCommonUtils;
-import com.ark.center.iam.data.application.service.IApplicationService;
 import com.ark.center.iam.data.user.service.IUserPermissionService;
 import com.ark.center.iam.security.configuration.SecurityCoreProperties;
 import com.ark.center.iam.security.core.token.cache.IUserTokenCacheService;
@@ -27,7 +26,7 @@ public class AccessService {
     private final SecurityCoreProperties securityCoreProperties;
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
     private final ApiCacheHolder apiCacheHolder;
-    private final IApplicationService iApplicationService;
+
     private final IUserPermissionService iUserPermissionService;
     private final IUserTokenCacheService iUserTokenCacheService;
 
@@ -41,10 +40,8 @@ public class AccessService {
     public AccessService(IUserPermissionService iUserPermissionService,
                          SecurityCoreProperties securityCoreProperties,
                          ApiCacheHolder apiCacheHolder,
-                         IApplicationService iApplicationService,
                          IUserTokenCacheService iUserTokenCacheService) {
         this.apiCacheHolder = apiCacheHolder;
-        this.iApplicationService = iApplicationService;
         this.iUserPermissionService = iUserPermissionService;
         this.securityCoreProperties = securityCoreProperties;
         this.iUserTokenCacheService = iUserTokenCacheService;

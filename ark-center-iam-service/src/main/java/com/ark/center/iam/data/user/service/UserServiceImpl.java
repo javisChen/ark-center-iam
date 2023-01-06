@@ -66,7 +66,7 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
     private IUserGroupService iUserGroupService;
 
     @Override
-    @Transactional(rollbackFor = Exception.class, timeout = 20000)
+    @Transactional(rollbackFor = Throwable.class, timeout = 20000)
     public void saveUser(UserUpdateDTO dto) {
         IamUser iamUser = beanConverter.convertToUserDO(dto);
 
