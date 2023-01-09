@@ -2,6 +2,7 @@ package com.ark.center.iam.security.core.token.cache;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ark.center.iam.api.user.permission.response.LoginUserResponse;
+import com.ark.center.iam.common.constants.SecurityConstants;
 import com.ark.center.iam.security.core.common.RedisKeyConst;
 import com.ark.center.iam.security.core.token.generate.UserTokenGenerator;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +18,6 @@ public abstract class AbstractUserTokenCacheService implements IUserTokenCacheSe
     public AbstractUserTokenCacheService(UserTokenGenerator userTokenGenerator) {
         this.userTokenGenerator = userTokenGenerator;
     }
-
-    private final int expires = (60 * 60 * 24 * 7) * 1000;
 
     private String createAccessTokenKey(String accessToken) {
         return RedisKeyConst.LOGIN_USER_ACCESS_TOKEN_KEY_PREFIX + accessToken;
@@ -57,13 +56,13 @@ public abstract class AbstractUserTokenCacheService implements IUserTokenCacheSe
 
     @Override
     public final UserCacheInfo save(LoginUserResponse userContext) {
-        String accessToken = genAccessToken();
-        saveCache(createAccessTokenKey(accessToken), JSONObject.toJSONString(userContext), expires);
-        saveCache(createUserIdKey(userContext.getUserId()), accessToken, expires);
-        return new UserCacheInfo(accessToken, expires);
+        String accessToken = generateAccessToken();
+        saveCache(createAccessTokenKey(accessToken), JSONObject.toJSONString(userContext), SecurityConstants.TOKEN_EXPIRES_SECONDS);
+        saveCache(createUserIdKey(userContext.getUserId()), accessToken, SecurityConstants.TOKEN_EXPIRES_SECONDS);
+        return new UserCacheInfo(accessToken, SecurityConstants.TOKEN_EXPIRES_SECONDS);
     }
 
-    private String genAccessToken() {
+    private String generateAccessToken() {
         String accessToken;
         // 防止重复
         do {

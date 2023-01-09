@@ -1,17 +1,17 @@
 package com.ark.center.iam.security.core.token.generate;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.security.core.token.generate.UserTokenGenerator;
+import com.ark.center.iam.common.constants.SecurityConstants;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.ark.center.iam.security.core.model.LoginUserDetails;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
-import java.util.Map;
 
 public class JwtUserTokenGenerator implements UserTokenGenerator {
-
-    private final String secret = "*$Y4F*$BdC4&tZJh";
 
     @Override
     public String generate() {
@@ -19,18 +19,22 @@ public class JwtUserTokenGenerator implements UserTokenGenerator {
     }
 
     public static void main(String[] args) {
-        JWT.create()
+        int tokenExpires = SecurityConstants.TOKEN_EXPIRES_SECONDS;
+        System.out.println(tokenExpires);
+        LocalDateTime temporal = LocalDateTime.now().plusSeconds(tokenExpires);
+        String sign = JWT.create()
                 .withClaim("userid", 1)//添加payload
-                .withExpiresAt()
+                .withExpiresAt(temporal.atZone(ZoneId.systemDefault()).toInstant())
 //                .withClaim("username", userDB.getUsername())
 //                .withClaim("email", userDB.getEmail())
 //                .withExpiresAt()//
-                .withAudience(loginUserDetails.getUserCode())
-                .withNotBefore(now) // 生效时间
-                .withIssuedAt(now) // 签发时间
+//                .withAudience(loginUserDetails.getUserCode())
+//                .withNotBefore(now) // 生效时间
+//                .withIssuedAt(now) // 签发时间
                 .withJWTId(StrUtil.uuid()) // 编号
                 .withIssuer("IAM") // 签发人
-                .sign(Algorithm.HMAC256(secret));//设置签名 密钥
+                .sign(Algorithm.HMAC256(SecurityConstants.JWT_SIGN_SECRET));//设置签名 密钥
+        System.out.println(sign);
     }
 
 //    @Override

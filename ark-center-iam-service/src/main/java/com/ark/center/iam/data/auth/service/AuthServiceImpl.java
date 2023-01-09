@@ -81,7 +81,7 @@ public class AuthServiceImpl implements IAuthService {
 
 
     private void doCheck(AuthLoginReqDTO authLoginDTO, IamUser user) {
-        String saltPwd = DigestUtil.md5Hex(authLoginDTO.getPassword()) + SecurityConstants.USER_SALT;
+        String saltPwd = DigestUtil.md5Hex(authLoginDTO.getPassword()) + SecurityConstants.PASSWORD_SALT;
         if (Objects.isNull(user) || !this.passwordEncoder.matches(saltPwd, user.getPassword())) {
             throw ExceptionFactory.userException("用户名或密码错误");
         }
