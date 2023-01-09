@@ -2,14 +2,13 @@ package com.ark.center.iam.data.auth.service;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import com.ark.center.iam.api.user.permission.response.LoginUserResponse;
-import com.ark.center.iam.common.constants.IamConsts;
+import com.ark.center.iam.common.constants.SecurityConstants;
 import com.ark.center.iam.dao.entity.IamUser;
 import com.ark.center.iam.data.auth.dto.AuthKickDTO;
 import com.ark.center.iam.data.auth.dto.AuthLoginReqDTO;
 import com.ark.center.iam.data.auth.dto.AuthLoginRespDTO;
 import com.ark.center.iam.data.user.common.UserConst;
 import com.ark.center.iam.data.user.service.IUserService;
-import com.ark.center.iam.security.configuration.SecurityCoreProperties;
 import com.ark.center.iam.security.core.token.cache.IUserTokenCacheService;
 import com.ark.center.iam.security.core.token.cache.UserCacheInfo;
 import com.ark.component.context.core.token.AccessTokenExtractor;
@@ -82,7 +81,7 @@ public class AuthServiceImpl implements IAuthService {
 
 
     private void doCheck(AuthLoginReqDTO authLoginDTO, IamUser user) {
-        String saltPwd = DigestUtil.md5Hex(authLoginDTO.getPassword()) + IamConsts.USER_SALT;
+        String saltPwd = DigestUtil.md5Hex(authLoginDTO.getPassword()) + SecurityConstants.USER_SALT;
         if (Objects.isNull(user) || !this.passwordEncoder.matches(saltPwd, user.getPassword())) {
             throw ExceptionFactory.userException("用户名或密码错误");
         }
