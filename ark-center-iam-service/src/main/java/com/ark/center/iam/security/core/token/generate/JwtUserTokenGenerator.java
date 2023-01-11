@@ -1,21 +1,31 @@
 package com.ark.center.iam.security.core.token.generate;
 
-import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ark.center.iam.api.user.permission.response.LoginUserResponse;
 import com.ark.center.iam.common.constants.SecurityConstants;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 
 public class JwtUserTokenGenerator implements UserTokenGenerator {
 
     @Override
-    public String generate() {
-        return null;
+    public String generate(LoginUserResponse userContext) {
+        String sign = JWT.create()
+                .withClaim("userId", userContext.getUserId())
+                .withClaim("username", userContext.getUsername())
+                .withExpiresAt(LocalDateTime.now().plusSeconds(SecurityConstants.TOKEN_EXPIRES_SECONDS).atZone(ZoneId.systemDefault()).toInstant())
+//                .withClaim("email", userDB.getEmail())
+//                .withExpiresAt()//
+//                .withAudience(loginUserDetails.getUserCode())
+//                .withNotBefore(now) // 生效时间
+//                .withIssuedAt(now) // 签发时间
+                .withJWTId(StrUtil.uuid()) // 编号
+                .withIssuer("IAM") // 签发人
+                .sign(Algorithm.HMAC256(SecurityConstants.JWT_SIGN_SECRET));//设置签名 密钥
+        return sign;
     }
 
     public static void main(String[] args) {

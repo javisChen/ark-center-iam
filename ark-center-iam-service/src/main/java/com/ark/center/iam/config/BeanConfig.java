@@ -1,5 +1,6 @@
 package com.ark.center.iam.config;
 
+import com.ark.center.iam.security.core.token.generate.JwtUserTokenGenerator;
 import com.ark.center.iam.security.core.token.generate.UUIDUserTokenGenerator;
 import com.ark.center.iam.security.core.token.generate.UserTokenGenerator;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +13,7 @@ public class BeanConfig {
 
     @Bean
     public UserTokenGenerator userTokenGenerator() {
-        return new UUIDUserTokenGenerator();
+        return new JwtUserTokenGenerator();
     }
 
     @Bean

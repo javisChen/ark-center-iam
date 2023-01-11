@@ -56,17 +56,17 @@ public abstract class AbstractUserTokenCacheService implements IUserTokenCacheSe
 
     @Override
     public final UserCacheInfo save(LoginUserResponse userContext) {
-        String accessToken = generateAccessToken();
+        String accessToken = generateAccessToken(userContext);
         saveCache(createAccessTokenKey(accessToken), JSONObject.toJSONString(userContext), SecurityConstants.TOKEN_EXPIRES_SECONDS);
         saveCache(createUserIdKey(userContext.getUserId()), accessToken, SecurityConstants.TOKEN_EXPIRES_SECONDS);
         return new UserCacheInfo(accessToken, SecurityConstants.TOKEN_EXPIRES_SECONDS);
     }
 
-    private String generateAccessToken() {
+    private String generateAccessToken(LoginUserResponse userContext) {
         String accessToken;
         // 防止重复
         do {
-            accessToken = userTokenGenerator.generate();
+            accessToken = userTokenGenerator.generate(userContext);
         } while (!checkAccessTokenIsNotExists(accessToken));
         return accessToken;
     }
