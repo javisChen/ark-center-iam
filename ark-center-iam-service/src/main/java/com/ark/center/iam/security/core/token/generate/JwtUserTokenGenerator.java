@@ -5,27 +5,32 @@ import com.ark.center.iam.api.user.permission.response.LoginUserResponse;
 import com.ark.center.iam.common.constants.SecurityConstants;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.impl.JWTParser;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Map;
 
 public class JwtUserTokenGenerator implements UserTokenGenerator {
 
     @Override
     public String generate(LoginUserResponse userContext) {
-        String sign = JWT.create()
+        LocalDateTime now = LocalDateTime.now();
+        Instant nowInstant = now.atZone(ZoneId.systemDefault()).toInstant();
+        return JWT.create()
+                .withClaim("userCode", userContext.getUserCode())
                 .withClaim("userId", userContext.getUserId())
                 .withClaim("username", userContext.getUsername())
-                .withExpiresAt(LocalDateTime.now().plusSeconds(SecurityConstants.TOKEN_EXPIRES_SECONDS).atZone(ZoneId.systemDefault()).toInstant())
-//                .withClaim("email", userDB.getEmail())
-//                .withExpiresAt()//
-//                .withAudience(loginUserDetails.getUserCode())
-//                .withNotBefore(now) // 生效时间
-//                .withIssuedAt(now) // 签发时间
-                .withJWTId(StrUtil.uuid()) // 编号
-                .withIssuer("IAM") // 签发人
-                .sign(Algorithm.HMAC256(SecurityConstants.JWT_SIGN_SECRET));//设置签名 密钥
-        return sign;
+                .withExpiresAt(now.plusSeconds(SecurityConstants.TOKEN_EXPIRES_SECONDS).atZone(ZoneId.systemDefault()).toInstant())
+                .withNotBefore(nowInstant)
+                .withIssuedAt(nowInstant)
+                .withJWTId(StrUtil.uuid())
+                .withIssuer("IAM")
+                .sign(Algorithm.HMAC256(SecurityConstants.JWT_SIGN_SECRET));
     }
 
     public static void main(String[] args) {
@@ -44,7 +49,10 @@ public class JwtUserTokenGenerator implements UserTokenGenerator {
                 .withJWTId(StrUtil.uuid()) // 编号
                 .withIssuer("IAM") // 签发人
                 .sign(Algorithm.HMAC256(SecurityConstants.JWT_SIGN_SECRET));//设置签名 密钥
-        System.out.println(sign);
+        DecodedJWT decode = JWT.decode(sign);
+        String header = decode.getHeader();
+        Map<String, Claim> claims = decode.getClaims();
+        System.out.println(claims);
     }
 
 //    @Override
