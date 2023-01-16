@@ -42,7 +42,7 @@ public class UserBeanConverter {
         UserPageListVO userListVO = new UserPageListVO();
         userListVO.setId(iamUser.getId());
         userListVO.setPhone(iamUser.getPhone());
-        userListVO.setName(iamUser.getName());
+        userListVO.setName(iamUser.getUserName());
         userListVO.setStatus(iamUser.getStatus());
         userListVO.setRoles(roles);
         userListVO.setUserGroups(userGroups);
@@ -54,7 +54,7 @@ public class UserBeanConverter {
         Long userId = user.getId();
         vo.setId(userId);
         vo.setPhone(user.getPhone());
-        vo.setName(user.getName());
+        vo.setName(user.getUserName());
         vo.setStatus(user.getStatus());
         vo.setRoleIds(iRoleService.getRoleIdsByUserId(userId));
         vo.setUserGroupIds(iUserGroupService.getUserGroupIdsByUserId(userId));
@@ -70,7 +70,7 @@ public class UserBeanConverter {
     public IamUser convertToUserDO(UserUpdateDTO dto) {
         IamUser iamUser = new IamUser();
         iamUser.setId(dto.getId());
-        iamUser.setName(dto.getName());
+        iamUser.setUserName(dto.getName());
         iamUser.setPhone(dto.getPhone());
         iamUser.setPassword(dto.getPassword());
         iamUser.setStatus(dto.getStatus());
@@ -84,7 +84,7 @@ public class UserBeanConverter {
     public IamUser convertToUpdateUserDO(UserUpdateDTO dto) {
         IamUser iamUser = new IamUser();
         iamUser.setId(dto.getId());
-        iamUser.setName(dto.getName());
+        iamUser.setUserName(dto.getName());
         iamUser.setPhone(dto.getPhone());
         iamUser.setPassword(dto.getPassword());
         iamUser.setStatus(dto.getStatus());

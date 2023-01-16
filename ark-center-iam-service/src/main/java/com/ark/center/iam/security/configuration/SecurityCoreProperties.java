@@ -19,12 +19,6 @@ import java.util.List;
 public class SecurityCoreProperties {
 
     /**
-     * 认证配置
-     */
-    @NestedConfigurationProperty
-    private AccessTokenProperties authentication = new AccessTokenProperties();
-
-    /**
      * 放行名单
      */
     private List<String> allowList = new ArrayList<>();

@@ -10,7 +10,7 @@ public class UserResponse {
 
     private Long userId;
     private String userCode;
-    private String username;
+    private String userName;
     private String accessToken;
     private Long expires;
     private Boolean isSuperAdmin;

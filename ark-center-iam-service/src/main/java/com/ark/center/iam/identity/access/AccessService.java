@@ -101,7 +101,7 @@ public class AccessService {
         UserResponse userResponse = new UserResponse();
         userResponse.setUserId(userContext.getUserId());
         userResponse.setUserCode(userContext.getUserCode());
-        userResponse.setUsername(userContext.getUsername());
+        userResponse.setUserName(userContext.getUserName());
         userResponse.setAccessToken(userContext.getAccessToken());
         userResponse.setExpires(userContext.getExpires());
         userResponse.setIsSuperAdmin(userContext.getIsSuperAdmin());

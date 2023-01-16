@@ -14,6 +14,7 @@ public interface SecurityConstants {
      * TOKEN过期时间（秒）
      */
     int TOKEN_EXPIRES_SECONDS = 60 * 60 * 24 * 7;
+//    int TOKEN_EXPIRES_SECONDS = 20;
 
     /**
      * JWT签名Secret

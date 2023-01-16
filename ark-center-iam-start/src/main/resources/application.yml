@@ -40,7 +40,6 @@ ark:
       - /iam/user/permission/check
       - /iam/alert/*
       - /iam/docker
-
 logging:
   level:
     root: info

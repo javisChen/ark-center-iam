@@ -11,9 +11,9 @@ import com.ark.center.iam.data.user.common.UserConst;
 import com.ark.center.iam.data.user.service.IUserService;
 import com.ark.center.iam.security.core.token.cache.IUserTokenCacheService;
 import com.ark.center.iam.security.core.token.cache.UserCacheInfo;
-import com.ark.component.context.core.token.AccessTokenExtractor;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.exception.ExceptionFactory;
+import com.ark.component.security.core.token.extractor.DefaultTokenExtractor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +28,7 @@ public class AuthServiceImpl implements IAuthService {
     @Autowired
     private IUserTokenCacheService iUserTokenCacheService;
     @Autowired
-    private AccessTokenExtractor tokenExtractor;
+    private DefaultTokenExtractor tokenExtractor;
     @Autowired
     private IUserService iUserService;
     @Autowired
@@ -59,7 +59,7 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Override
     public SingleResponse<AuthLoginRespDTO> login(AuthLoginReqDTO authLoginDTO) {
-        IamUser user = iUserService.getUserByPhone(authLoginDTO.getUsername());
+        IamUser user = iUserService.getUserByPhone(authLoginDTO.getUserName());
         doCheck(authLoginDTO, user);
         UserCacheInfo userCacheInfo = cacheAuthentication(user);
         return SingleResponse.ok(new AuthLoginRespDTO(userCacheInfo.getAccessToken()));
@@ -74,7 +74,7 @@ public class AuthServiceImpl implements IAuthService {
         LoginUserResponse loginUserResponse = new LoginUserResponse();
         loginUserResponse.setUserId(iamUser.getId());
         loginUserResponse.setUserCode(iamUser.getCode());
-        loginUserResponse.setUsername(iamUser.getName());
+        loginUserResponse.setUserName(iamUser.getUserName());
         loginUserResponse.setIsSuperAdmin(UserConst.SUPER_ADMIN.equals(iamUser.getCode()));
         return loginUserResponse;
     }

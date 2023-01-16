@@ -2,6 +2,7 @@ package com.ark.center.iam.data.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -139,10 +140,11 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
 
     @Override
     public Page<UserPageListVO> pageList(UserPageListSearchDTO params) {
-        IPage<IamUser> result = this.page(new Page<>(params.getCurrent(), params.getSize()), new QueryWrapper<IamUser>()
-                .like(StrUtil.isNotBlank(params.getPhone()), "phone", params.getPhone())
-                .like(StrUtil.isNotBlank(params.getName()), "name", params.getName())
-                .select("id", "phone", "name", "status"));
+        LambdaQueryWrapper<IamUser> qw = new LambdaQueryWrapper<IamUser>()
+                .like(StrUtil.isNotBlank(params.getPhone()), IamUser::getPhone, params.getPhone())
+                .like(StrUtil.isNotBlank(params.getName()), IamUser::getUserName, params.getName())
+                .select(BaseEntity::getId, IamUser::getPhone, IamUser::getUserName, IamUser::getStatus);
+        IPage<IamUser> result = this.page(new Page<>(params.getCurrent(), params.getSize()), qw);
         List<IamUser> records = result.getRecords();
         List<UserPageListVO> vos = records.stream().map(beanConverter::convertToUserPageListVO).collect(Collectors.toList());
         Page<UserPageListVO> pageVo = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
@@ -204,7 +206,7 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
     @Override
     public IamUser getUserByCode(String userCode) {
         LambdaQueryWrapper<IamUser> qw = new LambdaQueryWrapper<>();
-        qw.select(IamUser::getCode, IamUser::getName, IamUser::getId);
+        qw.select(IamUser::getCode, IamUser::getUserName, IamUser::getId);
         qw.eq(IamUser::getCode, userCode);
         qw.eq(IamUser::getStatus, UserStatusEnums.ENABLED.getValue());
         return this.getOne(qw);

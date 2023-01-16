@@ -23,8 +23,8 @@ public class IamUser extends BaseEntity {
     /**
      * 用户名称
      */
-    @TableField("name")
-    private String name;
+    @TableField("user_name")
+    private String userName;
 
     /**
      * 手机号码
