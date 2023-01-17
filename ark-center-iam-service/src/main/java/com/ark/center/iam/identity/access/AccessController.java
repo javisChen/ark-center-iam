@@ -7,6 +7,9 @@ import com.ark.component.dto.SingleResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 访问权限控制器
  */
@@ -25,4 +28,14 @@ public class AccessController implements AccessApi {
         return SingleResponse.ok(accessService.getApiAccess(request));
     }
 
+    public static void main(String[] args) {
+        List<Byte[]> list = new ArrayList<>();
+        int count = 0;
+        while (true) {
+            //每次增加10M的内存空间
+            list.add(new Byte[1024 * 1024]);
+            count++;
+            System.out.println(count);
+        }
+    }
 }
