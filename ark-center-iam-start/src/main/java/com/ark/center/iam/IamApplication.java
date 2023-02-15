@@ -9,10 +9,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication(scanBasePackages = {"com.ark.center.iam"})
 @EnableFeignClients
 @EnableDiscoveryClient
-public class Application extends ArkWebConfig {
+public class IamApplication extends ArkWebConfig {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(IamApplication.class, args);
     }
 
 }

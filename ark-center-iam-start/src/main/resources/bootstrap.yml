@@ -21,6 +21,8 @@ spring:
           - common-${spring.profiles.active}.yml
       password: ${nacos-username}
       username: ${nacos-password}
+    config:
+      allow-override: ${config-allow-override:true}
   profiles:
     active: local
 
@@ -39,6 +41,8 @@ nacos-discovery-group: ${NACOS_DISCOVERY_GROUP:DEFAULT_GROUP}
 nacos-config-group: ${NACOS_CONFIG_GROUP:DEFAULT_GROUP}
 nacos-discovery-enabled: true
 nacos-config-enabled: true
+# 是否允许远程配置覆盖本地配置
+config-allow-override: false
 ---
 # 开发环境
 spring:

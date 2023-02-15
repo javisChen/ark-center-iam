@@ -39,7 +39,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.ark.center.iam.Application</mainClass>
+                    <mainClass>com.ark.center.iam.IamApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
