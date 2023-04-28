@@ -20,7 +20,7 @@ public class UserService {
         DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl("jdbc:mysql://localhost:3306/kt?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True");
-        dataSource.setPassword("Root1234!@#$");
+        dataSource.setPassword("root");
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUsername("root");
         dataSourceTransactionManager.setDataSource(dataSource);
