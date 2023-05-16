@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
         name = "${ark.center.iam.service.name:iam}",
         path = "/v1/access",
         url = "${ark.center.iam.service.uri:}",
-        decode404 = true,
+        dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
 public interface AccessApi {

@@ -1,11 +1,8 @@
 package com.ark.center.iam.spring;
-import javax.sql.DataSource;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.mysql.cj.jdbc.Driver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;

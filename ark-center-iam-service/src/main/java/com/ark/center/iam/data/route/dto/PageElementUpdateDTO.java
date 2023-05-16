@@ -3,8 +3,8 @@ package com.ark.center.iam.data.route.dto;
 import com.ark.component.validator.ValidateGroup;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @title:

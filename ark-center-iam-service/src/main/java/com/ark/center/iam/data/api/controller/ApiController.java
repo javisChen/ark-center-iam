@@ -20,7 +20,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 import java.util.Map;
 import java.util.Set;
 

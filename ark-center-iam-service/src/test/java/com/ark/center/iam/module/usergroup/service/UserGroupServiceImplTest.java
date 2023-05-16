@@ -3,7 +3,7 @@ package com.ark.center.iam.module.usergroup.service;
 import com.ark.center.iam.data.usergroup.service.UserGroupServiceImpl;
 import com.ark.center.iam.enums.UserGroupInheritTypeEnums;
 import com.ark.center.iam.dao.entity.IamUserGroup;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;

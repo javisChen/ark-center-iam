@@ -15,7 +15,7 @@ import com.ark.center.iam.data.role.vo.RoleListVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 
 /**
  * <p>

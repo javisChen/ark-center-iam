@@ -23,13 +23,9 @@ spring:
       username: ${nacos-password}
     config:
       allow-override: ${config-allow-override:true}
-  profiles:
-    active: local
 
 ---
 # 本地开发环境，默认关闭服务注册以及关闭读取远程配置
-spring:
-  profiles: local
 nacos-discovery-ip: ${NACOS_DISCOVERY_IP:}
 nacos-discovery-namespace: ${NACOS_DISCOVERY_NAMESPACE:aaff0c75-80b1-4c85-ad3f-c625501368ba}
 nacos-config-namespace: ${NACOS_CONFIG_NAMESPACE:aaff0c75-80b1-4c85-ad3f-c625501368ba}
@@ -45,8 +41,6 @@ nacos-config-enabled: true
 config-allow-override: false
 ---
 # 开发环境
-spring:
-  profiles: dev
 nacos-discovery-ip: ${NACOS_DISCOVERY_IP:}
 nacos-discovery-namespace: ${NACOS_DISCOVERY_NAMESPACE:aaff0c75-80b1-4c85-ad3f-c625501368ba}
 nacos-config-namespace: ${NACOS_CONFIG_NAMESPACE:aaff0c75-80b1-4c85-ad3f-c625501368ba}
@@ -61,8 +55,6 @@ nacos-config-enabled: true
 
 ---
 # 集成测试环境
-spring:
-  profiles: sit
 nacos-discovery-ip: ${NACOS_DISCOVERY_IP:}
 nacos-discovery-namespace: ${NACOS_DISCOVERY_NAMESPACE:74ac3a8d-d15e-4f1b-a5cd-112f438c975d}
 nacos-config-namespace: ${NACOS_CONFIG_NAMESPACE:74ac3a8d-d15e-4f1b-a5cd-112f438c975d}

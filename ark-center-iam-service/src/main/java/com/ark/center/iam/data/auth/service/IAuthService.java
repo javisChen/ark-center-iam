@@ -5,7 +5,7 @@ import com.ark.center.iam.data.auth.dto.AuthLoginReqDTO;
 import com.ark.center.iam.data.auth.dto.AuthLoginRespDTO;
 import com.ark.component.dto.SingleResponse;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface IAuthService {
 
