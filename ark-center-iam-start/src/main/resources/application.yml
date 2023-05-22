@@ -20,13 +20,17 @@ spring:
       test-on-borrow: false
       test-on-return: false
       test-while-idle: true
-  redis:
-    host: localhost
-    port: 6379
+    type: com.alibaba.druid.pool.DruidDataSource
+  data:
+    redis:
+      host: localhost
+      port: 6379
   main:
     allow-bean-definition-overriding: true
   profiles:
     active: dev
+  config:
+    import:
 # mybatis
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml

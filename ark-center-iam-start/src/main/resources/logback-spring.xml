@@ -2,6 +2,6 @@
 <configuration>
 
     <!-- 引入公用配置 -->
-    <include resource="com/ark/component/logger/ark-logback-base.xml"/>
+    <include resource="com/ark/component/logging/ark-logback-base.xml"/>
 
 </configuration>

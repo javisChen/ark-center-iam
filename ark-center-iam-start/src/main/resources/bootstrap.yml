@@ -19,11 +19,17 @@ spring:
         refresh-enabled: true
         shared-configs:
           - common-${spring.profiles.active}.yml
+          - druid.yml
       password: ${nacos-username}
       username: ${nacos-password}
     config:
       allow-override: ${config-allow-override:true}
-
+  profiles:
+    active: dev
+    include:
+  main:
+    # 是否允许循环依赖
+    allow-circular-references: true
 ---
 # 本地开发环境，默认关闭服务注册以及关闭读取远程配置
 nacos-discovery-ip: ${NACOS_DISCOVERY_IP:}
