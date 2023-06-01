@@ -20,9 +20,6 @@ spring:
       test-on-borrow: false
       test-on-return: false
       test-while-idle: true
-    type: com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceWrapper
-  main:
-    allow-bean-definition-overriding: true
   data:
     redis:
       host: localhost
