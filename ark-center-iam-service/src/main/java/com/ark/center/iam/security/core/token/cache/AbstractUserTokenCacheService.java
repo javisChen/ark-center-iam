@@ -1,6 +1,6 @@
 package com.ark.center.iam.security.core.token.cache;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.ark.center.iam.api.user.permission.response.LoginUserResponse;
 import com.ark.center.iam.common.constants.SecurityConstants;
 import com.ark.center.iam.security.core.common.RedisKeyConst;

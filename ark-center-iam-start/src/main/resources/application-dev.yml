@@ -8,6 +8,23 @@ spring:
     allow-circular-references: true
     # 当出现同名Bean的时候，允许后面的定义覆盖前面的定义
     allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://mysql.ark.com:3306/iam?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
+    username: root
+    password: root
+    name: defaultDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      initial-size: 10
+      max-active: 100
+      max-open-prepared-statements: 20
+      max-pool-prepared-statement-per-connection-size: 20
+      max-wait: 60000
+      min-idle: 10
+      pool-prepared-statements: true
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
   # 微服务配置
   cloud:
     nacos:
@@ -36,13 +53,10 @@ spring:
       # 允许远程配置覆盖本地配置
       allow-override: ${config-allow-override:true}
   # Spring Config
-  config:
-    activate:
-      on-profile: dev
-    import: optional:nacos:iam.yml
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
-
+user:
+  name: jc
 
 
 ---
