@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class ApiCacheHolder implements InitializingBean {
 
-    @Autowired
-    private IApiService iApiService;
+    private final IApiService iApiService;
 
     /**
      * 无需授权api缓存
@@ -36,8 +35,9 @@ public class ApiCacheHolder implements InitializingBean {
      */
     private List<String> hasPathVariableApiCache;
 
-    private ApiCacheHolder() {
+    private ApiCacheHolder(IApiService iApiService) {
 
+        this.iApiService = iApiService;
     }
 
     public void init() {

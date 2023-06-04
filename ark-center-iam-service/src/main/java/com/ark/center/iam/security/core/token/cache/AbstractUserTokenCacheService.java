@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component
 public abstract class AbstractUserTokenCacheService implements IUserTokenCacheService {
 
     private final UserTokenGenerator userTokenGenerator;
