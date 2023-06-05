@@ -4,12 +4,13 @@ spring:
   application:
     name: iam
   datasource:
+    url: jdbc:mysql://mysql.ark.com:3306/iam?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
+    username: root
+    password: root
+    name: defaultDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://localhost:3306/iam?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
-      username: root
-      password: root
-      name: defaultDataSource
-      driver-class-name: com.mysql.cj.jdbc.Driver
       initial-size: 10
       max-active: 100
       max-open-prepared-statements: 20
