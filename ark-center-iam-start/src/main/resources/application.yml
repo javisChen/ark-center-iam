@@ -38,11 +38,15 @@ spring:
     config:
       # 允许远程配置覆盖本地配置
       allow-override: ${config-allow-override:true}
+      override-none: true
+      override-system-properties: true
   # Spring Config
   config:
     import:
       # 指定从nacos取的配置
       - nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
 
