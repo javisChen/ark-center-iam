@@ -33,15 +33,17 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
-@RequiredArgsConstructor
 public class PermissionServiceImpl extends ServiceImpl<IamPermissionMapper, IamPermission>
         implements IPermissionService {
 
-    private final PermissionBeanConverter beanConverter;
+    @Autowired
+    private PermissionBeanConverter beanConverter;
 
-    private final IApplicationService iApplicationService;
+    @Autowired
+    private IApplicationService iApplicationService;
 
-    private final IamPermissionRoleRelMapper permissionRoleRelMapper;
+    @Autowired
+    private IamPermissionRoleRelMapper permissionRoleRelMapper;
 
     @Override
     public void addPermission(Long resourceId, PermissionTypeEnums permissionTypeEnums) {

@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 @Component
 public class ApiCacheHolder implements InitializingBean {
 
-    private final IApiService iApiService;
+    @Autowired
+    private IApiService iApiService;
 
     /**
      * 无需授权api缓存
@@ -34,11 +35,6 @@ public class ApiCacheHolder implements InitializingBean {
      * 包含路径参数的api缓存
      */
     private List<String> hasPathVariableApiCache;
-
-    private ApiCacheHolder(IApiService iApiService) {
-
-        this.iApiService = iApiService;
-    }
 
     public void init() {
         List<IamApi> apis = iApiService.listAll();
