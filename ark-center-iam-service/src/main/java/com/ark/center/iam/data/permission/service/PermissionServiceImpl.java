@@ -14,6 +14,7 @@ import com.ark.center.iam.dao.entity.IamPermissionRoleRel;
 import com.ark.center.iam.dao.mapper.IamPermissionMapper;
 import com.ark.center.iam.dao.mapper.IamPermissionRoleRelMapper;
 import com.ark.center.iam.data.permission.vo.PermissionVO;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,17 +33,15 @@ import java.util.stream.Collectors;
  * @since 2020-11-09
  */
 @Service
+@RequiredArgsConstructor
 public class PermissionServiceImpl extends ServiceImpl<IamPermissionMapper, IamPermission>
         implements IPermissionService {
 
-    @Autowired
-    private PermissionBeanConverter beanConverter;
+    private final PermissionBeanConverter beanConverter;
 
-    @Autowired
-    private IApplicationService iApplicationService;
+    private final IApplicationService iApplicationService;
 
-    @Autowired
-    private IamPermissionRoleRelMapper permissionRoleRelMapper;
+    private final IamPermissionRoleRelMapper permissionRoleRelMapper;
 
     @Override
     public void addPermission(Long resourceId, PermissionTypeEnums permissionTypeEnums) {

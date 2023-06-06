@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@SpringBootApplication(scanBasePackages = {"com.ark.center.iam"})
+@SpringBootApplication(scanBasePackages = {"com.ark.center.iam", "com.alibaba.druid.spring.boot3.autoconfigure"})
 @EnableFeignClients
 @EnableDiscoveryClient
 public class IamApplication extends ArkWebConfig {

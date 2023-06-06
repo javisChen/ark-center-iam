@@ -14,6 +14,7 @@ import com.ark.center.iam.security.core.token.cache.UserCacheInfo;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.exception.ExceptionFactory;
 import com.ark.component.security.core.token.extractor.DefaultTokenExtractor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,16 +24,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements IAuthService {
 
-    @Autowired
-    private IUserTokenCacheService iUserTokenCacheService;
-    @Autowired
-    private DefaultTokenExtractor tokenExtractor;
-    @Autowired
-    private IUserService iUserService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final IUserTokenCacheService iUserTokenCacheService;
+    private final DefaultTokenExtractor tokenExtractor;
+    private final IUserService iUserService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void kick(AuthKickDTO dto) {

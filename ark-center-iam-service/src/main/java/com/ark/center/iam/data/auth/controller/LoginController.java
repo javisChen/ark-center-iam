@@ -6,6 +6,7 @@ import com.ark.center.iam.data.auth.dto.AuthLoginReqDTO;
 import com.ark.center.iam.data.auth.dto.AuthLoginRespDTO;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.web.base.BaseController;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,13 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/v1/login")
+@RequiredArgsConstructor
 public class LoginController extends BaseController {
 
     private final IAuthService iAuthService;
-
-    public LoginController(IAuthService iAuthService) {
-        this.iAuthService = iAuthService;
-    }
 
     /**
      * 账号登录
