@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.data.role.dto.*;
 import com.ark.center.iam.dao.entity.IamRole;
-import com.ark.center.iam.data.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionVO;
 import com.ark.center.iam.data.role.vo.RoleBaseVO;
 import com.ark.center.iam.data.role.vo.RoleListVO;
 

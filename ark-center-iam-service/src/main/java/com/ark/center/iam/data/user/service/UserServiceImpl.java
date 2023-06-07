@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -18,12 +17,12 @@ import com.ark.center.iam.dao.mapper.IamUserGroupUserRelMapper;
 import com.ark.center.iam.dao.mapper.IamUserMapper;
 import com.ark.center.iam.dao.mapper.IamUserRoleRelMapper;
 import com.ark.center.iam.data.permission.service.IPermissionService;
-import com.ark.center.iam.data.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionVO;
 import com.ark.center.iam.data.role.service.IRoleService;
-import com.ark.center.iam.data.user.dto.UserPageListSearchDTO;
-import com.ark.center.iam.data.user.dto.UserUpdateDTO;
-import com.ark.center.iam.data.user.vo.UserDetailVO;
-import com.ark.center.iam.data.user.vo.UserPageListVO;
+import com.ark.center.iam.client.user.query.UserPageQry;
+import com.ark.center.iam.client.user.command.UserCreateCmd;
+import com.ark.center.iam.client.user.vo.UserDetailDTO;
+import com.ark.center.iam.client.user.vo.UserPageDTO;
 import com.ark.center.iam.data.usergroup.service.IUserGroupService;
 import com.ark.center.iam.enums.BizEnums;
 import com.ark.center.iam.enums.DeletedEnums;
@@ -68,7 +67,7 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
 
     @Override
     @Transactional(rollbackFor = Throwable.class, timeout = 20000)
-    public void saveUser(UserUpdateDTO dto) {
+    public void createUser(UserCreateCmd dto) {
         IamUser iamUser = beanConverter.convertToUserDO(dto);
 
         doCheckBeforeSave(iamUser);
@@ -109,7 +108,7 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateUserById(UserUpdateDTO dto) {
+    public void updateUserById(UserCreateCmd dto) {
         IamUser iamUser = beanConverter.convertToUpdateUserDO(dto);
         Long userId = iamUser.getId();
 
@@ -139,22 +138,22 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
     }
 
     @Override
-    public Page<UserPageListVO> pageList(UserPageListSearchDTO params) {
+    public Page<UserPageDTO> pageList(UserPageQry params) {
         LambdaQueryWrapper<IamUser> qw = new LambdaQueryWrapper<IamUser>()
                 .like(StrUtil.isNotBlank(params.getPhone()), IamUser::getPhone, params.getPhone())
                 .like(StrUtil.isNotBlank(params.getName()), IamUser::getUserName, params.getName())
                 .select(BaseEntity::getId, IamUser::getPhone, IamUser::getUserName, IamUser::getStatus);
         IPage<IamUser> result = this.page(new Page<>(params.getCurrent(), params.getSize()), qw);
         List<IamUser> records = result.getRecords();
-        List<UserPageListVO> vos = records.stream().map(beanConverter::convertToUserPageListVO).collect(Collectors.toList());
-        Page<UserPageListVO> pageVo = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
+        List<UserPageDTO> vos = records.stream().map(beanConverter::convertToUserPageListVO).collect(Collectors.toList());
+        Page<UserPageDTO> pageVo = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
         pageVo.setRecords(vos);
         return pageVo;
     }
 
     @Override
-    public void updateStatus(UserUpdateDTO userUpdateDTO) {
-        updateStatus(userUpdateDTO, UserStatusEnums.ENABLED);
+    public void updateStatus(UserCreateCmd userCreateCmd) {
+        updateStatus(userCreateCmd, UserStatusEnums.ENABLED);
     }
 
     @Override
@@ -165,7 +164,7 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
     }
 
     @Override
-    public UserDetailVO getUserDetailVOById(Long userId) {
+    public UserDetailDTO getUserDetailVOById(Long userId) {
         IamUser user = getUserById(userId);
         return beanConverter.convertToUserDetailVO(user);
     }
@@ -227,9 +226,9 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
         iUserGroupService.removeUserGroupUserRelByUserId(id);
     }
 
-    private void updateStatus(UserUpdateDTO userUpdateDTO, UserStatusEnums statusEnum) {
+    private void updateStatus(UserCreateCmd userCreateCmd, UserStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<IamUser>()
-                .eq(IamUser::getStatus, userUpdateDTO.getId())
+                .eq(IamUser::getStatus, userCreateCmd.getId())
                 .set(IamUser::getStatus, statusEnum.getValue()));
     }
 

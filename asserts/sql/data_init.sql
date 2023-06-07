@@ -1,156 +1,156 @@
-TRUNCATE TABLE iam_route;
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+TRUNCATE TABLE iam_resource_route;
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (2, 1, '个人页', 'account', 'RouteView', 0, '2.', 1, '', 'user', 0, 1, 700, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (3, 1, '结果页', 'result', 'PageView', 0, '3.', 1, '', 'check-circle-o', 0, 1, 500, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (4, 1, '详情页', 'profile', 'RouteView', 0, '4.', 1, '', 'profile', 0, 1, 400, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (5, 1, '列表页', 'list', 'RouteView', 0, '5.', 1, '', 'table', 0, 1, 300, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (6, 1, '仪表盘', 'dashboard', 'RouteView', 0, '6.', 1, '', 'dashboard', 0, 1, 100, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (7, 1, '异常页', 'exception', 'RouteView', 0, '7.', 1, '', 'warning', 0, 1, 600, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (8, 1, '工作台', 'workplace', 'Workplace', 6, '6.8.', 2, '/dashboard/workplace', '', 0, 1, 102, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (9, 1, '分析页', 'Analysis', 'Analysis', 6, '6.9.', 2, '/dashboard/analysis/:pageNo([1-9]\\\\d*)?', '', 0, 1, 101,
         1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (13, 1, '查询表格', 'table-list', 'TableList', 5, '5.13.', 2, '/list/table-list/:pageNo([1-9]\\\\d*)?', '', 0, 1, 0,
         1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (14, 1, '标准列表', 'basic-list', 'StandardList', 5, '5.14.', 2, '/list/basic-list', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (15, 1, '卡片列表', 'card', 'CardList', 5, '5.15.', 2, '/list/card', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (16, 1, '搜索列表', 'search', 'SearchLayout', 5, '5.16.', 2, '/list/search', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (17, 1, '基础详情页', 'basic', 'ProfileBasic', 4, '4.17.', 2, '/profile/basic', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (18, 1, '高级详情页', 'advanced', 'ProfileAdvanced', 4, '4.18.', 2, '/profile/advanced', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (19, 1, '成功', 'success', 'ResultSuccess', 3, '3.19.', 2, '/result/success', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (20, 1, '失败', 'fail', 'ResultFail', 3, '3.20.', 2, '/result/fail', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (22, 1, '404', '404', 'Exception404', 7, '7.22.', 2, '/exception/404', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (23, 1, '500', '500', 'Exception500', 7, '7.23.', 2, '/exception/500', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (24, 1, '个人中心', 'center', 'AccountCenter', 2, '2.24.', 2, '/account/center', '', 0, 2, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (25, 1, '个人设置', 'settings', 'AccountSettings', 2, '2.25.', 2, '/account/settings', '', 1, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (26, 1, '搜索列表（项目）', 'project', 'SearchProjects', 16, '5.16.26.', 2, '/list/search/project', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (27, 1, '搜索列表（应用）', 'application', 'SearchApplications', 16, '5.16.27.', 2, '/list/search/application', '', 0, 1,
         0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (28, 1, '基本设置', 'BasicSettings', 'BasicSettings', 25, '2.25.28.', 3, '/account/settings/basic', '', 0, 2, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (29, 1, '安全设置', 'SecuritySettings', 'SecuritySettings', 25, '2.25.29.', 3, '/account/settings/security', '', 0,
         2, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (30, 1, '个性化设置', 'CustomSettings', 'CustomSettings', 25, '2.25.30.', 3, '/account/settings/custom', '', 0, 2, 0,
         1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (32, 1, '新消息通知', 'NotificationSettings', 'NotificationSettings', 25, '2.25.32.', 3,
         '/account/settings/notification', '', 0, 2, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (34, 1, '搜索列表（文章）', 'article', 'SearchArticles', 16, '5.16.27.', 3, '/list/search/article', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (35, 1, '其他组件', 'other', 'PageView', 0, '35.', 1, '', 'slack', 0, 1, 800, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (36, 1, 'IconSelector', 'TestIconSelect', 'EditList', 35, '35.36.', 2, '/other/icon-selector', 'tool', 0, 1, 810,
         1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (37, 1, '业务布局', 'bizLayout', 'RouteView', 35, '35.37.', 2, '', 'layout', 0, 1, 820, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (38, 1, '树目录表格', 'TreeList', 'TreeList', 37, '35.37.38.', 3, '/other/list/tree-list', '', 0, 1, 821, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (39, 1, '内联编辑表格', 'EditList', 'EditList', 37, '35.37.39.', 3, '/other/list/edit-table', '', 0, 1, 822, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (40, 1, '权限列表', 'PermissionList', 'PermissionList', 37, '35.37.40.', 3, '/other/list/system-permission', '', 0, 1, 823, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (42, 1, '角色列表', 'RoleList', 'RoleList', 37, '35.37.42.', 3, '/other/list/role-list', '', 0, 1, 825, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (43, 1, '角色列表2', 'SystemRole', 'SystemRole', 37, '35.37.43.', 3, '/other/list/system-role', '', 0, 1, 826, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (44, 1, '权限管理', 'permission', 'RouteView', 0, '44.', 1, '/permission', 'slack', 0, 1, 1, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (45, 1, '路由管理', 'permission:route', 'PermissionRoute', 44, '44.45.', 2, '/permission/route', '', 0, 2, 910, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (57, 1, '表单页', 'form', 'RouteView', 0, '57.', 1, '', 'form', 0, 1, 2, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (58, 1, '高级表单', 'advanced-form', 'AdvanceForm', 57, '57.58.', 2, '/form/advanced-form', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (59, 1, '分步表单', 'step-form', 'StepForm', 57, '57.59.', 2, '/form/step-form', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (60, 1, '基础表单', 'basic-form', 'BasicForm', 57, '57.60.', 2, '/form/base-form', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (70, 1, '测试子路由', '3213', '', 69, '6.70.', 2, '', '', 0, 1, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (71, 1, '用户管理', 'permission:user', 'PermissionUser', 44, '44.71.', 2, '/permission/user', '', 0, 2, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (72, 1, '用户组管理', 'permission:usergroup', 'PermissionUserGroup', 44, '44.72.', 2, '/permission/usergroup', '', 0,
         2, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (73, 1, '账号绑定', 'BindingSettings', 'BindingSettings', 25, '2.25.73.', 3, '/account/settings/binding', '', 0, 1,
         0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (74, 1, '角色管理', 'permission:role', 'PermissionRole', 44, '44.74.', 2, '/permission/role', '', 0, 2, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (75, 1, '应用管理', 'permission:application', 'PermissionApplication', 44, '44.75.', 2, '/permission/application',
         '', 0, 2, 0, 1);
-INSERT INTO kt.iam_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
+INSERT INTO kt.iam_resource_route (id, application_id, name, code, component, pid, level_path, level, path, icon, hide_children,
                           type, sequence, status)
 VALUES (76, 1, '接口管理', 'permission:interface', 'PermissionApi', 44, '44.76.', 2, '/permission/interface', '', 0, 2, 0,
         1);

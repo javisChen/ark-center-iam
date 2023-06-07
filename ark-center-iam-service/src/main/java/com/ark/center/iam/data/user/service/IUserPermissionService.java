@@ -3,8 +3,8 @@ package com.ark.center.iam.data.user.service;
 import com.ark.center.iam.api.user.permission.request.ApiAuthRequest;
 import com.ark.center.iam.api.user.permission.response.ApiAuthResponse;
 import com.ark.center.iam.dao.entity.IamPermission;
-import com.ark.center.iam.data.permission.vo.PermissionVO;
-import com.ark.center.iam.data.user.vo.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.permission.vo.PermissionVO;
+import com.ark.center.iam.client.user.vo.UserPermissionRouteNavVO;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 
 import java.util.List;

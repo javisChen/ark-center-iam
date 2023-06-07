@@ -20,7 +20,7 @@ import com.ark.center.iam.data.route.dto.RouteUpdateDTO;
 import com.ark.center.iam.data.route.vo.RouteDetailVO;
 import com.ark.center.iam.data.route.vo.RouteElementVO;
 import com.ark.center.iam.data.route.vo.RouteListTreeVO;
-import com.ark.center.iam.data.user.vo.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.vo.UserPermissionRouteNavVO;
 import com.ark.center.iam.enums.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

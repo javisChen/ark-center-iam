@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.dao.bo.ApiPermissionBO;
 import com.ark.center.iam.dao.entity.IamPermission;
-import com.ark.center.iam.data.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionVO;
 
 import java.util.List;
 import java.util.Set;

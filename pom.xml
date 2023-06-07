@@ -8,6 +8,11 @@
     <artifactId>ark-center-iam</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
+        <module>ark-center-iam-client</module>
+        <module>ark-center-iam-app</module>
+        <module>ark-center-iam-adapter</module>
+        <module>ark-center-iam-domain</module>
+        <module>ark-center-iam-infra</module>
         <module>ark-center-iam-acl</module>
         <module>ark-center-iam-api</module>
         <module>ark-center-iam-dao</module>
@@ -47,6 +52,36 @@
             <dependency>
                 <groupId>com.ark.center</groupId>
                 <artifactId>ark-center-iam-acl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ark.center</groupId>
+                <artifactId>ark-center-iam-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ark.center</groupId>
+                <artifactId>ark-center-iam-adapter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ark.center</groupId>
+                <artifactId>ark-center-iam-app</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ark.center</groupId>
+                <artifactId>ark-center-iam-infra</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ark.center</groupId>
+                <artifactId>ark-center-iam-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -16,7 +16,6 @@ import com.ark.component.exception.ExceptionFactory;
 import com.ark.component.security.core.token.extractor.DefaultTokenExtractor;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

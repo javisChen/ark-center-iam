@@ -6,7 +6,7 @@ import com.ark.center.iam.data.role.service.IRoleService;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.web.base.BaseController;
-import com.ark.center.iam.data.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionVO;
 import com.ark.center.iam.data.role.dto.RoleRoutePermissionUpdateDTO;
 import org.springframework.web.bind.annotation.*;
 

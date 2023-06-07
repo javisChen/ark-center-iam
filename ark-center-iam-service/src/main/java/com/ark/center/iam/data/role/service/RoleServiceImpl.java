@@ -17,7 +17,7 @@ import com.ark.center.iam.enums.RoleStatusEnums;
 import com.ark.center.iam.dao.entity.IamPermissionRoleRel;
 import com.ark.center.iam.dao.mapper.IamPermissionRoleRelMapper;
 import com.ark.center.iam.data.permission.service.IPermissionService;
-import com.ark.center.iam.data.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionVO;
 import com.ark.center.iam.data.role.converter.RoleBeanConverter;
 import com.ark.center.iam.dao.entity.IamRole;
 import com.ark.center.iam.dao.mapper.IamRoleMapper;

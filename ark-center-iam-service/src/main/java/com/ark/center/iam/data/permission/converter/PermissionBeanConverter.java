@@ -1,7 +1,7 @@
 package com.ark.center.iam.data.permission.converter;
 
 import com.ark.center.iam.dao.entity.IamPermission;
-import com.ark.center.iam.data.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionVO;
 import org.springframework.stereotype.Component;
 
 /**
