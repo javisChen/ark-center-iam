@@ -4,5 +4,8 @@ import com.ark.center.iam.client.user.query.UserPageQry;
 import com.ark.center.iam.client.user.vo.UserPageDTO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import java.util.List;
+
 public interface RoleGateway {
+    void insertUserRolesRelations(Long userId, List<Long> roleIds);
 }

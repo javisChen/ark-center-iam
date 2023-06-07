@@ -1,7 +1,6 @@
-package com.ark.center.iam.data.user.support;
+package com.ark.center.iam.domain.user.support;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import com.ark.center.iam.common.constants.SecurityConstants;
 import org.springframework.stereotype.Component;
 
 @Component

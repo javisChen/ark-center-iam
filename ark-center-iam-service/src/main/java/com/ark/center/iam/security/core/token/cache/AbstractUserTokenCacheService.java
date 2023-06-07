@@ -7,7 +7,6 @@ import com.ark.center.iam.security.core.common.RedisKeyConst;
 import com.ark.center.iam.security.core.token.generate.UserTokenGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
 @Slf4j
 public abstract class AbstractUserTokenCacheService implements IUserTokenCacheService {

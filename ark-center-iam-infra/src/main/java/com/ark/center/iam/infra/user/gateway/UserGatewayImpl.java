@@ -3,7 +3,7 @@ package com.ark.center.iam.infra.user.gateway;
 import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.client.user.query.UserPageQry;
 import com.ark.center.iam.client.user.vo.UserPageDTO;
-import com.ark.center.iam.infra.user.gateway.db.IamUser;
+import com.ark.center.iam.domain.user.entity.IamUser;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.infra.user.gateway.db.IamUserMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
@@ -36,6 +36,25 @@ public class UserGatewayImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
         Page<UserPageDTO> pageVo = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
         pageVo.setRecords(vos);
         return pageVo;
+    }
+
+    @Override
+    public boolean insert(IamUser iamUser) {
+        return save(iamUser);
+    }
+
+    @Override
+    public Long countUserByCode(String code) {
+        return lambdaQuery()
+                .eq(IamUser::getCode, code)
+                .count();
+    }
+
+    @Override
+    public Long countUserByPhone(String phone) {
+        return lambdaQuery()
+                .eq(IamUser::getCode, phone)
+                .count();
     }
 
 }

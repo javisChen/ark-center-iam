@@ -8,7 +8,7 @@ import com.ark.center.iam.client.order.dto.info.OrderInfoDTO;
 import com.ark.center.iam.client.order.query.OrderPageQry;
 import com.ark.center.iam.client.user.query.UserPageQry;
 import com.ark.center.iam.client.user.vo.UserPageDTO;
-import com.ark.center.iam.infra.user.gateway.db.IamUser;
+import com.ark.center.iam.domain.user.entity.IamUser;
 import com.ark.center.iam.domain.order.gateway.ReceiveGateway;
 import com.ark.center.iam.domain.order.model.Order;
 import com.ark.center.iam.domain.order.model.OrderItem;

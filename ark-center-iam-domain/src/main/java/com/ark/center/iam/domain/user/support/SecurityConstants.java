@@ -1,4 +1,4 @@
-package com.ark.center.iam.common.constants;
+package com.ark.center.iam.domain.user.support;
 
 /**
  * 安全变量

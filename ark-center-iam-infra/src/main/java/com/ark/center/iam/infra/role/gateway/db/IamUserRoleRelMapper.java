@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.user.gateway.db;
+package com.ark.center.iam.infra.role.gateway.db;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,5 +18,5 @@ public interface IamUserRoleRelMapper extends BaseMapper<IamUserRoleRel> {
     /**
      * 批量添加
      */
-    void batchSaveRelation(@Param("userId") Long userId, @Param("roleIds") List<Long> roleIds);
+    void batchInsert(@Param("userId") Long userId, @Param("roleIds") List<Long> roleIds);
 }

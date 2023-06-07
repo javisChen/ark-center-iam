@@ -1,7 +1,6 @@
 package com.ark.center.iam.infra.role.gateway.db;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ark.center.iam.dao.entity.IamRole;
 
 /**
  * <p>

@@ -7,7 +7,7 @@ import com.ark.center.iam.client.user.command.UserCreateCmd;
 import com.ark.center.iam.client.user.vo.UserDetailDTO;
 import com.ark.center.iam.client.user.vo.UserPageDTO;
 import com.ark.center.iam.infra.user.gateway.db.IamPermission;
-import com.ark.center.iam.infra.user.gateway.db.IamUser;
+import com.ark.center.iam.domain.user.entity.IamUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -70,10 +70,6 @@ public class UserBeanConverter {
         iamUser.setPhone(dto.getPhone());
         iamUser.setPassword(dto.getPassword());
         iamUser.setStatus(dto.getStatus());
-        String code = generateUserCode();
-        iamUser.setCode(code);
-        // 用户规则=bcrypt(前端md5(md5(password)) + salt)
-        iamUser.setPassword(iUserPasswordHelper.enhancePassword(DigestUtil.md5Hex(iamUser.getPassword())));
         return iamUser;
     }
 

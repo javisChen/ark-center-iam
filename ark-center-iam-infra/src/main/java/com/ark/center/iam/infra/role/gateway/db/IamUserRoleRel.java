@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.user.gateway.db;
+package com.ark.center.iam.infra.role.gateway.db;
 
 
 import com.baomidou.mybatisplus.annotation.TableField;

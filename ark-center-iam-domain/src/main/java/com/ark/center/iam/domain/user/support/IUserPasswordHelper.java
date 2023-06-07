@@ -1,10 +1,5 @@
-package com.ark.center.iam.data.user.support;
+package com.ark.center.iam.domain.user.support;
 
-/**
- * @title:
- * @desc:
- * @author: Javis
- */
 public interface IUserPasswordHelper {
 
     String enhancePassword(String password);

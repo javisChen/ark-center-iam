@@ -18,8 +18,13 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
+            <groupId>com.ark.center</groupId>
+            <artifactId>ark-center-iam-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ark.orm</groupId>
+            <artifactId>ark-component-orm-mybatis-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -32,11 +37,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ark.center</groupId>
-            <artifactId>ark-center-iam-client</artifactId>
         </dependency>
 
     </dependencies>

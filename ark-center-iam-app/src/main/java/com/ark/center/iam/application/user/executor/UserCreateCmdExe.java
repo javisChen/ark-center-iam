@@ -2,6 +2,8 @@ package com.ark.center.iam.application.user.executor;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.ark.center.iam.client.order.command.OrderCreateCmd;
 import com.ark.center.iam.client.order.command.OrderCreateItemCmd;
 import com.ark.center.iam.client.order.command.OrderCreateReceiveCreateCmd;
@@ -12,11 +14,14 @@ import com.ark.center.iam.domain.order.model.Receive;
 import com.ark.center.iam.domain.order.model.Sku;
 import com.ark.center.iam.domain.order.model.vo.OrderAmount;
 import com.ark.center.iam.domain.order.model.vo.OrderPay;
+import com.ark.center.iam.domain.role.gateway.RoleGateway;
+import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
+import com.ark.center.iam.domain.user.support.IUserPasswordHelper;
 import com.ark.center.iam.infra.order.convertor.OrderConvertor;
 import com.ark.center.iam.infra.receive.convertor.ReceiveConvertor;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
-import com.ark.center.iam.infra.user.gateway.db.IamUser;
+import com.ark.center.iam.domain.user.entity.IamUser;
 import com.ark.component.common.ParamsChecker;
 import com.ark.component.context.core.ServiceContext;
 import com.ark.component.exception.ExceptionFactory;
@@ -37,56 +42,83 @@ public class UserCreateCmdExe {
 
     private final UserBeanConverter beanConverter;
     private final UserGateway userGateway;
+    private final RoleAssignService roleAssignService;
+    private final IUserPasswordHelper userPasswordHelper;
 
-    public Long execute(UserCreateCmd createCmd) {
-        log.info("[User]: Begin Create User, User = {}", createCmd);
-        IamUser iamUser = beanConverter.convertToUserDO(createCmd);
+    public Long execute(UserCreateCmd userCreateCmd) {
+        log.info("[User]: Begin Create User, User = {}", userCreateCmd);
+        IamUser iamUser = beanConverter.convertToUserDO(userCreateCmd);
 
         // 检查用户手机号
         checkUserPhone(iamUser);
 
+        // 初始化一些用户信息
+        initUser(iamUser);
+
         // 持久化用户
         persistUser(iamUser);
 
-        Long userId = iamUser.getId();
-
         // 持久化后一些操作
-        postPersistUser(iamUser, createCmd);
-        return userId;
+        postPersistUser(iamUser, userCreateCmd);
+
+        return iamUser.getId();
+    }
+
+    private void initUser(IamUser iamUser) {
+        // 生成用户编码
+        iamUser.setCode(generateUserCode());
+
+        // 用户密码=bcrypt(前端md5(md5(password)) + salt)
+        iamUser.setPassword(userPasswordHelper.enhancePassword(DigestUtil.md5Hex(iamUser.getPassword())));
+
+    }
+
+    private String generateUserCode() {
+        // 生成后先查询一遍，防止生成了重复的code，其实几率微乎其微
+        String code = IdUtil.fastUUID();
+        if (codeExists(code)) {
+            return generateUserCode();
+        }
+        return code;
+    }
+
+    private boolean codeExists(String code) {
+        return userGateway.countUserByCode(code) > 0;
     }
 
     /**
      * 持久化用户后的操作
-     * @param iamUser 用户
+     *
+     * @param iamUser   用户
      * @param createCmd 创建用户请求
      */
     private void postPersistUser(IamUser iamUser, UserCreateCmd createCmd) {
 
         Long userId = iamUser.getId();
 
-        doSaveUserRoleRelation(userId, createCmd.getRoleIds());
+        assignRoles(userId, createCmd.getRoleIds());
 
-        doSaveUserUserGroupRelation(userId, createCmd.getUserGroupIds());
+        assignUserGroups(userId, createCmd.getUserGroupIds());
     }
 
     private void persistUser(IamUser iamUser) {
-        userGateway.(iamUser);
+        userGateway.insert(iamUser);
     }
 
     private void checkUserPhone(IamUser user) {
-        long count = countUserByPhone(user.getPhone());
-        Assert.isTrue(count > 0, BizEnums.USER_ALREADY_EXISTS);
+        long count = userGateway.countUserByPhone(user.getPhone());
+        cn.hutool.core.lang.Assert.isTrue(count > 0, () -> ExceptionFactory.userException("手机号码已存在"));
     }
 
-    private void doSaveUserUserGroupRelation(Long userId, List<Long> userGroupIds) {
+    private void assignUserGroups(Long userId, List<Long> userGroupIds) {
         if (CollectionUtil.isNotEmpty(userGroupIds)) {
             iamUserGroupUserRelMapper.batchSaveRelation(userId, userGroupIds);
         }
     }
 
-    private void doSaveUserRoleRelation(Long userId, List<Long> roleIds) {
+    private void assignRoles(Long userId, List<Long> roleIds) {
         if (CollectionUtil.isNotEmpty(roleIds)) {
-            iamUserRoleRelMapper.batchSaveRelation(userId, roleIds);
+            roleAssignService.assignUserRoles(userId, roleIds);
         }
     }
 
@@ -96,7 +128,7 @@ public class UserCreateCmdExe {
         List<Long> skuIds = CollUtil.map(orderItems, OrderCreateItemCmd::getSkuId, true);
         Map<Long, Sku> skuMap = requestSkuList(skuIds);
         List<OrderItem> orderItemList = Lists.newArrayList();
-        for (OrderCreateItemCmd itemCmd :orderItems) {
+        for (OrderCreateItemCmd itemCmd : orderItems) {
             Sku sku = skuMap.get(itemCmd.getSkuId());
             OrderItem orderItem = orderConvertor.toOrderItemDomainObject(itemCmd, sku);
             orderItemList.add(orderItem);
@@ -109,7 +141,7 @@ public class UserCreateCmdExe {
 
         ParamsChecker
                 .throwIfIsTrue(CollUtil.isEmpty(skuInfoList) || skuIds.size() != skuInfoList.size(),
-                ExceptionFactory.userException("商品库存不足或已下架"));
+                        ExceptionFactory.userException("商品库存不足或已下架"));
 
         return skuInfoList
                 .stream()
