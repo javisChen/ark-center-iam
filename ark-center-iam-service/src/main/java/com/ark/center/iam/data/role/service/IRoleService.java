@@ -1,12 +1,12 @@
 package com.ark.center.iam.data.role.service;
 
+import com.ark.center.iam.client.role.command.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ark.center.iam.data.role.dto.*;
 import com.ark.center.iam.dao.entity.IamRole;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
-import com.ark.center.iam.data.role.vo.RoleBaseVO;
-import com.ark.center.iam.data.role.vo.RoleListVO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
+import com.ark.center.iam.client.role.dto.RoleBaseDTO;
+import com.ark.center.iam.client.role.dto.RoleListDTO;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface IRoleService extends IService<IamRole> {
 
-    Page<RoleListVO> pageList(RoleQueryDTO dto);
+    Page<RoleListDTO> pageList(RoleQueryDTO dto);
 
     void saveRole(RoleUpdateDTO dto);
 
@@ -40,19 +40,19 @@ public interface IRoleService extends IService<IamRole> {
 
     void updateRoleRoutePermissions(RoleRoutePermissionUpdateDTO dto);
 
-    List<PermissionVO> getRoleRoutePermissionById(Long roleId, Long applicationId);
+    List<PermissionDTO> getRoleRoutePermissionById(Long roleId, Long applicationId);
 
-    List<PermissionVO> getRoleElementPermissionById(Long roleId, Long applicationId);
+    List<PermissionDTO> getRoleElementPermissionById(Long roleId, Long applicationId);
 
     void removeUserRoleRelByUserId(Long userId);
 
-    List<RoleListVO> listAllVos();
+    List<RoleListDTO> listAllVos();
 
     List<String> getRoleNamesByUserId(Long userId);
 
-    RoleBaseVO getRoleVoById(String id);
+    RoleBaseDTO getRoleVoById(String id);
 
-    List<PermissionVO> getRoleApiPermissionById(Long roleId, Long applicationId);
+    List<PermissionDTO> getRoleApiPermissionById(Long roleId, Long applicationId);
 
     void updateRoleApiPermissions(RoleApiPermissionUpdateDTO dto);
 

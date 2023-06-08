@@ -1,7 +1,7 @@
 package com.ark.center.iam.data.permission.converter;
 
 import com.ark.center.iam.dao.entity.IamPermission;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PermissionBeanConverter {
 
-    public PermissionVO convertToVO(IamPermission iamPermission) {
-        PermissionVO vo = new PermissionVO();
+    public PermissionDTO convertToVO(IamPermission iamPermission) {
+        PermissionDTO vo = new PermissionDTO();
         vo.setPermissionId(iamPermission.getId());
         return vo;
     }

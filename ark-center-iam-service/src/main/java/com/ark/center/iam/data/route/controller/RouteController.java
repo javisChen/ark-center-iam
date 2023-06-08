@@ -2,7 +2,7 @@
 package com.ark.center.iam.data.route.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ark.center.iam.client.user.vo.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
 import com.ark.center.iam.data.route.dto.RouteModifyParentDTO;
 import com.ark.center.iam.data.route.dto.RouteQueryDTO;
 import com.ark.center.iam.data.route.dto.RouteUpdateDTO;

@@ -13,7 +13,7 @@ import com.ark.center.iam.dao.entity.IamPermission;
 import com.ark.center.iam.dao.entity.IamPermissionRoleRel;
 import com.ark.center.iam.dao.mapper.IamPermissionMapper;
 import com.ark.center.iam.dao.mapper.IamPermissionRoleRelMapper;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,7 +108,7 @@ public class PermissionServiceImpl extends ServiceImpl<IamPermissionMapper, IamP
     }
 
     @Override
-    public List<PermissionVO> getRolePermissionVos(Long applicationId, Long roleId, String permissionType) {
+    public List<PermissionDTO> getRolePermissionVos(Long applicationId, Long roleId, String permissionType) {
         List<IamPermission> permissions = this.baseMapper.selectByRoleIdAndType(applicationId, roleId, permissionType);
         return permissions.stream().map(beanConverter::convertToVO).collect(Collectors.toList());
     }

@@ -19,4 +19,15 @@
         name, status
     </sql>
 
+    <select id="selectRolesByUserIds" resultType="com.ark.center.iam.domain.role.vo.UserRoleVO">
+        select ur.id as roleId,
+               ur.name as roleName,
+               uurr.user_id as userId
+        from iam_user_role_rel uurr
+                 inner join iam_role ur on uurr.role_id = ur.id
+        where uurr.user_id = #{userId}
+          and ur.status = 1
+          and ur.is_deleted = 0
+    </select>
+
 </mapper>

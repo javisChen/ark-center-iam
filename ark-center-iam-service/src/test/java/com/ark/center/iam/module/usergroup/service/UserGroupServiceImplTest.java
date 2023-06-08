@@ -1,7 +1,7 @@
 package com.ark.center.iam.module.usergroup.service;
 
 import com.ark.center.iam.data.usergroup.service.UserGroupServiceImpl;
-import com.ark.center.iam.enums.UserGroupInheritTypeEnums;
+import com.ark.center.iam.enums.UserGroupInheritType;
 import com.ark.center.iam.dao.entity.IamUserGroup;
 import org.junit.jupiter.api.Test;
 
@@ -19,19 +19,19 @@ public class UserGroupServiceImplTest {
         IamUserGroup iamUserGroupA = new IamUserGroup();
         iamUserGroupA.setId(1L);
         iamUserGroupA.setPid(0L);
-        iamUserGroupA.setInheritType(UserGroupInheritTypeEnums.INHERIT_PARENT.getValue());
+        iamUserGroupA.setInheritType(UserGroupInheritType.INHERIT_PARENT.getValue());
         iamUserGroupA.setLevel(1);
         iamUserGroupA.setLevelPath("1.");
         IamUserGroup iamUserGroupB = new IamUserGroup();
         iamUserGroupB.setId(2L);
         iamUserGroupB.setPid(1L);
-        iamUserGroupB.setInheritType(UserGroupInheritTypeEnums.NO_INHERIT.getValue());
+        iamUserGroupB.setInheritType(UserGroupInheritType.NO_INHERIT.getValue());
         iamUserGroupB.setLevel(2);
         iamUserGroupB.setLevelPath("1.2.4.6");
         IamUserGroup iamUserGroupC = new IamUserGroup();
         iamUserGroupC.setId(3L);
         iamUserGroupC.setPid(2L);
-        iamUserGroupC.setInheritType(UserGroupInheritTypeEnums.INHERIT_ALL.getValue());
+        iamUserGroupC.setInheritType(UserGroupInheritType.INHERIT_ALL.getValue());
         iamUserGroupC.setLevel(3);
         iamUserGroupC.setLevelPath("1.2.3.");
         userGroups.add(iamUserGroupA);

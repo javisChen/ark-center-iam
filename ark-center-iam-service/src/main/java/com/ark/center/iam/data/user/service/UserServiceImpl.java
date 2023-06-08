@@ -17,12 +17,12 @@ import com.ark.center.iam.dao.mapper.IamUserGroupUserRelMapper;
 import com.ark.center.iam.dao.mapper.IamUserMapper;
 import com.ark.center.iam.dao.mapper.IamUserRoleRelMapper;
 import com.ark.center.iam.data.permission.service.IPermissionService;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.data.role.service.IRoleService;
 import com.ark.center.iam.client.user.query.UserPageQry;
-import com.ark.center.iam.client.user.command.UserCreateCmd;
-import com.ark.center.iam.client.user.vo.UserDetailDTO;
-import com.ark.center.iam.client.user.vo.UserPageDTO;
+import com.ark.center.iam.client.user.command.UserCmd;
+import com.ark.center.iam.client.user.dto.UserDetailsDTO;
+import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.data.usergroup.service.IUserGroupService;
 import com.ark.center.iam.enums.BizEnums;
 import com.ark.center.iam.enums.DeletedEnums;
@@ -67,7 +67,7 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
 
     @Override
     @Transactional(rollbackFor = Throwable.class, timeout = 20000)
-    public void createUser(UserCreateCmd dto) {
+    public void createUser(UserCmd dto) {
         IamUser iamUser = beanConverter.convertToUserDO(dto);
 
         doCheckBeforeSave(iamUser);
@@ -108,7 +108,7 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateUserById(UserCreateCmd dto) {
+    public void updateUserById(UserCmd dto) {
         IamUser iamUser = beanConverter.convertToUpdateUserDO(dto);
         Long userId = iamUser.getId();
 
@@ -152,8 +152,8 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
     }
 
     @Override
-    public void updateStatus(UserCreateCmd userCreateCmd) {
-        updateStatus(userCreateCmd, UserStatusEnums.ENABLED);
+    public void updateStatus(UserCmd userCmd) {
+        updateStatus(userCmd, UserStatusEnums.ENABLED);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
     }
 
     @Override
-    public UserDetailDTO getUserDetailVOById(Long userId) {
+    public UserDetailsDTO getUserDetailVOById(Long userId) {
         IamUser user = getUserById(userId);
         return beanConverter.convertToUserDetailVO(user);
     }
@@ -185,7 +185,7 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
 //    }
 
     @Override
-    public List<PermissionVO> getUserElements(String userCode) {
+    public List<PermissionDTO> getUserElements(String userCode) {
         List<IamPermission> userRoutePermissions;
         // 超管直接赋予所有权限
         if (iUserPermissionService.isSuperAdmin(userCode)) {
@@ -226,9 +226,9 @@ public class UserServiceImpl extends ServiceImpl<IamUserMapper, IamUser> impleme
         iUserGroupService.removeUserGroupUserRelByUserId(id);
     }
 
-    private void updateStatus(UserCreateCmd userCreateCmd, UserStatusEnums statusEnum) {
+    private void updateStatus(UserCmd userCmd, UserStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<IamUser>()
-                .eq(IamUser::getStatus, userCreateCmd.getId())
+                .eq(IamUser::getStatus, userCmd.getId())
                 .set(IamUser::getStatus, statusEnum.getValue()));
     }
 

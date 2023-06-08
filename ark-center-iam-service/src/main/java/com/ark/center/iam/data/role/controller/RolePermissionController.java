@@ -1,13 +1,13 @@
 package com.ark.center.iam.data.role.controller;
 
-import com.ark.center.iam.data.role.dto.RoleApiPermissionUpdateDTO;
-import com.ark.center.iam.data.role.dto.RoleApplicationApiPermissionUpdateDTO;
+import com.ark.center.iam.client.role.command.RoleApiPermissionUpdateDTO;
+import com.ark.center.iam.client.role.command.RoleApplicationApiPermissionUpdateDTO;
 import com.ark.center.iam.data.role.service.IRoleService;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.web.base.BaseController;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
-import com.ark.center.iam.data.role.dto.RoleRoutePermissionUpdateDTO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
+import com.ark.center.iam.client.role.command.RoleRoutePermissionUpdateDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,8 +45,8 @@ public class RolePermissionController extends BaseController {
      * 获取角色拥有的路由权限
      */
     @GetMapping("/role/permission/routes")
-    public MultiResponse<PermissionVO> getRoleRoutePermission(Long roleId, Long applicationId) {
-        List<PermissionVO> vos = iRoleService.getRoleRoutePermissionById(roleId, applicationId);
+    public MultiResponse<PermissionDTO> getRoleRoutePermission(Long roleId, Long applicationId) {
+        List<PermissionDTO> vos = iRoleService.getRoleRoutePermissionById(roleId, applicationId);
         return MultiResponse.ok(vos);
     }
 
@@ -72,8 +72,8 @@ public class RolePermissionController extends BaseController {
      * 获取角色拥有的Api权限
      */
     @GetMapping("/role/permission/apis")
-    public MultiResponse<PermissionVO> getRoleApiPermission(Long roleId, Long applicationId) {
-        List<PermissionVO> vos = iRoleService.getRoleApiPermissionById(roleId, applicationId);
+    public MultiResponse<PermissionDTO> getRoleApiPermission(Long roleId, Long applicationId) {
+        List<PermissionDTO> vos = iRoleService.getRoleApiPermissionById(roleId, applicationId);
         return MultiResponse.ok(vos);
     }
 
@@ -81,8 +81,8 @@ public class RolePermissionController extends BaseController {
      * 获取角色拥有的页面元素权限
      */
     @GetMapping("/role/permission/elements")
-    public MultiResponse<PermissionVO> getRoleElementPermission(Long roleId, Long applicationId) {
-        List<PermissionVO> vos = iRoleService.getRoleElementPermissionById(roleId, applicationId);
+    public MultiResponse<PermissionDTO> getRoleElementPermission(Long roleId, Long applicationId) {
+        List<PermissionDTO> vos = iRoleService.getRoleElementPermissionById(roleId, applicationId);
         return MultiResponse.ok(vos);
     }
 }

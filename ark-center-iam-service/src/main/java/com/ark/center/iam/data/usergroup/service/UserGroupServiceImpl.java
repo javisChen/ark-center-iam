@@ -11,7 +11,7 @@ import com.ark.center.iam.common.util.Assert;
 import com.ark.center.iam.data.usergroup.converter.UserGroupBeanConverter;
 import com.ark.center.iam.enums.BizEnums;
 import com.ark.center.iam.enums.DeletedEnums;
-import com.ark.center.iam.enums.UserGroupInheritTypeEnums;
+import com.ark.center.iam.enums.UserGroupInheritType;
 import com.ark.center.iam.data.usergroup.dto.UserGroupQueryDTO;
 import com.ark.center.iam.data.usergroup.dto.UserGroupUpdateDTO;
 import com.ark.center.iam.dao.entity.IamUserGroup;
@@ -211,14 +211,14 @@ public class UserGroupServiceImpl extends ServiceImpl<IamUserGroupMapper, IamUse
         // 继承类型为只继承父类的话，把pid提取出来
         List<Long> collect = userGroups.stream()
                 .filter(item -> !item.getPid().equals(0L) &&
-                        Objects.equals(item.getInheritType(), UserGroupInheritTypeEnums.INHERIT_PARENT.getValue()))
+                        Objects.equals(item.getInheritType(), UserGroupInheritType.INHERIT_PARENT.getValue()))
                 .map(IamUserGroup::getPid)
                 .collect(Collectors.toList());
 
         // 继承类型为继承所有上级的话，把levelPath取出来，拆解后存到Set中进行排重
         List<String> inheritAllLevelPath = userGroups.stream()
                 .filter(item -> !item.getPid().equals(0L) &&
-                        Objects.equals(item.getInheritType(), UserGroupInheritTypeEnums.INHERIT_ALL.getValue()))
+                        Objects.equals(item.getInheritType(), UserGroupInheritType.INHERIT_ALL.getValue()))
                 .map(IamUserGroup::getLevelPath)
                 .collect(Collectors.toList());
         Set<String> tempStrSet = new HashSet<>();

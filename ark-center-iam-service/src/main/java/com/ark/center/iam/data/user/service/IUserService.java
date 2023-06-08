@@ -3,11 +3,11 @@ package com.ark.center.iam.data.user.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.dao.entity.IamUser;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.user.query.UserPageQry;
-import com.ark.center.iam.client.user.command.UserCreateCmd;
-import com.ark.center.iam.client.user.vo.UserDetailDTO;
-import com.ark.center.iam.client.user.vo.UserPageDTO;
+import com.ark.center.iam.client.user.command.UserCmd;
+import com.ark.center.iam.client.user.dto.UserDetailsDTO;
+import com.ark.center.iam.client.user.dto.UserPageDTO;
 
 import java.util.List;
 
@@ -21,23 +21,23 @@ import java.util.List;
  */
 public interface IUserService extends IService<IamUser> {
 
-    void createUser(UserCreateCmd entity);
+    void createUser(UserCmd entity);
 
     long countUserByCode(String code);
 
-    void updateUserById(UserCreateCmd userCreateCmd);
+    void updateUserById(UserCmd userCmd);
 
     Page<UserPageDTO> pageList(UserPageQry pageRequest);
 
-    void updateStatus(UserCreateCmd userCreateCmd);
+    void updateStatus(UserCmd userCmd);
 
     IamUser getUserByPhone(String username);
 
-    List<PermissionVO> getUserElements(String userCode);
+    List<PermissionDTO> getUserElements(String userCode);
 
     IamUser getUserById(Long userId);
 
-    UserDetailDTO getUserDetailVOById(Long userId);
+    UserDetailsDTO getUserDetailVOById(Long userId);
 
 //    User getUserInfoByPhone(String phone);
 

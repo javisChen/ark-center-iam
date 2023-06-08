@@ -1,6 +1,10 @@
 package com.ark.center.iam.infra.role.gateway.db;
 
+import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface IamRoleMapper extends BaseMapper<IamRole> {
 
 
+    List<UserRoleVO> selectRolesByUserIds(@Param("userIds") List<Long> userIds);
 }

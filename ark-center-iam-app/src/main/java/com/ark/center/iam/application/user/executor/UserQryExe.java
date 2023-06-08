@@ -1,26 +1,24 @@
 package com.ark.center.iam.application.user.executor;
 
-import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.application.user.assembler.OrderAssembler;
-import com.ark.center.iam.client.order.dto.OrderDTO;
-import com.ark.center.iam.client.order.dto.ReceiveDTO;
-import com.ark.center.iam.client.order.dto.info.OrderInfoDTO;
-import com.ark.center.iam.client.order.query.OrderPageQry;
+import com.ark.center.iam.client.user.dto.UserBaseDTO;
+import com.ark.center.iam.client.user.dto.UserDetailsDTO;
+import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.client.user.query.UserPageQry;
-import com.ark.center.iam.client.user.vo.UserPageDTO;
-import com.ark.center.iam.domain.user.entity.IamUser;
-import com.ark.center.iam.domain.order.gateway.ReceiveGateway;
-import com.ark.center.iam.domain.order.model.Order;
-import com.ark.center.iam.domain.order.model.OrderItem;
+import com.ark.center.iam.domain.role.gateway.RoleGateway;
+import com.ark.center.iam.domain.role.vo.UserRoleVO;
+import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
-import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
+import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
+import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,28 +26,50 @@ import java.util.stream.Collectors;
 public class UserQryExe {
 
     private final UserGateway userGateway;
-    private final ReceiveGateway receiveGateway;
-    private final OrderAssembler orderAssembler;
-
-    public OrderInfoDTO get(Long orderId) {
-        Order order = orderGateway.findById(orderId);
-        List<OrderItem> orderItems = orderGateway.findItemsByOrderId(orderId);
-        ReceiveDTO receiveDTO = receiveGateway.findByOrderId(orderId);
-        return orderAssembler.assemble(order, orderItems, receiveDTO);
-    }
+    private final RoleGateway roleGateway;
+    private final UserGroupGateway userGroupGateway;
+    private final UserBeanConverter beanConverter;
 
     public Page<UserPageDTO> pageQuery(UserPageQry qry) {
+        Page<UserPageDTO> userPageDTOPage = userGateway.selectUsers(qry);
+        List<UserPageDTO> records = userPageDTOPage.getRecords();
+        if (CollectionUtils.isEmpty(records)) {
+            return userPageDTOPage;
+        }
+        List<Long> userIds = records.stream().map(UserBaseDTO::getId).toList();
+        Map<Long, List<UserRoleVO>> userRolesHolder = collectUserRoles(userIds);
+        Map<Long, List<UserGroupVO>> userGroupsHolder = collectUserGroups(userIds);
+        for (UserPageDTO record : records) {
+            Long userId = record.getId();
+            record.setRoles(userRolesHolder.getOrDefault(userId, Collections.emptyList())
+                    .stream()
+                    .map(UserRoleVO::getRoleName)
+                    .toList());
+            record.setUserGroups(userGroupsHolder.getOrDefault(userId, Collections.emptyList())
+                    .stream()
+                    .map(UserGroupVO::getUserGroupName)
+                    .toList());
+        }
+        return userPageDTOPage;
+    }
 
-        userGateway.selectUsers(qry);
-        LambdaQueryWrapper<IamUser> qw = new LambdaQueryWrapper<IamUser>()
-                .like(StrUtil.isNotBlank(qry.getPhone()), IamUser::getPhone, qry.getPhone())
-                .like(StrUtil.isNotBlank(qry.getName()), IamUser::getUserName, qry.getName())
-                .select(BaseEntity::getId, IamUser::getPhone, IamUser::getUserName, IamUser::getStatus);
-        IPage<IamUser> result = this.page(new Page<>(qry.getCurrent(), qry.getSize()), qw);
-        List<IamUser> records = result.getRecords();
-        List<UserPageDTO> vos = records.stream().map(beanConverter::convertToUserPageListVO).collect(Collectors.toList());
-        Page<UserPageDTO> pageVo = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
-        pageVo.setRecords(vos);
-        return pageVo;
+    private Map<Long, List<UserGroupVO>> collectUserGroups(List<Long> userIds) {
+        List<UserGroupVO> userGroups = userGroupGateway.selectUserGroupsByUserIds(userIds);
+        return userGroups.stream()
+                .collect(Collectors.groupingBy(UserGroupVO::getUserId));
+    }
+
+    private Map<Long, List<UserRoleVO>> collectUserRoles(List<Long> userIds) {
+        List<UserRoleVO> userRoles = roleGateway.selectRolesByUserIds(userIds);
+        return userRoles.stream()
+                .collect(Collectors.groupingBy(UserRoleVO::getUserId));
+    }
+
+    public UserDetailsDTO queryUserDetails(Long userId) {
+        User user = userGateway.selectByUserId(userId);
+        UserDetailsDTO userDetailsDTO = beanConverter.convertToUserDetailVO(user);
+        userDetailsDTO.setRoleIds(roleGateway.selectRoleIdsByUserId(userId));
+        userDetailsDTO.setUserGroupIds(userGroupGateway.selectUserGroupIdsByUserId(userId));
+        return userDetailsDTO;
     }
 }

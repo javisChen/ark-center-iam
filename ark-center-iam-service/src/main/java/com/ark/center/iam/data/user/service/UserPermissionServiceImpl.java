@@ -7,11 +7,11 @@ import com.ark.center.iam.dao.bo.ApiPermissionBO;
 import com.ark.center.iam.dao.entity.IamPermission;
 import com.ark.center.iam.dao.entity.IamUser;
 import com.ark.center.iam.data.permission.service.IPermissionService;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.data.role.service.IRoleService;
 import com.ark.center.iam.data.route.service.IRouteService;
 import com.ark.center.iam.data.user.common.UserConst;
-import com.ark.center.iam.client.user.vo.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
 import com.ark.center.iam.data.usergroup.service.IUserGroupService;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.data.user.converter.UserBeanConverter;
@@ -83,13 +83,13 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
     }
 
     @Override
-    public List<PermissionVO> getUserPermissionPageElements(long userId) {
+    public List<PermissionDTO> getUserPermissionPageElements(long userId) {
         List<IamPermission> permissions = getUserPermissions(userId, PermissionTypeEnums.PAGE_ELEMENT);
         return permissions.stream().map(beanConverter::convertToPermissionVO).collect(Collectors.toList());
     }
 
     @Override
-    public List<PermissionVO> getUserPermissionPageElements(String userCode) {
+    public List<PermissionDTO> getUserPermissionPageElements(String userCode) {
         List<IamPermission> permissions;
         // 超管直接赋予所有权限
         if (isSuperAdmin(userCode)) {

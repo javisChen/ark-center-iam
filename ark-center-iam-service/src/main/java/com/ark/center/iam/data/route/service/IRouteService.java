@@ -7,7 +7,7 @@ import com.ark.center.iam.dao.entity.IamRoute;
 import com.ark.center.iam.data.route.dto.RouteModifyParentDTO;
 import com.ark.center.iam.data.route.dto.RouteQueryDTO;
 import com.ark.center.iam.data.route.dto.RouteUpdateDTO;
-import com.ark.center.iam.client.user.vo.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
 import com.ark.center.iam.data.route.vo.RouteDetailVO;
 import com.ark.center.iam.data.route.vo.RouteElementVO;
 import com.ark.center.iam.data.route.vo.RouteListTreeVO;

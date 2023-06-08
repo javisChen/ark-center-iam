@@ -8,10 +8,10 @@ import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
-import com.ark.center.iam.data.role.dto.RoleQueryDTO;
-import com.ark.center.iam.data.role.dto.RoleUpdateDTO;
-import com.ark.center.iam.data.role.vo.RoleBaseVO;
-import com.ark.center.iam.data.role.vo.RoleListVO;
+import com.ark.center.iam.client.role.command.RoleQueryDTO;
+import com.ark.center.iam.client.role.command.RoleUpdateDTO;
+import com.ark.center.iam.client.role.dto.RoleBaseDTO;
+import com.ark.center.iam.client.role.dto.RoleListDTO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,12 +36,12 @@ public class RoleController extends BaseController {
     }
 
     @PostMapping("/roles")
-    public SingleResponse<PageResponse<RoleListVO>> list(@RequestBody RoleQueryDTO dto) {
+    public SingleResponse<PageResponse<RoleListDTO>> list(@RequestBody RoleQueryDTO dto) {
         return SingleResponse.ok(PageResponse.of(iRoleService.pageList(dto)));
     }
 
     @GetMapping("/roles/all")
-    public MultiResponse<RoleListVO> listAll() {
+    public MultiResponse<RoleListDTO> listAll() {
         return MultiResponse.ok(iRoleService.listAllVos());
     }
 
@@ -58,8 +58,8 @@ public class RoleController extends BaseController {
     }
 
     @GetMapping("/role")
-    public SingleResponse<RoleBaseVO> get(String id) {
-        RoleBaseVO vo = iRoleService.getRoleVoById(id);
+    public SingleResponse<RoleBaseDTO> get(String id) {
+        RoleBaseDTO vo = iRoleService.getRoleVoById(id);
         return SingleResponse.ok(vo);
     }
 

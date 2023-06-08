@@ -2,58 +2,59 @@ package com.ark.center.iam.application.user;
 
 import com.ark.center.iam.application.user.executor.UserCreateCmdExe;
 import com.ark.center.iam.application.user.executor.UserQryExe;
-import com.ark.center.iam.client.order.command.OrderCreateCmd;
-import com.ark.center.iam.client.order.dto.OrderDTO;
-import com.ark.center.iam.client.order.dto.info.OrderInfoDTO;
-import com.ark.center.iam.client.order.query.OrderPageQry;
-import com.ark.center.iam.client.user.command.UserCreateCmd;
+import com.ark.center.iam.application.user.executor.UserUpdateCmdExe;
+import com.ark.center.iam.client.user.command.UserCmd;
 import com.ark.center.iam.client.user.query.UserPageQry;
-import com.ark.center.iam.client.user.vo.UserPageDTO;
-import com.ark.center.iam.domain.order.model.Order;
+import com.ark.center.iam.client.user.dto.UserDetailsDTO;
+import com.ark.center.iam.client.user.dto.UserPageDTO;
+import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
-import com.ark.center.pay.api.dto.mq.PayNotifyMessage;
+import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class UserAppService {
 
     private final UserCreateCmdExe userCreateCmdExe;
-    private final UserQryExe userQryExe;
+
+    private final UserUpdateCmdExe userUpdateCmdExe;
+
     private final UserGateway userGateway;
 
-    @Transactional(rollbackFor = Throwable.class)
-    public Long createOrder(OrderCreateCmd orderCreateCmd) {
-        return orderCreateCmdExe.execute(orderCreateCmd);
-    }
+    private final UserQryExe userQryExe;
+
+    private final RoleAssignService roleAssignService;
+
+    private final UserGroupAssignService userGroupAssignService;
 
     public Page<UserPageDTO> pageQuery(UserPageQry qry) {
-        return userGateway.selectUsers(qry);
-    }
-
-    public OrderInfoDTO getOrder(Long id) {
-        return orderQryExe.get(id);
+        return userQryExe.pageQuery(qry);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void updateOrderOnPaySuccess(PayNotifyMessage message) {
-        Order order = new Order();
-        order.setOrderId(message.getOrderId());
-        order.paySuccess(message.getPayTradeNo(), LocalDateTime.now());
-        orderGateway.updateOrderPayStatus(order);
-    }
-
-    public void updateUser(UserCreateCmd userCreateCmd) {
-
+    public void updateUser(UserCmd userCmd) {
+        userUpdateCmdExe.execute(userCmd);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void createUser(UserCreateCmd cmd) {
-        userCreateCmdExe.execute(cmd);
+    public Long createUser(UserCmd cmd) {
+        return userCreateCmdExe.execute(cmd);
+    }
+
+    public UserDetailsDTO userDetails(Long userId) {
+        return userQryExe.queryUserDetails(userId);
+    }
+
+    public void removeUser(Long userId) {
+        // 逻辑删除
+        userGateway.logicDeleteByUserId(userId);
+        // 移除角色关系
+        roleAssignService.clearUserRoles(userId);
+        // 移除用户组关系
+        userGroupAssignService.clearUserGroups(userId);
     }
 }

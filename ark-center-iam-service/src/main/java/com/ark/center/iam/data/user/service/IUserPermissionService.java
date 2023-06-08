@@ -3,8 +3,8 @@ package com.ark.center.iam.data.user.service;
 import com.ark.center.iam.api.user.permission.request.ApiAuthRequest;
 import com.ark.center.iam.api.user.permission.response.ApiAuthResponse;
 import com.ark.center.iam.dao.entity.IamPermission;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
-import com.ark.center.iam.client.user.vo.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
+import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 
 import java.util.List;
@@ -40,14 +40,14 @@ public interface IUserPermissionService {
      * 获取用户页面元素权限
      * @param userId 用户id
      */
-    List<PermissionVO> getUserPermissionPageElements(long userId);
+    List<PermissionDTO> getUserPermissionPageElements(long userId);
 
 
     /**
      * 获取用户页面元素权限
      * @param userCode 用户code
      */
-    List<PermissionVO> getUserPermissionPageElements(String userCode);
+    List<PermissionDTO> getUserPermissionPageElements(String userCode);
 
     /**
      * 判断是否超级管理员

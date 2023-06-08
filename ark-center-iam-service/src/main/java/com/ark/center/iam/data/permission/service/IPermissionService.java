@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.dao.bo.ApiPermissionBO;
 import com.ark.center.iam.dao.entity.IamPermission;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -37,7 +37,7 @@ public interface IPermissionService extends IService<IamPermission> {
 
     IamPermission getPermissionByResourceIdAndType(Long resourceId, PermissionTypeEnums permissionTypeEnums);
 
-    List<PermissionVO> getRolePermissionVos(Long applicationId, Long roleId, String permissionType);
+    List<PermissionDTO> getRolePermissionVos(Long applicationId, Long roleId, String permissionType);
 
     IamPermission getPermission(Long resourceId, PermissionTypeEnums pageElement);
 

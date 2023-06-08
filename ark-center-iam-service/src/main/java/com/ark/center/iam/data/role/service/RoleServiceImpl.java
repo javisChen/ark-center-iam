@@ -4,12 +4,12 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
+import com.ark.center.iam.client.role.command.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ark.center.iam.common.util.Assert;
-import com.ark.center.iam.data.role.dto.*;
 import com.ark.center.iam.enums.BizEnums;
 import com.ark.center.iam.enums.DeletedEnums;
 import com.ark.center.iam.enums.PermissionTypeEnums;
@@ -17,12 +17,12 @@ import com.ark.center.iam.enums.RoleStatusEnums;
 import com.ark.center.iam.dao.entity.IamPermissionRoleRel;
 import com.ark.center.iam.dao.mapper.IamPermissionRoleRelMapper;
 import com.ark.center.iam.data.permission.service.IPermissionService;
-import com.ark.center.iam.client.permission.vo.PermissionVO;
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.data.role.converter.RoleBeanConverter;
 import com.ark.center.iam.dao.entity.IamRole;
 import com.ark.center.iam.dao.mapper.IamRoleMapper;
-import com.ark.center.iam.data.role.vo.RoleBaseVO;
-import com.ark.center.iam.data.role.vo.RoleListVO;
+import com.ark.center.iam.client.role.dto.RoleBaseDTO;
+import com.ark.center.iam.client.role.dto.RoleListDTO;
 import com.ark.center.iam.dao.entity.IamUserRoleRel;
 import com.ark.center.iam.dao.mapper.IamUserRoleRelMapper;
 import com.ark.center.iam.dao.entity.IamUserGroupRoleRel;
@@ -60,14 +60,14 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     private IamUserRoleRelMapper iamUserRoleRelMapper;
 
     @Override
-    public Page<RoleListVO> pageList(RoleQueryDTO params) {
+    public Page<RoleListDTO> pageList(RoleQueryDTO params) {
         LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
                 .like(StrUtil.isNotBlank(params.getName()), IamRole::getName, params.getName());
         Page<IamRole> page = this.page(new Page<>(params.getCurrent(), params.getSize()), queryWrapper);
 
-        List<RoleListVO> vos = page.getRecords().stream().map(beanConverter::convertToRoleListVO)
+        List<RoleListDTO> vos = page.getRecords().stream().map(beanConverter::convertToRoleListVO)
                 .collect(Collectors.toList());
-        Page<RoleListVO> pageVo = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        Page<RoleListDTO> pageVo = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         pageVo.setRecords(vos);
         return pageVo;
     }
@@ -153,17 +153,17 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     }
 
     @Override
-    public List<PermissionVO> getRoleRoutePermissionById(Long roleId, Long applicationId) {
+    public List<PermissionDTO> getRoleRoutePermissionById(Long roleId, Long applicationId) {
         return iPermissionService.getRolePermissionVos(applicationId, roleId, PermissionTypeEnums.FRONT_ROUTE.getType());
     }
 
     @Override
-    public List<PermissionVO> getRoleElementPermissionById(Long roleId, Long applicationId) {
+    public List<PermissionDTO> getRoleElementPermissionById(Long roleId, Long applicationId) {
         return iPermissionService.getRolePermissionVos(applicationId, roleId, PermissionTypeEnums.PAGE_ELEMENT.getType());
     }
 
     @Override
-    public List<PermissionVO> getRoleApiPermissionById(Long roleId, Long applicationId) {
+    public List<PermissionDTO> getRoleApiPermissionById(Long roleId, Long applicationId) {
         return iPermissionService.getRolePermissionVos(applicationId, roleId, PermissionTypeEnums.SER_API.getType());
     }
 
@@ -233,7 +233,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     }
 
     @Override
-    public List<RoleListVO> listAllVos() {
+    public List<RoleListDTO> listAllVos() {
         return this.list().stream().map(beanConverter::convertToRoleListVO).collect(Collectors.toList());
     }
 
@@ -243,9 +243,9 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     }
 
     @Override
-    public RoleBaseVO getRoleVoById(String id) {
+    public RoleBaseDTO getRoleVoById(String id) {
         IamRole role = getRoleById(id);
-        return CglibUtil.copy(role, RoleBaseVO.class);
+        return CglibUtil.copy(role, RoleBaseDTO.class);
     }
 
     private IamRole getRoleById(String id) {
