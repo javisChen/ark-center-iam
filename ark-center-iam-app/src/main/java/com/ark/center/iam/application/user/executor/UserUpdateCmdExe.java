@@ -5,7 +5,6 @@ import com.ark.center.iam.client.user.command.UserCmd;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
-import com.ark.center.iam.domain.user.support.IUserPasswordHelper;
 import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,7 @@ public class UserUpdateCmdExe {
 
     public void execute(UserCmd userCmd) {
         log.info("[User]: Begin Modify User, User = {}", userCmd);
-        User user = beanConverter.convertToUserDO(userCmd);
+        User user = beanConverter.toUserDO(userCmd);
 
         // 持久化用户
         persistUser(user);

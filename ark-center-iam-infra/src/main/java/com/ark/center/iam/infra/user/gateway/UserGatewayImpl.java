@@ -34,7 +34,7 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
                 .select(BaseEntity::getId, User::getPhone, User::getUserName, User::getStatus);
         IPage<User> result = this.page(new Page<>(pageQry.getCurrent(), pageQry.getSize()), qw);
         List<User> records = result.getRecords();
-        List<UserPageDTO> vos = records.stream().map(beanConverter::convertToUserPageListVO).collect(Collectors.toList());
+        List<UserPageDTO> vos = records.stream().map(beanConverter::toUserPageDTO).collect(Collectors.toList());
         Page<UserPageDTO> pageVo = new Page<>(result.getCurrent(), result.getSize(), result.getTotal());
         pageVo.setRecords(vos);
         return pageVo;

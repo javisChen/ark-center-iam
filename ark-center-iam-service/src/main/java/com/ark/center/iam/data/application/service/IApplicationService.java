@@ -2,9 +2,9 @@ package com.ark.center.iam.data.application.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.dao.entity.IamApplication;
-import com.ark.center.iam.data.application.dto.ApplicationQueryDTO;
-import com.ark.center.iam.data.application.dto.ApplicationUpdateDTO;
-import com.ark.center.iam.data.application.vo.ApplicationBaseVO;
+import com.ark.center.iam.client.application.query.ApplicationQry;
+import com.ark.center.iam.client.application.command.ApplicationCmd;
+import com.ark.center.iam.client.application.dto.ApplicationDTO;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ import java.util.List;
  */
 public interface IApplicationService extends IService<IamApplication> {
 
-    void updateApplication(ApplicationUpdateDTO dto);
+    void updateApplication(ApplicationCmd dto);
 
-    void saveApplication(ApplicationUpdateDTO dto);
+    void saveApplication(ApplicationCmd dto);
 
-    List<ApplicationBaseVO> listVos(ApplicationQueryDTO dto);
+    List<ApplicationDTO> listVos(ApplicationQry dto);
 
     String getNameById(Long applicationId);
 

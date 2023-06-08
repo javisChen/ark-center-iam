@@ -3,16 +3,11 @@ package com.ark.center.iam.application.user.executor;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import com.ark.center.iam.client.order.command.OrderCreateCmd;
-import com.ark.center.iam.client.order.command.OrderCreateItemCmd;
-import com.ark.center.iam.client.order.command.OrderCreateReceiveCreateCmd;
 import com.ark.center.iam.client.user.command.UserCmd;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.domain.user.support.IUserPasswordHelper;
 import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
-import com.ark.center.iam.infra.order.convertor.OrderConvertor;
-import com.ark.center.iam.infra.receive.convertor.ReceiveConvertor;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.ark.center.iam.domain.user.User;
 import com.ark.component.exception.ExceptionFactory;
@@ -39,7 +34,7 @@ public class UserCreateCmdExe {
 
     public Long execute(UserCmd userCmd) {
         log.info("[User]: Begin Create User, User = {}", userCmd);
-        User user = beanConverter.convertToUserDO(userCmd);
+        User user = beanConverter.toUserDO(userCmd);
 
         // 信息有效性校验
         validityCheck(user);

@@ -2,7 +2,7 @@ package com.ark.center.iam.adapter.user.web;
 
 import com.ark.center.iam.application.user.UserSelfAppService;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.security.base.user.LoginUserContext;
@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RestController
-@RequestMapping("/v1")
+
 @Schema(name = "登录用户", description = "提供登录用户操作")
 @RequiredArgsConstructor
+@RestController
+@RequestMapping("/v1")
 public class UserSelfController extends BaseController {
 
     private final UserSelfAppService userSelfAppService;
@@ -33,8 +34,8 @@ public class UserSelfController extends BaseController {
      * 获取用户菜单权限
      */
     @GetMapping("/user/self/routes")
-    public MultiResponse<UserPermissionRouteNavVO> queryUserSelfRoutes() {
-        List<UserPermissionRouteNavVO> selfRoutes = userSelfAppService.queryUserSelfRoutes();
+    public MultiResponse<UserRouteDTO> queryUserSelfRoutes() {
+        List<UserRouteDTO> selfRoutes = userSelfAppService.queryUserSelfRoutes();
         return MultiResponse.ok(selfRoutes);
     }
 

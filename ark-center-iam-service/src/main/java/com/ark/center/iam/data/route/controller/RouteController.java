@@ -2,7 +2,7 @@
 package com.ark.center.iam.data.route.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.data.route.dto.RouteModifyParentDTO;
 import com.ark.center.iam.data.route.dto.RouteQueryDTO;
 import com.ark.center.iam.data.route.dto.RouteUpdateDTO;
@@ -94,7 +94,7 @@ public class RouteController extends BaseController {
     }
 
     @PostMapping("/routes/init")
-    public ServerResponse init(@RequestBody UserPermissionRouteNavVO userMenusDTO) {
+    public ServerResponse init(@RequestBody UserRouteDTO userMenusDTO) {
 //        for (UserRouteVO menu : userMenusDTO.getRoutes()) {
 //            RouteUpdateDTO dto = new RouteUpdateDTO();
 //            dto.setName(menu.getMeta().getTitle());

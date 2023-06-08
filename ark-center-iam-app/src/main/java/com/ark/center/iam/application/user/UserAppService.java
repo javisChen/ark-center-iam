@@ -49,7 +49,8 @@ public class UserAppService {
         return userQryExe.queryUserDetails(userId);
     }
 
-    public void removeUser(Long userId) {
+    @Transactional(rollbackFor = Throwable.class)
+    public void deleteUser(Long userId) {
         // 逻辑删除
         userGateway.logicDeleteByUserId(userId);
         // 移除角色关系
@@ -57,4 +58,5 @@ public class UserAppService {
         // 移除用户组关系
         userGroupAssignService.clearUserGroups(userId);
     }
+
 }

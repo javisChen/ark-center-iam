@@ -8,6 +8,8 @@ import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,16 +25,14 @@ import jakarta.validation.groups.Default;
  */
 @RestController
 @RequestMapping("/v1")
+@RequiredArgsConstructor
 public class ApiCategoryController extends BaseController {
 
     private final IApiCategoryService iApiCategoryService;
 
-    public ApiCategoryController(IApiCategoryService iApiCategoryService) {
-        this.iApiCategoryService = iApiCategoryService;
-    }
-
     @GetMapping("/api/categories")
-    public MultiResponse<ApiCategoryBaseVO> list(Long applicationId) {
+    @Operation(summary = "应用管理 - ")
+    public MultiResponse<ApiCategoryBaseVO> queryList(Long applicationId) {
         return MultiResponse.ok(iApiCategoryService.listVos(applicationId));
     }
 

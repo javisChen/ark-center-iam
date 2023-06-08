@@ -53,8 +53,8 @@ public class UserController extends BaseController {
 
     @DeleteMapping("/user/delete")
     @Operation(summary = "用户管理 - 删除用户")
-    public ServerResponse delete(Long id) {
-        userAppService.removeUser(id);
+    public ServerResponse deleteUser(Long id) {
+        userAppService.deleteUser(id);
         return SingleResponse.ok();
     }
 

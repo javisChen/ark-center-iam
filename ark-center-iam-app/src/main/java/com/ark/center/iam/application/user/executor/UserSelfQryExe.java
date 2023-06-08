@@ -1,38 +1,43 @@
 package com.ark.center.iam.application.user.executor;
 
+import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
+import com.ark.center.iam.domain.resource.gateway.ResourceRouteGateway;
 import com.ark.center.iam.domain.user.service.UserPermissionService;
-import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.ark.component.context.core.ServiceContext;
 import com.ark.component.security.base.user.LoginUserContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
 public class UserSelfQryExe {
 
     private final UserPermissionService userPermissionService;
-    private final UserPermissionService userPermissionService;
-
-    private final UserBeanConverter beanConverter;
+    private final ResourceRouteGateway resourceRouteGateway;
+    private final PermissionAssembler permissionAssembler;
 
     public List<PermissionDTO> queryUserSelfElements() {
         LoginUserContext user = ServiceContext.getCurrentUser();
         List<Permission> permissions = userPermissionService.queryUserPermissions(user.getUserId(), user.getUserCode(),
                 PermissionType.PAGE_ELEMENT.getType());
-        return permissions.stream().map(beanConverter::convertToPermissionDTO).toList();
+        return permissions.stream().map(permissionAssembler::toPermissionDTO).toList();
     }
 
-    public List<UserPermissionRouteNavVO> queryUserSelfRoutes() {
+    public List<UserRouteDTO> queryUserSelfRoutes() {
         LoginUserContext user = ServiceContext.getCurrentUser();
         List<Permission> permissions = userPermissionService.queryUserPermissions(user.getUserId(), user.getUserCode(),
                 PermissionType.FRONT_ROUTE.getType());
-        return permissions.stream().map(beanConverter::convertToPermissionDTO).toList();
+        List<Long> routeIds = permissions.stream()
+                .filter(Objects::nonNull)
+                .map(Permission::getResourceId)
+                .toList();
+        return resourceRouteGateway.selectByRouteIds(routeIds);
     }
 }

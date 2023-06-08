@@ -4,7 +4,7 @@ import com.ark.center.iam.api.user.permission.request.ApiAuthRequest;
 import com.ark.center.iam.api.user.permission.response.ApiAuthResponse;
 import com.ark.center.iam.dao.entity.IamPermission;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 
 import java.util.List;
@@ -28,13 +28,13 @@ public interface IUserPermissionService {
      * 获取用户路由权限（前端菜单展示）
      * @param userId 用户id
      */
-    List<UserPermissionRouteNavVO> getUserRoutes(long userId);
+    List<UserRouteDTO> getUserRoutes(long userId);
 
     /**
      * 获取用户路由权限（前端菜单展示）
      * @param userCode 用户code
      */
-    List<UserPermissionRouteNavVO> getUserRoutes(String userCode);
+    List<UserRouteDTO> getUserRoutes(String userCode);
 
     /**
      * 获取用户页面元素权限

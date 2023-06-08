@@ -2,13 +2,13 @@ package com.ark.center.iam.enums;
 
 import lombok.Getter;
 
+@Getter
 public enum DeletedEnums {
 
     NOT(0L),
     YET(1L);
 
-    @Getter
-    private Long code;
+    private final Long code;
 
     DeletedEnums(Long code) {
         this.code = code;

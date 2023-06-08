@@ -6,11 +6,11 @@ import com.ark.center.iam.common.util.Assert;
 import com.ark.center.iam.enums.BizEnums;
 import com.ark.center.iam.enums.DeletedEnums;
 import com.ark.center.iam.data.application.converter.ApplicationBeanConverter;
-import com.ark.center.iam.data.application.dto.ApplicationQueryDTO;
-import com.ark.center.iam.data.application.dto.ApplicationUpdateDTO;
+import com.ark.center.iam.client.application.query.ApplicationQry;
+import com.ark.center.iam.client.application.command.ApplicationCmd;
 import com.ark.center.iam.dao.entity.IamApplication;
 import com.ark.center.iam.dao.mapper.IamApplicationMapper;
-import com.ark.center.iam.data.application.vo.ApplicationBaseVO;
+import com.ark.center.iam.client.application.dto.ApplicationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class ApplicationServiceImpl extends ServiceImpl<IamApplicationMapper, Ia
     private ApplicationBeanConverter beanConverter;
 
     @Override
-    public void saveApplication(ApplicationUpdateDTO dto) {
+    public void saveApplication(ApplicationCmd dto) {
         checkBeforeSave(dto);
 
         IamApplication application = beanConverter.convertForInsert(dto);
@@ -40,7 +40,7 @@ public class ApplicationServiceImpl extends ServiceImpl<IamApplicationMapper, Ia
     }
 
     @Override
-    public void updateApplication(ApplicationUpdateDTO dto) {
+    public void updateApplication(ApplicationCmd dto) {
         checkBeforeUpdate(dto);
 
         IamApplication application = beanConverter.convertForUpdate(dto);
@@ -49,7 +49,7 @@ public class ApplicationServiceImpl extends ServiceImpl<IamApplicationMapper, Ia
     }
 
     @Override
-    public List<ApplicationBaseVO> listVos(ApplicationQueryDTO dto) {
+    public List<ApplicationDTO> listVos(ApplicationQry dto) {
         return this.list().stream().map(beanConverter::convertForApplicationListVO).collect(Collectors.toList());
     }
 
@@ -63,14 +63,14 @@ public class ApplicationServiceImpl extends ServiceImpl<IamApplicationMapper, Ia
         return application.getName();
     }
 
-    private void checkBeforeSave(ApplicationUpdateDTO dto) {
+    private void checkBeforeSave(ApplicationCmd dto) {
         IamApplication application = getApplicationByName(dto.getName());
         Assert.isTrue(application != null, BizEnums.APPLICATION_NAME_ALREADY_EXISTS);
         application = getApplicationByCode(dto.getCode());
         Assert.isTrue(application != null, BizEnums.APPLICATION_CODE_ALREADY_EXISTS);
     }
 
-    private void checkBeforeUpdate(ApplicationUpdateDTO dto) {
+    private void checkBeforeUpdate(ApplicationCmd dto) {
         IamApplication application = getApplicationByName(dto.getName());
         boolean condition = application != null && !application.getId().equals(dto.getId());
         Assert.isTrue(condition, BizEnums.APPLICATION_NAME_ALREADY_EXISTS);

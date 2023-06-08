@@ -11,7 +11,7 @@ import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.data.role.service.IRoleService;
 import com.ark.center.iam.data.route.service.IRouteService;
 import com.ark.center.iam.data.user.common.UserConst;
-import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.data.usergroup.service.IUserGroupService;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.data.user.converter.UserBeanConverter;
@@ -59,13 +59,13 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
     }
 
     @Override
-    public List<UserPermissionRouteNavVO> getUserRoutes(long userId) {
+    public List<UserRouteDTO> getUserRoutes(long userId) {
         List<IamPermission> userRoutePermissions = getUserPermissions(userId, PermissionTypeEnums.FRONT_ROUTE);
         return getUserRoutesByPermissionIds(userRoutePermissions);
     }
 
     @Override
-    public List<UserPermissionRouteNavVO> getUserRoutes(String userCode) {
+    public List<UserRouteDTO> getUserRoutes(String userCode) {
         List<IamPermission> permissions;
         // 超管直接赋予所有权限
         if (isSuperAdmin(userCode)) {
@@ -117,7 +117,7 @@ public class UserPermissionServiceImpl implements IUserPermissionService {
         return roleIdSet;
     }
 
-    private List<UserPermissionRouteNavVO> getUserRoutesByPermissionIds(List<IamPermission> userRoutePermissions) {
+    private List<UserRouteDTO> getUserRoutesByPermissionIds(List<IamPermission> userRoutePermissions) {
         if (CollectionUtil.isEmpty(userRoutePermissions)) {
             return CollectionUtil.newArrayList();
         }

@@ -67,7 +67,7 @@ public class UserQryExe {
 
     public UserDetailsDTO queryUserDetails(Long userId) {
         User user = userGateway.selectByUserId(userId);
-        UserDetailsDTO userDetailsDTO = beanConverter.convertToUserDetailVO(user);
+        UserDetailsDTO userDetailsDTO = beanConverter.toUserDetailsDTO(user);
         userDetailsDTO.setRoleIds(roleGateway.selectRoleIdsByUserId(userId));
         userDetailsDTO.setUserGroupIds(userGroupGateway.selectUserGroupIdsByUserId(userId));
         return userDetailsDTO;

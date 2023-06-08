@@ -17,25 +17,25 @@ import java.io.Serializable;
 @ApiModel(value = "OrderCreateReceiveCreateCmd", description = "订单收货信息")
 public class OrderCreateReceiveCreateCmd implements Serializable {
 
-    @ApiModelProperty(value = "收货人名称", required = true)
+    @Schema(name = "收货人名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String name;
 
-    @ApiModelProperty(value = "收货人电话", required = true)
+    @Schema(name = "收货人电话", requiredMode = Schema.RequiredMode.REQUIRED)
     private String mobile;
 
-    @ApiModelProperty(value = "省份", required = true)
+    @Schema(name = "省份", requiredMode = Schema.RequiredMode.REQUIRED)
     private String province;
 
-    @ApiModelProperty(value = "城市", required = true)
+    @Schema(name = "城市", requiredMode = Schema.RequiredMode.REQUIRED)
     private String city;
 
-    @ApiModelProperty(value = "区", required = true)
+    @Schema(name = "区", requiredMode = Schema.RequiredMode.REQUIRED)
     private String district;
 
-    @ApiModelProperty(value = "街道", required = false)
+    @Schema(name = "街道", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String street;
 
-    @ApiModelProperty(value = "详细地址", required = true)
+    @Schema(name = "详细地址", requiredMode = Schema.RequiredMode.REQUIRED)
     private String address;
 
 }

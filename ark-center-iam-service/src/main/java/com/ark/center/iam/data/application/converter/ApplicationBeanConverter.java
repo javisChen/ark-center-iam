@@ -2,9 +2,9 @@ package com.ark.center.iam.data.application.converter;
 
 import com.ark.center.iam.dao.entity.IamApplication;
 import com.ark.center.iam.data.api.service.IApiService;
-import com.ark.center.iam.data.application.dto.ApplicationUpdateDTO;
-import com.ark.center.iam.data.application.vo.ApplicationBaseVO;
-import com.ark.center.iam.data.application.vo.ApplicationListVO;
+import com.ark.center.iam.client.application.command.ApplicationCmd;
+import com.ark.center.iam.client.application.dto.ApplicationDTO;
+import com.ark.center.iam.client.application.dto.ApplicationListDTO;
 import com.ark.center.iam.data.route.service.IRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,8 +23,8 @@ public class ApplicationBeanConverter {
     @Autowired
     private IRouteService iRouteService;
 
-    public ApplicationBaseVO convertForApplicationListVO(IamApplication application) {
-        ApplicationListVO vo = new ApplicationListVO();
+    public ApplicationDTO convertForApplicationListVO(IamApplication application) {
+        ApplicationListDTO vo = new ApplicationListDTO();
         Long applicationId = application.getId();
         vo.setId(applicationId);
         vo.setName(application.getName());
@@ -36,15 +36,15 @@ public class ApplicationBeanConverter {
         return vo;
     }
 
-    public IamApplication convertForInsert(ApplicationUpdateDTO dto) {
+    public IamApplication convertForInsert(ApplicationCmd dto) {
         return convertForEntity(dto);
     }
 
-    public IamApplication convertForUpdate(ApplicationUpdateDTO dto) {
+    public IamApplication convertForUpdate(ApplicationCmd dto) {
         return convertForEntity(dto);
     }
 
-    private IamApplication convertForEntity(ApplicationUpdateDTO dto) {
+    private IamApplication convertForEntity(ApplicationCmd dto) {
         IamApplication application = new IamApplication();
         application.setId(dto.getId());
         application.setName(dto.getName());

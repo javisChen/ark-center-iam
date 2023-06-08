@@ -20,7 +20,7 @@ import com.ark.center.iam.data.route.dto.RouteUpdateDTO;
 import com.ark.center.iam.data.route.vo.RouteDetailVO;
 import com.ark.center.iam.data.route.vo.RouteElementVO;
 import com.ark.center.iam.data.route.vo.RouteListTreeVO;
-import com.ark.center.iam.client.user.dto.UserPermissionRouteNavVO;
+import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.enums.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -362,7 +362,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     }
 
     @Override
-    public List<UserPermissionRouteNavVO> getRouteVOSByIds(List<Long> routeIds) {
+    public List<UserRouteDTO> getRouteVOSByIds(List<Long> routeIds) {
         LambdaQueryWrapper<IamRoute> qw = new LambdaQueryWrapper<>();
         qw.in(IamRoute::getId, routeIds);
         qw.orderByAsc(Lists.newArrayList(IamRoute::getLevel, IamRoute::getSequence));
@@ -371,8 +371,8 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
                 .collect(Collectors.toList());
     }
 
-    private UserPermissionRouteNavVO convertToUserRouteVO(IamRoute item) {
-        UserPermissionRouteNavVO userMenuItem = new UserPermissionRouteNavVO();
+    private UserRouteDTO convertToUserRouteVO(IamRoute item) {
+        UserRouteDTO userMenuItem = new UserRouteDTO();
         userMenuItem.setName(item.getCode());
         userMenuItem.setParentId(item.getPid());
         userMenuItem.setId(String.valueOf(item.getId()));
@@ -383,8 +383,8 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
         return userMenuItem;
     }
 
-    private UserPermissionRouteNavVO.Meta assembleMeta(IamRoute item) {
-        UserPermissionRouteNavVO.Meta meta = new UserPermissionRouteNavVO.Meta();
+    private UserRouteDTO.Meta assembleMeta(IamRoute item) {
+        UserRouteDTO.Meta meta = new UserRouteDTO.Meta();
         meta.setIcon(item.getIcon());
         meta.setTitle(item.getName());
         meta.setHideChildren(item.getHideChildren());
