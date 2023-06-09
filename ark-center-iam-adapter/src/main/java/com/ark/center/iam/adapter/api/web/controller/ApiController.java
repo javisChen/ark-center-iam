@@ -1,19 +1,20 @@
-package com.ark.center.iam.data.api.controller;
+package com.ark.center.iam.adapter.api.web.controller;
 
 
+import com.ark.center.iam.application.api.executor.ApiAppService;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
 import com.ark.center.iam.data.api.cache.ApiCacheHolder;
-import com.ark.center.iam.data.api.dto.ApiQueryDTO;
-import com.ark.center.iam.data.api.dto.ApiUpdateDTO;
+import com.ark.center.iam.client.api.query.ApiQry;
+import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.data.api.service.IApiService;
-import com.ark.center.iam.data.api.vo.ApiDetailVO;
-import com.ark.center.iam.data.api.vo.ApiListVO;
+import com.ark.center.iam.client.api.dto.ApiDetailVO;
+import com.ark.center.iam.client.api.dto.ApiListDTO;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +35,7 @@ import java.util.Set;
  * @author
  * @since 2020-11-09
  */
-@Tag(name = "接口管理", description = "接口管理")
+@Schema(name = "API管理", description = "API管理")
 @RestController
 @RequestMapping("/v1")
 public class ApiController extends BaseController {
@@ -44,19 +45,22 @@ public class ApiController extends BaseController {
     @Autowired
     private IApiService iApiService;
     @Autowired
+    private ApiAppService apiAppService;
+    @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
     @Operation(summary = "接口列表")
     @PostMapping("/apis")
-    public MultiResponse<ApiListVO> list(@RequestBody ApiQueryDTO dto) {
-        return MultiResponse.ok(iApiService.listVos(dto));
+    public MultiResponse<ApiListDTO> queryList(@RequestBody ApiQry dto) {
+        return MultiResponse.ok(apiAppService.queryList(dto));
     }
 
     @Operation(summary = "新增接口")
     @PostMapping("/api")
     public ServerResponse saveApi(@Validated({ValidateGroup.Add.class, Default.class})
-                                  @RequestBody ApiUpdateDTO dto) {
+                                  @RequestBody ApiUpdateCmd dto) {
         iApiService.saveApplication(dto);
+        apiAppService.createApplication(dto);
         return ServerResponse.ok();
     }
 
@@ -71,7 +75,7 @@ public class ApiController extends BaseController {
     @Operation(summary = "更新接口")
     @PutMapping("/api")
     public ServerResponse updateApi(@Validated({ValidateGroup.Update.class, Default.class})
-                                    @RequestBody ApiUpdateDTO dto) {
+                                    @RequestBody ApiUpdateCmd dto) {
         iApiService.updateApi(dto);
         return ServerResponse.ok();
     }
@@ -95,7 +99,7 @@ public class ApiController extends BaseController {
     public ServerResponse init() {
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : requestMappingHandlerMapping.getHandlerMethods().entrySet()) {
             RequestMappingInfo requestMappingInfo = entry.getKey();
-            ApiUpdateDTO dto = new ApiUpdateDTO();
+            ApiUpdateCmd dto = new ApiUpdateCmd();
             dto.setId(1L);
             dto.setApplicationId(1L);
             Set<String> patterns = requestMappingInfo.getPatternsCondition().getPatterns();

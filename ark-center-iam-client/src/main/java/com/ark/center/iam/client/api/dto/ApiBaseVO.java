@@ -1,4 +1,4 @@
-package com.ark.center.iam.data.api.vo;
+package com.ark.center.iam.client.api.dto;
 
 import lombok.Data;
 
@@ -11,8 +11,6 @@ import java.io.Serializable;
  */
 @Data
 public class ApiBaseVO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     private Long id;
 

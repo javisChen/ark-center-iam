@@ -1,4 +1,4 @@
-package com.ark.center.iam.data.api.vo;
+package com.ark.center.iam.client.api.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

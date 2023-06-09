@@ -3,10 +3,10 @@ package com.ark.center.iam.data.api.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.dao.entity.IamApi;
-import com.ark.center.iam.data.api.dto.ApiQueryDTO;
-import com.ark.center.iam.data.api.dto.ApiUpdateDTO;
-import com.ark.center.iam.data.api.vo.ApiDetailVO;
-import com.ark.center.iam.data.api.vo.ApiListVO;
+import com.ark.center.iam.client.api.query.ApiQry;
+import com.ark.center.iam.client.api.command.ApiUpdateCmd;
+import com.ark.center.iam.client.api.dto.ApiDetailVO;
+import com.ark.center.iam.client.api.dto.ApiListDTO;
 
 import java.util.List;
 
@@ -22,11 +22,11 @@ public interface IApiService extends IService<IamApi> {
 
     long countByApplicationId(Long applicationId);
 
-    void saveApplication(ApiUpdateDTO dto);
+    void saveApplication(ApiUpdateCmd dto);
 
-    void updateApi(ApiUpdateDTO dto);
+    void updateApi(ApiUpdateCmd dto);
 
-    List<ApiListVO> listVos(ApiQueryDTO dto);
+    List<ApiListDTO> listVos(ApiQry dto);
 
     void removeApi(Long dto);
 

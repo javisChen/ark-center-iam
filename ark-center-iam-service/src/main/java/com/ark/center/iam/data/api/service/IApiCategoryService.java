@@ -3,8 +3,8 @@ package com.ark.center.iam.data.api.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.dao.entity.IamApiCategory;
-import com.ark.center.iam.data.api.dto.ApiCategoryUpdateDTO;
-import com.ark.center.iam.data.api.vo.ApiCategoryBaseVO;
+import com.ark.center.iam.client.api.command.ApiCategoryCmd;
+import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ import java.util.List;
 public interface IApiCategoryService extends IService<IamApiCategory> {
 
 
-    List<ApiCategoryBaseVO> listVos(Long applicationId);
+    List<ApiCategoryBaseDTO> listVos(Long applicationId);
 
-    void saveApiCategory(ApiCategoryUpdateDTO dto);
+    void saveApiCategory(ApiCategoryCmd dto);
 
-    void updateApiCategory(ApiCategoryUpdateDTO dto);
+    void updateApiCategory(ApiCategoryCmd dto);
 
     void removeApiCategory(Long id);
 }

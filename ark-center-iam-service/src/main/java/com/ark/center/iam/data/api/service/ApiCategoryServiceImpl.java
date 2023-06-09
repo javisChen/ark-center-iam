@@ -10,8 +10,8 @@ import com.ark.center.iam.dao.mapper.IamApiCategoryMapper;
 import com.ark.center.iam.data.api.converter.ApiBeanConverter;
 import com.ark.center.iam.enums.BizEnums;
 import com.ark.center.iam.enums.DeletedEnums;
-import com.ark.center.iam.data.api.dto.ApiCategoryUpdateDTO;
-import com.ark.center.iam.data.api.vo.ApiCategoryBaseVO;
+import com.ark.center.iam.client.api.command.ApiCategoryCmd;
+import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +34,7 @@ public class ApiCategoryServiceImpl extends ServiceImpl<IamApiCategoryMapper, Ia
     private IApiService iApiService;
 
     @Override
-    public List<ApiCategoryBaseVO> listVos(Long applicationId) {
+    public List<ApiCategoryBaseDTO> listVos(Long applicationId) {
         LambdaQueryWrapper<IamApiCategory> qw = new LambdaQueryWrapper<>();
         qw.eq(IamApiCategory::getIsDeleted, DeletedEnums.NOT.getCode());
         qw.eq(IamApiCategory::getApplicationId, applicationId);
@@ -42,14 +42,14 @@ public class ApiCategoryServiceImpl extends ServiceImpl<IamApiCategoryMapper, Ia
     }
 
     @Override
-    public void saveApiCategory(ApiCategoryUpdateDTO dto) {
+    public void saveApiCategory(ApiCategoryCmd dto) {
         IamApiCategory one = getApiCategoryByNameAndApplicationId(dto);
         Assert.isTrue(one != null, BizEnums.API_CATEGORY_ALREADY_EXISTS);
         IamApiCategory apiCategory = beanConverter.convertToDO(dto);
         this.save(apiCategory);
     }
 
-    private IamApiCategory getApiCategoryByNameAndApplicationId(ApiCategoryUpdateDTO dto) {
+    private IamApiCategory getApiCategoryByNameAndApplicationId(ApiCategoryCmd dto) {
         LambdaQueryWrapper<IamApiCategory> qw = new LambdaQueryWrapper<>();
         qw.eq(IamApiCategory::getIsDeleted, DeletedEnums.NOT.getCode());
         qw.eq(IamApiCategory::getName, dto.getName());
@@ -58,7 +58,7 @@ public class ApiCategoryServiceImpl extends ServiceImpl<IamApiCategoryMapper, Ia
     }
 
     @Override
-    public void updateApiCategory(ApiCategoryUpdateDTO dto) {
+    public void updateApiCategory(ApiCategoryCmd dto) {
         IamApiCategory one = getApiCategoryByNameAndApplicationId(dto);
         Assert.isTrue(one != null && !dto.getId().equals(one.getId()), BizEnums.API_CATEGORY_ALREADY_EXISTS);
         IamApiCategory apiCategory = beanConverter.convertToDO(dto);

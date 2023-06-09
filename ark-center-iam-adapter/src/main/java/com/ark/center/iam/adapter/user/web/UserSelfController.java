@@ -34,6 +34,7 @@ public class UserSelfController extends BaseController {
      * 获取用户菜单权限
      */
     @GetMapping("/user/self/routes")
+    @Operation(summary = "登录用户 - 查询登录用户的菜单权限")
     public MultiResponse<UserRouteDTO> queryUserSelfRoutes() {
         List<UserRouteDTO> selfRoutes = userSelfAppService.queryUserSelfRoutes();
         return MultiResponse.ok(selfRoutes);
@@ -43,6 +44,7 @@ public class UserSelfController extends BaseController {
      * 获取用户页面元素权限
      */
     @GetMapping("/user/self/elements")
+    @Operation(summary = "登录用户 - 查询登录用户的元素权限")
     public MultiResponse<PermissionDTO> queryUserSelfElements() {
         List<PermissionDTO> selfElements = userSelfAppService.queryUserSelfElements();
         return MultiResponse.ok(selfElements);

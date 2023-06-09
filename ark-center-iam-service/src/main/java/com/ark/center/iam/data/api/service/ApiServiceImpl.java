@@ -12,10 +12,10 @@ import com.ark.center.iam.data.permission.service.IPermissionService;
 import com.ark.center.iam.enums.BizEnums;
 import com.ark.center.iam.enums.DeletedEnums;
 import com.ark.center.iam.enums.PermissionTypeEnums;
-import com.ark.center.iam.data.api.dto.ApiQueryDTO;
-import com.ark.center.iam.data.api.dto.ApiUpdateDTO;
-import com.ark.center.iam.data.api.vo.ApiDetailVO;
-import com.ark.center.iam.data.api.vo.ApiListVO;
+import com.ark.center.iam.client.api.query.ApiQry;
+import com.ark.center.iam.client.api.command.ApiUpdateCmd;
+import com.ark.center.iam.client.api.dto.ApiDetailVO;
+import com.ark.center.iam.client.api.dto.ApiListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +47,7 @@ public class ApiServiceImpl extends ServiceImpl<IamApiMapper, IamApi> implements
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void saveApplication(ApiUpdateDTO dto) {
+    public void saveApplication(ApiUpdateCmd dto) {
         IamApi api = getApiByApplicationIdAndMethodAndUrl(dto);
         Assert.isTrue(api != null, BizEnums.API_ALREADY_EXISTS);
 
@@ -60,7 +60,7 @@ public class ApiServiceImpl extends ServiceImpl<IamApiMapper, IamApi> implements
     /**
      * 根据应用id+httpMethod+Url查询api记录，这三个字段保证一个api的唯一性
      */
-    private IamApi getApiByApplicationIdAndMethodAndUrl(ApiUpdateDTO dto) {
+    private IamApi getApiByApplicationIdAndMethodAndUrl(ApiUpdateCmd dto) {
         LambdaQueryWrapper<IamApi> qw = new LambdaQueryWrapper<>();
         qw.eq(IamApi::getUrl, dto.getUrl());
         qw.eq(IamApi::getMethod, dto.getMethod());
@@ -70,7 +70,7 @@ public class ApiServiceImpl extends ServiceImpl<IamApiMapper, IamApi> implements
     }
 
     @Override
-    public void updateApi(ApiUpdateDTO dto) {
+    public void updateApi(ApiUpdateCmd dto) {
         IamApi api = getApiByApplicationIdAndMethodAndUrl(dto);
         Assert.isTrue(api != null && !api.getId().equals(dto.getId()), BizEnums.API_ALREADY_EXISTS);
         api = beanConverter.convertForUpdate(dto);
@@ -78,7 +78,7 @@ public class ApiServiceImpl extends ServiceImpl<IamApiMapper, IamApi> implements
     }
 
     @Override
-    public List<ApiListVO> listVos(ApiQueryDTO dto) {
+    public List<ApiListDTO> listVos(ApiQry dto) {
         LambdaQueryWrapper<IamApi> qw = new LambdaQueryWrapper<>();
         qw.eq(IamApi::getApplicationId, dto.getApplicationId());
         qw.eq(IamApi::getCategoryId, dto.getCategoryId());

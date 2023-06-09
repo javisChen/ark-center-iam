@@ -5,11 +5,11 @@ import com.ark.center.iam.dao.entity.IamApi;
 import com.ark.center.iam.dao.entity.IamApiCategory;
 import com.ark.center.iam.data.permission.service.IPermissionService;
 import com.ark.center.iam.enums.PermissionTypeEnums;
-import com.ark.center.iam.data.api.dto.ApiCategoryUpdateDTO;
-import com.ark.center.iam.data.api.dto.ApiUpdateDTO;
-import com.ark.center.iam.data.api.vo.ApiCategoryBaseVO;
-import com.ark.center.iam.data.api.vo.ApiDetailVO;
-import com.ark.center.iam.data.api.vo.ApiListVO;
+import com.ark.center.iam.client.api.command.ApiCategoryCmd;
+import com.ark.center.iam.client.api.command.ApiUpdateCmd;
+import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
+import com.ark.center.iam.client.api.dto.ApiDetailVO;
+import com.ark.center.iam.client.api.dto.ApiListDTO;
 import com.ark.center.iam.dao.entity.IamPermission;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class ApiBeanConverter {
     @Autowired
     private IPermissionService iPermissionService;
 
-    public IamApi convertForUpdate(ApiUpdateDTO dto) {
+    public IamApi convertForUpdate(ApiUpdateCmd dto) {
         IamApi iamApi = new IamApi();
         iamApi.setId(dto.getId());
         iamApi.setName(dto.getName());
@@ -41,31 +41,31 @@ public class ApiBeanConverter {
         return iamApi;
     }
 
-    public ApiListVO convertToApiListVO(IamApi iamApi) {
+    public ApiListDTO convertToApiListVO(IamApi iamApi) {
         IamPermission permission = iPermissionService.getPermission(iamApi.getId(), PermissionTypeEnums.SER_API);
-        ApiListVO apiListVO = new ApiListVO();
-        apiListVO.setId(iamApi.getId());
-        apiListVO.setName(iamApi.getName());
-        apiListVO.setUrl(iamApi.getUrl());
-        apiListVO.setMethod(iamApi.getMethod());
-        apiListVO.setAuthType(iamApi.getAuthType());
-        apiListVO.setStatus(iamApi.getStatus());
-        apiListVO.setPermissionId(permission.getId());
-        apiListVO.setPermissionCode(permission.getCode());
-        apiListVO.setCreateTime(iamApi.getGmtCreate());
-        apiListVO.setUpdateTime(iamApi.getGmtModified());
-        return apiListVO;
+        ApiListDTO apiListDTO = new ApiListDTO();
+        apiListDTO.setId(iamApi.getId());
+        apiListDTO.setName(iamApi.getName());
+        apiListDTO.setUrl(iamApi.getUrl());
+        apiListDTO.setMethod(iamApi.getMethod());
+        apiListDTO.setAuthType(iamApi.getAuthType());
+        apiListDTO.setStatus(iamApi.getStatus());
+        apiListDTO.setPermissionId(permission.getId());
+        apiListDTO.setPermissionCode(permission.getCode());
+        apiListDTO.setCreateTime(iamApi.getGmtCreate());
+        apiListDTO.setUpdateTime(iamApi.getGmtModified());
+        return apiListDTO;
     }
 
-    public ApiCategoryBaseVO convertToApiCategoryVO(IamApiCategory category) {
-        ApiCategoryBaseVO apiCategoryBaseVO = new ApiCategoryBaseVO();
-        apiCategoryBaseVO.setId(category.getId());
-        apiCategoryBaseVO.setName(category.getName());
-        apiCategoryBaseVO.setApplicationId(category.getApplicationId());
-        return apiCategoryBaseVO;
+    public ApiCategoryBaseDTO convertToApiCategoryVO(IamApiCategory category) {
+        ApiCategoryBaseDTO apiCategoryBaseDTO = new ApiCategoryBaseDTO();
+        apiCategoryBaseDTO.setId(category.getId());
+        apiCategoryBaseDTO.setName(category.getName());
+        apiCategoryBaseDTO.setApplicationId(category.getApplicationId());
+        return apiCategoryBaseDTO;
     }
 
-    public IamApiCategory convertToDO(ApiCategoryUpdateDTO dto) {
+    public IamApiCategory convertToDO(ApiCategoryCmd dto) {
         IamApiCategory iamApiCategory = new IamApiCategory();
         iamApiCategory.setId(dto.getId());
         iamApiCategory.setName(dto.getName());

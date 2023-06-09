@@ -1,4 +1,4 @@
-package com.ark.center.iam.data.api.dto;
+package com.ark.center.iam.client.api.query;
 
 import com.ark.component.dto.PagingQuery;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ApiQueryDTO extends PagingQuery {
+public class ApiQry extends PagingQuery {
 
     private Long applicationId;
 

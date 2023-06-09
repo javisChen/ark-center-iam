@@ -11,7 +11,6 @@ import jakarta.validation.constraints.NotNull;
 @Data
 public class ApplicationCmd implements Serializable {
 
-    @NotNull(message = "id不能为空", groups = {ValidateGroup.Update.class})
     private Long id;
 
     @NotBlank(message = "name不能为空", groups = {ValidateGroup.Add.class})

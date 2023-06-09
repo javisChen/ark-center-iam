@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.application.gateway.db;
+package com.ark.center.iam.domain.application;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.ark.component.orm.mybatis.base.BaseEntity;

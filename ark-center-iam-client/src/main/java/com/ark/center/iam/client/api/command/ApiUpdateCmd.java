@@ -1,4 +1,4 @@
-package com.ark.center.iam.data.api.dto;
+package com.ark.center.iam.client.api.command;
 
 import com.ark.component.validator.ValidateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Data
 @Schema(name = "接口更新DTO")
-public class ApiUpdateDTO implements Serializable {
+public class ApiUpdateCmd implements Serializable {
 
     @NotNull(message = "id不能为空", groups = {ValidateGroup.Update.class})
     @Schema(name = "id")
