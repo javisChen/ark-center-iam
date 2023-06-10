@@ -74,7 +74,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     }
 
     @Override
-    public void saveRole(RoleUpdateDTO dto) {
+    public void saveRole(RoleCmd dto) {
         long count = countRoleByName(dto.getName());
         Assert.isTrue(count > 0, BizEnums.ROLE_NAME_ALREADY_EXISTS);
         if (StringUtils.isNotBlank(dto.getCode())) {
@@ -108,7 +108,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     }
 
     @Override
-    public void updateRoleById(RoleUpdateDTO dto) {
+    public void updateRoleById(RoleCmd dto) {
         LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
                 .eq(IamRole::getName, dto.getName())
                 .ne(IamRole::getId, dto.getId());
@@ -120,7 +120,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     }
 
     @Override
-    public void updateStatus(RoleUpdateDTO dto) {
+    public void updateStatus(RoleCmd dto) {
         updateStatus(dto, RoleStatusEnums.DISABLED);
     }
 
@@ -253,7 +253,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
         return Optional.ofNullable(this.getById(id)).orElseGet(IamRole::new);
     }
 
-    private void updateStatus(RoleUpdateDTO dto, RoleStatusEnums statusEnum) {
+    private void updateStatus(RoleCmd dto, RoleStatusEnums statusEnum) {
         this.update(new LambdaUpdateWrapper<IamRole>()
                 .eq(IamRole::getStatus, dto.getId())
                 .set(IamRole::getStatus, statusEnum.getValue()));

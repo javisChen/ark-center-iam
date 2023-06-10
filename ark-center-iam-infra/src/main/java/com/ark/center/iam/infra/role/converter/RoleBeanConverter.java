@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.role.converter;
 
-import com.ark.center.iam.client.role.command.RoleUpdateDTO;
+import com.ark.center.iam.client.role.command.RoleCmd;
 import com.ark.center.iam.client.role.dto.RoleListDTO;
 import com.ark.center.iam.domain.role.Role;
 import org.springframework.stereotype.Component;
@@ -13,17 +13,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoleBeanConverter {
 
-    public RoleListDTO convertToRoleListVO(Role item) {
+    public RoleListDTO toRoleListDTO(Role role) {
         RoleListDTO roleListVO = new RoleListDTO();
-        roleListVO.setId(item.getId());
-        roleListVO.setName(item.getName());
-        roleListVO.setCode(item.getCode());
-        roleListVO.setCreateTime(item.getGmtCreate());
-        roleListVO.setUpdateTime(item.getGmtModified());
+        roleListVO.setId(role.getId());
+        roleListVO.setName(role.getName());
+        roleListVO.setCode(role.getCode());
+        roleListVO.setCreateTime(role.getGmtCreate());
+        roleListVO.setUpdateTime(role.getGmtModified());
         return roleListVO;
     }
 
-    public Role convertToDO(RoleUpdateDTO dto) {
+    public Role convertToDO(RoleCmd dto) {
         Role role = new Role();
         role.setId(dto.getId());
         role.setCode(dto.getCode());

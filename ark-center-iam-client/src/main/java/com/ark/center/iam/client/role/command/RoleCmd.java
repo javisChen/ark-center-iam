@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class RoleUpdateDTO implements Serializable {
+public class RoleCmd implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -10,7 +10,7 @@ import com.ark.component.dto.SingleResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
 import com.ark.center.iam.client.role.query.RoleQry;
-import com.ark.center.iam.client.role.command.RoleUpdateDTO;
+import com.ark.center.iam.client.role.command.RoleCmd;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.client.role.dto.RoleListDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,22 +32,22 @@ public class RoleController extends BaseController {
     @PostMapping("/roles")
     public SingleResponse<PageResponse<RoleListDTO>> pageQuery(@RequestBody RoleQry dto) {
         return SingleResponse.ok(PageResponse.of(roleAppService.pageQuery(dto)));
-        return SingleResponse.ok(PageResponse.of(iRoleService.pageList(dto)));
     }
 
     @GetMapping("/roles/all")
-    public MultiResponse<RoleListDTO> listAll() {
-        return MultiResponse.ok(iRoleService.listAllVos());
+    public MultiResponse<RoleListDTO> queryList() {
+        return MultiResponse.ok(roleAppService.queryList());
     }
 
-    @PostMapping("/role")
-    public ServerResponse add(@RequestBody @Validated RoleUpdateDTO dto) {
+    @PostMapping("/role/create")
+    public ServerResponse createRole(@RequestBody @Validated RoleCmd dto) {
         iRoleService.saveRole(dto);
+        roleAppService.createRole(dto);
         return ServerResponse.ok();
     }
 
     @PutMapping("/role")
-    public ServerResponse update(@RequestBody @Validated RoleUpdateDTO dto) {
+    public ServerResponse update(@RequestBody @Validated RoleCmd dto) {
         iRoleService.updateRoleById(dto);
         return ServerResponse.ok();
     }
@@ -66,7 +66,7 @@ public class RoleController extends BaseController {
 
     @PutMapping("/role/status")
     public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
-                                       @RequestBody RoleUpdateDTO dto) {
+                                       @RequestBody RoleCmd dto) {
         iRoleService.updateStatus(dto);
         return ServerResponse.ok();
     }

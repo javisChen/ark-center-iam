@@ -23,11 +23,11 @@ public interface IRoleService extends IService<IamRole> {
 
     Page<RoleListDTO> pageList(RoleQry dto);
 
-    void saveRole(RoleUpdateDTO dto);
+    void saveRole(RoleCmd dto);
 
-    void updateRoleById(RoleUpdateDTO dto);
+    void updateRoleById(RoleCmd dto);
 
-    void updateStatus(RoleUpdateDTO dto);
+    void updateStatus(RoleCmd dto);
 
     /**
      * 根据用户id查询下面的所有角色id
