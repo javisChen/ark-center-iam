@@ -7,6 +7,7 @@ import com.ark.center.iam.domain.api.gateway.ApiGateway;
 import com.ark.center.iam.infra.api.assembler.ApiAssembler;
 import com.ark.center.iam.infra.api.gateway.db.ApiMapper;
 import com.ark.component.web.common.DeletedEnums;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -45,6 +46,20 @@ public class ApiGatewayImpl extends ServiceImpl<ApiMapper, Api> implements ApiGa
 
     @Override
     public void insert(Api api) {
-        sae
+        save(api);
+    }
+
+    @Override
+    public Api selectById(Long id) {
+        return getById(id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        lambdaUpdate()
+                .eq(Api::getId, id)
+                .eq(Api::getIsDeleted, DeletedEnums.NOT.getCode())
+                .set(Api::getIsDeleted, DeletedEnums.YET.getCode())
+                .update();
     }
 }

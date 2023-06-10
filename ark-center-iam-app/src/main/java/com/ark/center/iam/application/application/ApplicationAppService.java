@@ -18,7 +18,7 @@ import java.util.List;
 public class ApplicationAppService {
 
     private final ApplicationGateway applicationGateway;
-    private final ApplicationAssembler applicationAssembler;
+    private final applicationassembler applicationAssembler;
 
 
     public List<ApplicationDTO> queryList(ApplicationQry dto) {

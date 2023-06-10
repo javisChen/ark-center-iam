@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.role.gateway.db;
+package com.ark.center.iam.domain.role;
 
 
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class IamRole extends BaseEntity {
+public class Role extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

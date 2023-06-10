@@ -1,6 +1,7 @@
 package com.ark.center.iam.data.role.service;
 
 import com.ark.center.iam.client.role.command.*;
+import com.ark.center.iam.client.role.query.RoleQry;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.dao.entity.IamRole;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public interface IRoleService extends IService<IamRole> {
 
-    Page<RoleListDTO> pageList(RoleQueryDTO dto);
+    Page<RoleListDTO> pageList(RoleQry dto);
 
     void saveRole(RoleUpdateDTO dto);
 

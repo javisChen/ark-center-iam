@@ -1,6 +1,5 @@
 package com.ark.center.iam.client.application.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 @Data

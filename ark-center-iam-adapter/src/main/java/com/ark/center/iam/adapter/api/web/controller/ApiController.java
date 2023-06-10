@@ -11,7 +11,7 @@ import com.ark.center.iam.data.api.cache.ApiCacheHolder;
 import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.data.api.service.IApiService;
-import com.ark.center.iam.client.api.dto.ApiDetailVO;
+import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiListDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,41 +49,40 @@ public class ApiController extends BaseController {
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
 
-    @Operation(summary = "接口列表")
+    @Operation(summary = "API管理- API列表")
     @PostMapping("/apis")
     public MultiResponse<ApiListDTO> queryList(@RequestBody ApiQry dto) {
         return MultiResponse.ok(apiAppService.queryList(dto));
     }
 
-    @Operation(summary = "新增接口")
+    @Operation(summary = "API管理- 创建API")
     @PostMapping("/api")
     public ServerResponse saveApi(@Validated({ValidateGroup.Add.class, Default.class})
                                   @RequestBody ApiUpdateCmd dto) {
-        iApiService.saveApplication(dto);
         apiAppService.createApplication(dto);
         return ServerResponse.ok();
     }
 
 
-    @Operation(summary = "获取单个接口")
+    @Operation(summary = "API管理- 查询API详情")
     @GetMapping("/api")
-    public SingleResponse<ApiDetailVO> getApi(Long id) {
-        ApiDetailVO vo = iApiService.getApplicationVO(id);
+    public SingleResponse<ApiDetailDTO> getApi(Long id) {
+        ApiDetailDTO vo = apiAppService.getApi(id);
         return SingleResponse.ok(vo);
     }
 
-    @Operation(summary = "更新接口")
+    @Operation(summary = "API管理- 更新API")
     @PutMapping("/api")
     public ServerResponse updateApi(@Validated({ValidateGroup.Update.class, Default.class})
                                     @RequestBody ApiUpdateCmd dto) {
-        iApiService.updateApi(dto);
+        apiAppService.updateApi(dto);
         return ServerResponse.ok();
     }
 
     @Operation(summary = "删除单个接口")
     @DeleteMapping("/api/{id}")
     public ServerResponse deleteApi(@PathVariable Long id) {
-        iApiService.removeApi(id);
+        apiAppService.deleteApi(id);
         return ServerResponse.ok();
     }
 
@@ -115,7 +114,7 @@ public class ApiController extends BaseController {
             dto.setMethod(next.name());
             dto.setAuthType(1);
             dto.setStatus(1);
-            iApiService.saveApplication(dto);
+            apiAppService.createApplication(dto);
         }
         return ServerResponse.ok();
     }

@@ -1,13 +1,16 @@
 package com.ark.center.iam.infra.role.gateway.impl;
 
+import com.ark.center.iam.client.role.dto.RoleListDTO;
+import com.ark.center.iam.client.role.query.RoleQry;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
-import com.ark.center.iam.infra.role.gateway.db.IamRole;
-import com.ark.center.iam.infra.role.gateway.db.IamRoleMapper;
+import com.ark.center.iam.domain.role.Role;
+import com.ark.center.iam.infra.role.gateway.db.RoleMapper;
 import com.ark.center.iam.infra.role.gateway.db.UserRoleRel;
 import com.ark.center.iam.infra.role.gateway.db.UserRoleRelMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -18,7 +21,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class RoleGatewayImpl extends ServiceImpl<IamRoleMapper, IamRole> implements RoleGateway {
+public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements RoleGateway {
 
     private final UserRoleRelMapper userRoleRelMapper;
 
@@ -57,5 +60,10 @@ public class RoleGatewayImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     @Override
     public List<UserRoleVO> selectRolesByUserIds(List<Long> userIds) {
         return baseMapper.selectRolesByUserIds(userIds);
+    }
+
+    @Override
+    public Page<RoleListDTO> selectPages(RoleQry dto) {
+        return null;
     }
 }

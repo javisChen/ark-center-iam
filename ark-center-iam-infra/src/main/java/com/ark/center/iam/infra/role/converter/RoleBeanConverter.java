@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.role.converter;
 
 import com.ark.center.iam.client.role.command.RoleUpdateDTO;
 import com.ark.center.iam.client.role.dto.RoleListDTO;
-import com.ark.center.iam.infra.role.gateway.db.IamRole;
+import com.ark.center.iam.domain.role.Role;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoleBeanConverter {
 
-    public RoleListDTO convertToRoleListVO(IamRole item) {
+    public RoleListDTO convertToRoleListVO(Role item) {
         RoleListDTO roleListVO = new RoleListDTO();
         roleListVO.setId(item.getId());
         roleListVO.setName(item.getName());
@@ -23,12 +23,12 @@ public class RoleBeanConverter {
         return roleListVO;
     }
 
-    public IamRole convertToDO(RoleUpdateDTO dto) {
-        IamRole iamRole = new IamRole();
-        iamRole.setId(dto.getId());
-        iamRole.setCode(dto.getCode());
-        iamRole.setName(dto.getName());
-        iamRole.setStatus(dto.getStatus());
-        return iamRole;
+    public Role convertToDO(RoleUpdateDTO dto) {
+        Role role = new Role();
+        role.setId(dto.getId());
+        role.setCode(dto.getCode());
+        role.setName(dto.getName());
+        role.setStatus(dto.getStatus());
+        return role;
     }
 }

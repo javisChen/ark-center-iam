@@ -1,4 +1,4 @@
-package com.ark.center.iam.data.role.controller;
+package com.ark.center.iam.adapter.role.web.controller;
 
 import com.ark.center.iam.client.role.command.RoleApiPermissionUpdateDTO;
 import com.ark.center.iam.client.role.command.RoleApplicationApiPermissionUpdateDTO;

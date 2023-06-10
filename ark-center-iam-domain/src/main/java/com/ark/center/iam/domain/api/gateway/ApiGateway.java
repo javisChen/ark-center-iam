@@ -13,4 +13,11 @@ public interface ApiGateway {
     Api selectApiByApplicationIdAndMethodAndUrl(Long applicationId, String method, String url);
 
     void insert(Api api);
+
+    Api selectById(Long id);
+
+    void update(Api apiUpdate);
+
+    void delete(Long id);
+
 }

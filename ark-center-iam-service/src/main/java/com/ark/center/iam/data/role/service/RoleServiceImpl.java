@@ -5,6 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.cglib.CglibUtil;
 import com.ark.center.iam.client.role.command.*;
+import com.ark.center.iam.client.role.query.RoleQry;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -60,7 +61,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     private IamUserRoleRelMapper iamUserRoleRelMapper;
 
     @Override
-    public Page<RoleListDTO> pageList(RoleQueryDTO params) {
+    public Page<RoleListDTO> pageList(RoleQry params) {
         LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
                 .like(StrUtil.isNotBlank(params.getName()), IamRole::getName, params.getName());
         Page<IamRole> page = this.page(new Page<>(params.getCurrent(), params.getSize()), queryWrapper);

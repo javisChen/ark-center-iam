@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.role.command;
+package com.ark.center.iam.client.role.query;
 
 import com.ark.component.dto.PagingQuery;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RoleQueryDTO extends PagingQuery implements Serializable {
+public class RoleQry extends PagingQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

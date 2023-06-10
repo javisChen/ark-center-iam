@@ -8,7 +8,7 @@ import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.client.api.command.ApiCategoryCmd;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
-import com.ark.center.iam.client.api.dto.ApiDetailVO;
+import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiListDTO;
 import com.ark.center.iam.dao.entity.IamPermission;
 import org.apache.commons.lang3.StringUtils;
@@ -73,8 +73,8 @@ public class ApiBeanConverter {
         return iamApiCategory;
     }
 
-    public ApiDetailVO convertToApiDetailVO(IamApi iamApi) {
-        ApiDetailVO vo = new ApiDetailVO();
+    public ApiDetailDTO convertToApiDetailVO(IamApi iamApi) {
+        ApiDetailDTO vo = new ApiDetailDTO();
         vo.setApplicationId(iamApi.getApplicationId());
         vo.setCategoryId(iamApi.getCategoryId());
         vo.setId(iamApi.getId());

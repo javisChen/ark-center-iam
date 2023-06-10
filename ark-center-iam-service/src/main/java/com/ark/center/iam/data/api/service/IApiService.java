@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.dao.entity.IamApi;
 import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
-import com.ark.center.iam.client.api.dto.ApiDetailVO;
+import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiListDTO;
 
 import java.util.List;
@@ -34,5 +34,5 @@ public interface IApiService extends IService<IamApi> {
 
     void removeByCategoryId(Long id);
 
-    ApiDetailVO getApplicationVO(Long id);
+    ApiDetailDTO getApplicationVO(Long id);
 }

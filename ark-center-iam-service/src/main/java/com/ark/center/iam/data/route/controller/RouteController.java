@@ -16,6 +16,8 @@ import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,16 +32,13 @@ import jakarta.validation.groups.Default;
  * @author
  * @since 2020-11-09
  */
+@Schema(name = "路由管理", description = "路由/菜单管理")
 @RestController
 @RequestMapping("/v1")
+@RequiredArgsConstructor
 public class RouteController extends BaseController {
 
     private final IRouteService iRouteService;
-
-    public RouteController(IRouteService iRouteService) {
-        this.iRouteService = iRouteService;
-    }
-
     @PostMapping("/routes")
     public SingleResponse<PageResponse<RouteListTreeVO>> listPage(@RequestBody RouteQueryDTO dto) {
         Page<RouteListTreeVO> routeListTreeVOPage = iRouteService.pageList(dto);

@@ -29,4 +29,9 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
         return baseMapper.selectByRoleIdsAndType(roleIds, permissionType);
     }
 
+    @Override
+    public void insert(Permission permission) {
+        save(permission);
+    }
+
 }

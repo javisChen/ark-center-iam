@@ -10,4 +10,6 @@ public interface PermissionGateway {
     List<Permission> selectByType(String permissionType);
 
     List<Permission> selectByTypeAndRoleIds(List<Long> roleIds, String permissionType);
+
+    void insert(Permission permission);
 }

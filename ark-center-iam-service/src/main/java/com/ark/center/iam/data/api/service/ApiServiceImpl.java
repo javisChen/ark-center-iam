@@ -14,7 +14,7 @@ import com.ark.center.iam.enums.DeletedEnums;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
-import com.ark.center.iam.client.api.dto.ApiDetailVO;
+import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiListDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -113,7 +113,7 @@ public class ApiServiceImpl extends ServiceImpl<IamApiMapper, IamApi> implements
     }
 
     @Override
-    public ApiDetailVO getApplicationVO(Long id) {
+    public ApiDetailDTO getApplicationVO(Long id) {
         IamApi iamApi = getById(id);
         return beanConverter.convertToApiDetailVO(iamApi);
     }
