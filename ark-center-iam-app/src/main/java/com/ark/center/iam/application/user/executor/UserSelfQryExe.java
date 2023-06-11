@@ -5,7 +5,7 @@ import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.resource.gateway.ResourceRouteGateway;
+import com.ark.center.iam.domain.route.gateway.RouteGateway;
 import com.ark.center.iam.domain.user.service.UserPermissionService;
 import com.ark.component.context.core.ServiceContext;
 import com.ark.component.security.base.user.LoginUserContext;
@@ -20,7 +20,7 @@ import java.util.Objects;
 public class UserSelfQryExe {
 
     private final UserPermissionService userPermissionService;
-    private final ResourceRouteGateway resourceRouteGateway;
+    private final RouteGateway routeGateway;
     private final PermissionAssembler permissionAssembler;
 
     public List<PermissionDTO> queryUserSelfElements() {
@@ -38,6 +38,6 @@ public class UserSelfQryExe {
                 .filter(Objects::nonNull)
                 .map(Permission::getResourceId)
                 .toList();
-        return resourceRouteGateway.selectByRouteIds(routeIds);
+        return routeGateway.selectByRouteIds(routeIds);
     }
 }

@@ -103,7 +103,7 @@ create table if not exists iam_permission_role_rel
 )
     comment '角色与权限关联表';
 
-create table if not exists iam_resource_element
+create table if not exists iam_element
 (
     id           bigint unsigned auto_increment comment 'id'
         primary key,
@@ -119,9 +119,9 @@ create table if not exists iam_resource_element
     comment '页面元素表';
 
 create index idx_route_id
-    on iam_resource_element (route_id);
+    on iam_element (route_id);
 
-create table if not exists iam_resource_route
+create table if not exists iam_route
 (
     id             bigint unsigned auto_increment comment 'id',
     application_id bigint unsigned default 0                 not null comment '应用id，关联upms_application.id',
@@ -151,10 +151,10 @@ create table if not exists iam_resource_route
     comment '路由表';
 
 create index fk_idx_system_id
-    on iam_resource_route (application_id);
+    on iam_route (application_id);
 
 create index idx_pid
-    on iam_resource_route (pid);
+    on iam_route (pid);
 
 create table if not exists iam_role
 (

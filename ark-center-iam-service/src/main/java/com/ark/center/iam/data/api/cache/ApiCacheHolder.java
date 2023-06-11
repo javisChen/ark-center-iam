@@ -1,6 +1,5 @@
 package com.ark.center.iam.data.api.cache;
 
-import com.ark.center.iam.dao.entity.IamApi;
 import com.ark.center.iam.data.api.service.IApiService;
 import com.ark.center.iam.data.api.support.ApiCommonUtils;
 import com.ark.center.iam.enums.ApiAuthTypeEnums;

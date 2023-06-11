@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.role.converter;
 
 import com.ark.center.iam.client.role.command.RoleCmd;
-import com.ark.center.iam.client.role.dto.RoleListDTO;
+import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.domain.role.Role;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoleBeanConverter {
 
-    public RoleListDTO toRoleListDTO(Role role) {
-        RoleListDTO roleListVO = new RoleListDTO();
+    public RoleBaseDTO toRoleBaseDTO(Role role) {
+        RoleBaseDTO roleListVO = new RoleBaseDTO();
         roleListVO.setId(role.getId());
         roleListVO.setName(role.getName());
         roleListVO.setCode(role.getCode());

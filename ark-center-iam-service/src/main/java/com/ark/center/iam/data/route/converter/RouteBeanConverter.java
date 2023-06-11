@@ -6,12 +6,12 @@ import com.ark.center.iam.dao.entity.IamRoute;
 import com.ark.center.iam.data.application.service.IApplicationService;
 import com.ark.center.iam.data.permission.service.IPermissionService;
 import com.ark.center.iam.enums.PermissionTypeEnums;
-import com.ark.center.iam.data.route.dto.RouteUpdateDTO;
+import com.ark.center.iam.client.route.command.RouteCmd;
 import com.ark.center.iam.data.route.service.IPageElementService;
 import com.ark.center.iam.data.route.service.IRouteService;
-import com.ark.center.iam.data.route.vo.RouteDetailVO;
-import com.ark.center.iam.data.route.vo.RouteElementVO;
-import com.ark.center.iam.data.route.vo.RouteListTreeVO;
+import com.ark.center.iam.client.route.dto.RouteDetailVO;
+import com.ark.center.iam.client.route.dto.RouteElementVO;
+import com.ark.center.iam.client.route.dto.RouteListTreeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -61,7 +61,7 @@ public class RouteBeanConverter {
         return treeNode;
     }
 
-    public IamRoute convertForInsert(RouteUpdateDTO dto) {
+    public IamRoute convertForInsert(RouteCmd dto) {
         IamRoute iamRoute = new IamRoute();
         iamRoute.setName(dto.getName());
         iamRoute.setCode(dto.getCode());
@@ -90,7 +90,7 @@ public class RouteBeanConverter {
         return vo;
     }
 
-    public IamRoute convertForUpdate(RouteUpdateDTO dto) {
+    public IamRoute convertForUpdate(RouteCmd dto) {
         IamRoute iamRoute = new IamRoute();
         iamRoute.setId(dto.getId());
         iamRoute.setName(dto.getName());

@@ -10,7 +10,8 @@ import org.mapstruct.Mappings;
 public interface PermissionAssembler {
 
     @Mappings({
-            @Mapping(source = "code", target = "permissionCode")
+            @Mapping(source = "code", target = "permissionCode"),
+            @Mapping(source = "id", target = "permissionId"),
     })
     PermissionDTO toPermissionDTO(Permission permission);
 }

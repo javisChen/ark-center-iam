@@ -14,12 +14,12 @@ import com.ark.center.iam.dao.entity.IamRoute;
 import com.ark.center.iam.dao.mapper.IamRouteMapper;
 import com.ark.center.iam.data.permission.service.IPermissionService;
 import com.ark.center.iam.data.route.converter.RouteBeanConverter;
-import com.ark.center.iam.data.route.dto.RouteModifyParentDTO;
-import com.ark.center.iam.data.route.dto.RouteQueryDTO;
-import com.ark.center.iam.data.route.dto.RouteUpdateDTO;
-import com.ark.center.iam.data.route.vo.RouteDetailVO;
-import com.ark.center.iam.data.route.vo.RouteElementVO;
-import com.ark.center.iam.data.route.vo.RouteListTreeVO;
+import com.ark.center.iam.client.route.dto.RouteModifyParentDTO;
+import com.ark.center.iam.client.route.query.RouteQry;
+import com.ark.center.iam.client.route.command.RouteCmd;
+import com.ark.center.iam.client.route.dto.RouteDetailVO;
+import com.ark.center.iam.client.route.dto.RouteElementVO;
+import com.ark.center.iam.client.route.dto.RouteListTreeVO;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.enums.*;
 import org.apache.commons.lang3.StringUtils;
@@ -53,7 +53,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     private RouteBeanConverter beanConverter;
 
     @Override
-    public Page<RouteListTreeVO> pageList(RouteQueryDTO params) {
+    public Page<RouteListTreeVO> pageList(RouteQry params) {
         Page<IamRoute> pageResult = getFirstLevelRoutesByPage(params);
         List<IamRoute> firstLevelRoutes = pageResult.getRecords();
         List<IamRoute> childrenLevelRoutes = getChildrenRoutes();
@@ -63,12 +63,12 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
         return voPage;
     }
 
-    private Page<IamRoute> getFirstLevelRoutesByPage(RouteQueryDTO params) {
+    private Page<IamRoute> getFirstLevelRoutesByPage(RouteQry params) {
         LambdaQueryWrapper<IamRoute> query = buildListQueryWrapper(params);
         return this.page(new Page<>(params.getCurrent(), params.getSize()), query);
     }
 
-    private LambdaQueryWrapper<IamRoute> buildListQueryWrapper(RouteQueryDTO params) {
+    private LambdaQueryWrapper<IamRoute> buildListQueryWrapper(RouteQry params) {
         return new LambdaQueryWrapper<IamRoute>()
                 .like(StrUtil.isNotBlank(params.getName()), IamRoute::getName, params.getName())
                 .eq(params.getApplicationId() != null, IamRoute::getApplicationId, params.getApplicationId())
@@ -107,7 +107,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void saveRoute(RouteUpdateDTO dto) {
+    public void saveRoute(RouteCmd dto) {
         checkBeforeSave(dto);
 
         IamRoute route = beanConverter.convertForInsert(dto);
@@ -131,7 +131,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
 
     }
 
-    private void checkBeforeSave(RouteUpdateDTO dto) {
+    private void checkBeforeSave(RouteCmd dto) {
         IamRoute queryRoute = getRouteByName(dto.getName());
         Assert.isTrue(queryRoute != null, BizEnums.ROUTE_ALREADY_EXISTS);
         queryRoute = getRouteByCode(dto.getCode());
@@ -159,7 +159,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void updateRoute(RouteUpdateDTO dto) {
+    public void updateRoute(RouteCmd dto) {
         Long routeId = dto.getId();
         String routeName = dto.getName();
         String routeCode = dto.getCode();
@@ -268,7 +268,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     }
 
     @Override
-    public void updateRouteStatus(RouteUpdateDTO dto) {
+    public void updateRouteStatus(RouteCmd dto) {
         updateRouteStatus(dto.getId(), dto.getStatus());
     }
 
@@ -334,8 +334,8 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     }
 
     @Override
-    public List<RouteListTreeVO> listAllVOs(RouteQueryDTO dto) {
-        RouteQueryDTO params = new RouteQueryDTO();
+    public List<RouteListTreeVO> listAllVOs(RouteQry dto) {
+        RouteQry params = new RouteQry();
         params.setApplicationId(dto.getApplicationId());
         LambdaQueryWrapper<IamRoute> qw = buildListQueryWrapper(params);
         List<IamRoute> firstLevelRoutes = this.list(qw);

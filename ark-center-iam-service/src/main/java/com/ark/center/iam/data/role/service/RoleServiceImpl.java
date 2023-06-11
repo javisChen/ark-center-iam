@@ -23,7 +23,6 @@ import com.ark.center.iam.data.role.converter.RoleBeanConverter;
 import com.ark.center.iam.dao.entity.IamRole;
 import com.ark.center.iam.dao.mapper.IamRoleMapper;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
-import com.ark.center.iam.client.role.dto.RoleListDTO;
 import com.ark.center.iam.dao.entity.IamUserRoleRel;
 import com.ark.center.iam.dao.mapper.IamUserRoleRelMapper;
 import com.ark.center.iam.dao.entity.IamUserGroupRoleRel;
@@ -61,14 +60,14 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     private IamUserRoleRelMapper iamUserRoleRelMapper;
 
     @Override
-    public Page<RoleListDTO> pageList(RoleQry params) {
+    public Page<RoleBaseDTO> pageList(RoleQry params) {
         LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
                 .like(StrUtil.isNotBlank(params.getName()), IamRole::getName, params.getName());
         Page<IamRole> page = this.page(new Page<>(params.getCurrent(), params.getSize()), queryWrapper);
 
-        List<RoleListDTO> vos = page.getRecords().stream().map(beanConverter::convertToRoleListVO)
+        List<RoleBaseDTO> vos = page.getRecords().stream().map(beanConverter::convertToRoleListVO)
                 .collect(Collectors.toList());
-        Page<RoleListDTO> pageVo = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        Page<RoleBaseDTO> pageVo = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         pageVo.setRecords(vos);
         return pageVo;
     }
@@ -142,7 +141,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void updateRoleRoutePermissions(RoleRoutePermissionUpdateDTO dto) {
+    public void updateRoleRoutePermissions(RoleRoutePermissionGrantCmd dto) {
         Long roleId = dto.getRoleId();
         List<Long> toRemoveIds = CollectionUtil.newArrayList(dto.getToRemoveRoutePermissionIds());
         toRemoveIds.addAll(dto.getToRemoveElementPermissionIds());
@@ -234,7 +233,7 @@ public class RoleServiceImpl extends ServiceImpl<IamRoleMapper, IamRole> impleme
     }
 
     @Override
-    public List<RoleListDTO> listAllVos() {
+    public List<RoleBaseDTO> listAllVos() {
         return this.list().stream().map(beanConverter::convertToRoleListVO).collect(Collectors.toList());
     }
 

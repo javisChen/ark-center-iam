@@ -2,14 +2,14 @@ package com.ark.center.iam.application.role;
 
 
 import com.ark.center.iam.application.role.executor.RoleCreateCmdExe;
+import com.ark.center.iam.application.role.executor.RoleDeleteCmdExe;
+import com.ark.center.iam.application.role.executor.RoleUpdateCmdExe;
 import com.ark.center.iam.client.role.command.RoleCmd;
+import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.client.role.query.RoleQry;
-import com.ark.center.iam.client.role.dto.RoleListDTO;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,13 +20,15 @@ import java.util.List;
 public class RoleAppService {
 
     private final RoleCreateCmdExe roleCreateCmdExe;
+    private final RoleUpdateCmdExe roleUpdateCmdExe;
+    private final RoleDeleteCmdExe roleDeleteCmdExe;
     private final RoleGateway roleGateway;
 
-    public IPage<RoleListDTO> pageQuery(RoleQry dto) {
+    public IPage<RoleBaseDTO> pageQuery(RoleQry dto) {
         return roleGateway.selectPages(dto);
     }
 
-    public List<RoleListDTO> queryList() {
+    public List<RoleBaseDTO> queryList() {
         return roleGateway.selectList();
     }
 
@@ -34,15 +36,19 @@ public class RoleAppService {
         roleCreateCmdExe.execute(cmd);
     }
 
-    private long countRoleByName(String name) {
-        LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
-                .eq(IamRole::getName, name);
-        return this.count(queryWrapper);
+    public void updateRole(RoleCmd cmd) {
+        roleUpdateCmdExe.execute(cmd);
     }
 
-    private long countRoleByCode(String code) {
-        LambdaQueryWrapper<IamRole> queryWrapper = new LambdaQueryWrapper<IamRole>()
-                .eq(IamRole::getCode, code);
-        return this.count(queryWrapper);
+    public RoleBaseDTO queryRole(String id) {
+        return roleGateway.selectById(id);
+    }
+
+    public void removeRole(Long id) {
+        roleDeleteCmdExe.execute(id);
+    }
+
+    public void updateStatus(RoleCmd dto) {
+        roleGateway.updateStatusById(dto.getId(), dto.getStatus());
     }
 }

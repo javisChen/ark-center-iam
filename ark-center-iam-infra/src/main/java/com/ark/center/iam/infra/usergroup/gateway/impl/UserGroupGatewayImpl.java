@@ -4,12 +4,10 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.usergroup.enums.UserGroupInheritType;
 import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
-import com.ark.center.iam.infra.usergroup.gateway.db.UserGroup;
-import com.ark.center.iam.infra.usergroup.gateway.db.UserGroupMapper;
-import com.ark.center.iam.infra.usergroup.gateway.db.UserGroupUserRel;
-import com.ark.center.iam.infra.usergroup.gateway.db.UserGroupUserRelMapper;
+import com.ark.center.iam.infra.usergroup.gateway.db.*;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
@@ -28,9 +26,10 @@ import java.util.stream.Stream;
 public class UserGroupGatewayImpl extends ServiceImpl<UserGroupMapper, UserGroup> implements UserGroupGateway {
 
     private final UserGroupUserRelMapper userGroupUserRelMapper;
+    private final UserGroupRoleRelMapper userGroupRoleRelMapper;
 
     @Override
-    public void insertUserGroupRelations(Long userId, List<Long> userGroupIds) {
+    public void insertUserGroupAndUserRelations(Long userId, List<Long> userGroupIds) {
         List<UserGroupUserRel> list = userGroupIds.stream()
                 .map(userGroupId -> {
                     UserGroupUserRel userRel = new UserGroupUserRel();
@@ -42,7 +41,7 @@ public class UserGroupGatewayImpl extends ServiceImpl<UserGroupMapper, UserGroup
     }
 
     @Override
-    public void deleteUserGroupRelations(Long userId) {
+    public void deleteUserGroupAndRoleRelationsByUserId(Long userId) {
         LambdaQueryWrapper<UserGroupUserRel> wrapper = new LambdaQueryWrapper<UserGroupUserRel>()
                 .eq(UserGroupUserRel::getUserId, userId);
         userGroupUserRelMapper.delete(wrapper);
@@ -75,6 +74,13 @@ public class UserGroupGatewayImpl extends ServiceImpl<UserGroupMapper, UserGroup
     @Override
     public List<UserGroupVO> selectUserGroupsByUserIds(List<Long> userIds) {
         return baseMapper.selectUserGroupsByUserIds(userIds);
+    }
+
+    @Override
+    public void deleteUserGroupAndRoleRelationsByRoleId(Long roleId) {
+        LambdaUpdateWrapper<IamUserGroupRoleRel> qw = new LambdaUpdateWrapper<>();
+        qw.eq(IamUserGroupRoleRel::getRoleId, roleId);
+        userGroupRoleRelMapper.delete(qw);
     }
 
     /**

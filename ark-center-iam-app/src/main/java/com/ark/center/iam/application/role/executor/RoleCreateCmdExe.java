@@ -1,62 +1,62 @@
 package com.ark.center.iam.application.role.executor;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import com.ark.center.iam.client.role.command.RoleCmd;
-import com.ark.center.iam.client.user.command.UserCmd;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
-import com.ark.center.iam.domain.role.service.RoleAssignService;
-import com.ark.center.iam.domain.user.User;
-import com.ark.center.iam.domain.user.gateway.UserGateway;
-import com.ark.center.iam.domain.user.support.IUserPasswordHelper;
-import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
-import com.ark.center.iam.infra.user.converter.UserBeanConverter;
-import com.ark.component.exception.ExceptionFactory;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ark.center.iam.domain.role.service.RoleCheckService;
+import com.ark.center.iam.infra.role.assembler.RoleAssembler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class RoleCreateCmdExe {
-    
+
     private final RoleGateway roleGateway;
+    private final RoleAssembler roleAssembler;
+
+    private final RoleCheckService roleCheckService;
 
     public void execute(RoleCmd cmd) {
 
         baseCheck(cmd);
 
-        Role role = beanConverter.convertToDO(dto);
-        this.save(role);
+        initRole(cmd);
+
+        save(cmd);
     }
 
-    private void baseCheck(RoleCmd cmd) {
-        long count = countRoleByName(cmd.getName());
-        Assert.isTrue(count > 0, BizEnums.ROLE_NAME_ALREADY_EXISTS);
-        if (StringUtils.isNotBlank(dto.getCode())) {
-            count = countRoleByCode(dto.getCode());
-            Assert.isTrue(count > 0, BizEnums.ROLE_CODE_ALREADY_EXISTS);
-        } else {
-            dto.setCode(generateRoleCode());
+    private void initRole(RoleCmd cmd) {
+        if (StringUtils.isBlank(cmd.getCode())) {
+            cmd.setCode(generateRoleCode());
         }
     }
 
-    private long countRoleByName(String name) {
-        LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<Role>()
-                .eq(Role::getName, name);
-        return this.count(queryWrapper);
+    private String generateRoleCode() {
+        String code;
+        do {
+            code = IdUtil.fastSimpleUUID();
+        } while (roleGateway.countByCode(code) > 0);
+        return code;
     }
 
-    private long countRoleByCode(String code) {
-        LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<Role>()
-                .eq(Role::getCode, code);
-        return this.count(queryWrapper);
+    private void save(RoleCmd cmd) {
+
+        Role role = roleAssembler.toRoleDO(cmd);
+
+        roleGateway.insert(role);
+
+    }
+
+    private void baseCheck(RoleCmd cmd) {
+
+        roleCheckService.ensureNameNotExists(cmd.getName(), cmd.getId());
+
+        roleCheckService.ensureCodeNotExists(cmd.getCode(), cmd.getId());
+
     }
 }

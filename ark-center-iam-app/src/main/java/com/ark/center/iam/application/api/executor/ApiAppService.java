@@ -7,8 +7,8 @@ import com.ark.center.iam.client.api.dto.ApiListDTO;
 import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
+import com.ark.center.iam.domain.api.service.ApiCheckService;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
 import com.ark.center.iam.domain.permission.service.PermissionService;
 import com.ark.center.iam.infra.api.assembler.ApiAssembler;
 import com.ark.component.exception.ExceptionFactory;
@@ -22,9 +22,10 @@ import java.util.List;
 public class ApiAppService {
 
     private final ApiGateway apiGateway;
-    private final PermissionGateway permissionGateway;
     private final PermissionService permissionService;
     private final ApiAssembler apiAssembler;
+
+    private final ApiCheckService apiCheckService;
 
     public List<ApiListDTO> queryList(ApiQry dto) {
         return apiGateway.selectList(dto);

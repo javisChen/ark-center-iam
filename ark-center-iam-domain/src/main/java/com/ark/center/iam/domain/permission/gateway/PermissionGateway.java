@@ -1,6 +1,7 @@
 package com.ark.center.iam.domain.permission.gateway;
 
 
+import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.domain.permission.Permission;
 
 import java.util.List;
@@ -12,4 +13,12 @@ public interface PermissionGateway {
     List<Permission> selectByTypeAndRoleIds(List<Long> roleIds, String permissionType);
 
     void insert(Permission permission);
+
+    void deletePermissionAndRoleRelationsByRoleId(Long roleId);
+
+    void deleteRolePermission(Long roleId, List<Long> permissionIds);
+
+    void insertBatchRolePermissionRelations(Long roleId, List<Long> permissionIds);
+
+    List<PermissionDTO> selectRolePermissions(Long applicationId, Long roleId, String type);
 }

@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.dao.entity.IamRole;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
-import com.ark.center.iam.client.role.dto.RoleListDTO;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
  */
 public interface IRoleService extends IService<IamRole> {
 
-    Page<RoleListDTO> pageList(RoleQry dto);
+    Page<RoleBaseDTO> pageList(RoleQry dto);
 
     void saveRole(RoleCmd dto);
 
@@ -39,7 +38,7 @@ public interface IRoleService extends IService<IamRole> {
      */
     List<Long> getRoleIdsByUserGroupIds(List<Long> userGroupIds);
 
-    void updateRoleRoutePermissions(RoleRoutePermissionUpdateDTO dto);
+    void updateRoleRoutePermissions(RoleRoutePermissionGrantCmd dto);
 
     List<PermissionDTO> getRoleRoutePermissionById(Long roleId, Long applicationId);
 
@@ -47,7 +46,7 @@ public interface IRoleService extends IService<IamRole> {
 
     void removeUserRoleRelByUserId(Long userId);
 
-    List<RoleListDTO> listAllVos();
+    List<RoleBaseDTO> listAllVos();
 
     List<String> getRoleNamesByUserId(Long userId);
 

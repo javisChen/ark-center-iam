@@ -8,13 +8,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ark.center.iam.data.permission.service.IPermissionService;
-import com.ark.center.iam.data.route.dto.PageElementUpdateDTO;
-import com.ark.center.iam.data.route.dto.RouteUpdateDTO;
+import com.ark.center.iam.client.route.dto.PageElementUpdateDTO;
+import com.ark.center.iam.client.route.command.RouteCmd;
 import com.ark.center.iam.enums.DeletedEnums;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.dao.entity.IamPageElement;
 import com.ark.center.iam.dao.mapper.IamPageElementMapper;
-import com.ark.center.iam.data.route.vo.PageElementVO;
+import com.ark.center.iam.client.route.dto.PageElementVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,9 +52,9 @@ public class PageElementServiceImpl extends ServiceImpl<IamPageElementMapper, Ia
     }
 
     @Override
-    public void batchSavePageElement(Long routeId, List<RouteUpdateDTO.Element> elements) {
+    public void batchSavePageElement(Long routeId, List<RouteCmd.Element> elements) {
         if (CollectionUtil.isNotEmpty(elements)) {
-            for (RouteUpdateDTO.Element item : elements) {
+            for (RouteCmd.Element item : elements) {
                 PageElementUpdateDTO dto = new PageElementUpdateDTO();
                 dto.setRouteId(routeId);
                 dto.setName(item.getName());

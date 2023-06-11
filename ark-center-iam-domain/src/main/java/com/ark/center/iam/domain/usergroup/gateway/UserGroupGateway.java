@@ -5,9 +5,9 @@ import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
 import java.util.List;
 
 public interface UserGroupGateway {
-    void insertUserGroupRelations(Long userId, List<Long> userGroupIds);
+    void insertUserGroupAndUserRelations(Long userId, List<Long> userGroupIds);
 
-    void deleteUserGroupRelations(Long userId);
+    void deleteUserGroupAndRoleRelationsByUserId(Long userId);
 
 
     /**
@@ -26,4 +26,7 @@ public interface UserGroupGateway {
     List<Long> selectUserGroupIdsByUserId(Long userId, boolean includeParent);
 
     List<UserGroupVO> selectUserGroupsByUserIds(List<Long> userIds);
+
+    void deleteUserGroupAndRoleRelationsByRoleId(Long roleId);
+
 }

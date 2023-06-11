@@ -1,13 +1,12 @@
 package com.ark.center.iam.application.application;
 
-import cn.hutool.core.lang.Assert;
 import com.ark.center.iam.client.application.command.ApplicationCmd;
 import com.ark.center.iam.client.application.dto.ApplicationDTO;
 import com.ark.center.iam.client.application.query.ApplicationQry;
 import com.ark.center.iam.domain.application.Application;
 import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
+import com.ark.center.iam.domain.application.service.ApplicationCheckService;
 import com.ark.center.iam.infra.application.assembler.ApplicationAssembler;
-import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,9 @@ import java.util.List;
 public class ApplicationAppService {
 
     private final ApplicationGateway applicationGateway;
-    private final applicationassembler applicationAssembler;
+    private final ApplicationAssembler applicationAssembler;
+    private final ApplicationCheckService applicationCheckService;
+
 
 
     public List<ApplicationDTO> queryList(ApplicationQry dto) {
@@ -45,11 +46,10 @@ public class ApplicationAppService {
 
 
     private void baseCheck(ApplicationCmd cmd) {
-        Application existsApplication = applicationGateway.selectByName(cmd.getName());
-        Assert.isTrue(existsApplication != null && sameRecord(cmd, existsApplication),
-                () -> ExceptionFactory.userException("应用名称已存在"));
-        existsApplication = applicationGateway.selectByCode(cmd.getCode());
-        Assert.isTrue(existsApplication != null && sameRecord(cmd, existsApplication), () -> ExceptionFactory.userException("应用编码已存在"));
+
+        applicationCheckService.ensureNameNotExists(cmd.getName(), cmd.getId());
+
+        applicationCheckService.ensureCodeNotExists(cmd.getCode(), cmd.getId());
     }
 
     private boolean sameRecord(ApplicationCmd cmd, Application application) {

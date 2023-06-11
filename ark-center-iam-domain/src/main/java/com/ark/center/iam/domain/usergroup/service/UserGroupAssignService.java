@@ -22,7 +22,7 @@ public class UserGroupAssignService {
      * @param userGroupIds 用户组id集合
      */
     public void assignUserGroups(Long userId, List<Long> userGroupIds) {
-        userGroupGateway.insertUserGroupRelations(userId, userGroupIds);
+        userGroupGateway.insertUserGroupAndUserRelations(userId, userGroupIds);
     }
 
     /**
@@ -31,6 +31,6 @@ public class UserGroupAssignService {
      * @param userId 用户id
      */
     public void clearUserGroups(Long userId) {
-        userGroupGateway.deleteUserGroupRelations(userId);
+        userGroupGateway.deleteUserGroupAndRoleRelationsByUserId(userId);
     }
 }

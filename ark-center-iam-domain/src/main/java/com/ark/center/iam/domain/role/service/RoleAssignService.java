@@ -31,6 +31,6 @@ public class RoleAssignService {
      * @param userId 用户id
      */
     public void clearUserRoles(Long userId) {
-        roleGateway.deleteUserRoleRelations(userId);
+        roleGateway.deleteUserRoleRelationsByUserId(userId);
     }
 }
