@@ -15,7 +15,7 @@ import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiListDTO;
+import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,7 +78,7 @@ public class ApiServiceImpl extends ServiceImpl<IamApiMapper, IamApi> implements
     }
 
     @Override
-    public List<ApiListDTO> listVos(ApiQry dto) {
+    public List<ApiDetailsDTO> listVos(ApiQry dto) {
         LambdaQueryWrapper<IamApi> qw = new LambdaQueryWrapper<>();
         qw.eq(IamApi::getApplicationId, dto.getApplicationId());
         qw.eq(IamApi::getCategoryId, dto.getCategoryId());

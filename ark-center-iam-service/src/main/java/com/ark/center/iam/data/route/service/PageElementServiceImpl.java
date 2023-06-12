@@ -8,13 +8,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ark.center.iam.data.permission.service.IPermissionService;
-import com.ark.center.iam.client.route.dto.PageElementUpdateDTO;
+import com.ark.center.iam.client.element.command.ElementCmd;
 import com.ark.center.iam.client.route.command.RouteCmd;
 import com.ark.center.iam.enums.DeletedEnums;
 import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.dao.entity.IamPageElement;
 import com.ark.center.iam.dao.mapper.IamPageElementMapper;
-import com.ark.center.iam.client.route.dto.PageElementVO;
+import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +41,7 @@ public class PageElementServiceImpl extends ServiceImpl<IamPageElementMapper, Ia
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public void savePageElement(PageElementUpdateDTO dto) {
+    public void savePageElement(ElementCmd dto) {
         IamPageElement pageElement = CglibUtil.copy(dto, IamPageElement.class);
         this.save(pageElement);
         iPermissionService.addPermission(pageElement.getId(), PermissionTypeEnums.PAGE_ELEMENT);
@@ -55,7 +55,7 @@ public class PageElementServiceImpl extends ServiceImpl<IamPageElementMapper, Ia
     public void batchSavePageElement(Long routeId, List<RouteCmd.Element> elements) {
         if (CollectionUtil.isNotEmpty(elements)) {
             for (RouteCmd.Element item : elements) {
-                PageElementUpdateDTO dto = new PageElementUpdateDTO();
+                ElementCmd dto = new ElementCmd();
                 dto.setRouteId(routeId);
                 dto.setName(item.getName());
                 dto.setType(item.getType());
@@ -65,7 +65,7 @@ public class PageElementServiceImpl extends ServiceImpl<IamPageElementMapper, Ia
     }
 
     @Override
-    public List<PageElementVO> getPageElementVOSByRouteId(Long routeId) {
+    public List<ElementBaseDTO> getPageElementVOSByRouteId(Long routeId) {
         return getPageElementsByRouteId(routeId).stream().map(this::assemblePageElementVO).collect(Collectors.toList());
     }
 
@@ -101,8 +101,8 @@ public class PageElementServiceImpl extends ServiceImpl<IamPageElementMapper, Ia
         return this.listPageElements(qw);
     }
 
-    private PageElementVO assemblePageElementVO(IamPageElement item) {
-        PageElementVO vo = new PageElementVO();
+    private ElementBaseDTO assemblePageElementVO(IamPageElement item) {
+        ElementBaseDTO vo = new ElementBaseDTO();
         vo.setId(item.getId());
         vo.setRouteId(item.getRouteId());
         vo.setName(item.getName());

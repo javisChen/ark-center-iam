@@ -28,9 +28,9 @@ public class RoleUpdateCmdExe {
 
     private void baseCheck(RoleCmd cmd) {
 
-        roleCheckService.ensureNameNotExists(cmd.getName());
+        roleCheckService.ensureNameNotExists(cmd.getName(), cmd.getId());
 
-        roleCheckService.ensureCodeNotExists(cmd.getCode());
+        roleCheckService.ensureCodeNotExists(cmd.getCode(), cmd.getId());
 
     }
 

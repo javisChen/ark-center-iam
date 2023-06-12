@@ -1,18 +1,15 @@
 package com.ark.center.iam.client.route.command;
 
 import com.ark.component.validator.ValidateGroup;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class RouteCmd implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class RouteCmd {
 
     @NotNull(message = "id 不能为空", groups = ValidateGroup.Update.class)
     private Long id;

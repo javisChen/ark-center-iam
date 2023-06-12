@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ApiDetailDTO extends ApiBaseVO {
+public class ApiDetailDTO extends ApiBaseDTO {
 
     private Long applicationId;
     private Long categoryId;

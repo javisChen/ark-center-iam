@@ -9,7 +9,7 @@ import com.ark.center.iam.client.api.command.ApiCategoryCmd;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiListDTO;
+import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.dao.entity.IamPermission;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,20 +41,20 @@ public class ApiBeanConverter {
         return iamApi;
     }
 
-    public ApiListDTO convertToApiListVO(IamApi iamApi) {
+    public ApiDetailsDTO convertToApiListVO(IamApi iamApi) {
         IamPermission permission = iPermissionService.getPermission(iamApi.getId(), PermissionTypeEnums.SER_API);
-        ApiListDTO apiListDTO = new ApiListDTO();
-        apiListDTO.setId(iamApi.getId());
-        apiListDTO.setName(iamApi.getName());
-        apiListDTO.setUrl(iamApi.getUrl());
-        apiListDTO.setMethod(iamApi.getMethod());
-        apiListDTO.setAuthType(iamApi.getAuthType());
-        apiListDTO.setStatus(iamApi.getStatus());
-        apiListDTO.setPermissionId(permission.getId());
-        apiListDTO.setPermissionCode(permission.getCode());
-        apiListDTO.setCreateTime(iamApi.getGmtCreate());
-        apiListDTO.setUpdateTime(iamApi.getGmtModified());
-        return apiListDTO;
+        ApiDetailsDTO apiDetailsDTO = new ApiDetailsDTO();
+        apiDetailsDTO.setId(iamApi.getId());
+        apiDetailsDTO.setName(iamApi.getName());
+        apiDetailsDTO.setUrl(iamApi.getUrl());
+        apiDetailsDTO.setMethod(iamApi.getMethod());
+        apiDetailsDTO.setAuthType(iamApi.getAuthType());
+        apiDetailsDTO.setStatus(iamApi.getStatus());
+        apiDetailsDTO.setPermissionId(permission.getId());
+        apiDetailsDTO.setPermissionCode(permission.getCode());
+        apiDetailsDTO.setCreateTime(iamApi.getGmtCreate());
+        apiDetailsDTO.setUpdateTime(iamApi.getGmtModified());
+        return apiDetailsDTO;
     }
 
     public ApiCategoryBaseDTO convertToApiCategoryVO(IamApiCategory category) {

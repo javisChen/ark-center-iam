@@ -6,7 +6,7 @@ import com.ark.center.iam.dao.entity.IamApi;
 import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiListDTO;
+import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface IApiService extends IService<IamApi> {
 
     void updateApi(ApiUpdateCmd dto);
 
-    List<ApiListDTO> listVos(ApiQry dto);
+    List<ApiDetailsDTO> listVos(ApiQry dto);
 
     void removeApi(Long dto);
 

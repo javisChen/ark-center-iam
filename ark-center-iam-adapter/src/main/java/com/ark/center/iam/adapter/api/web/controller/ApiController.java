@@ -7,12 +7,12 @@ import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
-import com.ark.center.iam.data.api.cache.ApiCacheHolder;
+import com.ark.center.iam.application.api.cache.ApiCacheHolder;
 import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.data.api.service.IApiService;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiListDTO;
+import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class ApiController extends BaseController {
 
     @Operation(summary = "API管理- API列表")
     @PostMapping("/apis")
-    public MultiResponse<ApiListDTO> queryList(@RequestBody ApiQry dto) {
+    public MultiResponse<ApiDetailsDTO> queryList(@RequestBody ApiQry dto) {
         return MultiResponse.ok(apiAppService.queryList(dto));
     }
 

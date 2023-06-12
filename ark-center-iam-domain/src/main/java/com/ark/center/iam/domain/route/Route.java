@@ -1,5 +1,6 @@
 package com.ark.center.iam.domain.route;
 
+import com.ark.center.iam.domain.route.common.RouteConst;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.ark.component.orm.mybatis.base.BaseEntity;
@@ -104,4 +105,11 @@ public class Route extends BaseEntity {
     @TableLogic
     private Long isDeleted;
 
+    /**
+     * 是否一级路由
+     */
+    public boolean isFirstLevel() {
+        return RouteConst.DEFAULT_PID.equals(this.pid)
+                || RouteConst.FIRST_LEVEL.equals(this.level);
+    }
 }

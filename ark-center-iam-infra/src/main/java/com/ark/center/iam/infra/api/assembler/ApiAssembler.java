@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.api.assembler;
 
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiListDTO;
+import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.domain.api.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
@@ -15,7 +15,7 @@ public interface ApiAssembler {
     @Mapping(target = "permissionId", ignore = true)
     @Mapping(target = "permissionCode", ignore = true)
     @Mapping(target = "createTime", ignore = true)
-    ApiListDTO toApiDTO(Api api);
+    ApiDetailsDTO toApiDTO(Api api);
 
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "permissionId", ignore = true)

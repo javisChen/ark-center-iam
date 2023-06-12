@@ -1,7 +1,7 @@
 package com.ark.center.iam.data.auth.service;
 
 import cn.hutool.crypto.digest.DigestUtil;
-import com.ark.center.iam.api.user.permission.response.LoginUserResponse;
+import com.ark.center.iam.client.permission.response.LoginUserResponse;
 import com.ark.center.iam.common.constants.SecurityConstants;
 import com.ark.center.iam.dao.entity.IamUser;
 import com.ark.center.iam.data.auth.dto.AuthKickDTO;

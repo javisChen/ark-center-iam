@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.resource.gateway.db;
 
-import com.ark.center.iam.client.route.dto.RouteListTreeVO;
+import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
 import com.ark.center.iam.client.route.query.RouteQry;
 import com.ark.center.iam.domain.route.Route;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -20,8 +20,9 @@ import java.util.List;
  */
 public interface RouteMapper extends BaseMapper<Route> {
 
-    Page<RouteListTreeVO> selectPages(@Param("page") IPage<Route> page, @Param("params") RouteQry params);
+    Page<RouteDetailsDTO> selectDetailsPages(@Param("page") IPage<Route> page, @Param("params") RouteQry params);
 
-    List<RouteListTreeVO> selectSubRoutes();
+    List<RouteDetailsDTO> selectSubRoutes();
 
+    RouteDetailsDTO selectDetails(@Param("id") Long id);
 }

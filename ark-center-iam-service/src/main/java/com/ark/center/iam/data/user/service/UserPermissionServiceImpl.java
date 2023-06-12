@@ -1,8 +1,8 @@
 package com.ark.center.iam.data.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.api.user.permission.request.ApiAuthRequest;
-import com.ark.center.iam.api.user.permission.response.ApiAuthResponse;
+import com.ark.center.iam.client.permission.request.ApiAuthRequest;
+import com.ark.center.iam.client.permission.response.ApiAuthResponse;
 import com.ark.center.iam.dao.bo.ApiPermissionBO;
 import com.ark.center.iam.dao.entity.IamPermission;
 import com.ark.center.iam.dao.entity.IamUser;

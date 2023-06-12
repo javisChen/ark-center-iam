@@ -42,7 +42,8 @@
         creator,
         modifier
     </sql>
-    <select id="selectPages" resultType="com.ark.center.iam.client.route.dto.RouteListTreeVO">
+
+    <select id="selectDetailsPages" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -67,9 +68,10 @@
         </where>
         AND r.pid = 0
         AND r.is_deleted = 0
-        ORDER BY r.`sequence` ASC
+        ORDER BY r.`sequence`
     </select>
-    <select id="selectSubRoutes" resultType="com.ark.center.iam.client.route.dto.RouteListTreeVO">
+
+    <select id="selectSubRoutes" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -80,6 +82,20 @@
         inner join iam_application a on a.id = r.application_id
         AND r.pid != 0
         AND r.is_deleted = 0
+    </select>
+
+    <select id="selectDetails" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">
+        SELECT
+        r.*,
+        a.name as applicationName,
+        p.code as permissionCode,
+        p.id as permissionId,
+        rp.name as parentRouteName
+        FROM iam_route r
+        inner join iam_permission p on p.resource_id = r.id
+        inner join iam_application a on a.id = r.application_id
+        inner join iam_route rp on rp.id = r.pid
+        where r.is_deleted = 0 and r.id = #{id}
     </select>
 
 </mapper>

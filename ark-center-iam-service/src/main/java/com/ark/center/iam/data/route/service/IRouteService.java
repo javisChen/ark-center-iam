@@ -4,13 +4,12 @@ package com.ark.center.iam.data.route.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ark.center.iam.dao.entity.IamRoute;
-import com.ark.center.iam.client.route.dto.RouteModifyParentDTO;
+import com.ark.center.iam.client.route.command.RouteModifyParentCmd;
 import com.ark.center.iam.client.route.query.RouteQry;
 import com.ark.center.iam.client.route.command.RouteCmd;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
-import com.ark.center.iam.client.route.dto.RouteDetailVO;
-import com.ark.center.iam.client.route.dto.RouteElementVO;
-import com.ark.center.iam.client.route.dto.RouteListTreeVO;
+import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.element.dto.ElementDetailsDTO;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ import java.util.List;
  */
 public interface IRouteService extends IService<IamRoute> {
 
-    Page<RouteListTreeVO> pageList(RouteQry pageRequest);
+    Page<RouteDetailsDTO> pageList(RouteQry pageRequest);
 
     void saveRoute(RouteCmd dto);
 
@@ -32,15 +31,15 @@ public interface IRouteService extends IService<IamRoute> {
 
     void updateRouteStatus(RouteCmd dto);
 
-    void modifyParent(RouteModifyParentDTO dto);
+    void modifyParent(RouteModifyParentCmd dto);
 
-    RouteDetailVO getRoute(Long id);
+    RouteDetailsDTO getRoute(Long id);
 
     void deleteRouteById(Long id);
 
-    List<RouteListTreeVO> listAllVOs(RouteQry dto);
+    List<RouteDetailsDTO> listAllVOs(RouteQry dto);
 
-    List<RouteElementVO> listRouteElementsById(Long routeId);
+    List<ElementDetailsDTO> listRouteElementsById(Long routeId);
 
     String getRouteNameById(Long pid);
 

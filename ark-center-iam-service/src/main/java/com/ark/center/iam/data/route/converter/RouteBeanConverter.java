@@ -9,9 +9,8 @@ import com.ark.center.iam.enums.PermissionTypeEnums;
 import com.ark.center.iam.client.route.command.RouteCmd;
 import com.ark.center.iam.data.route.service.IPageElementService;
 import com.ark.center.iam.data.route.service.IRouteService;
-import com.ark.center.iam.client.route.dto.RouteDetailVO;
-import com.ark.center.iam.client.route.dto.RouteElementVO;
-import com.ark.center.iam.client.route.dto.RouteListTreeVO;
+import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.element.dto.ElementDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,12 +31,12 @@ public class RouteBeanConverter {
     @Autowired
     private IRouteService iRouteService;
 
-    public RouteListTreeVO convertToRouteListTreeVO(IamRoute route) {
+    public RouteDetailsDTO convertToRouteListTreeVO(IamRoute route) {
         IamPermission permission = iPermissionService.getPermissionByResourceIdAndType(route.getId(),
                 PermissionTypeEnums.FRONT_ROUTE);
         Long applicationId = route.getApplicationId();
         String applicationName = getApplicationName(applicationId);
-        RouteListTreeVO treeNode = new RouteListTreeVO();
+        RouteDetailsDTO treeNode = new RouteDetailsDTO();
         treeNode.setLevel(route.getLevel());
         treeNode.setPermissionCode(permission.getCode());
         treeNode.setPermissionId(permission.getId());
@@ -78,9 +77,9 @@ public class RouteBeanConverter {
         return iamRoute;
     }
 
-    public RouteElementVO convertForRouteElementVO(IamPageElement obj) {
+    public ElementDetailsDTO convertForRouteElementVO(IamPageElement obj) {
         IamPermission permission = iPermissionService.getPermission(obj.getId(), PermissionTypeEnums.PAGE_ELEMENT);
-        RouteElementVO vo = new RouteElementVO();
+        ElementDetailsDTO vo = new ElementDetailsDTO();
         vo.setId(obj.getId());
         vo.setRouteId(obj.getRouteId());
         vo.setName(obj.getName());
@@ -106,10 +105,10 @@ public class RouteBeanConverter {
         return iamRoute;
     }
 
-    public RouteDetailVO convertToRouteDetailVO(Long id, IamRoute route) {
+    public RouteDetailsDTO convertToRouteDetailVO(Long id, IamRoute route) {
         Long applicationId = route.getApplicationId();
         String applicationName = getApplicationName(applicationId);
-        RouteDetailVO vo = new RouteDetailVO();
+        RouteDetailsDTO vo = new RouteDetailsDTO();
         vo.setParentRouteName(iRouteService.getRouteNameById(route.getPid()));
         vo.setId(route.getId());
         vo.setPid(route.getPid());

@@ -14,12 +14,11 @@ import com.ark.center.iam.dao.entity.IamRoute;
 import com.ark.center.iam.dao.mapper.IamRouteMapper;
 import com.ark.center.iam.data.permission.service.IPermissionService;
 import com.ark.center.iam.data.route.converter.RouteBeanConverter;
-import com.ark.center.iam.client.route.dto.RouteModifyParentDTO;
+import com.ark.center.iam.client.route.command.RouteModifyParentCmd;
 import com.ark.center.iam.client.route.query.RouteQry;
 import com.ark.center.iam.client.route.command.RouteCmd;
-import com.ark.center.iam.client.route.dto.RouteDetailVO;
-import com.ark.center.iam.client.route.dto.RouteElementVO;
-import com.ark.center.iam.client.route.dto.RouteListTreeVO;
+import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.element.dto.ElementDetailsDTO;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.enums.*;
 import org.apache.commons.lang3.StringUtils;
@@ -53,12 +52,12 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     private RouteBeanConverter beanConverter;
 
     @Override
-    public Page<RouteListTreeVO> pageList(RouteQry params) {
+    public Page<RouteDetailsDTO> pageList(RouteQry params) {
         Page<IamRoute> pageResult = getFirstLevelRoutesByPage(params);
         List<IamRoute> firstLevelRoutes = pageResult.getRecords();
         List<IamRoute> childrenLevelRoutes = getChildrenRoutes();
-        List<RouteListTreeVO> vos = recursionRoutes(firstLevelRoutes, childrenLevelRoutes);
-        Page<RouteListTreeVO> voPage = new Page<>(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal());
+        List<RouteDetailsDTO> vos = recursionRoutes(firstLevelRoutes, childrenLevelRoutes);
+        Page<RouteDetailsDTO> voPage = new Page<>(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal());
         voPage.setRecords(vos);
         return voPage;
     }
@@ -93,11 +92,11 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
      * @param firstLevelRoutes    一级路由
      * @param childrenLevelRoutes 子路由
      */
-    private List<RouteListTreeVO> recursionRoutes(List<IamRoute> firstLevelRoutes,
+    private List<RouteDetailsDTO> recursionRoutes(List<IamRoute> firstLevelRoutes,
                                                   List<IamRoute> childrenLevelRoutes) {
-        List<RouteListTreeVO> vos = CollectionUtil.newArrayList();
+        List<RouteDetailsDTO> vos = CollectionUtil.newArrayList();
         for (IamRoute route : firstLevelRoutes) {
-            RouteListTreeVO item = beanConverter.convertToRouteListTreeVO(route);
+            RouteDetailsDTO item = beanConverter.convertToRouteListTreeVO(route);
             item.setChildren(CollectionUtil.newArrayList());
             findChildren(item, childrenLevelRoutes);
             vos.add(item);
@@ -285,7 +284,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     }
 
     @Override
-    public void modifyParent(RouteModifyParentDTO dto) {
+    public void modifyParent(RouteModifyParentCmd dto) {
         IamRoute childMenu = getRouteById(dto.getId());
         Assert.isTrue(childMenu != null, BizEnums.ROUTE_NOT_EXISTS);
 
@@ -297,7 +296,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     }
 
     @Override
-    public RouteDetailVO getRoute(Long id) {
+    public RouteDetailsDTO getRoute(Long id) {
         IamRoute route = getRouteById(id);
         return beanConverter.convertToRouteDetailVO(id, route);
     }
@@ -334,7 +333,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     }
 
     @Override
-    public List<RouteListTreeVO> listAllVOs(RouteQry dto) {
+    public List<RouteDetailsDTO> listAllVOs(RouteQry dto) {
         RouteQry params = new RouteQry();
         params.setApplicationId(dto.getApplicationId());
         LambdaQueryWrapper<IamRoute> qw = buildListQueryWrapper(params);
@@ -344,7 +343,7 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
     }
 
     @Override
-    public List<RouteElementVO> listRouteElementsById(Long routeId) {
+    public List<ElementDetailsDTO> listRouteElementsById(Long routeId) {
         List<IamPageElement> elements = this.iPageElementService.listElementsByRouteId(routeId);
         return elements.stream().map(beanConverter::convertForRouteElementVO).collect(Collectors.toList());
     }
@@ -392,10 +391,10 @@ public class RouteServiceImpl extends ServiceImpl<IamRouteMapper, IamRoute> impl
         return meta;
     }
 
-    private void findChildren(RouteListTreeVO parent, List<IamRoute> list) {
+    private void findChildren(RouteDetailsDTO parent, List<IamRoute> list) {
         for (IamRoute route : list) {
             if (parent.getId().equals(route.getPid())) {
-                RouteListTreeVO item = beanConverter.convertToRouteListTreeVO(route);
+                RouteDetailsDTO item = beanConverter.convertToRouteListTreeVO(route);
                 item.setChildren(CollectionUtil.newArrayList());
                 parent.getChildren().add(item);
                 findChildren(item, list);

@@ -3,7 +3,7 @@ package com.ark.center.iam.application.api.executor;
 import cn.hutool.core.lang.Assert;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiListDTO;
+import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
@@ -27,7 +27,7 @@ public class ApiAppService {
 
     private final ApiCheckService apiCheckService;
 
-    public List<ApiListDTO> queryList(ApiQry dto) {
+    public List<ApiDetailsDTO> queryList(ApiQry dto) {
         return apiGateway.selectList(dto);
     }
 
@@ -68,7 +68,7 @@ public class ApiAppService {
 
         Api apiUpdate = apiAssembler.toApiDO(dto);
 
-        apiGateway.update(apiUpdate);
+        apiGateway.updateApiId(apiUpdate);
 
     }
 
