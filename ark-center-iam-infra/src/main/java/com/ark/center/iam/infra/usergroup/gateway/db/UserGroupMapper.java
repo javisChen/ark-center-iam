@@ -1,6 +1,7 @@
 package com.ark.center.iam.infra.usergroup.gateway.db;
 
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
+import com.ark.center.iam.infra.usergroup.UserGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 

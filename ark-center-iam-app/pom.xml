@@ -20,11 +20,6 @@
 
         <dependency>
             <groupId>com.ark.center</groupId>
-            <artifactId>ark-center-iam-dao</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ark.center</groupId>
             <artifactId>ark-center-iam-client</artifactId>
         </dependency>
 

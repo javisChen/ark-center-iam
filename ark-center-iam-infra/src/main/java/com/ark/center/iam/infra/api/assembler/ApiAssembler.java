@@ -17,10 +17,6 @@ public interface ApiAssembler {
     @Mapping(target = "createTime", ignore = true)
     ApiDetailsDTO toApiDTO(Api api);
 
-    @Mapping(target = "updateTime", ignore = true)
-    @Mapping(target = "permissionId", ignore = true)
-    @Mapping(target = "permissionCode", ignore = true)
-    @Mapping(target = "createTime", ignore = true)
     ApiDetailDTO toApiDetailDTO(Api api);
 
     @Mapping(target = "modifier", ignore = true)

@@ -3,7 +3,6 @@ package com.ark.center.iam.adapter.api.web.controller;
 
 import com.ark.center.iam.application.api.executor.ApiCategoryAppService;
 import com.ark.center.iam.client.api.command.ApiCategoryCmd;
-import com.ark.center.iam.data.api.service.IApiCategoryService;
 import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
@@ -31,7 +30,6 @@ import jakarta.validation.groups.Default;
 @RequiredArgsConstructor
 public class ApiCategoryController extends BaseController {
 
-    private final IApiCategoryService iApiCategoryService;
     private final ApiCategoryAppService apiCategoryAppService;
 
     @GetMapping("/api/categories")
@@ -56,7 +54,6 @@ public class ApiCategoryController extends BaseController {
 
     @DeleteMapping("/api/category")
     public ServerResponse delete(Long id) {
-        iApiCategoryService.removeApiCategory(id);
         apiCategoryAppService.deleteApiCategory(id);
         return ServerResponse.ok();
     }

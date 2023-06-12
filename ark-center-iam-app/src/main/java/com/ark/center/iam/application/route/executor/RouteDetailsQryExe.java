@@ -4,7 +4,7 @@ import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.route.gateway.RouteGateway;
-import com.ark.center.iam.infra.resource.assembler.ElementAssembler;
+import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -10,7 +10,6 @@ import com.ark.component.web.base.BaseController;
 import com.ark.center.iam.application.api.cache.ApiCacheHolder;
 import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
-import com.ark.center.iam.data.api.service.IApiService;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,8 +41,6 @@ public class ApiController extends BaseController {
 
     @Autowired
     private ApiCacheHolder apiCacheManager;
-    @Autowired
-    private IApiService iApiService;
     @Autowired
     private ApiAppService apiAppService;
     @Autowired

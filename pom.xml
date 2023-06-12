@@ -13,10 +13,6 @@
         <module>ark-center-iam-adapter</module>
         <module>ark-center-iam-domain</module>
         <module>ark-center-iam-infra</module>
-        <module>ark-center-iam-acl</module>
-        <module>ark-center-iam-api</module>
-        <module>ark-center-iam-dao</module>
-        <module>ark-center-iam-service</module>
         <module>ark-center-iam-start</module>
     </modules>
     <packaging>pom</packaging>
@@ -29,30 +25,6 @@
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-iam-dao</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-iam-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-iam-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.ark.center</groupId>
-                <artifactId>ark-center-iam-acl</artifactId>
-                <version>${project.version}</version>
             </dependency>
 
             <dependency>

@@ -2,6 +2,7 @@ package com.ark.center.iam.application.api.cache;
 
 import com.ark.center.iam.application.api.support.ApiCommonUtils;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
+import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
 import com.ark.center.iam.domain.enums.ApiAuthTypeEnums;
 import org.springframework.beans.factory.InitializingBean;
@@ -37,7 +38,7 @@ public class ApiCacheHolder implements InitializingBean {
     private List<String> hasPathVariableApiCache;
 
     public void init() {
-        List<ApiDetailsDTO> apis = apiGateway.selectList(null);
+        List<ApiDetailsDTO> apis = apiGateway.selectList(new ApiQry());
         noNeedAuthorizationApiCache = filterNoNeedAuthorizationApis(apis);
         noNeedAuthenticationApiCache = filterNoNeedAuthenticationApis(apis);
         hasPathVariableApiCache = filterHasPathVariableApis(apis);

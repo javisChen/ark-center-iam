@@ -5,7 +5,6 @@ import com.ark.center.iam.application.role.RoleAppService;
 import com.ark.center.iam.client.role.command.RoleCmd;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.client.role.query.RoleQry;
-import com.ark.center.iam.data.role.service.IRoleService;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1")
 public class RoleController extends BaseController {
 
-    private final IRoleService iRoleService;
     private final RoleAppService roleAppService;
 
 

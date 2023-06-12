@@ -2,6 +2,7 @@ package com.ark.center.iam.domain.api;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.ark.component.orm.mybatis.base.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,6 +16,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName("iam_api")
 public class Api extends BaseEntity {
 
     private static final long serialVersionUID = 1L;

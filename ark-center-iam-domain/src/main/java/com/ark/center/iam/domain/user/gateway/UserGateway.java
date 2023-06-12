@@ -22,4 +22,6 @@ public interface UserGateway {
     void logicDeleteByUserId(Long userId);
 
     User selectByUserCode(String userCode);
+
+    User selectByPhone(String userName);
 }

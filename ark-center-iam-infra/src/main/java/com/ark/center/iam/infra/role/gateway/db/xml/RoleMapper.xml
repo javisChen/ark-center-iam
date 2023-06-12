@@ -25,7 +25,10 @@
                uurr.user_id as userId
         from iam_user_role_rel uurr
                  inner join iam_role ur on uurr.role_id = ur.id
-        where uurr.user_id = #{userId}
+        where uurr.user_id IN
+        <foreach item="userId" collection="userIds" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
           and ur.status = 1
           and ur.is_deleted = 0
     </select>

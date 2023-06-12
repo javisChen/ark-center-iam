@@ -2,6 +2,7 @@ package com.ark.center.iam.domain.permission.gateway;
 
 
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
+import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 
@@ -26,4 +27,6 @@ public interface PermissionGateway {
     void insertPermission(Long id, PermissionType permissionType);
 
     void deleteByResourceIds(List<Long> resourceIds);
+
+    List<ApiPermissionVO> selectApiPermissionsByRoleIdsAndApplicationId(Long applicationId, List<Long> roleIdSet);
 }

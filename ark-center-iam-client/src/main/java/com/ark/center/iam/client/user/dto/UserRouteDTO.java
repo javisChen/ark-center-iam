@@ -13,7 +13,7 @@ public class UserRouteDTO implements Serializable {
 
     private String name;
     private Long parentId;
-    private String id;
+    private Long id;
     private Meta meta;
     private String component;
     private String redirect;
@@ -27,4 +27,5 @@ public class UserRouteDTO implements Serializable {
         private Boolean hideChildren;
 
     }
+
 }

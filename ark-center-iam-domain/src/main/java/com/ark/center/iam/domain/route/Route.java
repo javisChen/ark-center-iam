@@ -4,6 +4,7 @@ import com.ark.center.iam.domain.route.common.RouteConst;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.ark.component.orm.mybatis.base.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@TableName("iam_route")
 public class Route extends BaseEntity {
 
     private static final long serialVersionUID = 1L;

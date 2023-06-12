@@ -85,4 +85,12 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
                 .one();
     }
 
+    @Override
+    public User selectByPhone(String userName) {
+        return lambdaQuery()
+                .eq(User::getPhone, userName)
+                .last("limit 1")
+                .one();
+    }
+
 }

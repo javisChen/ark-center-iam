@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.usergroup.enums.UserGroupInheritType;
 import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
+import com.ark.center.iam.infra.usergroup.UserGroup;
 import com.ark.center.iam.infra.usergroup.gateway.db.*;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -78,8 +79,8 @@ public class UserGroupGatewayImpl extends ServiceImpl<UserGroupMapper, UserGroup
 
     @Override
     public void deleteUserGroupAndRoleRelationsByRoleId(Long roleId) {
-        LambdaUpdateWrapper<IamUserGroupRoleRel> qw = new LambdaUpdateWrapper<>();
-        qw.eq(IamUserGroupRoleRel::getRoleId, roleId);
+        LambdaUpdateWrapper<UserGroupRoleRel> qw = new LambdaUpdateWrapper<>();
+        qw.eq(UserGroupRoleRel::getRoleId, roleId);
         userGroupRoleRelMapper.delete(qw);
     }
 
