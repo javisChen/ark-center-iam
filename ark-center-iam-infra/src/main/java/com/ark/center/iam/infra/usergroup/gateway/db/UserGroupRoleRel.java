@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class UserGroupRoleRel extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 用户组id，关联iam_user_group.id

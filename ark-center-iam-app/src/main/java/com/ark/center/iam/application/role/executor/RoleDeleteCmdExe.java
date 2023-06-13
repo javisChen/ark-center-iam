@@ -32,7 +32,7 @@ public class RoleDeleteCmdExe {
     }
 
     private void removeUserGroupRoleRelByRoleId(Long roleId) {
-        userGroupGateway.deleteUserGroupAndRoleRelationsByRoleId(roleId);
+        userGroupGateway.deleteUserGroupAndRoleRelationsByUserGroupId(roleId);
     }
 
     private void removeUserRoleRelByRoleId(Long roleId) {

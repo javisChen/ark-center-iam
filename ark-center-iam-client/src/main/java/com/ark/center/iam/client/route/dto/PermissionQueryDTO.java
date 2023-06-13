@@ -3,12 +3,10 @@ package com.ark.center.iam.client.route.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class PermissionQueryDTO implements Serializable {
+public class PermissionQueryDTO  {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 权限名称

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author: Javis
  */
 @Data
-public class ApiBaseDTO implements Serializable {
+public class ApiBaseDTO  {
 
     private Long id;
 

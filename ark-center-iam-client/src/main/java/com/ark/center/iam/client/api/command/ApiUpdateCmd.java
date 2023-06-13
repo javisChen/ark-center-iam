@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Data
 @Schema(name = "接口更新DTO")
-public class ApiUpdateCmd implements Serializable {
+public class ApiUpdateCmd  {
 
     @NotNull(message = "id不能为空", groups = {ValidateGroup.Update.class})
     @Schema(name = "id")

@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserElementsPermissionDTO implements Serializable {
+public class UserElementsPermissionDTO  {
 
     List<PermissionDTO> permissions;
 }

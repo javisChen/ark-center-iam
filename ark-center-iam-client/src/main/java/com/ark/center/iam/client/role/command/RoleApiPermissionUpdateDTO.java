@@ -10,9 +10,9 @@ import java.util.List;
  * 角色路由授权入参
  */
 @Data
-public class RoleApiPermissionUpdateDTO implements Serializable {
+public class RoleApiPermissionUpdateDTO  {
 
-    private static final long serialVersionUID = 1L;
+    
 
     private Long roleId;
     private List<Long> toAddApiPermissionIds;

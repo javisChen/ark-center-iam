@@ -1,15 +1,21 @@
 package com.ark.center.iam.infra.usergroup.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
+import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
+import com.ark.center.iam.client.usergroup.query.UserGroupQry;
+import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.ark.center.iam.domain.usergroup.enums.UserGroupInheritType;
 import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
-import com.ark.center.iam.infra.usergroup.UserGroup;
+import com.ark.center.iam.infra.usergroup.assembler.UserGroupAssembler;
 import com.ark.center.iam.infra.usergroup.gateway.db.*;
 import com.ark.component.orm.mybatis.base.BaseEntity;
+import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +34,7 @@ public class UserGroupGatewayImpl extends ServiceImpl<UserGroupMapper, UserGroup
 
     private final UserGroupUserRelMapper userGroupUserRelMapper;
     private final UserGroupRoleRelMapper userGroupRoleRelMapper;
+    private final UserGroupAssembler userGroupAssembler;
 
     @Override
     public void insertUserGroupAndUserRelations(Long userId, List<Long> userGroupIds) {
@@ -42,7 +49,7 @@ public class UserGroupGatewayImpl extends ServiceImpl<UserGroupMapper, UserGroup
     }
 
     @Override
-    public void deleteUserGroupAndRoleRelationsByUserId(Long userId) {
+    public void deleteUserGroupAndUserRelationsByUserId(Long userId) {
         LambdaQueryWrapper<UserGroupUserRel> wrapper = new LambdaQueryWrapper<UserGroupUserRel>()
                 .eq(UserGroupUserRel::getUserId, userId);
         userGroupUserRelMapper.delete(wrapper);
@@ -78,10 +85,73 @@ public class UserGroupGatewayImpl extends ServiceImpl<UserGroupMapper, UserGroup
     }
 
     @Override
-    public void deleteUserGroupAndRoleRelationsByRoleId(Long roleId) {
+    public void deleteUserGroupAndRoleRelationsByUserGroupId(Long userGroupId) {
         LambdaUpdateWrapper<UserGroupRoleRel> qw = new LambdaUpdateWrapper<>();
-        qw.eq(UserGroupRoleRel::getRoleId, roleId);
+        qw.eq(UserGroupRoleRel::getUserGroupId, userGroupId);
         userGroupRoleRelMapper.delete(qw);
+    }
+
+    @Override
+    public Page<UserGroup> selectPages(UserGroupQry dto) {
+        LambdaQueryWrapper<UserGroup> queryWrapper = new LambdaQueryWrapper<UserGroup>()
+                .like(StrUtil.isNotBlank(dto.getName()), UserGroup::getName, dto.getName())
+                .eq(UserGroup::getPid, dto.getPid())
+                .eq(UserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
+                .orderByAsc(UserGroup::getGmtCreate);
+        return page(new Page<>(dto.getCurrent(), dto.getSize()), queryWrapper);
+    }
+
+    @Override
+    public List<UserGroup> selectListWithoutRoot() {
+        return this.list(new LambdaQueryWrapper<UserGroup>()
+                .ne(UserGroup::getPid, 0));
+    }
+
+    @Override
+    public List<UserGroupBaseDTO> selectList() {
+        LambdaQueryWrapper<UserGroup> queryWrapper = new LambdaQueryWrapper<UserGroup>()
+                .orderByAsc(UserGroup::getGmtCreate)
+                .orderByAsc(UserGroup::getLevel);
+        return list(queryWrapper).stream()
+                .map(userGroupAssembler::toBaseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserGroup selectById(Long id) {
+        return getById(id);
+    }
+
+    @Override
+    public void insert(UserGroup userGroup) {
+        save(userGroup);
+    }
+
+    @Override
+    public void updateByUserGroupId(UserGroup userGroup) {
+        updateById(userGroup);
+    }
+
+    @Override
+    public void insertUserGroupAndRolesRelations(Long userGroupId, List<Long> roleIds) {
+        userGroupRoleRelMapper.insertBatch(userGroupId, roleIds);
+    }
+
+    @Override
+    public List<UserGroup> selectSubUserGroups(String levelPath) {
+        return lambdaQuery()
+                .likeRight(UserGroup::getLevelPath, levelPath)
+                .list();
+    }
+
+    @Override
+    public void logicDelete(List<Long> ids) {
+        updateBatchById(ids.stream().map(id -> {
+            UserGroup userGroup = new UserGroup();
+            userGroup.setId(id);
+            userGroup.setIsDeleted(1L);
+            return userGroup;
+        }).toList());
     }
 
     /**

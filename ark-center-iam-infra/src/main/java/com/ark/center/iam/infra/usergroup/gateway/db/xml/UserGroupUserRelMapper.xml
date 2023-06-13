@@ -27,14 +27,6 @@
         </foreach>
     </insert>
 
-    <insert id="batchSaveRelation">
-        insert into iam_user_group_user_rel(user_id, user_group_id)
-        values
-        <foreach collection="userGroupIds" item="item" separator=",">
-            (#{userId}, #{item})
-        </foreach>
-    </insert>
-
     <delete id="deleteByUserIdsAndUserGroupId">
         delete from iam_user_group_user_rel
         where user_group_id = #{userGroupId}

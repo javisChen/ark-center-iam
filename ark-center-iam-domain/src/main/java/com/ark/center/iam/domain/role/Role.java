@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_role")
 public class Role extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 用户名称

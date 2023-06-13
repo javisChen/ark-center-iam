@@ -11,7 +11,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("iam_application")
-public class Application extends BaseEntity implements Serializable {
+public class Application extends BaseEntity  {
 
     /**
      * 应用名称

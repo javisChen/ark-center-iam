@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.usergroup;
+package com.ark.center.iam.domain.usergroup;
 
 
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -21,7 +21,9 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_user_group")
 public class UserGroup extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    public final static Long DEFAULT_PID = 0L;
+    public final static Integer FIRST_LEVEL = 1;
+    
 
     /**
      * 用户组名称
@@ -66,5 +68,8 @@ public class UserGroup extends BaseEntity {
     @TableLogic
     private Long isDeleted;
 
+    public boolean isFirstLevel() {
+        return DEFAULT_PID.equals(this.pid) || FIRST_LEVEL.equals(this.getLevel());
+    }
 
 }

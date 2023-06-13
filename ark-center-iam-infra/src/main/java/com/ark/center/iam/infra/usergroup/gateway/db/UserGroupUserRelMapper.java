@@ -19,6 +19,4 @@ public interface UserGroupUserRelMapper extends BaseMapper<UserGroupUserRel> {
 
     int deleteByUserIdsAndUserGroupId(@Param("userGroupId") Long userGroupId, @Param("userIds") List<Long> userIds);
 
-
-    void batchSaveRelation(@Param("userId") Long userId, @Param("userGroupIds") List<Long> userGroupIds);
 }

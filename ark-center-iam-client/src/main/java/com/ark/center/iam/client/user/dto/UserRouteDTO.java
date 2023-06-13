@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRouteDTO implements Serializable {
+public class UserRouteDTO  {
 
     private String name;
     private Long parentId;

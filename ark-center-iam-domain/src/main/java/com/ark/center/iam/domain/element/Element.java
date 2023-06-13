@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_element")
 public class Element extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 所属菜单id，关联iam_route.id

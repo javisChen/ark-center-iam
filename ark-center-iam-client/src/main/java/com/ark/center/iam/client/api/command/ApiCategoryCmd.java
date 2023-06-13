@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class ApiCategoryCmd implements Serializable {
+public class ApiCategoryCmd  {
 
     @NotNull(message = "id不能为空", groups = {ValidateGroup.Update.class})
     private Long id;

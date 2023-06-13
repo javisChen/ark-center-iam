@@ -10,9 +10,9 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
-public class RoleCmd implements Serializable {
+public class RoleCmd  {
 
-    private static final long serialVersionUID = 1L;
+    
 
     @NotNull(message = "id 不能为空", groups = {ValidateGroup.Update.class})
     private Long id;

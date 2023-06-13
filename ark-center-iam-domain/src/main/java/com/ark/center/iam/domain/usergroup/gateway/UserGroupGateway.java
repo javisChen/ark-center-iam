@@ -1,14 +1,17 @@
 package com.ark.center.iam.domain.usergroup.gateway;
 
+import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
+import com.ark.center.iam.client.usergroup.query.UserGroupQry;
+import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.List;
 
 public interface UserGroupGateway {
     void insertUserGroupAndUserRelations(Long userId, List<Long> userGroupIds);
 
-    void deleteUserGroupAndRoleRelationsByUserId(Long userId);
-
+    void deleteUserGroupAndUserRelationsByUserId(Long userId);
 
     /**
      * 查询用户所在的用户组（只获取用户直属的用户组）
@@ -27,6 +30,23 @@ public interface UserGroupGateway {
 
     List<UserGroupVO> selectUserGroupsByUserIds(List<Long> userIds);
 
-    void deleteUserGroupAndRoleRelationsByRoleId(Long roleId);
+    void deleteUserGroupAndRoleRelationsByUserGroupId(Long roleId);
 
+    Page<UserGroup> selectPages(UserGroupQry qry);
+
+    List<UserGroup> selectListWithoutRoot();
+
+    List<UserGroupBaseDTO> selectList();
+
+    UserGroup selectById(Long id);
+
+    void insert(UserGroup userGroup);
+
+    void updateByUserGroupId(UserGroup userGroup);
+
+    void insertUserGroupAndRolesRelations(Long userGroupId, List<Long> roleIds);
+
+    List<UserGroup> selectSubUserGroups(String levelPath);
+
+    void logicDelete(List<Long> ids);
 }

@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PermissionRoleRel extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 权限id，关联iam_permission.id

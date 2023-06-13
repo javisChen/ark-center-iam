@@ -51,10 +51,10 @@ public class UserUpdateCmdExe {
     }
 
     private void assignUserGroups(Long userId, List<Long> userGroupIds) {
-        userGroupAssignService.clearUserGroups(userId);
+        userGroupAssignService.clearUserAndUserGroupRelations(userId);
 
         if (CollectionUtil.isNotEmpty(userGroupIds)) {
-            userGroupAssignService.assignUserGroups(userId, userGroupIds);
+            userGroupAssignService.assignUserGroupsToUser(userId, userGroupIds);
         }
     }
 

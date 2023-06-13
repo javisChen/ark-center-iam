@@ -108,7 +108,7 @@ public class UserCreateCmdExe {
 
     private void assignUserGroups(Long userId, List<Long> userGroupIds) {
         if (CollectionUtil.isNotEmpty(userGroupIds)) {
-            userGroupAssignService.assignUserGroups(userId, userGroupIds);
+            userGroupAssignService.assignUserGroupsToUser(userId, userGroupIds);
         }
     }
 

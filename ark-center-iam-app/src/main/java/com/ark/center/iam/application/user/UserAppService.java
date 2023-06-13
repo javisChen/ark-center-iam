@@ -56,7 +56,7 @@ public class UserAppService {
         // 移除角色关系
         roleAssignService.clearUserRoles(userId);
         // 移除用户组关系
-        userGroupAssignService.clearUserGroups(userId);
+        userGroupAssignService.clearUserAndUserGroupRelations(userId);
     }
 
 }

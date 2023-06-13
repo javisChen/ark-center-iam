@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @TableName("iam_route")
 public class Route extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 元素名称

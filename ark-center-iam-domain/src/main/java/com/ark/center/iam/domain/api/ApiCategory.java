@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_api_category")
 public class ApiCategory extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * API名称

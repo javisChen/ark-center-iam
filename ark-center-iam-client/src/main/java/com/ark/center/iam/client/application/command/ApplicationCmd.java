@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Data
-public class ApplicationCmd implements Serializable {
+public class ApplicationCmd  {
 
     private Long id;
 

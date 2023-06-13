@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_permission")
 public class Permission extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    
 
     /**
      * 权限类型 FRONT_ROUTE-前端路由；PAGE_ELEMENT-页面元素；FILE-文件；INTERNAL_API-内部服务API；OPEN_API-开放API
