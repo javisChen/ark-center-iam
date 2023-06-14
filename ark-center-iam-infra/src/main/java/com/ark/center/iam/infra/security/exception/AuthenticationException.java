@@ -20,9 +20,6 @@ public class AuthenticationException extends UserException {
         super(errMessage, e);
     }
 
-    public AuthenticationException(String errorCode, String errMessage, Throwable e) {
-        super(errorCode, errMessage, e);
-    }
 
     public static AuthenticationException of(String errMessage) {
         return new AuthenticationException(errMessage);
