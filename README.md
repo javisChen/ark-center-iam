@@ -69,4 +69,4 @@ ark-center-iam:v1
 
 | 组件  | 说明 |
 | ----- | ---- |
-| Vue | 前端框架 |
+| Vue | 前端框架 |"# ark-center-auth" 
