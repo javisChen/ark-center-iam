@@ -23,5 +23,7 @@ public interface UserGateway {
 
     User selectByUserCode(String userCode);
 
-    User selectByPhone(String userName);
+    User selectByPhone(String phone);
+
+    User selectByUserName(String userName);
 }

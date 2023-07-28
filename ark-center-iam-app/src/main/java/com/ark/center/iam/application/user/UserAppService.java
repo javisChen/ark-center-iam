@@ -4,12 +4,16 @@ import com.ark.center.iam.application.user.executor.UserCreateCmdExe;
 import com.ark.center.iam.application.user.executor.UserQryExe;
 import com.ark.center.iam.application.user.executor.UserUpdateCmdExe;
 import com.ark.center.iam.client.user.command.UserCmd;
-import com.ark.center.iam.client.user.query.UserPageQry;
 import com.ark.center.iam.client.user.dto.UserDetailsDTO;
+import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
+import com.ark.center.iam.client.user.query.UserPageQry;
+import com.ark.center.iam.client.user.query.UserQry;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
+import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
+import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +34,9 @@ public class UserAppService {
     private final RoleAssignService roleAssignService;
 
     private final UserGroupAssignService userGroupAssignService;
+
+    private final UserBeanConverter userBeanConverter;
+
 
     public Page<UserPageDTO> pageQuery(UserPageQry qry) {
         return userQryExe.pageQuery(qry);
@@ -59,4 +66,8 @@ public class UserAppService {
         userGroupAssignService.clearUserAndUserGroupRelations(userId);
     }
 
+    public UserInnerDTO getUser(UserQry userQry) {
+        User user = userQryExe.queryUserByUnique(userQry);
+        return userBeanConverter.toUserInnerDTO(user);
+    }
 }
