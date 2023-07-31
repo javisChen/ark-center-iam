@@ -69,9 +69,9 @@ public class UserUpdateCmdExe {
     private void persistUser(User user) {
         User toUpdateUser = new User();
         toUpdateUser.setId(user.getId());
-        toUpdateUser.setUserName(user.getUserName());
+        toUpdateUser.setUsername(user.getUsername());
         toUpdateUser.setStatus(user.getStatus());
-        toUpdateUser.setUserName(user.getUserName());
+        toUpdateUser.setUsername(user.getUsername());
         userGateway.updateByUserId(toUpdateUser);
     }
 

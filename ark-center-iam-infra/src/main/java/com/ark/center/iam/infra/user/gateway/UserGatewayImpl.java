@@ -30,8 +30,8 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
     public Page<UserPageDTO> selectUsers(UserPageQry pageQry) {
         LambdaQueryWrapper<User> qw = new LambdaQueryWrapper<User>()
                 .like(StrUtil.isNotBlank(pageQry.getPhone()), User::getPhone, pageQry.getPhone())
-                .like(StrUtil.isNotBlank(pageQry.getUserName()), User::getUserName, pageQry.getUserName())
-                .select(BaseEntity::getId, User::getPhone, User::getUserName, User::getStatus);
+                .like(StrUtil.isNotBlank(pageQry.getUsername()), User::getUsername, pageQry.getUsername())
+                .select(BaseEntity::getId, User::getPhone, User::getUsername, User::getStatus);
         IPage<User> result = this.page(new Page<>(pageQry.getCurrent(), pageQry.getSize()), qw);
         List<User> records = result.getRecords();
         List<UserPageDTO> vos = records.stream().map(beanConverter::toUserPageDTO).collect(Collectors.toList());
@@ -96,7 +96,7 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User selectByUsername(String username) {
         return lambdaQuery()
-                .eq(User::getUserName, username)
+                .eq(User::getUsername, username)
                 .last("limit 1")
                 .one();
     }

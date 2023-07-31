@@ -53,7 +53,7 @@ public class AuthAppService {
      * @return SingleResponse<AuthLoginDTO>
      */
     public SingleResponse<AuthLoginDTO> login(AuthLoginCmd authLoginCmd) {
-        User user = userGateway.selectByPhone(authLoginCmd.getUserName());
+        User user = userGateway.selectByPhone(authLoginCmd.getUsername());
         doCheck(authLoginCmd, user);
         UserCacheInfo userCacheInfo = cacheAuthentication(user);
         return SingleResponse.ok(new AuthLoginDTO(userCacheInfo.getAccessToken()));
@@ -68,7 +68,7 @@ public class AuthAppService {
         LoginUserResponse loginUserResponse = new LoginUserResponse();
         loginUserResponse.setUserId(User.getId());
         loginUserResponse.setUserCode(User.getCode());
-        loginUserResponse.setUserName(User.getUserName());
+        loginUserResponse.setUsername(User.getUsername());
         loginUserResponse.setIsSuperAdmin(UserConst.SUPER_ADMIN.equals(User.getCode()));
         return loginUserResponse;
     }
