@@ -7,7 +7,7 @@
         <result column="id" property="id"/>
         <result column="gmt_create" property="gmtCreate"/>
         <result column="gmt_modified" property="gmtModified"/>
-        <result column="name" property="userName"/>
+        <result column="name" property="username"/>
         <result column="phone" property="phone"/>
         <result column="password" property="password"/>
         <result column="status" property="status"/>

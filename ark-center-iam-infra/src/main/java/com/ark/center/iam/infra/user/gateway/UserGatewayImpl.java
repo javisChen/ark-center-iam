@@ -94,9 +94,9 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User selectByUserName(String userName) {
+    public User selectByUsername(String username) {
         return lambdaQuery()
-                .eq(User::getUserName, userName)
+                .eq(User::getUserName, username)
                 .last("limit 1")
                 .one();
     }

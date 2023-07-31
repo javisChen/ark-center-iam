@@ -571,7 +571,7 @@ DROP TABLE IF EXISTS `iam_user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `iam_user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(45) DEFAULT NULL COMMENT '用户名',
+  `username` varchar(45) DEFAULT NULL COMMENT '用户名',
   `phone` char(11) NOT NULL COMMENT '手机号码',
   `code` varchar(45) NOT NULL DEFAULT '' COMMENT '用户编码',
   `password` varchar(64) NOT NULL COMMENT '用户密码',

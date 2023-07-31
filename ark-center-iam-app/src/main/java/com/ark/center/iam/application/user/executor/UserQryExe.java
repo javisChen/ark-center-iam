@@ -78,12 +78,12 @@ public class UserQryExe {
 
     public User queryUserByUnique(UserQry userQry) {
         String phone = userQry.getPhone();
-        String userName = userQry.getUserName();
+        String username = userQry.getUsername();
         User user = null;
         if (StringUtils.isNotBlank(phone)) {
             user = userGateway.selectByPhone(phone);
-        } else if (StringUtils.isNotBlank(userName)) {
-            user = userGateway.selectByUserName(userName);
+        } else if (StringUtils.isNotBlank(username)) {
+            user = userGateway.selectByUsername(username);
         }
         if (user == null) {
             throw ExceptionFactory.userException("用户不存在");

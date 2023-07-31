@@ -25,8 +25,8 @@ public class User extends BaseEntity {
     /**
      * 用户名称
      */
-    @TableField("user_name")
-    private String userName;
+    @TableField("username")
+    private String username;
 
     /**
      * 手机号码

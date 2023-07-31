@@ -192,7 +192,7 @@ create table if not exists iam.iam_user
 (
     id           bigint unsigned auto_increment
     primary key,
-    user_name    varchar(45)                                null comment '用户名',
+    username    varchar(45)                                null comment '用户名',
     phone        char(11)                                   not null comment '手机号码',
     code         varchar(45)      default ''                not null comment '用户编码',
     password     varchar(64)                                not null comment '用户密码',

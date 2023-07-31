@@ -7,7 +7,9 @@ public class UserBaseDTO {
 
     private Long id;
     private String phone;
-    private String userName;
+    private String username;
+    private String userCode;
+    private Boolean isSuperAdmin;
     private Integer status;
 
 }

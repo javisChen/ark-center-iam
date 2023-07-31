@@ -25,5 +25,5 @@ public interface UserGateway {
 
     User selectByPhone(String phone);
 
-    User selectByUserName(String userName);
+    User selectByUsername(String username);
 }

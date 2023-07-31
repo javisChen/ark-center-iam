@@ -12,6 +12,7 @@ import com.ark.center.iam.client.user.query.UserQry;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
+import com.ark.center.iam.domain.user.support.UserConst;
 import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -68,6 +69,8 @@ public class UserAppService {
 
     public UserInnerDTO getUser(UserQry userQry) {
         User user = userQryExe.queryUserByUnique(userQry);
-        return userBeanConverter.toUserInnerDTO(user);
+        UserInnerDTO userInnerDTO = userBeanConverter.toUserInnerDTO(user);
+        userInnerDTO.setIsSuperAdmin(user.getCode().equals(UserConst.SUPER_ADMIN));
+        return userInnerDTO;
     }
 }

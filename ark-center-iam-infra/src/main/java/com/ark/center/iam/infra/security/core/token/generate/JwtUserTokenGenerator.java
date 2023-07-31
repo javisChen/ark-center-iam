@@ -30,7 +30,7 @@ public class JwtUserTokenGenerator implements UserTokenGenerator {
         return JWT.create()
                 .withClaim("userCode", userContext.getUserCode())
                 .withClaim("userId", userContext.getUserId())
-                .withClaim("userName", userContext.getUserName())
+                .withClaim("username", userContext.getUserName())
                 .withClaim("isSuperAdmin", userContext.getIsSuperAdmin())
                 .withSubject(userContext.getUserName())
                 .withExpiresAt(now.plusSeconds(SecurityConstants.TOKEN_EXPIRES_SECONDS).atZone(ZoneId.systemDefault()).toInstant())

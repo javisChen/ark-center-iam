@@ -12,7 +12,7 @@ import lombok.Data;
 public class UserQry {
 
     @Schema(name = "用户名")
-    private String userName;
+    private String username;
 
     @Schema(name = "手机号码")
     private String phone;

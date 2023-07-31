@@ -20,7 +20,7 @@ public interface UserQryApi {
 
 //    @GetMapping
 //    @Operation(summary = "用户管理（内部调用） - 查询单个用户")
-//    SingleResponse<UserInnerDTO> getUserByUserName(@RequestParam(name = "userName") String userName);
+//    SingleResponse<UserInnerDTO> getUserByUserName(@RequestParam(name = "username") String username);
 //
 //    @GetMapping
 //    @Operation(summary = "用户管理（内部调用） - 查询单个用户")

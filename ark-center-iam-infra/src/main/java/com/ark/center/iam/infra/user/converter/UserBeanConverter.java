@@ -6,6 +6,7 @@ import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.domain.user.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserBeanConverter {
@@ -14,6 +15,7 @@ public interface UserBeanConverter {
 
     UserDetailsDTO toUserDetailsDTO(User user);
 
+    @Mapping(target = "userCode", source = "code")
     UserInnerDTO toUserInnerDTO(User user);
 
     User toUserDO(UserCmd dto);
