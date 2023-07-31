@@ -20,17 +20,22 @@ public class UserInnerController extends BaseController implements UserQryApi {
 
     private final UserAppService userAppService;
 
-    @Override
-    public SingleResponse<UserInnerDTO> getUserByUserName(String userName) {
-        UserQry userQry = new UserQry();
-        userQry.setUserName(userName);
-        return SingleResponse.ok(userAppService.getUser(userQry));
-    }
+//    @Override
+//    public SingleResponse<UserInnerDTO> getUserByUserName(String userName) {
+//        UserQry userQry = new UserQry();
+//        userQry.setUserName(userName);
+//        return SingleResponse.ok(userAppService.getUser(userQry));
+//    }
+//
+//    @Override
+//    public SingleResponse<UserInnerDTO> getUserByPhone(String phone) {
+//        UserQry userQry = new UserQry();
+//        userQry.setPhone(phone);
+//        return SingleResponse.ok(userAppService.getUser(userQry));
+//    }
 
     @Override
-    public SingleResponse<UserInnerDTO> getUserByPhone(String phone) {
-        UserQry userQry = new UserQry();
-        userQry.setPhone(phone);
+    public SingleResponse<UserInnerDTO> getUser(UserQry userQry) {
         return SingleResponse.ok(userAppService.getUser(userQry));
     }
 }
