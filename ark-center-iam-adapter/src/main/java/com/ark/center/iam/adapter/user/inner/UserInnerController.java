@@ -5,6 +5,7 @@ import com.ark.center.iam.client.user.UserQryApi;
 import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.query.UserQry;
 import com.ark.component.dto.SingleResponse;
+import com.ark.component.logger.annotation.CatchAndLog;
 import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/inner/user")
+@CatchAndLog
 public class UserInnerController extends BaseController implements UserQryApi {
 
     private final UserAppService userAppService;
