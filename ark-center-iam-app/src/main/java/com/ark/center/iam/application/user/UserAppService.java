@@ -8,10 +8,12 @@ import com.ark.center.iam.client.user.dto.UserDetailsDTO;
 import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.client.user.query.UserPageQry;
+import com.ark.center.iam.client.user.query.UserPermissionQry;
 import com.ark.center.iam.client.user.query.UserQry;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
+import com.ark.center.iam.domain.user.service.UserPermissionService;
 import com.ark.center.iam.domain.user.support.UserConst;
 import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
@@ -37,6 +39,8 @@ public class UserAppService {
     private final UserGroupAssignService userGroupAssignService;
 
     private final UserBeanConverter userBeanConverter;
+
+    private final UserPermissionService userPermissionService;
 
 
     public Page<UserPageDTO> pageQuery(UserPageQry qry) {
@@ -73,4 +77,13 @@ public class UserAppService {
         userInnerDTO.setIsSuperAdmin(user.getCode().equals(UserConst.SUPER_ADMIN));
         return userInnerDTO;
     }
+
+    public Boolean checkApiHasPermission(UserPermissionQry userPermissionQry) {
+        String applicationCode = userPermissionQry.getApplicationCode();
+        String userCode = userPermissionQry.getUserCode();
+        String requestUri = userPermissionQry.getRequestUri();
+        String method = userPermissionQry.getMethod();
+        return userPermissionService.checkHasApiPermission(applicationCode, userCode, requestUri, method);
+    }
+
 }
