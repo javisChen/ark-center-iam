@@ -25,8 +25,6 @@ public class ApiAppService {
     private final PermissionService permissionService;
     private final ApiAssembler apiAssembler;
 
-    private final ApiCheckService apiCheckService;
-
     public List<ApiDetailsDTO> queryList(ApiQry dto) {
         return apiGateway.selectList(dto);
     }

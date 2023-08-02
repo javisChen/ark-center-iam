@@ -45,22 +45,23 @@ public class ApiCacheHolder implements InitializingBean {
     }
 
     private Map<String, String> filterNoNeedAuthorizationApis(List<ApiDetailsDTO> apis) {
-        return apis.stream()
+        Map<String, String> collect = apis.stream()
                 .filter(item -> item.getAuthType().equals(ApiAuthTypeEnums.NEED_AUTHENTICATION.getValue())
                         || item.getAuthType().equals(ApiAuthTypeEnums.NO_AUTHENTICATION_AND_AUTHORIZATION.getValue()))
-                .collect(Collectors.toMap(api -> ApiCommonUtils.createKey(api.getUrl(), api.getMethod()), ApiDetailsDTO::getUrl));
+                .collect(Collectors.toMap(api -> ApiCommonUtils.createKey(api.getUri(), api.getMethod()), ApiDetailsDTO::getUri));
+        return collect;
     }
 
     private Map<String, String> filterNoNeedAuthenticationApis(List<ApiDetailsDTO> apis) {
         return apis.stream()
                 .filter(item -> item.getAuthType().equals(ApiAuthTypeEnums.NEED_AUTHENTICATION.getValue()))
-                .collect(Collectors.toMap(api -> ApiCommonUtils.createKey(api.getUrl(), api.getMethod()), ApiDetailsDTO::getUrl));
+                .collect(Collectors.toMap(api -> ApiCommonUtils.createKey(api.getUri(), api.getMethod()), ApiDetailsDTO::getUri));
     }
 
     private List<String> filterHasPathVariableApis(List<ApiDetailsDTO> apis) {
         return apis.stream()
                 .filter(item -> item.getHasPathVariable().equals(true))
-                .map(ApiDetailsDTO::getUrl)
+                .map(ApiDetailsDTO::getUri)
                 .collect(Collectors.toList());
     }
 

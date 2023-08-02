@@ -36,7 +36,7 @@ public class ApiGatewayImpl extends ServiceImpl<ApiMapper, Api> implements ApiGa
     @Override
     public Api selectApiByApplicationIdAndMethodAndUrl(Long applicationId, String method, String url) {
         return lambdaQuery()
-                .eq(Api::getUrl, url)
+                .eq(Api::getUri, url)
                 .eq(Api::getMethod, method)
                 .eq(Api::getApplicationId, applicationId)
                 .eq(Api::getIsDeleted, DeletedEnums.NOT.getCode())

@@ -42,8 +42,8 @@ public class Api extends BaseEntity {
     /**
      * 接口地址
      */
-    @TableField("url")
-    private String url;
+    @TableField("uri")
+    private String uri;
 
     /**
      * http方法

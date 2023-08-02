@@ -2,8 +2,6 @@ package com.ark.center.iam.client.api.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * @title:
  * @desc:
@@ -16,7 +14,7 @@ public class ApiBaseDTO  {
 
     private String name;
 
-    private String url;
+    private String uri;
 
     private String method;
 

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Schema(name = "用户管理（内部调用）", description = "提供服务调用接口")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/inner/user")
+@RequestMapping("/v1/inner/users")
 @CatchAndLog
 public class UserInnerController extends BaseController implements UserQryApi, UserPermissionQryApi {
 

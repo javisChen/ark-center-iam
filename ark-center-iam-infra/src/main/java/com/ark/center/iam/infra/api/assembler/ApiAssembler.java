@@ -30,7 +30,7 @@ public interface ApiAssembler {
         api.setName(dto.getName());
         api.setApplicationId(dto.getApplicationId());
         api.setCategoryId(dto.getCategoryId());
-        api.setUrl(dto.getUrl());
+        api.setUri(dto.getUrl());
         api.setMethod(dto.getMethod());
         api.setAuthType(dto.getAuthType());
         api.setStatus(dto.getStatus());
