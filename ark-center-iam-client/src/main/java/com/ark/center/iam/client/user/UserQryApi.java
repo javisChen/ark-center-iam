@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(
         name = "${ark.center.iam.service.name:iam}",
-        path = "/v1/inner/user",
+        path = "/v1/inner/users",
         url = "${ark.center.iam.service.uri:}",
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
