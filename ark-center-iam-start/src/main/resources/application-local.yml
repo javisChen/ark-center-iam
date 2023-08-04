@@ -16,16 +16,6 @@ spring:
 # mybatis
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
-ark:
-  security:
-    allow-list:
-      - /iam/auth/login
-      - /iam/auth/logout
-      - /iam/auth/kick
-      - /iam/api/init
-      - /iam/user/permission/check
-      - /iam/alert/*
-      - /iam/docker
 
 logging:
   level:
