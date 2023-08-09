@@ -80,10 +80,10 @@ public class UserAppService {
 
     public Boolean checkApiHasPermission(UserPermissionQry userPermissionQry) {
         String applicationCode = userPermissionQry.getApplicationCode();
-        String userCode = userPermissionQry.getUserCode();
+        Long userId = userPermissionQry.getUserId();
         String requestUri = userPermissionQry.getRequestUri();
         String method = userPermissionQry.getMethod();
-        return userPermissionService.checkHasApiPermission(applicationCode, userCode, requestUri, method);
+        return userPermissionService.checkHasApiPermission(applicationCode, userId, requestUri, method);
     }
 
 }

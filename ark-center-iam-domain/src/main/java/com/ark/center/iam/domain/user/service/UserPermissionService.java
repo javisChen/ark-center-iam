@@ -82,13 +82,12 @@ public class UserPermissionService {
         return roleIds.stream().distinct().toList();
     }
 
-    public boolean checkHasApiPermission(String applicationCode, String userCode, String url, String method) {
-        User user = userGateway.selectByUserCode(userCode);
+    public boolean checkHasApiPermission(String applicationCode, Long userId, String url, String method) {
+        User user = userGateway.selectByUserId(userId);
         // 超管账号直接通过
         if (isSuperAdmin(user.getCode())) {
             return true;
         }
-        Long userId = user.getId();
         List<Long> roleIds = queryUserRoles(userId);
         // 如果账号包含超管角色，直接通过
         if (roleIds.stream().anyMatch(item -> item.equals(1L))) {
