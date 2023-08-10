@@ -63,9 +63,9 @@ spring:
 ark:
   security:
     allow-list:
-      - /iam/v1/login/account
-      - /iam/v1/logout
-      - /iam/v1/kick
+      - /iam/login/account
+      - /iam/logout
+      - /iam/kick
       - /iam/api/init
       - /iam/user/permission/check
       - /iam/alert/*
@@ -84,9 +84,9 @@ spring:
 ark:
   security:
     allow-list:
-      - /iam/v1/login/account
-      - /iam/v1/logout
-      - /iam/v1/kick
+      - /iam/login/account
+      - /iam/logout
+      - /iam/kick
       - /iam/api/init
       - /iam/user/permission/check
       - /iam/alert/*

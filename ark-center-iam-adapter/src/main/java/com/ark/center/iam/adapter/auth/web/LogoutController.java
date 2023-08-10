@@ -24,18 +24,9 @@ public class LogoutController extends BaseController {
     private final AuthAppService authAppService;
 
     /**
-     * 登出
-     */
-    @PostMapping("/v1/logout")
-    public ServerResponse logout() {
-        authAppService.logout(getRequest());
-        return ServerResponse.ok();
-    }
-
-    /**
      * 踢出（强制用户下线）
      */
-    @PostMapping("/v1/kick")
+    @PostMapping("/kick")
     public ServerResponse kick(@RequestBody AuthKickCmd dto) {
         authAppService.kick(dto);
         return ServerResponse.ok();

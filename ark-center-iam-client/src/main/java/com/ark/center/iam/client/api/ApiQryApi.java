@@ -8,8 +8,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
 @FeignClient(
         name = "${ark.center.iam.service.name:iam}",
         path = "/v1/inner/apis",

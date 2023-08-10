@@ -12,9 +12,9 @@ spring:
 ark:
   security:
     allow-list:
-      - /iam/v1/login/account
-      - /iam/v1/logout
-      - /iam/v1/kick
+      - /iam/login/account
+      - /iam/logout
+      - /iam/kick
       - /iam/api/init
       - /iam/user/permission/check
       - /iam/alert/*
@@ -154,11 +154,11 @@ ark:
   center:
     gateway:
       allow-list:
-        - /iam/v1/login/account
-        - /iam/v1/logout
-        - /iam/v1/user/permission/elements
-        - /iam/v1/user/permission/routes
-        - /commodity/v1/**
+        - /iam/login/account
+        - /iam/logout
+        - /iam/user/permission/elements
+        - /iam/user/permission/routes
+        - /commodity/**
     feign:
       transmit-headers: X-Authorization, X-Trace-Id
 feign:

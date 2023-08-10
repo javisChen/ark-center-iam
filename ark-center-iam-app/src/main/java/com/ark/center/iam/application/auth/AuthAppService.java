@@ -13,10 +13,7 @@ import com.ark.center.iam.infra.security.core.token.cache.IUserTokenCacheService
 import com.ark.center.iam.infra.security.core.token.cache.UserCacheInfo;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.exception.ExceptionFactory;
-import com.ark.component.security.core.token.extractor.DefaultTokenExtractor;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,20 +24,12 @@ import java.util.Objects;
 public class AuthAppService {
 
     private final IUserTokenCacheService iUserTokenCacheService;
-    private final DefaultTokenExtractor tokenExtractor;
     private final UserGateway userGateway;
     private final PasswordEncoder passwordEncoder;
 
     public void kick(AuthKickCmd cmd) {
         Long userId = cmd.getUserId();
         iUserTokenCacheService.remove(userId);
-    }
-
-    public void logout(HttpServletRequest request) {
-        String accessToken = tokenExtractor.extract(request);
-        if (StringUtils.isNotBlank(accessToken)) {
-            iUserTokenCacheService.remove(accessToken);
-        }
     }
 
     /**

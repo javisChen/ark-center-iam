@@ -12,7 +12,7 @@
 // * 访问权限控制器
 // */
 //@RestController
-//@RequestMapping("/v1/access")
+//@RequestMapping("/access")
 //public class AccessController implements AccessApi {
 //
 //    private final AccessAppService accessAppService;

@@ -16,7 +16,7 @@ public class RoleAssignService {
     private final RoleGateway roleGateway;
 
     /**
-     * 分配用户角色
+     * 用户角色授权
      *
      * @param userId  用户id
      * @param roleIds 角色id集合

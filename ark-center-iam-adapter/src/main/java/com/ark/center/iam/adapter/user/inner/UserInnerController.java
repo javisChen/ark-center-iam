@@ -11,7 +11,6 @@ import com.ark.component.logger.annotation.CatchAndLog;
 import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +29,6 @@ public class UserInnerController extends BaseController implements UserQryApi, U
         return SingleResponse.ok(userAppService.getUser(userQry));
     }
 
-    @GetMapping("/permissions")
     @Override
     public SingleResponse<Boolean> checkApiHasPermission(UserPermissionQry userPermissionQry) {
         return SingleResponse.ok(userAppService.checkApiHasPermission(userPermissionQry));

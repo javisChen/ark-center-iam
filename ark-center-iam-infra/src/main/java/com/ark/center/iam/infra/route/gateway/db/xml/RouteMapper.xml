@@ -66,6 +66,7 @@
                 AND r.status = #{params.status}
             </if>
         </where>
+        AND p.type = 'FRONT_ROUTE'
         AND r.pid = 0
         AND r.is_deleted = 0
         ORDER BY r.`sequence`
@@ -82,6 +83,7 @@
         inner join iam_application a on a.id = r.application_id
         AND r.pid != 0
         AND r.is_deleted = 0
+        AND p.type = 'FRONT_ROUTE'
     </select>
 
     <select id="selectDetails" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">

@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(
         name = "${ark.center.iam.service.name:iam}",
-        path = "/v1/inner/users/permissions",
+        path = "/v1/inner/users",
         url = "${ark.center.iam.service.uri:}",
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
 public interface UserPermissionQryApi {
 
-    @GetMapping
+    @GetMapping("/permissions")
     @Operation(summary = "用户管理（内部调用） - 查询用户是否具备API访问权限")
     SingleResponse<Boolean> checkApiHasPermission(@SpringQueryMap UserPermissionQry userPermissionQry);
 
