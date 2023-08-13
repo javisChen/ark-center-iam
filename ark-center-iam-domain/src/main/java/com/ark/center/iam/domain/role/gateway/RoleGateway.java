@@ -32,7 +32,7 @@ public interface RoleGateway extends BaseGateway<Role> {
 
     void updateByRoleId(Role role);
 
-    RoleBaseDTO selectById(String id);
+    RoleBaseDTO selectById(Long id);
 
     void logicDelete(Long id);
 

@@ -33,7 +33,7 @@ CREATE TABLE `iam_api` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `application_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '应用id，关联upms_application.id',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT 'API名称',
-  `url` varchar(128) NOT NULL DEFAULT '' COMMENT '接口地址',
+  `uri` varchar(128) NOT NULL DEFAULT '' COMMENT '接口地址',
   `method` varchar(10) NOT NULL DEFAULT '' COMMENT 'Http Method 1-GET 2-POST 3-PUT 4-DELETE 5-PATCH',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态 1-已启用；2-已禁用；',
   `category_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'api分类id，关联api_category.id',
@@ -45,7 +45,7 @@ CREATE TABLE `iam_api` (
   `modifier` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '更新人',
   `is_deleted` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`,`application_id`),
-  UNIQUE KEY `uk_application_id_url_method` (`url`,`application_id`,`method`),
+  UNIQUE KEY `uk_application_id_url_method` (`uri`,`application_id`,`method`),
   KEY `fk_upms_api_category_idx` (`category_id`),
   KEY `idx_application_id` (`application_id`,`is_deleted`),
   KEY `idx_is_deleted` (`is_deleted`)

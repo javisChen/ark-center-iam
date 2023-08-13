@@ -48,7 +48,7 @@ public class RoleController extends BaseController {
     }
 
     @GetMapping("/role")
-    public SingleResponse<RoleBaseDTO> get(String id) {
+    public SingleResponse<RoleBaseDTO> get(Long id) {
         RoleBaseDTO vo = roleAppService.queryRole(id);
         return SingleResponse.ok(vo);
     }

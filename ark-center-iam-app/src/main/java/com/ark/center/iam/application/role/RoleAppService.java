@@ -40,7 +40,7 @@ public class RoleAppService {
         roleUpdateCmdExe.execute(cmd);
     }
 
-    public RoleBaseDTO queryRole(String id) {
+    public RoleBaseDTO queryRole(Long id) {
         return roleGateway.selectById(id);
     }
 

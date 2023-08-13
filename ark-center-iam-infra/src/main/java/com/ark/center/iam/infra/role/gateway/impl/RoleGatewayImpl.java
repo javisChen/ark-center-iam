@@ -107,7 +107,7 @@ public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public RoleBaseDTO selectById(String id) {
+    public RoleBaseDTO selectById(Long id) {
         Role role = getById(id);
         return roleAssembler.toRoleBaseDTO(role);
     }

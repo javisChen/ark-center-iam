@@ -8,10 +8,13 @@ import com.ark.center.iam.application.role.executor.RoleUpdateCmdExe;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.role.command.RoleApiPermissionUpdateDTO;
 import com.ark.center.iam.client.role.command.RoleRoutePermissionGrantCmd;
+import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
+import com.ark.center.iam.application.role.event.RolePermissionChangedEvent;
 import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,8 @@ public class RolePermissionAppService {
     private final RoleUpdateCmdExe roleUpdateCmdExe;
     private final RoleDeleteCmdExe roleDeleteCmdExe;
     private final RoleGateway roleGateway;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     private final PermissionGateway permissionGateway;
 
@@ -46,10 +51,16 @@ public class RolePermissionAppService {
         return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.FRONT_ROUTE.getType());
     }
 
+    @Transactional(rollbackFor = Throwable.class)
     public void grantApis(RoleApiPermissionUpdateDTO dto) {
         Long roleId = dto.getRoleId();
         permissionGateway.deleteRolePermission(roleId, dto.getToRemoveApiPermissionIds());
-        permissionGateway.insertBatchRolePermissionRelations(roleId, dto.getToAddApiPermissionIds());
+        List<Long> permissionIds = dto.getToAddApiPermissionIds();
+        permissionGateway.insertBatchRolePermissionRelations(roleId, permissionIds);
+        RoleBaseDTO roleBaseDTO = roleGateway.selectById(roleId);
+        String roleName = roleBaseDTO.getName();
+
+        eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, permissionIds, PermissionType.SER_API));
     }
 
     public List<PermissionDTO> queryRoleApiPermissions(Long roleId, Long applicationId) {
