@@ -12,11 +12,16 @@ import java.util.List;
 @Data
 public class RoleRoutePermissionGrantCmd {
 
+
+    @Schema(name = "应用id")
+    private Long applicationId;
+
     @Schema(name = "角色Id")
     private Long roleId;
 
     @Schema(name = "待添加的路由权限id集合")
     private List<Long> toAddRoutePermissionIds;
+
     @Schema(name = "待删除的路由权限id集合")
     private List<Long> toRemoveRoutePermissionIds;
 

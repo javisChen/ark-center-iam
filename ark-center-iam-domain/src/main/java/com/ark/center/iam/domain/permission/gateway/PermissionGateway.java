@@ -18,8 +18,6 @@ public interface PermissionGateway {
 
     void deletePermissionAndRoleRelationsByRoleId(Long roleId);
 
-    void deleteRolePermission(Long roleId, List<Long> permissionIds);
-
     void insertBatchRolePermissionRelations(Long roleId, List<Long> permissionIds);
 
     List<PermissionDTO> selectRolePermissions(Long applicationId, Long roleId, String type);
@@ -29,4 +27,8 @@ public interface PermissionGateway {
     void deleteByResourceIds(List<Long> resourceIds);
 
     List<ApiPermissionVO> selectApiPermissionsByRoleIdsAndApplicationId(Long applicationId, List<Long> roleIdSet);
+
+    List<Long> selectResourceIdsByIds(List<Long> permissionIds);
+
+    void deleteRolePermission(Long applicationId, Long roleId, PermissionType permissionType);
 }

@@ -2,6 +2,7 @@ package com.ark.center.iam.domain.role.gateway;
 
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.client.role.query.RoleQry;
+import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.component.orm.mybatis.base.BaseGateway;
@@ -39,5 +40,10 @@ public interface RoleGateway extends BaseGateway<Role> {
     void deleteUserRoleRelationsByRoleId(Long roleId);
 
     void updateStatusById(Long id, Integer status);
+
+    /**
+     * 缓存角色权限
+     */
+    void saveRoleApiPermissionCache(Long roleId, List<Api> apis);
 
 }

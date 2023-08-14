@@ -2,8 +2,8 @@ package com.ark.center.iam.adapter.role.web.controller;
 
 import com.ark.center.iam.application.role.RolePermissionAppService;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.role.command.RoleApiPermissionUpdateDTO;
-import com.ark.center.iam.client.role.command.RoleApplicationApiPermissionUpdateDTO;
+import com.ark.center.iam.client.role.command.RoleApiPermissionGrantCmd;
+import com.ark.center.iam.client.role.command.RoleApplicationApiPermissionUpdateCmd;
 import com.ark.center.iam.client.role.command.RoleRoutePermissionGrantCmd;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
@@ -46,7 +46,7 @@ public class RolePermissionController extends BaseController {
      * 角色api权限授权
      */
     @PostMapping("/role/permission/api")
-    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApiPermissionUpdateDTO dto) {
+    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApiPermissionGrantCmd dto) {
         rolePermissionAppService.grantApis(dto);
         return ServerResponse.ok();
     }
@@ -55,7 +55,7 @@ public class RolePermissionController extends BaseController {
      * 角色api权限授权（直接授予应用下的所有api）
      */
     @PostMapping("/role/permission/application/api")
-    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApplicationApiPermissionUpdateDTO dto) {
+    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApplicationApiPermissionUpdateCmd dto) {
 //        iRoleService.updateRoleApiPermissions(dto);
 //        rolePermissionAppService.grantApis(dto);
         return ServerResponse.ok();

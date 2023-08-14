@@ -8,17 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class PermissionService {
 
     private final PermissionGateway permissionGateway;
-
-    public List<Permission> selectByType(PermissionType permissionType) {
-        return permissionGateway.selectByType(permissionType.getType());
-    }
 
     public void addPermission(Long resourceId, PermissionType permissionType) {
         Permission permission = new Permission();
@@ -36,4 +30,5 @@ public class PermissionService {
     private String generatePermissionCode(String tag, long id) {
         return tag + StringUtils.leftPad(String.valueOf(id), 9, "0");
     }
+
 }

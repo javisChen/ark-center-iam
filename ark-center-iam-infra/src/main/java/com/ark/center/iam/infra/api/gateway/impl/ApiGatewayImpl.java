@@ -6,6 +6,7 @@ import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
 import com.ark.center.iam.infra.api.assembler.ApiAssembler;
 import com.ark.center.iam.infra.api.gateway.db.ApiMapper;
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -65,5 +66,13 @@ public class ApiGatewayImpl extends ServiceImpl<ApiMapper, Api> implements ApiGa
                 .eq(Api::getIsDeleted, DeletedEnums.NOT.getCode())
                 .set(Api::getIsDeleted, DeletedEnums.YET.getCode())
                 .update();
+    }
+
+    @Override
+    public List<Api> selectByIds(List<Long> resourceIds) {
+        return lambdaQuery()
+                .in(BaseEntity::getId, resourceIds)
+                .eq(Api::getIsDeleted, 0)
+                .list();
     }
 }

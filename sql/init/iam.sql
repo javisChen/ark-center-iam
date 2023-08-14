@@ -907,3 +907,14 @@ INSERT INTO `iam_user_role_rel` VALUES (1,1,1,'2021-01-21 10:40:47','2021-01-21 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-02-19 18:15:09
+
+alter table iam_permission
+    add application_id bigint default 1 not null comment '应用id' after id;
+
+alter table iam_permission_role_rel
+    drop key uk_permission_id_role_id;
+
+drop index idx_is_deleted on iam_permission;
+
+
+

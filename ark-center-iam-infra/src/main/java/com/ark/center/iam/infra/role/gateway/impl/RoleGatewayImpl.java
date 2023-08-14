@@ -3,13 +3,16 @@ package com.ark.center.iam.infra.role.gateway.impl;
 import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.client.role.query.RoleQry;
+import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.center.iam.infra.role.assembler.RoleAssembler;
+import com.ark.center.iam.infra.role.gateway.cache.RoleCache;
 import com.ark.center.iam.infra.role.gateway.db.RoleMapper;
 import com.ark.center.iam.infra.role.gateway.db.UserRoleRel;
 import com.ark.center.iam.infra.role.gateway.db.UserRoleRelMapper;
+import com.ark.component.cache.CacheService;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -31,6 +34,7 @@ public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     private final UserRoleRelMapper userRoleRelMapper;
     private final RoleAssembler roleAssembler;
+    private final CacheService cacheService;
 
     @Override
     public void insertUserRolesRelations(Long userId, List<Long> roleIds) {
@@ -134,5 +138,14 @@ public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 .eq(Role::getStatus, id)
                 .set(Role::getStatus, status)
                 .update();
+    }
+
+    @Override
+    public void saveRoleApiPermissionCache(Long roleId, List<Api> apis) {
+        String key = String.format(RoleCache.ROLE_API_PERM_KEY, roleId);
+        cacheService.remove(key);
+
+        List<String> elements = apis.stream().map(item -> item.getUri() + ":" + item.getMethod()).toList();
+        cacheService.setAdd(key, elements.toArray());
     }
 }

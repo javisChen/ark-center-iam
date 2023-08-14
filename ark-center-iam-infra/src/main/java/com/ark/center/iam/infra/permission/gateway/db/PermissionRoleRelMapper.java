@@ -19,7 +19,12 @@ public interface PermissionRoleRelMapper extends BaseMapper<PermissionRoleRel> {
                      @Param("permissionIds") List<Long> permissionIds);
 
     List<String> selectRoleNamesByUserId(@Param("userId") Long userId);
+
     List<Long> selectRoleIdsByUserGroupId(@Param("userGroupId") Long userGroupId);
 
     List<String> selectRoleNamesByUserGroupId(@Param("userGroupId") Long userGroupId);
+
+    List<PermissionRoleRel> selectByRoleIdAndType(@Param("applicationId") Long applicationId,
+                                                  @Param("roleId") Long roleId,
+                                                  @Param("type") String type);
 }

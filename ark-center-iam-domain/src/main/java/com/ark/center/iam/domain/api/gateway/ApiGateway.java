@@ -20,4 +20,5 @@ public interface ApiGateway {
 
     void delete(Long id);
 
+    List<Api> selectByIds(List<Long> resourceIds);
 }

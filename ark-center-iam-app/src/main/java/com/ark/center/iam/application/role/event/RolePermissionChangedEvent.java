@@ -3,9 +3,7 @@ package com.ark.center.iam.application.role.event;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import lombok.Getter;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 
 import java.util.List;
 import java.util.StringJoiner;
@@ -16,7 +14,7 @@ import java.util.StringJoiner;
  */
 @Getter
 @Setter
-public class RolePermissionChangedEvent extends ApplicationEvent implements ApplicationListener<RolePermissionChangedEvent> {
+public class RolePermissionChangedEvent extends ApplicationEvent {
 
     private final Long roleId;
     private final String roleName;
@@ -32,13 +30,8 @@ public class RolePermissionChangedEvent extends ApplicationEvent implements Appl
     }
 
     @Override
-    public RolePermissionChangedEvent getSource() {
-        return (RolePermissionChangedEvent) super.getSource();
-    }
-
-    @Override
-    public void onApplicationEvent(@NotNull RolePermissionChangedEvent event) {
-
+    public Object getSource() {
+        return super.getSource();
     }
 
     @Override

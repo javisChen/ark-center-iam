@@ -50,7 +50,6 @@ public class UserPermissionService {
         if (isSuperAdmin(userCode)) {
             permissions = queryWholeElementsPermissions(pageElementType);
         } else {
-            // User user = userGateway.selectByUserCode(userCode);
             permissions = queryUserPermissions(userId, pageElementType);
         }
         return permissions;

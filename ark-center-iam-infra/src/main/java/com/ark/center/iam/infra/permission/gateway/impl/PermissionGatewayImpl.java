@@ -11,10 +11,11 @@ import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.center.iam.infra.permission.gateway.db.PermissionMapper;
 import com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRel;
 import com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRelMapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
@@ -58,12 +59,13 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
-    public void deleteRolePermission(Long roleId, List<Long> permissionIds) {
-        if (CollectionUtil.isNotEmpty(permissionIds)) {
-            LambdaQueryWrapper<PermissionRoleRel> qw = new LambdaQueryWrapper<PermissionRoleRel>()
-                    .eq(PermissionRoleRel::getRoleId, roleId)
-                    .in(PermissionRoleRel::getPermissionId, permissionIds);
-            permissionRoleRelMapper.delete(qw);
+    public void deleteRolePermission(Long applicationId, Long roleId, PermissionType permissionType) {
+        // 先把关联表id查出来然后排序，再根据id去删除，避免死锁
+        List<PermissionRoleRel> permissionRoleRelList = permissionRoleRelMapper
+                .selectByRoleIdAndType(applicationId, roleId, permissionType.getType());
+        if (CollectionUtils.isNotEmpty(permissionRoleRelList)) {
+            List<Long> ids = permissionRoleRelList.stream().map(BaseEntity::getId).sorted().toList();
+            permissionRoleRelMapper.deleteBatchIds(ids);
         }
     }
 
@@ -108,6 +110,17 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public List<ApiPermissionVO> selectApiPermissionsByRoleIdsAndApplicationId(Long applicationId, List<Long> roleIds) {
         return baseMapper.selectApiPermissionsByRoleIdsAndApplicationId(applicationId, roleIds);
+    }
+
+    @Override
+    public List<Long> selectResourceIdsByIds(List<Long> permissionIds) {
+        return lambdaQuery()
+                .select(Permission::getResourceId)
+                .in(BaseEntity::getId, permissionIds)
+                .eq(Permission::getIsDeleted, 0)
+                .list().stream()
+                .map(Permission::getResourceId)
+                .collect(Collectors.toList());
     }
 
 }

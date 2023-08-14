@@ -53,4 +53,16 @@
           and ur.is_deleted = 0
     </select>
 
+    <select id="selectByRoleIdAndType"
+            resultType="com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRel">
+
+        select uprr.id
+        from iam_permission up
+                 inner join iam_permission_role_rel uprr on uprr.permission_id = up.id
+        where role_id = #{roleId}
+          and up.type = #{type}
+          and up.application_id = #{applicationId}
+
+    </select>
+
 </mapper>
