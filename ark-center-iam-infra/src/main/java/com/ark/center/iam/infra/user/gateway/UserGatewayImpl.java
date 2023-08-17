@@ -101,4 +101,9 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
                 .one();
     }
 
+    @Override
+    public List<User> selectByRoleId(Long roleId) {
+        return baseMapper.selectByRoleId(roleId);
+    }
+
 }

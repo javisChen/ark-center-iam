@@ -5,6 +5,8 @@ import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.domain.user.User;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import java.util.List;
+
 public interface UserGateway {
 
     Page<UserPageDTO> selectUsers(UserPageQry qry);
@@ -26,4 +28,6 @@ public interface UserGateway {
     User selectByPhone(String phone);
 
     User selectByUsername(String username);
+
+    List<User> selectByRoleId(Long roleId);
 }

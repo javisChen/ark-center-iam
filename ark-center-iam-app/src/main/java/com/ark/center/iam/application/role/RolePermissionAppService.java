@@ -67,6 +67,7 @@ public class RolePermissionAppService {
         RoleBaseDTO roleBaseDTO = roleGateway.selectById(roleId);
         String roleName = roleBaseDTO.getName();
         eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, permissionIds, PermissionType.SER_API));
+
     }
 
     public List<PermissionDTO> queryRoleApiPermissions(Long roleId, Long applicationId) {

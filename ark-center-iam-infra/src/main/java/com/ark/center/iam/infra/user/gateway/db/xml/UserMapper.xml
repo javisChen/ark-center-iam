@@ -20,5 +20,11 @@
         gmt_modified,
         name, phone, password, status
     </sql>
+    <select id="selectByRoleId" resultType="com.ark.center.iam.domain.user.User">
+        select *
+        from iam_user u
+        inner join iam_user_role_rel
+
+    </select>
 
 </mapper>

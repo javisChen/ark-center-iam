@@ -24,49 +24,10 @@ import java.util.Objects;
 public class AuthAppService {
 
     private final IUserTokenCacheService iUserTokenCacheService;
-    private final UserGateway userGateway;
-    private final PasswordEncoder passwordEncoder;
 
     public void kick(AuthKickCmd cmd) {
         Long userId = cmd.getUserId();
         iUserTokenCacheService.remove(userId);
     }
 
-    /**
-     * 用户登录
-     * 1. 校验用户登录名和密码
-     * 2. 生成Token
-     * 3. 存储到缓存
-     *
-     * @param authLoginCmd dto
-     * @return SingleResponse<AuthLoginDTO>
-     */
-    public SingleResponse<AuthLoginDTO> login(AuthLoginCmd authLoginCmd) {
-        User user = userGateway.selectByPhone(authLoginCmd.getUsername());
-        doCheck(authLoginCmd, user);
-        UserCacheInfo userCacheInfo = cacheAuthentication(user);
-        return SingleResponse.ok(new AuthLoginDTO(userCacheInfo.getAccessToken()));
-    }
-
-    private UserCacheInfo cacheAuthentication(User user) {
-        LoginUserResponse loginUserResponse = buildLoginUserContext(user);
-        return iUserTokenCacheService.save(loginUserResponse);
-    }
-
-    private LoginUserResponse buildLoginUserContext(User User) {
-        LoginUserResponse loginUserResponse = new LoginUserResponse();
-        loginUserResponse.setUserId(User.getId());
-        loginUserResponse.setUserCode(User.getCode());
-        loginUserResponse.setUsername(User.getUsername());
-        loginUserResponse.setIsSuperAdmin(UserConst.SUPER_ADMIN.equals(User.getCode()));
-        return loginUserResponse;
-    }
-
-
-    private void doCheck(AuthLoginCmd authLoginDTO, User user) {
-        String saltPwd = DigestUtil.md5Hex(authLoginDTO.getPassword()) + SecurityConstants.PASSWORD_SALT;
-        if (Objects.isNull(user) || !this.passwordEncoder.matches(saltPwd, user.getPassword())) {
-            throw ExceptionFactory.userException("用户名或密码错误");
-        }
-    }
 }

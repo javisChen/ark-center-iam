@@ -14,6 +14,7 @@ import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +35,7 @@ import java.util.Set;
  * @author
  * @since 2020-11-09
  */
-@Schema(name = "API管理", description = "API管理")
+@Tag(name = "API管理", description = "API管理")
 @RestController
 @RequestMapping("/v1")
 public class ApiController extends BaseController {

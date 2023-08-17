@@ -3,6 +3,8 @@ package com.ark.center.iam.infra.user.gateway.db;
 import com.ark.center.iam.domain.user.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 Mapper 接口
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    List<User> selectByRoleId(Long roleId);
 }
