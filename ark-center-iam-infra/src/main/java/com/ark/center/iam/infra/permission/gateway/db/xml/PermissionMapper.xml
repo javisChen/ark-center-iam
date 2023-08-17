@@ -53,7 +53,7 @@
         up.type permissionType,
         ua.id apiId,
         ua.name apiName,
-        ua.url apiUrl,
+        ua.uri apiUri,
         ua.method apiMethod,
         ua.auth_type apiAuthType
         from iam_permission up
@@ -66,14 +66,14 @@
         </foreach>
 
     </select>
-    <select id="selectApiPermissionsByRoleIdsAndApplicationId" resultType="com.ark.center.iam.domain.api.vo.ApiPermissionVO">
+    <select id="selectApiPermissionsByRoleIds" resultType="com.ark.center.iam.domain.api.vo.ApiPermissionVO">
         select
             up.id permissionId,
             up.code permissionCode,
             up.type permissionType,
             ua.id apiId,
             ua.name apiName,
-            ua.url apiUrl,
+            ua.uri apiUri,
             ua.method apiMethod,
             ua.auth_type apiAuthType
         from iam_permission up
@@ -83,12 +83,10 @@
         and up.is_deleted = 0
         and ua.status = 1
         and up.status = 1
---         and ua.application_id = #{applicationId}
         and uprr.role_id in
         <foreach collection="roleIds" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
-        group by up.id
 
     </select>
 

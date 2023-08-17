@@ -3,9 +3,11 @@ package com.ark.center.iam.adapter.user.inner;
 import com.ark.center.iam.application.user.UserAppService;
 import com.ark.center.iam.client.user.UserPermissionQryApi;
 import com.ark.center.iam.client.user.UserQryApi;
+import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.query.UserPermissionQry;
 import com.ark.center.iam.client.user.query.UserQry;
+import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.logger.annotation.CatchAndLog;
 import com.ark.component.web.base.BaseController;
@@ -30,8 +32,13 @@ public class UserInnerController extends BaseController implements UserQryApi, U
     }
 
     @Override
-    public SingleResponse<Boolean> checkApiHasPermission(UserPermissionQry userPermissionQry) {
+    public SingleResponse<Boolean> hasApiPermission(UserPermissionQry userPermissionQry) {
         return SingleResponse.ok(userAppService.checkApiHasPermission(userPermissionQry));
+    }
+
+    @Override
+    public MultiResponse<UserApiPermissionDTO> getApiPermissions(Long userId) {
+        return MultiResponse.ok(userAppService.getApiPermissions(userId));
     }
 }
 

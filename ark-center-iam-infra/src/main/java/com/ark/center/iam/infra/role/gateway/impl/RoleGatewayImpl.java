@@ -57,7 +57,7 @@ public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 .selectList(eq)
                 .stream()
                 .map(UserRoleRel::getRoleId)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override

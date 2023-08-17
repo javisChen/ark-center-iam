@@ -108,8 +108,8 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
-    public List<ApiPermissionVO> selectApiPermissionsByRoleIdsAndApplicationId(Long applicationId, List<Long> roleIds) {
-        return baseMapper.selectApiPermissionsByRoleIdsAndApplicationId(applicationId, roleIds);
+    public List<ApiPermissionVO> selectApiPermissionsByRoleIds(List<Long> roleIds) {
+        return baseMapper.selectApiPermissionsByRoleIds(roleIds);
     }
 
     @Override

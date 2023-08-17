@@ -12,7 +12,7 @@ public class ApiPermissionVO {
     private String permissionId;
     private String apiId;
     private String apiName;
-    private String apiUrl;
+    private String apiUri;
     private String apiMethod;
     private String apiAuthType;
 }

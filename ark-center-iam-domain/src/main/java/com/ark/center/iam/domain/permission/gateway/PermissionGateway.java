@@ -26,7 +26,7 @@ public interface PermissionGateway {
 
     void deleteByResourceIds(List<Long> resourceIds);
 
-    List<ApiPermissionVO> selectApiPermissionsByRoleIdsAndApplicationId(Long applicationId, List<Long> roleIdSet);
+    List<ApiPermissionVO> selectApiPermissionsByRoleIds(List<Long> roleIdSet);
 
     List<Long> selectResourceIdsByIds(List<Long> permissionIds);
 

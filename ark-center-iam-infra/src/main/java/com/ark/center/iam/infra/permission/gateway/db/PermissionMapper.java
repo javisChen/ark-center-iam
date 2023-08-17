@@ -29,6 +29,6 @@ public interface PermissionMapper extends BaseMapper<Permission> {
     /**
      * 根据角色id和应用id查询api权限
      */
-    List<ApiPermissionVO> selectApiPermissionsByRoleIdsAndApplicationId(@Param("applicationId") Long applicationId,
+    List<ApiPermissionVO> selectApiPermissionsByRoleIds(
                                                                        @Param("roleIds") List<Long> roleIdSet);
 }

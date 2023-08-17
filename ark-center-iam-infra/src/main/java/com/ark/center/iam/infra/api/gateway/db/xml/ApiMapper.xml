@@ -8,7 +8,7 @@
         <result column="application_id" property="applicationId"/>
         <result column="category_id" property="categoryId"/>
         <result column="name" property="name"/>
-        <result column="url" property="url"/>
+        <result column="url" property="uri"/>
         <result column="method" property="method"/>
         <result column="auth_type" property="authType"/>
         <result column="status" property="status"/>
@@ -23,7 +23,7 @@
         gmt_create,
         category_id,
         application_id,
-        name, method, status, url
+        name, method, status, uri
     </sql>
 
 </mapper>
