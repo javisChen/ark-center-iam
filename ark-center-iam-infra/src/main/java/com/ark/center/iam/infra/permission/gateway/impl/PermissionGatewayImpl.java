@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionGateway {
 
     private final PermissionRoleRelMapper permissionRoleRelMapper;
+
     private final PermissionAssembler permissionAssembler;
 
     @Override
@@ -63,6 +64,17 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
         // 先把关联表id查出来然后排序，再根据id去删除，避免死锁
         List<PermissionRoleRel> permissionRoleRelList = permissionRoleRelMapper
                 .selectByRoleIdAndType(applicationId, roleId, permissionType.getType());
+        if (CollectionUtils.isNotEmpty(permissionRoleRelList)) {
+            List<Long> ids = permissionRoleRelList.stream().map(BaseEntity::getId).sorted().toList();
+            permissionRoleRelMapper.deleteBatchIds(ids);
+        }
+    }
+
+    @Override
+    public void deleteRolePermissionByIds(Long applicationId, Long roleId, List<Long> toRemoveApiPermissionIds) {
+        // 先把关联表id查出来然后排序，再根据id去删除，避免死锁
+        List<PermissionRoleRel> permissionRoleRelList = permissionRoleRelMapper
+                .selectByPermissionIdAndRoleId(applicationId, roleId, toRemoveApiPermissionIds);
         if (CollectionUtils.isNotEmpty(permissionRoleRelList)) {
             List<Long> ids = permissionRoleRelList.stream().map(BaseEntity::getId).sorted().toList();
             permissionRoleRelMapper.deleteBatchIds(ids);

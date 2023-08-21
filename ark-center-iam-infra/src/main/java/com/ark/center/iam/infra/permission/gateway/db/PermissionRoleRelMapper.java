@@ -5,14 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * <p>
- * 角色与权限关联表 Mapper 接口
- * </p>
- *
- * @author
- * @since 2020-11-09
- */
 public interface PermissionRoleRelMapper extends BaseMapper<PermissionRoleRel> {
 
     void batchInsert(@Param("roleId") Long roleId,
@@ -27,4 +19,11 @@ public interface PermissionRoleRelMapper extends BaseMapper<PermissionRoleRel> {
     List<PermissionRoleRel> selectByRoleIdAndType(@Param("applicationId") Long applicationId,
                                                   @Param("roleId") Long roleId,
                                                   @Param("type") String type);
+
+    /**
+     * 根据应用id+角色id+权限id查询关联表数据
+     */
+    List<PermissionRoleRel> selectByPermissionIdAndRoleId(@Param("applicationId") Long applicationId,
+                                                          @Param("roleId") Long roleId,
+                                                          @Param("permissionIds") List<Long> toRemoveApiPermissionIds);
 }

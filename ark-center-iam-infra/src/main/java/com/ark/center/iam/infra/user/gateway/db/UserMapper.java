@@ -2,6 +2,7 @@ package com.ark.center.iam.infra.user.gateway.db;
 
 import com.ark.center.iam.domain.user.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ import java.util.List;
  */
 public interface UserMapper extends BaseMapper<User> {
 
-    List<User> selectByRoleId(Long roleId);
+    List<User> selectByRoleId(@Param("roleId") Long roleId);
 }

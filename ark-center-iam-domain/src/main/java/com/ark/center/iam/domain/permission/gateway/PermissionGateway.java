@@ -31,4 +31,7 @@ public interface PermissionGateway {
     List<Long> selectResourceIdsByIds(List<Long> permissionIds);
 
     void deleteRolePermission(Long applicationId, Long roleId, PermissionType permissionType);
+
+    void deleteRolePermissionByIds(Long applicationId, Long roleId, List<Long> toRemoveApiPermissionIds);
+
 }

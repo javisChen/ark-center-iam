@@ -2,17 +2,17 @@ package com.ark.center.iam.client.api.command;
 
 import com.ark.component.validator.ValidateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.io.Serializable;
+import lombok.Data;
 
 @Data
 @Schema(name = "接口更新DTO")
 public class ApiUpdateCmd  {
 
     @NotNull(message = "id不能为空", groups = {ValidateGroup.Update.class})
+    @Min(value = 1L)
     @Schema(name = "id")
     private Long id;
 
@@ -28,9 +28,9 @@ public class ApiUpdateCmd  {
     @Schema(name = "接口名称")
     private String name;
 
-    @NotBlank(message = "url不能为空", groups = {ValidateGroup.Add.class})
-    @Schema(name = "Url")
-    private String url;
+    @NotBlank(message = "uri不能为空", groups = {ValidateGroup.Add.class})
+    @Schema(name = "Uri")
+    private String uri;
 
     @NotBlank(message = "method不能为空", groups = {ValidateGroup.Add.class})
     @Schema(name = "Http Method")

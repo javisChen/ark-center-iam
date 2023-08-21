@@ -43,7 +43,8 @@ public class RolePermissionAppService {
         Long applicationId = cmd.getApplicationId();
         List<Long> toRemoveIds = CollectionUtil.newArrayList(cmd.getToRemoveRoutePermissionIds());
         toRemoveIds.addAll(cmd.getToRemoveElementPermissionIds());
-        permissionGateway.deleteRolePermission(applicationId, roleId, PermissionType.FRONT_ROUTE);
+        permissionGateway.deleteRolePermissionByIds(applicationId, roleId, toRemoveIds);
+
 
         List<Long> toAddIds = CollectionUtil.newArrayList(cmd.getToAddRoutePermissionIds());
         toAddIds.addAll(cmd.getToAddElementPermissionIds());
@@ -59,14 +60,15 @@ public class RolePermissionAppService {
         Long roleId = dto.getRoleId();
         Long applicationId = dto.getApplicationId();
 
-        permissionGateway.deleteRolePermission(applicationId, roleId, PermissionType.SER_API);
+        List<Long> toRemoveApiPermissionIds = dto.getToRemoveApiPermissionIds();
+        permissionGateway.deleteRolePermissionByIds(applicationId, roleId, toRemoveApiPermissionIds);
 
-        List<Long> permissionIds = dto.getToAddApiPermissionIds();
-        permissionGateway.insertBatchRolePermissionRelations(roleId, permissionIds);
+        List<Long> toAddApiPermissionIds = dto.getToAddApiPermissionIds();
+        permissionGateway.insertBatchRolePermissionRelations(roleId, toAddApiPermissionIds);
 
         RoleBaseDTO roleBaseDTO = roleGateway.selectById(roleId);
         String roleName = roleBaseDTO.getName();
-        eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, permissionIds, PermissionType.SER_API));
+        eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, PermissionType.SER_API));
 
     }
 

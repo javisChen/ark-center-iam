@@ -18,9 +18,10 @@ public class RoleApiPermissionGrantCmd {
     @Schema(name = "角色id")
     private Long roleId;
 
-    @Schema(name = "权限id")
+    @Schema(name = "需要添加的权限id")
     private List<Long> toAddApiPermissionIds;
 
-    // private List<Long> toRemoveApiPermissionIds;
+    @Schema(name = "需要删除的权限id")
+    private List<Long> toRemoveApiPermissionIds;
 
 }

@@ -25,5 +25,24 @@
         application_id,
         name, method, status, uri
     </sql>
+    <select id="selectApiList" resultType="com.ark.center.iam.client.api.dto.ApiDetailsDTO">
+        select a.*,
+        p.id as permissionId
+        from iam_api a
+        inner join iam_permission p on a.id = p.resource_id
+        <where>
+            <if test="qry.applicationId != null">
+                AND a.application_id = #{qry.applicationId}
+            </if>
+            <if test="qry.categoryId != null">
+                AND a.category_id = #{qry.categoryId}
+            </if>
+            <if test="qry.authType != null">
+                AND a.auth_type = #{qry.authType}
+            </if>
+            AND p.type = 'SER_API'
+            AND a.is_deleted = 0
+        </where>
+    </select>
 
 </mapper>

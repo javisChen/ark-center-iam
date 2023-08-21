@@ -1,6 +1,6 @@
 package com.ark.center.iam.client.user.common;
 
-public interface UserMqConst {
+public interface UserMqInfo {
 
     String TOPIC_IAM = "topic_iam";
 

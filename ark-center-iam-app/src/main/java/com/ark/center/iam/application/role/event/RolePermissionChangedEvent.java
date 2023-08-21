@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
-import java.util.List;
 import java.util.StringJoiner;
 
 /**
@@ -18,14 +17,12 @@ public class RolePermissionChangedEvent extends ApplicationEvent {
 
     private final Long roleId;
     private final String roleName;
-    private final List<Long> permissionIds;
     private final PermissionType permissionType;
 
-    public RolePermissionChangedEvent(Object source, Long roleId, String  roleName, List<Long> permissionIds, PermissionType permissionType) {
+    public RolePermissionChangedEvent(Object source, Long roleId, String  roleName, PermissionType permissionType) {
         super(source);
         this.roleId = roleId;
         this.roleName = roleName;
-        this.permissionIds = permissionIds;
         this.permissionType = permissionType;
     }
 

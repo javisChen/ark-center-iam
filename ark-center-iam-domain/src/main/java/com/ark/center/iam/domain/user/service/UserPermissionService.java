@@ -103,7 +103,7 @@ public class UserPermissionService {
     }
 
     public List<ApiPermissionVO> getUserApiPermissions(Long userId) {
-        List<Long> roleIds = queryUserRoles(userId);
+         List<Long> roleIds = queryUserRoles(userId);
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();
         }

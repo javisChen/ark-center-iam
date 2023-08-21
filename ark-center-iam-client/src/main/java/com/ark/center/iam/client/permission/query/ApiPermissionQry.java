@@ -1,18 +1,13 @@
-package com.ark.center.iam.client.api.query;
+package com.ark.center.iam.client.permission.query;
 
 import com.ark.component.dto.PagingQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * @title:
- * @desc:
- * @author: Javis
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ApiQry extends PagingQuery {
+public class ApiPermissionQry extends PagingQuery {
 
     @Schema(name = "应用id")
     private Long applicationId;

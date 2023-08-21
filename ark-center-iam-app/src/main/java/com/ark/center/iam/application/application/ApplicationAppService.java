@@ -17,10 +17,10 @@ import java.util.List;
 public class ApplicationAppService {
 
     private final ApplicationGateway applicationGateway;
+
     private final ApplicationAssembler applicationAssembler;
+
     private final ApplicationCheckService applicationCheckService;
-
-
 
     public List<ApplicationDTO> queryList(ApplicationQry dto) {
         return applicationGateway.selectApplications(dto);

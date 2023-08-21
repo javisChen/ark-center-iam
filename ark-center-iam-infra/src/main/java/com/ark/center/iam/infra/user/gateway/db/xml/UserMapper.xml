@@ -23,8 +23,8 @@
     <select id="selectByRoleId" resultType="com.ark.center.iam.domain.user.User">
         select *
         from iam_user u
-        inner join iam_user_role_rel
-
+        inner join iam_user_role_rel ur on ur.user_id = u.id
+        where ur.role_id = #{roleId}
     </select>
 
 </mapper>

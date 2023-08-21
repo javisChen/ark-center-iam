@@ -10,7 +10,7 @@ import com.ark.component.dto.ServerResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -24,14 +24,13 @@ import org.springframework.web.bind.annotation.*;
  * @author
  * @since 2020-11-09
  */
-@Schema(name = "应用管理", description = "应用管理")
+@Tag(name = "应用管理", description = "应用管理")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping
 public class ApplicationController extends BaseController {
 
     private final ApplicationAppService applicationAppService;
-
 
     @PostMapping("/v1/applications")
     @Operation(summary = "应用管理 - 查询应用列表")

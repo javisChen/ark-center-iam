@@ -27,15 +27,16 @@ public interface ApiAssembler {
     @Mapping(target = "creator", ignore = true)
     default Api toApiDO(ApiUpdateCmd dto) {
         Api api = new Api();
+        api.setId(dto.getId());
         api.setName(dto.getName());
         api.setApplicationId(dto.getApplicationId());
         api.setCategoryId(dto.getCategoryId());
-        api.setUri(dto.getUrl());
+        api.setUri(dto.getUri());
         api.setMethod(dto.getMethod());
         api.setAuthType(dto.getAuthType());
         api.setStatus(dto.getStatus());
         // 约定规则，如果url包含了*号就代表是包含了路径参数
-        api.setHasPathVariable(StringUtils.contains(dto.getUrl(), "*"));
+        api.setHasPathVariable(StringUtils.contains(dto.getUri(), "*"));
         return api;
     }
 }

@@ -916,5 +916,12 @@ alter table iam_permission_role_rel
 
 drop index idx_is_deleted on iam_permission;
 
+alter table iam_api
+    drop key uk_application_id_url_method;
 
+alter table iam_api
+    add constraint uk_application_id_url_method
+        unique (application_id, uri, method);
 
+create index idx_role_id_permission_id
+    on iam_permission_role_rel (role_id, permission_id)

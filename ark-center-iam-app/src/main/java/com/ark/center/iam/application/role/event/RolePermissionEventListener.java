@@ -1,23 +1,28 @@
 package com.ark.center.iam.application.role.event;
 
-import com.ark.center.iam.client.user.common.UserMqConst;
+import cn.hutool.core.collection.CollectionUtil;
+import com.ark.center.iam.client.user.common.UserMqInfo;
 import com.ark.center.iam.client.user.dto.UserApiPermissionChangedDTO;
 import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
+import com.ark.center.iam.domain.permission.Permission;
+import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.component.mq.MsgBody;
 import com.ark.component.mq.integration.MessageTemplate;
+import com.ark.component.orm.mybatis.base.BaseEntity;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,7 +33,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class RolePermissionEventListener implements ApplicationListener<RolePermissionChangedEvent> {
-
     private final RoleGateway roleGateway;
     private final UserGateway userGateway;
     private final ApiGateway apiGateway;
@@ -38,7 +42,8 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
     public void onApplicationEvent(@NotNull RolePermissionChangedEvent event) {
         log.info("角色权限发生变更: Event = {}, ", event);
         Long roleId = event.getRoleId();
-        List<Api> apis = queryApis(event);
+        // 查询角色最新的Api权限
+        List<Api> apis = queryRoleApis(event);
         // 写入缓存
         cache(roleId, apis);
         // 推送变更MQ消息
@@ -58,7 +63,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
                         return permissionDTO;
                     })
                     .toList());
-            messageTemplate.asyncSend(UserMqConst.TOPIC_IAM, UserMqConst.TAG_USER_API_PERMS, MsgBody.of(dto));
+            messageTemplate.asyncSend(UserMqInfo.TOPIC_IAM, UserMqInfo.TAG_USER_API_PERMS, MsgBody.of(dto));
         }
         log.info("角色权限发生变更: 消息推送成功");
     }
@@ -73,11 +78,14 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         }
     }
 
-    private List<Api> queryApis(@NotNull RolePermissionChangedEvent event) {
-        List<Long> permissionIds = event.getPermissionIds();
-        // 根据权限id反查出资源
-        List<Long> resourceIds = permissionGateway.selectResourceIdsByIds(permissionIds);
-        return apiGateway.selectByIds(resourceIds);
+    private List<Api> queryRoleApis(@NotNull RolePermissionChangedEvent event) {
+        Long roleId = event.getRoleId();
+        List<Permission> permissions = permissionGateway.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API.getType());
+        if (CollectionUtil.isNotEmpty(permissions)) {
+            List<Long> permissionIds = permissions.stream().map(BaseEntity::getId).toList();
+            return apiGateway.selectByIds(permissionIds);
+        }
+        return Collections.emptyList();
     }
 
 }
