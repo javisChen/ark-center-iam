@@ -14,7 +14,6 @@ import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.component.mq.MsgBody;
 import com.ark.component.mq.integration.MessageTemplate;
-import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +81,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         Long roleId = event.getRoleId();
         List<Permission> permissions = permissionGateway.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API.getType());
         if (CollectionUtil.isNotEmpty(permissions)) {
-            List<Long> permissionIds = permissions.stream().map(BaseEntity::getId).toList();
+            List<Long> permissionIds = permissions.stream().map(Permission::getResourceId).toList();
             return apiGateway.selectByIds(permissionIds);
         }
         return Collections.emptyList();

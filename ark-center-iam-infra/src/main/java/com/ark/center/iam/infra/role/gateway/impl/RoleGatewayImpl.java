@@ -1,5 +1,6 @@
 package com.ark.center.iam.infra.role.gateway.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.client.role.query.RoleQry;
@@ -145,7 +146,9 @@ public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         String key = String.format(RoleCache.ROLE_API_PERM_KEY, roleId);
         cacheService.remove(key);
 
-        List<String> elements = apis.stream().map(item -> item.getUri() + ":" + item.getMethod()).toList();
-        cacheService.setAdd(key, elements.toArray());
+        if (CollectionUtil.isNotEmpty(apis)) {
+            List<String> elements = apis.stream().map(item -> item.getUri() + ":" + item.getMethod()).toList();
+            cacheService.setAdd(key, elements.toArray());
+        }
     }
 }
