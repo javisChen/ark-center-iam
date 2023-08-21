@@ -72,7 +72,7 @@
                  inner join iam_permission_role_rel uprr on uprr.permission_id = up.id
         where up.application_id = #{applicationId}
           and uprr.role_id = #{roleId}
-          and uprr.id in
+          and uprr.permission_id in
         <foreach collection="permissionIds" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
