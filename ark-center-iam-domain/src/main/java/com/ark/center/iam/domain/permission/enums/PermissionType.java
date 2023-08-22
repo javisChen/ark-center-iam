@@ -13,7 +13,7 @@ public enum PermissionType {
     OPEN_API("OA", "OPEN_API", "开放API");
 
     private final String tag;
-    private final String type;
-    private final String msg;
+    private final String name;
+    private final String note;
 
 }

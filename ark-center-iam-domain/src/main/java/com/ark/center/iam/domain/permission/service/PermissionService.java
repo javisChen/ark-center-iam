@@ -16,7 +16,7 @@ public class PermissionService {
 
     public void addPermission(Long resourceId, PermissionType permissionType) {
         Permission permission = new Permission();
-        permission.setType(permissionType.getType());
+        permission.setType(permissionType.getName());
         permission.setCode(generatePermissionCode(permissionType.getTag(), resourceId));
         permission.setResourceId(resourceId);
         permission.setStatus(PermissionStatusEnums.ENABLED.getValue());

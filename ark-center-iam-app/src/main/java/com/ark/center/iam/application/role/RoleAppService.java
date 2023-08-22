@@ -48,7 +48,4 @@ public class RoleAppService {
         roleDeleteCmdExe.execute(id);
     }
 
-    public void updateStatus(RoleCmd dto) {
-        roleGateway.updateStatusById(dto.getId(), dto.getStatus());
-    }
 }

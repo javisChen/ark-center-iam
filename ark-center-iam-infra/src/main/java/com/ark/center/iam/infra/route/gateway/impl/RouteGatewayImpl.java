@@ -1,5 +1,6 @@
 package com.ark.center.iam.infra.route.gateway.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
 import com.ark.center.iam.client.route.query.RouteQry;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
@@ -17,6 +18,7 @@ import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -28,6 +30,9 @@ public class RouteGatewayImpl extends ServiceImpl<RouteMapper, Route> implements
 
     @Override
     public List<UserRouteDTO> selectByRouteIds(List<Long> routeIds) {
+        if (CollectionUtil.isEmpty(routeIds)) {
+            return Collections.emptyList();
+        }
         List<Route> routes = lambdaQuery()
                 .in(Route::getId, routeIds)
                 .orderByAsc(Lists.newArrayList(Route::getLevel, Route::getSequence))

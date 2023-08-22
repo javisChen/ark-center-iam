@@ -13,22 +13,22 @@ import java.util.List;
 public class RoleRoutePermissionGrantCmd {
 
 
-    @Schema(name = "应用id")
+    @Schema(description = "应用id")
     private Long applicationId;
 
-    @Schema(name = "角色Id")
+    @Schema(description = "角色Id")
     private Long roleId;
 
-    @Schema(name = "待添加的路由权限id集合")
+    @Schema(description = "待添加的路由权限id集合")
     private List<Long> toAddRoutePermissionIds;
 
-    @Schema(name = "待删除的路由权限id集合")
+    @Schema(description = "待删除的路由权限id集合")
     private List<Long> toRemoveRoutePermissionIds;
 
-    @Schema(name = "待添加的页面元素权限id集合")
+    @Schema(description = "待添加的页面元素权限id集合")
     private List<Long> toAddElementPermissionIds;
 
-    @Schema(name = "待删除的页面元素权限id集合")
+    @Schema(description = "待删除的页面元素权限id集合")
     private List<Long> toRemoveElementPermissionIds;
 
 }

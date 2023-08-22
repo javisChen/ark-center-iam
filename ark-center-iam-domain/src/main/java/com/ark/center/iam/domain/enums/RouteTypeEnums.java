@@ -1,5 +1,8 @@
 package com.ark.center.iam.domain.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum RouteTypeEnums {
 
     MENU(1, "菜单路由"),
@@ -12,8 +15,8 @@ public enum RouteTypeEnums {
     }
 
 
-    private int value;
-    private String desc;
+    private final int value;
+    private final String desc;
 
     public int getValue() {
         return value;

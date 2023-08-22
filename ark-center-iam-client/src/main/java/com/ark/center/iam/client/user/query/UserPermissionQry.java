@@ -4,19 +4,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(name = "用户权限查询请求")
+@Schema(description = "用户权限查询请求")
 public class UserPermissionQry {
 
-    @Schema(name = "用户id")
+    @Schema(description = "用户id")
     private Long userId;
 
-    @Schema(name = "资源路径")
+    @Schema(description = "资源路径")
     private String requestUri;
 
-    @Schema(name = "应用编号")
+    @Schema(description = "应用编号")
     private String applicationCode;
 
-    @Schema(name = "HTTP Method")
+    @Schema(description = "HTTP Method")
     private String method;
 
 }

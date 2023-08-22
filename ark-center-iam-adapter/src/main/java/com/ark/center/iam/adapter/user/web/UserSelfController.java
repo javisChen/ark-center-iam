@@ -18,7 +18,7 @@ import java.util.List;
 
 
 
-@Schema(name = "登录用户", description = "提供登录用户操作")
+@Schema(description = "登录用户相关接口")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1")

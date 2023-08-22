@@ -1,6 +1,7 @@
 package com.ark.center.iam.application.user.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.ark.center.iam.client.user.command.UserCmd;
@@ -103,7 +104,7 @@ public class UserCreateCmdExe {
 
     private void checkUserPhone(User user) {
         long count = userGateway.countUserByPhone(user.getPhone());
-        cn.hutool.core.lang.Assert.isTrue(count > 0, () -> ExceptionFactory.userException("手机号码已存在"));
+        Assert.isTrue(count == 0, () -> ExceptionFactory.userException("手机号码已存在"));
     }
 
     private void assignUserGroups(Long userId, List<Long> userGroupIds) {

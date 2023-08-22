@@ -38,33 +38,22 @@ public class UserPermissionService {
     private final ApplicationGateway applicationGateway;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-    public List<Permission> queryUserElements(Long userId, String userCode) {
-        String pageElementType = PermissionType.PAGE_ELEMENT.getType();
-        return queryUserPermissions(userId, userCode, pageElementType);
-    }
-
-    public List<Permission> queryUserPermissions(Long userId, String userCode, String pageElementType) {
+    public List<Permission> queryUserPermissions(Long userId, PermissionType permissionType) {
+        User user = userGateway.selectByUserId(userId);
+        String userCode = user.getCode();
         List<Permission> permissions;
         // 超管直接赋予所有权限
         if (isSuperAdmin(userCode)) {
-            permissions = queryWholeElementsPermissions(pageElementType);
+            permissions = permissionGateway.selectByType(permissionType);
         } else {
-            permissions = queryUserPermissions(userId, pageElementType);
+            List<Long> roleIds = queryUserRoles(userId);
+            permissions = permissionGateway.selectByTypeAndRoleIds(roleIds, permissionType);
         }
         return permissions;
     }
 
-    private List<Permission> queryWholeElementsPermissions(String pageElementType) {
-        return permissionGateway.selectByType(pageElementType);
-    }
-
     public boolean isSuperAdmin(String userCode) {
         return UserConst.SUPER_ADMIN.equals(userCode);
-    }
-
-    public List<Permission> queryUserPermissions(Long userId, String permissionType) {
-        List<Long> roleIds = queryUserRoles(userId);
-        return permissionGateway.selectByTypeAndRoleIds(roleIds, permissionType);
     }
 
     /**

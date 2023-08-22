@@ -5,15 +5,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@Schema(name = "启用/禁用Api")
+@Schema(description = "启用/禁用Api")
 public class ApiEnableCmd {
 
     @NotNull(message = "id不能为空")
-    @Schema(name = "id")
+    @Schema(description = "id")
     private Long id;
 
     @NotNull(message = "status不能为空")
-    @Schema(name = "状态")
+    @Schema(description = "状态")
     private Integer status;
 
 }

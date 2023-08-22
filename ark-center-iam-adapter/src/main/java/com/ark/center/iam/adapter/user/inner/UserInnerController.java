@@ -11,13 +11,11 @@ import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.logger.annotation.CatchAndLog;
 import com.ark.component.web.base.BaseController;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@Schema(name = "用户管理（内部调用）", description = "提供服务调用接口")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/inner/users")

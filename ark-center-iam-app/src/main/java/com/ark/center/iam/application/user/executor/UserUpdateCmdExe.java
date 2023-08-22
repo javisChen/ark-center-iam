@@ -71,7 +71,6 @@ public class UserUpdateCmdExe {
         toUpdateUser.setId(user.getId());
         toUpdateUser.setUsername(user.getUsername());
         toUpdateUser.setStatus(user.getStatus());
-        toUpdateUser.setUsername(user.getUsername());
         userGateway.updateByUserId(toUpdateUser);
     }
 

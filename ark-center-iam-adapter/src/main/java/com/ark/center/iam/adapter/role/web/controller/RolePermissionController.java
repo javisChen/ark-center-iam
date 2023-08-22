@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Schema(name = "角色权限管理", description = "角色权限管理")
+@Schema(description = "角色权限管理")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1")

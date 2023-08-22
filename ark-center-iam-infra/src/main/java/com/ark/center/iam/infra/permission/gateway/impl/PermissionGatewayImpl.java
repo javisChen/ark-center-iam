@@ -32,19 +32,19 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
     private final PermissionAssembler permissionAssembler;
 
     @Override
-    public List<Permission> selectByType(String permissionType) {
+    public List<Permission> selectByType(PermissionType permissionType) {
         return lambdaQuery()
-                .eq(Permission::getType, permissionType)
+                .eq(Permission::getType, permissionType.getName())
                 .eq(Permission::getStatus, PermissionStatusEnums.ENABLED.getValue())
                 .list();
     }
 
     @Override
-    public List<Permission> selectByTypeAndRoleIds(List<Long> roleIds, String permissionType) {
+    public List<Permission> selectByTypeAndRoleIds(List<Long> roleIds, PermissionType permissionType) {
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();
         }
-        return baseMapper.selectByRoleIdsAndType(roleIds, permissionType);
+        return baseMapper.selectByRoleIdsAndType(roleIds, permissionType.getName());
     }
 
     @Override
@@ -63,7 +63,7 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
     public void deleteRolePermission(Long applicationId, Long roleId, PermissionType permissionType) {
         // 先把关联表id查出来然后排序，再根据id去删除，避免死锁
         List<PermissionRoleRel> permissionRoleRelList = permissionRoleRelMapper
-                .selectByRoleIdAndType(applicationId, roleId, permissionType.getType());
+                .selectByRoleIdAndType(applicationId, roleId, permissionType.getName());
         if (CollectionUtils.isNotEmpty(permissionRoleRelList)) {
             List<Long> ids = permissionRoleRelList.stream().map(BaseEntity::getId).sorted().toList();
             permissionRoleRelMapper.deleteBatchIds(ids);
@@ -97,7 +97,7 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public void insertPermission(Long resourceId, PermissionType permissionType) {
         Permission permission = new Permission();
-        permission.setType(permissionType.getType());
+        permission.setType(permissionType.getName());
         permission.setResourceId(resourceId);
         permission.setStatus(PermissionStatusEnums.ENABLED.getValue());
         permission.setCode(generatePermissionCode(permissionType.getTag(), resourceId));

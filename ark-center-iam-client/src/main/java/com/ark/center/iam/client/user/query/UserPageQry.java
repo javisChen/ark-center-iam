@@ -11,15 +11,15 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Schema(name = "查询用户列表搜索入参")
+@Schema(description = "查询用户列表搜索入参")
 public class UserPageQry extends PagingQuery {
 
-    @Schema(name = "用户名")
+    @Schema(description = "用户名")
     private String username;
 
-    @Schema(name = "手机号码")
+    @Schema(description = "手机号码")
     private String phone;
 
-    @Schema(name = "用户状态：1-正常；2-锁定")
+    @Schema(description = "用户状态：1-正常；2-锁定")
     private Integer status;
 }

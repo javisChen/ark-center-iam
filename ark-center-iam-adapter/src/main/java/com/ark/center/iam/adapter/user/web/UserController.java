@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
-@Schema(name = "用户管理", description = "负责用户后台管理的功能")
+@Schema(description = "用户管理")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1")
@@ -26,9 +26,9 @@ public class UserController extends BaseController {
 
     private final UserAppService userAppService;
 
-    @PostMapping("/users")
+    @GetMapping("/users")
     @Operation(summary = "用户管理 - 分页查询用户信息")
-    public SingleResponse<PageResponse<UserPageDTO>> pageQuery(@RequestBody UserPageQry pageQry) {
+    public SingleResponse<PageResponse<UserPageDTO>> pageQuery(UserPageQry pageQry) {
         return SingleResponse.ok(PageResponse.of(userAppService.pageQuery(pageQry)));
     }
 

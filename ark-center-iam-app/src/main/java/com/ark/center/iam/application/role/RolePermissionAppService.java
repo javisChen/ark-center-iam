@@ -52,7 +52,7 @@ public class RolePermissionAppService {
     }
 
     public List<PermissionDTO> queryRoleRoutesPermissions(Long roleId, Long applicationId) {
-        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.FRONT_ROUTE.getType());
+        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.FRONT_ROUTE.getName());
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -73,10 +73,10 @@ public class RolePermissionAppService {
     }
 
     public List<PermissionDTO> queryRoleApiPermissions(Long roleId, Long applicationId) {
-        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.SER_API.getType());
+        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.SER_API.getName());
     }
 
     public List<PermissionDTO> queryRoleElementPermissions(Long roleId, Long applicationId) {
-        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.PAGE_ELEMENT.getType());
+        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.PAGE_ELEMENT.getName());
     }
 }

@@ -11,9 +11,9 @@ import java.util.List;
 @Data
 public class UserPageDTO extends UserBaseDTO {
 
-    @Schema(name = "角色集合")
+    @Schema(description = "角色集合")
     private List<String> roles;
 
-    @Schema(name = "用户组集合")
+    @Schema(description = "用户组集合")
     private List<String> userGroups;
 }

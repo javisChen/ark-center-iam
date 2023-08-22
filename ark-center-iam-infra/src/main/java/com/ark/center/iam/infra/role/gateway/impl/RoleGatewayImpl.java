@@ -9,7 +9,7 @@ import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.center.iam.infra.role.assembler.RoleAssembler;
-import com.ark.center.iam.infra.role.gateway.cache.RoleCache;
+import com.ark.center.iam.infra.role.gateway.cache.RoleCacheKey;
 import com.ark.center.iam.infra.role.gateway.db.RoleMapper;
 import com.ark.center.iam.infra.role.gateway.db.UserRoleRel;
 import com.ark.center.iam.infra.role.gateway.db.UserRoleRelMapper;
@@ -89,7 +89,7 @@ public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public void insert(Role role) {
-
+        save(role);
     }
 
     @Override
@@ -143,7 +143,7 @@ public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public void saveRoleApiPermissionCache(Long roleId, List<Api> apis) {
-        String key = String.format(RoleCache.ROLE_API_PERM_KEY, roleId);
+        String key = String.format(RoleCacheKey.ROLE_API_PERM_KEY, roleId);
         cacheService.remove(key);
 
         if (CollectionUtil.isNotEmpty(apis)) {

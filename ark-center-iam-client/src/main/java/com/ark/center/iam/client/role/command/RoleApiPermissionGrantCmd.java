@@ -12,16 +12,16 @@ import java.util.List;
 @Data
 public class RoleApiPermissionGrantCmd {
 
-    @Schema(name = "应用id")
+    @Schema(description = "应用id")
     private Long applicationId;
 
-    @Schema(name = "角色id")
+    @Schema(description = "角色id")
     private Long roleId;
 
-    @Schema(name = "需要添加的权限id")
+    @Schema(description = "需要添加的权限id")
     private List<Long> toAddApiPermissionIds;
 
-    @Schema(name = "需要删除的权限id")
+    @Schema(description = "需要删除的权限id")
     private List<Long> toRemoveApiPermissionIds;
 
 }
