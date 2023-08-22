@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import static com.ark.center.iam.domain.permission.enums.PermissionType.FRONT_ROUTE;
 import static com.ark.center.iam.domain.permission.enums.PermissionType.PAGE_ELEMENT;
+import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_ELEMS;
 import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_ROUTES;
 
 @Component
@@ -35,7 +36,7 @@ public class UserSelfQryExe {
     public List<PermissionDTO> queryUserSelfElements() {
         LoginUser user = ServiceContext.getCurrentUser();
         Long userId = user.getUserId();
-        String cacheKey = String.format(CACHE_KEY_USER_ROUTES, userId);
+        String cacheKey = String.format(CACHE_KEY_USER_ELEMS, userId);
         Object cache = cacheService.get(cacheKey);
         if (cache != null) {
             return JSON.parseArray((String) cache, PermissionDTO.class);
