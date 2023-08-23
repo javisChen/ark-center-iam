@@ -72,6 +72,9 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
 
     @Override
     public void deleteRolePermissionByIds(Long applicationId, Long roleId, List<Long> toRemoveApiPermissionIds) {
+        if (CollectionUtil.isEmpty(toRemoveApiPermissionIds)) {
+            return;
+        }
         // 先把关联表id查出来然后排序，再根据id去删除，避免死锁
         List<PermissionRoleRel> permissionRoleRelList = permissionRoleRelMapper
                 .selectByPermissionIdAndRoleId(applicationId, roleId, toRemoveApiPermissionIds);

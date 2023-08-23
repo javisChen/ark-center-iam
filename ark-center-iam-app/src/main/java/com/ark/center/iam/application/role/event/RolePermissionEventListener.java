@@ -55,7 +55,9 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         List<User> users = userGateway.selectByRoleId(roleId);
         // todo 暂时不考虑性能和并发修改问题，后续优化
         for (User user : users) {
+            // 发布权限变更消息
             publishPermissionChangedEvents(user, apis);
+            // 清除用户维度的缓存数据
             invalidateUserCache(user);
         }
     }
