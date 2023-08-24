@@ -42,7 +42,6 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
     private final MessageTemplate messageTemplate;
     private final CacheService cacheService;
 
-
     public void onApplicationEvent(@NotNull RolePermissionChangedEvent event) {
         log.info("角色权限发生变更: Event = {}, ", event);
         long eventTime = event.getTimestamp();
@@ -64,7 +63,9 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
 
     private void invalidateUserCache(User user) {
         Long userId = user.getId();
+        // 清除用户页面元素缓存
         cacheService.remove(String.format(UserCacheKey.CACHE_KEY_USER_ELEMS, userId));
+        // 清除用户路由缓存
         cacheService.remove(String.format(UserCacheKey.CACHE_KEY_USER_ROUTES, userId));
     }
 
