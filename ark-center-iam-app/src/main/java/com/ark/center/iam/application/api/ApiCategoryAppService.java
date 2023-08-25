@@ -1,4 +1,4 @@
-package com.ark.center.iam.application.api.executor;
+package com.ark.center.iam.application.api;
 
 import cn.hutool.core.lang.Assert;
 import com.ark.center.iam.client.api.command.ApiCategoryCmd;

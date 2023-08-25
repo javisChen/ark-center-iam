@@ -1,10 +1,12 @@
-package com.ark.center.iam.application.api.executor;
+package com.ark.center.iam.application.api;
 
 import cn.hutool.core.lang.Assert;
 import com.ark.center.iam.application.api.event.ApiChangedEvent;
 import com.ark.center.iam.application.api.event.ApiCreatedEvent;
 import com.ark.center.iam.application.api.event.ApiDeletedEvent;
+import com.ark.center.iam.application.api.executor.ApiSyncCmdExe;
 import com.ark.center.iam.client.api.command.ApiEnableCmd;
+import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
@@ -18,6 +20,7 @@ import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,6 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApiAppService {
 
+    private final ApiSyncCmdExe apiSyncCmdExe;
     private final ApiGateway apiGateway;
     private final PermissionService permissionService;
     private final ApiAssembler apiAssembler;
@@ -91,5 +95,14 @@ public class ApiAppService {
         apiGateway.updateApiId(api);
 
         eventPublisher.publishEvent(new ApiChangedEvent(this));
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public void syncApi(ApiSyncCmd cmd) {
+
+        apiSyncCmdExe.execute(cmd);
+
+        eventPublisher.publishEvent(new ApiCreatedEvent(this));
+
     }
 }

@@ -1,6 +1,6 @@
 package com.ark.center.iam.adapter.api.inner;
 
-import com.ark.center.iam.application.api.executor.ApiAppService;
+import com.ark.center.iam.application.api.ApiAppService;
 import com.ark.center.iam.client.api.ApiQryApi;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.client.api.query.ApiQry;

@@ -1,7 +1,7 @@
 package com.ark.center.iam.adapter.api.web.controller;
 
 
-import com.ark.center.iam.application.api.executor.ApiCategoryAppService;
+import com.ark.center.iam.application.api.ApiCategoryAppService;
 import com.ark.center.iam.client.api.command.ApiCategoryCmd;
 import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 import com.ark.component.dto.MultiResponse;
@@ -9,7 +9,6 @@ import com.ark.component.dto.ServerResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

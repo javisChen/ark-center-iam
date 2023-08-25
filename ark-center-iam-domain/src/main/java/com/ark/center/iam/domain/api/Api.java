@@ -71,4 +71,6 @@ public class Api extends BaseEntity {
 
     @TableField(value = "is_deleted")
     private Long isDeleted;
+
+
 }

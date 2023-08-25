@@ -20,6 +20,7 @@ import java.util.List;
 public class ApiGatewayImpl extends ServiceImpl<ApiMapper, Api> implements ApiGateway {
 
     private final ApiAssembler apiAssembler;
+
     private final CacheService cacheService;
 
     @Override
@@ -68,4 +69,15 @@ public class ApiGatewayImpl extends ServiceImpl<ApiMapper, Api> implements ApiGa
                 .eq(Api::getIsDeleted, 0)
                 .list();
     }
+
+    @Override
+    public List<Api> selectByApplicationId(Long applicationId) {
+        return lambdaQuery().eq(Api::getApplicationId, applicationId).list();
+    }
+
+    @Override
+    public boolean insertOrUpdate(Api api) {
+        return saveOrUpdate(api);
+    }
+
 }

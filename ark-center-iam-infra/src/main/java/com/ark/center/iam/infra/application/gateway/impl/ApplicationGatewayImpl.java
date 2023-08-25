@@ -48,4 +48,9 @@ public class ApplicationGatewayImpl extends ServiceImpl<ApplicationMapper, Appli
                 .eq(Application::getIsDeleted, DeletedEnums.NOT.getCode())
                 .one();
     }
+
+    @Override
+    public Application selectById(Long applicationId) {
+        return getById(applicationId);
+    }
 }

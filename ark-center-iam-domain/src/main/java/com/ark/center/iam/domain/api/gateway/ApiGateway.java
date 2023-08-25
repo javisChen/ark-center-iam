@@ -21,4 +21,8 @@ public interface ApiGateway {
     void delete(Long id);
 
     List<Api> selectByIds(List<Long> resourceIds);
+
+    List<Api> selectByApplicationId(Long applicationId);
+
+    boolean insertOrUpdate(Api api);
 }

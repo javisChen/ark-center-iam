@@ -1,7 +1,8 @@
 package com.ark.center.iam.adapter.api.web.controller;
 
-import com.ark.center.iam.application.api.executor.ApiAppService;
+import com.ark.center.iam.application.api.ApiAppService;
 import com.ark.center.iam.client.api.command.ApiEnableCmd;
+import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
@@ -30,8 +31,6 @@ import java.util.Set;
 @RequestMapping("/v1")
 @RequiredArgsConstructor
 public class ApiController extends BaseController {
-
-//    private final ApiCacheHolder apiCacheManager;
     private final ApiAppService apiAppService;
     private final RequestMappingHandlerMapping requestMappingHandlerMapping;
 
@@ -48,7 +47,6 @@ public class ApiController extends BaseController {
         apiAppService.createApplication(dto);
         return ServerResponse.ok();
     }
-
 
     @Operation(summary = "API管理 - 查询API详情")
     @GetMapping("/api")
@@ -76,6 +74,13 @@ public class ApiController extends BaseController {
     @DeleteMapping("/api/{id}")
     public ServerResponse deleteApi(@PathVariable Long id) {
         apiAppService.deleteApi(id);
+        return ServerResponse.ok();
+    }
+
+    @Operation(summary = "同步API", description = "同步服务API")
+    @PostMapping("/api/sync")
+    public ServerResponse syncApi(@RequestBody ApiSyncCmd cmd) {
+        apiAppService.syncApi(cmd);
         return ServerResponse.ok();
     }
 
