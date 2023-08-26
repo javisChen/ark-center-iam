@@ -116,7 +116,7 @@ public class ApiSyncCmdExe {
     private Api assembleApi(Application application, String uri, Map.Entry<String, Object> operation) {
         String method = operation.getKey();
         JSONObject methodInfo = (JSONObject) operation.getValue();
-        String summary = StringUtils.defaultIfBlank(methodInfo.getString("summary"), "");
+        String summary = StringUtils.defaultIfBlank(methodInfo.getString("summary"), uri);
         Api api = new Api();
         api.setName(summary);
         api.setApplicationId(application.getId());
