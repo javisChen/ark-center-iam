@@ -1,8 +1,10 @@
 package com.ark.center.iam.application.api.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.lang.Assert;
 import com.alibaba.cloud.nacos.discovery.NacosServiceDiscovery;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.domain.api.Api;
@@ -15,11 +17,9 @@ import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.service.PermissionService;
 import com.ark.component.exception.ExceptionFactory;
 import com.google.common.collect.Lists;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.Paths;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.stereotype.Component;
@@ -52,7 +52,7 @@ public class ApiSyncCmdExe {
 
         ServiceInstance serviceInstance = getServiceInstance(application);
 
-        OpenAPI openAPI = getOpenAPI(serviceInstance);
+        JSONObject openAPI = getOpenAPI(serviceInstance);
 
         List<Api> serviceApis = collectServiceApis(application, openAPI);
 
@@ -65,7 +65,8 @@ public class ApiSyncCmdExe {
             log.info("服务没有Api信息");
             return;
         }
-        List<Api> finalApis = Lists.newArrayList();
+        List<Api> insertApis = Lists.newArrayList();
+        List<Api> updateApis = Lists.newArrayList();
         // 以uri + method作为唯一标识，不存在的添加，已经在的更新下名字
         List<Api> existingApis = apiGateway.selectByApplicationId(application.getId());
         if (CollectionUtil.isNotEmpty(existingApis)) {
@@ -75,46 +76,55 @@ public class ApiSyncCmdExe {
             for (Api serviceApi : serviceApis) {
                 Api originalApi = existingApisMap.get(serviceApi.getUri() + ":" + serviceApi.getMethod());
                 if (originalApi == null) {
-                    finalApis.add(serviceApi);
+                    insertApis.add(serviceApi);
                 } else {
                     originalApi.setName(serviceApi.getName());
-                    finalApis.add(originalApi);
+                    updateApis.add(originalApi);
                 }
             }
         } else {
-            finalApis.addAll(serviceApis);
+            insertApis.addAll(serviceApis);
         }
 
-        for (Api api : finalApis) {
+        for (Api api : insertApis) {
 
-            apiGateway.insertOrUpdate(api);
+            apiGateway.insert(api);
 
             permissionService.addPermission(api.getId(), PermissionType.SER_API);
+
+        }
+
+        for (Api api : updateApis) {
+            apiGateway.updateByApiId(api);
         }
     }
 
-    private List<Api> collectServiceApis(Application application, OpenAPI openAPI) {
+    private List<Api> collectServiceApis(Application application, JSONObject openAPI) {
         List<Api> apis = new ArrayList<>();
-        Paths paths = openAPI.getPaths();
-        paths.forEach((uri, pathItem) -> {
-            for (Operation operation : pathItem.readOperations()) {
-                Api api = assembleApi(application, uri, operation);
-                apis.add(api);
-            }
+        JSONObject paths = openAPI.getJSONObject("paths");
+        paths.forEach((uri, value) -> {
+            JSONObject pathItem = (JSONObject) value;
+            pathItem.entrySet()
+                    .stream()
+                    .map(pathItemEntry -> assembleApi(application, uri, pathItemEntry))
+                    .forEach(apis::add);
         });
         return apis;
     }
 
     @NotNull
-    private Api assembleApi(Application application, String uri, Operation operation) {
+    private Api assembleApi(Application application, String uri, Map.Entry<String, Object> operation) {
+        String method = operation.getKey();
+        JSONObject methodInfo = (JSONObject) operation.getValue();
+        String summary = StringUtils.defaultIfBlank(methodInfo.getString("summary"), "");
         Api api = new Api();
-        api.setName(operation.getSummary());
+        api.setName(summary);
         api.setApplicationId(application.getId());
         api.setCategoryId(0L);
         api.setHasPathVariable(false);
         api.setName(uri);
         api.setUri(uri);
-        api.setMethod(operation.toString());
+        api.setMethod(method.toLowerCase());
         api.setAuthType(ApiAuthTypeEnums.NEED_AUTHENTICATION_AND_AUTHORIZATION.getValue());
         api.setStatus(ApiStatusEnums.ENABLED.getValue());
         return api;
@@ -129,27 +139,28 @@ public class ApiSyncCmdExe {
         ServiceInstance serviceInstance;
         try {
             List<ServiceInstance> instances = nacosServiceDiscovery.getInstances(application.getCode());
+            Assert.notEmpty(instances, () -> ExceptionFactory.sysException("服务不在线,无法获取Api信息"));
             serviceInstance = instances.get(0);
         } catch (NacosException e) {
             log.error("读取服务实例失败", e);
-            throw ExceptionFactory.sysException("服务不在线,无法获取Api信息");
+            throw ExceptionFactory.sysException("获取服务实例失败");
         }
         return serviceInstance;
     }
 
     @NotNull
-    private OpenAPI getOpenAPI(ServiceInstance serviceInstance) {
+    private JSONObject getOpenAPI(ServiceInstance serviceInstance) {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(serviceInstance.getUri() + "/v3/api-docs"))
                 .build();
         try {
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            String body = response.body();
-            return JSON.parseObject(body, OpenAPI.class);
+            return JSON.parseObject(response.body());
         } catch (Exception e) {
             log.error("请求服务失败", e);
             throw ExceptionFactory.sysException("请求服务失败,请稍候重试");
         }
     }
+
 }

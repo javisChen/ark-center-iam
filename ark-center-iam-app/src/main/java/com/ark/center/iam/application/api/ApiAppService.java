@@ -77,7 +77,7 @@ public class ApiAppService {
 
         Api apiUpdate = apiAssembler.toApiDO(dto);
 
-        apiGateway.updateApiId(apiUpdate);
+        apiGateway.updateByApiId(apiUpdate);
 
         eventPublisher.publishEvent(new ApiChangedEvent(this));
     }
@@ -92,7 +92,7 @@ public class ApiAppService {
         Api api = new Api();
         api.setId(cmd.getId());
         api.setStatus(cmd.getStatus());
-        apiGateway.updateApiId(api);
+        apiGateway.updateByApiId(api);
 
         eventPublisher.publishEvent(new ApiChangedEvent(this));
     }

@@ -49,7 +49,7 @@ public class ApiGatewayImpl extends ServiceImpl<ApiMapper, Api> implements ApiGa
     }
 
     @Override
-    public void updateApiId(Api api) {
+    public void updateByApiId(Api api) {
         updateById(api);
     }
 

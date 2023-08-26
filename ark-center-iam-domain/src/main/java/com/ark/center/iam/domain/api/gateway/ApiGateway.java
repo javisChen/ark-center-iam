@@ -16,7 +16,7 @@ public interface ApiGateway {
 
     Api selectById(Long id);
 
-    void updateApiId(Api apiUpdate);
+    void updateByApiId(Api apiUpdate);
 
     void delete(Long id);
 
