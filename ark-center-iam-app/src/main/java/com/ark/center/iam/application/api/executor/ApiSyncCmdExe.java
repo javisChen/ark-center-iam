@@ -122,7 +122,6 @@ public class ApiSyncCmdExe {
         api.setApplicationId(application.getId());
         api.setCategoryId(0L);
         api.setHasPathVariable(false);
-        api.setName(uri);
         api.setUri(uri);
         api.setMethod(method.toLowerCase());
         api.setAuthType(ApiAuthTypeEnums.NEED_AUTHENTICATION_AND_AUTHORIZATION.getValue());
