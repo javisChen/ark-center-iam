@@ -16,15 +16,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
-import java.util.Map;
-import java.util.Set;
 
 @Tag(name = "API管理", description = "API管理")
 @RestController
@@ -84,30 +78,5 @@ public class ApiController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @GetMapping("/api/init")
-    @Transactional(rollbackFor = Exception.class, timeout = 20000)
-    public ServerResponse init() {
-        for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : requestMappingHandlerMapping.getHandlerMethods().entrySet()) {
-            RequestMappingInfo requestMappingInfo = entry.getKey();
-            ApiUpdateCmd dto = new ApiUpdateCmd();
-            dto.setId(1L);
-            dto.setApplicationId(1L);
-            Set<String> patterns = requestMappingInfo.getPatternsCondition().getPatterns();
-            String url = patterns.iterator().next();
-            dto.setName(url);
-            Set<RequestMethod> methods = requestMappingInfo.getMethodsCondition().getMethods();
-            dto.setUri(url);
-            RequestMethod next = null;
-            if (!methods.iterator().hasNext()) {
-                continue;
-            }
-            next = methods.iterator().next();
-            dto.setMethod(next.name());
-            dto.setAuthType(1);
-            dto.setStatus(1);
-            apiAppService.createApplication(dto);
-        }
-        return ServerResponse.ok();
-    }
 }
 
