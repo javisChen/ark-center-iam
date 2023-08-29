@@ -1,13 +1,10 @@
 package com.ark.center.iam.application.api.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.Assert;
 import com.alibaba.cloud.nacos.discovery.NacosServiceDiscovery;
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.domain.api.Api;
@@ -22,22 +19,23 @@ import com.ark.component.exception.ExceptionFactory;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -78,7 +76,7 @@ public class ApiSyncCmdExe {
         if (CollectionUtil.isNotEmpty(existsApisMap)) {
             // 找出已存在的Api，更新下名字
             for (Api serviceApi : serviceApis) {
-                Api originalApi = existsApisMap.get(serviceApi.getUri(), serviceApi.getMethod());
+                Api originalApi = existsApisMap.get(new MultiKey<>(serviceApi.getUri(), serviceApi.getMethod()));
                 if (originalApi == null) {
                     insertApis.add(serviceApi);
                 } else {
@@ -100,71 +98,66 @@ public class ApiSyncCmdExe {
         }
     }
 
-    @NotNull
     private MultiKeyMap<String, Api> queryExistsApis(Application application) {
         List<Api> existingApis = apiGateway.selectByApplicationId(application.getId());
-        return existingApis.stream()
-                .collect(Collector.of(MultiKeyMap::new,
-                        (map, api) -> map.put(api.getUri(), api.getMethod(), api),
-                        (map1, map2) -> {
-                            map1.putAll(map2);
-                            return map1;
-                        },
-                        (Function<MultiKeyMap<String, Api>, MultiKeyMap<String, Api>>) stringApiMultiKeyMap -> stringApiMultiKeyMap
-                ));
+        MultiKeyMap<String, Api> map = new MultiKeyMap<>();
+        for (Api existingApi : existingApis) {
+            map.put(new MultiKey<>(existingApi.getUri(), existingApi.getMethod()), existingApi);
+        }
+        return map;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        JSONArray jsonObject = JSON.parseArray(IoUtil.readBytes(new FileInputStream("C:\\Code\\ark\\ark-center-iam\\json.json")));
-        List<Object> bisValid = jsonObject.stream().filter(item -> {
-            JSONObject object = (JSONObject) item;
-            boolean bisValid1 = object.getInteger("bisValid").equals(1)
-                    && object.getString("erpTradeOuterId").equals("52CB0C8D-4606-4BC3-80E8-91A6731D4051");
-            return bisValid1;
-        }).collect(Collectors.toList());
-        System.out.println(JSON.toJSONString(bisValid, JSONWriter.Feature.PrettyFormat));
-
-        List<Api> insertList = new ArrayList<>();
-        Api a1 = new Api();
-        a1.setName("api1");
-        a1.setUri("/users1");
-        a1.setMethod("get");
-
-        Api a2 = new Api();
-        a2.setName("api2");
-        a2.setUri("/users");
-        a2.setMethod("post");
-        insertList.add(a1);
-        insertList.add(a2);
-
-        List<Api> customerInsertList = insertList.stream().
-                collect(Collectors.collectingAndThen(Collectors.toCollection(
-                        () -> new TreeSet<>(Comparator.comparing(Api::getUri))), ArrayList::new));
+//        JSONArray jsonObject = JSON.parseArray(IoUtil.readBytes(new FileInputStream("C:\\Code\\ark\\ark-center-iam\\json.json")));
+//        List<Object> bisValid = jsonObject.stream().filter(item -> {
+//            JSONObject object = (JSONObject) item;
+//            boolean bisValid1 = object.getInteger("bisValid").equals(1)
+//                    && object.getString("erpTradeOuterId").equals("52CB0C8D-4606-4BC3-80E8-91A6731D4051");
+//            return bisValid1;
+//        }).collect(Collectors.toList());
+//        System.out.println(JSON.toJSONString(bisValid, JSONWriter.Feature.PrettyFormat));
 //
-        System.out.println(customerInsertList.size());
-
-//        List<Api> existingApis = new ArrayList<>();
+//        List<Api> insertList = new ArrayList<>();
 //        Api a1 = new Api();
 //        a1.setName("api1");
-//        a1.setUri("/users");
+//        a1.setUri("/users1");
 //        a1.setMethod("get");
 //
 //        Api a2 = new Api();
 //        a2.setName("api2");
 //        a2.setUri("/users");
 //        a2.setMethod("post");
-//        existingApis.add(a2);
-//        MultiKeyMap<String, Api> collect = existingApis.stream()
-//                .collect(Collector.of(MultiKeyMap::new,
-//                        (map, api) -> map.put(api.getUri(), api.getMethod(), api),
-//                        (map1, map2) -> {
-//                            map1.putAll(map2);
-//                            return map1;
-//                        },
-//                        Function.identity()
-//                ));
-//        System.out.println(collect);
+//        insertList.add(a1);
+//        insertList.add(a2);
+//
+//        List<Api> customerInsertList = insertList.stream().
+//                collect(Collectors.collectingAndThen(Collectors.toCollection(
+//                        () -> new TreeSet<>(Comparator.comparing(Api::getUri))), ArrayList::new));
+////
+//        System.out.println(customerInsertList.size());
+
+        List<Api> existingApis = new ArrayList<>();
+        Api a1 = new Api();
+        a1.setName("api1");
+        a1.setUri("/users");
+        a1.setMethod("get");
+
+        Api a2 = new Api();
+        a2.setName("api2");
+        a2.setUri("/users");
+        a2.setMethod("post");
+        existingApis.add(a2);
+        MultiKeyMap<String, Api> collect = existingApis.stream()
+                .collect(Collector.of(MultiKeyMap::new,
+                        (map, api) -> map.put(api.getUri(), api.getMethod(), api),
+                        (map1, map2) -> {
+                            map1.putAll(map2);
+                            return map1;
+                        },
+                        Function.identity()
+                ));
+        System.out.println(collect);
     }
 
     private List<Api> collectServiceApis(Application application, JSONObject openAPI) {
