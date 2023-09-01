@@ -15,6 +15,6 @@ public class UserQry {
     private String username;
 
     @Schema(description = "手机号码")
-    private String phone;
+    private String mobile;
 
 }

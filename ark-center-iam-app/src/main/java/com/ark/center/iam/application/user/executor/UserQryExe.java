@@ -77,7 +77,7 @@ public class UserQryExe {
     }
 
     public User queryUserByUnique(UserQry userQry) {
-        String phone = userQry.getPhone();
+        String phone = userQry.getMobile();
         String username = userQry.getUsername();
         User user = null;
         if (StringUtils.isNotBlank(phone)) {
