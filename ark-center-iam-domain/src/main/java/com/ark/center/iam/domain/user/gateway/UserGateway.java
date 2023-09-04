@@ -15,7 +15,7 @@ public interface UserGateway {
 
     Long countUserByCode(String code);
 
-    Long countUserByPhone(String phone);
+    Long countUserByMobile(String mobile);
 
     boolean updateByUserId(User user);
 
@@ -25,7 +25,7 @@ public interface UserGateway {
 
     User selectByUserCode(String userCode);
 
-    User selectByPhone(String phone);
+    User selectByMobile(String mobile);
 
     User selectByUsername(String username);
 

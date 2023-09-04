@@ -620,7 +620,7 @@ DROP TABLE IF EXISTS `iam_user`;
 CREATE TABLE `iam_user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(45) DEFAULT NULL COMMENT '用户名',
-  `phone` char(11) NOT NULL COMMENT '手机号码',
+  `mobile` char(11) NOT NULL COMMENT '手机号码',
   `code` varchar(45) NOT NULL DEFAULT '' COMMENT '用户编码',
   `password` varchar(64) NOT NULL COMMENT '用户密码',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '用户状态：1-已启用；2-已禁用；',
@@ -631,7 +631,7 @@ CREATE TABLE `iam_user` (
   `is_deleted` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_code` (`code`,`is_deleted`),
-  UNIQUE KEY `uk_phone` (`phone`,`is_deleted`),
+  UNIQUE KEY `uk_mobile` (`mobile`,`is_deleted`),
   KEY `idx_is_deleted` (`is_deleted`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -925,3 +925,14 @@ alter table iam_api
 
 create index idx_role_id_permission_id
     on iam_permission_role_rel (role_id, permission_id)
+
+alter table iam_user
+    change mobile mobile char(11) not null comment '手机号码';
+
+alter table iam_user
+    drop key uk_phone;
+
+alter table iam_user
+    add constraint uk_mobile
+        unique (mobile, is_deleted);
+

@@ -80,6 +80,9 @@ public class UserAppService {
 
     public UserInnerDTO getUser(UserQry userQry) {
         User user = userQryExe.queryUserByUnique(userQry);
+        if (user == null) {
+            return null;
+        }
         UserInnerDTO userInnerDTO = userBeanConverter.toUserInnerDTO(user);
         userInnerDTO.setIsSuperAdmin(user.getCode().equals(UserConst.SUPER_ADMIN));
         return userInnerDTO;

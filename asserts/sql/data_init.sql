@@ -601,7 +601,7 @@ VALUES (139, 118, 1);
 INSERT INTO kt.iam_permission_role_rel (id, permission_id, role_id)
 VALUES (140, 119, 1);
 TRUNCATE TABLE iam_user;
-INSERT INTO kt.iam_user (id, name, phone, code, password, status)
+INSERT INTO kt.iam_user (id, name, mobile, code, password, status)
 VALUES (1, 'Admin', 'Admin', 'SuperAdmin', '$2a$10$79zDkVaAzVBa2otTZ82vkea4MBFQfqnNxHArRSTXc2zeZrgNEHYDa', 1);
 TRUNCATE TABLE iam_role;
 INSERT INTO kt.iam_role (id, name, status)

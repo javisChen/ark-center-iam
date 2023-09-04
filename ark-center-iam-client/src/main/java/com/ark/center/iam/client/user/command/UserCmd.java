@@ -24,10 +24,10 @@ public class UserCmd {
     @Schema(description = "用户名")
     private String username;
 
-    @NotBlank(message = "phone 不能为空", groups = ValidateGroup.Add.class)
+    @NotBlank(message = "mobile 不能为空", groups = ValidateGroup.Add.class)
     @Size(min = 11, max = 11, message = "手机号不合法")
     @Schema(description = "用户手机号")
-    private String phone;
+    private String mobile;
 
     @NotBlank(message = "password 不能为空")
     @Schema(description = "用户密码")

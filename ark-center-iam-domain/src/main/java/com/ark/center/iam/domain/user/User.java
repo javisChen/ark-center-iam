@@ -31,8 +31,8 @@ public class User extends BaseEntity {
     /**
      * 手机号码
      */
-    @TableField("phone")
-    private String phone;
+    @TableField("mobile")
+    private String mobile;
 
     /**
      * 用户编码

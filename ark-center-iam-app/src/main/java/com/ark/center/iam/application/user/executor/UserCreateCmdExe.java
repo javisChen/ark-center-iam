@@ -56,7 +56,7 @@ public class UserCreateCmdExe {
     private void validityCheck(User user) {
 
         // 检查用户手机号
-        checkUserPhone(user);
+        checkUserMobile(user);
     }
 
     private void initUser(User user) {
@@ -102,8 +102,8 @@ public class UserCreateCmdExe {
         userGateway.insert(user);
     }
 
-    private void checkUserPhone(User user) {
-        long count = userGateway.countUserByPhone(user.getPhone());
+    private void checkUserMobile(User user) {
+        long count = userGateway.countUserByMobile(user.getMobile());
         Assert.isTrue(count == 0, () -> ExceptionFactory.userException("手机号码已存在"));
     }
 

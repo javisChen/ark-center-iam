@@ -29,9 +29,9 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Page<UserPageDTO> selectUsers(UserPageQry pageQry) {
         LambdaQueryWrapper<User> qw = new LambdaQueryWrapper<User>()
-                .like(StrUtil.isNotBlank(pageQry.getPhone()), User::getPhone, pageQry.getPhone())
+                .like(StrUtil.isNotBlank(pageQry.getMobile()), User::getMobile, pageQry.getMobile())
                 .like(StrUtil.isNotBlank(pageQry.getUsername()), User::getUsername, pageQry.getUsername())
-                .select(BaseEntity::getId, User::getPhone, User::getUsername, User::getStatus);
+                .select(BaseEntity::getId, User::getMobile, User::getUsername, User::getStatus);
         IPage<User> result = this.page(new Page<>(pageQry.getCurrent(), pageQry.getSize()), qw);
         List<User> records = result.getRecords();
         List<UserPageDTO> vos = records.stream().map(beanConverter::toUserPageDTO).collect(Collectors.toList());
@@ -53,9 +53,9 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Long countUserByPhone(String phone) {
+    public Long countUserByMobile(String mobile) {
         return lambdaQuery()
-                .eq(User::getCode, phone)
+                .eq(User::getCode, mobile)
                 .count();
     }
 
@@ -86,9 +86,9 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User selectByPhone(String phone) {
+    public User selectByMobile(String mobile) {
         return lambdaQuery()
-                .eq(User::getPhone, phone)
+                .eq(User::getMobile, mobile)
                 .last("limit 1")
                 .one();
     }

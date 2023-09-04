@@ -12,7 +12,6 @@ import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
-import com.ark.component.exception.ExceptionFactory;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -77,16 +76,13 @@ public class UserQryExe {
     }
 
     public User queryUserByUnique(UserQry userQry) {
-        String phone = userQry.getMobile();
+        String mobile = userQry.getMobile();
         String username = userQry.getUsername();
         User user = null;
-        if (StringUtils.isNotBlank(phone)) {
-            user = userGateway.selectByPhone(phone);
+        if (StringUtils.isNotBlank(mobile)) {
+            user = userGateway.selectByMobile(mobile);
         } else if (StringUtils.isNotBlank(username)) {
             user = userGateway.selectByUsername(username);
-        }
-        if (user == null) {
-            throw ExceptionFactory.userException("用户不存在");
         }
         return user;
     }

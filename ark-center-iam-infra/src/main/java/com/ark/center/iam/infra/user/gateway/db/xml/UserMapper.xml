@@ -8,7 +8,7 @@
         <result column="gmt_create" property="gmtCreate"/>
         <result column="gmt_modified" property="gmtModified"/>
         <result column="name" property="username"/>
-        <result column="phone" property="phone"/>
+        <result column="mobile" property="mobile"/>
         <result column="password" property="password"/>
         <result column="status" property="status"/>
     </resultMap>
@@ -18,7 +18,7 @@
         id,
         gmt_create,
         gmt_modified,
-        name, phone, password, status
+        name, mobile, password, status
     </sql>
     <select id="selectByRoleId" resultType="com.ark.center.iam.domain.user.User">
         select u.id, u.username

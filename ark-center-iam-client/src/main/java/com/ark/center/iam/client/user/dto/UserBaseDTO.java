@@ -6,7 +6,7 @@ import lombok.Data;
 public class UserBaseDTO {
 
     private Long id;
-    private String phone;
+    private String mobile;
     private String username;
     private String userCode;
     private Boolean isSuperAdmin;

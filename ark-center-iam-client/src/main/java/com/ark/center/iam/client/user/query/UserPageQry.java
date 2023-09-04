@@ -18,7 +18,7 @@ public class UserPageQry extends PagingQuery {
     private String username;
 
     @Schema(description = "手机号码")
-    private String phone;
+    private String mobile;
 
     @Schema(description = "用户状态：1-正常；2-锁定")
     private Integer status;
