@@ -26,7 +26,7 @@ public class ApiCategoryAppService {
 
     public void createApiCategory(ApiCategoryCmd dto) {
         ApiCategory one = apiCategoryGateway.selectByNameAndApplicationId(dto.getName(), dto.getApplicationId());
-        Assert.isTrue(one != null, () -> ExceptionFactory.userException("API类目已存在"));
+        Assert.isNull(one, () -> ExceptionFactory.userException("API类目已存在"));
         ApiCategory apiCategory = apiCategoryAssembler.toApiCategoryDO(dto);
         apiCategoryGateway.insert(apiCategory);
     }
