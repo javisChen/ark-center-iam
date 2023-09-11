@@ -89,7 +89,7 @@ public class ApiSyncCmdExe {
                 .filter(tag -> !existsCategoryNames.contains(tag))
                 .toList();
         if (CollectionUtils.isEmpty(newCategories)) {
-            return Collections.emptyList();
+            return existsCategories;
         }
 
         // 插入新的Api分类
