@@ -34,6 +34,11 @@ public class ApplicationGatewayImpl extends ServiceImpl<ApplicationMapper, Appli
     }
 
     @Override
+    public void update(Application application) {
+        updateById(application);
+    }
+
+    @Override
     public Application selectByCode(String code) {
         return lambdaQuery()
                 .eq(Application::getCode, code)

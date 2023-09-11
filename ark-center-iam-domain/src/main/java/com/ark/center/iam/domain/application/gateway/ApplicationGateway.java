@@ -12,6 +12,8 @@ public interface ApplicationGateway {
 
     void insert(Application application);
 
+    void update(Application application);
+
     Application selectByCode(String code);
 
     Application selectByName(String name);

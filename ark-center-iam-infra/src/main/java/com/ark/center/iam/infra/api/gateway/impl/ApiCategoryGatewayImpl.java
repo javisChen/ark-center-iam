@@ -57,4 +57,11 @@ public class ApiCategoryGatewayImpl extends ServiceImpl<ApiCategoryMapper, ApiCa
                 .update();
 
     }
+
+    @Override
+    public List<ApiCategory> selectByApplicationId(Long applicationId) {
+        return lambdaQuery()
+                .eq(ApiCategory::getApplicationId, applicationId)
+                .list();
+    }
 }

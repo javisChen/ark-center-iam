@@ -16,4 +16,6 @@ public interface ApiCategoryGateway {
     void update(ApiCategory apiCategory);
 
     void logicDelete(Long id);
+
+    List<ApiCategory> selectByApplicationId(Long applicationId);
 }

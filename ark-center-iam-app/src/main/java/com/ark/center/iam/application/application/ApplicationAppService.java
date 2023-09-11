@@ -41,7 +41,7 @@ public class ApplicationAppService {
 
         Application application = applicationAssembler.toApplicationDO(dto);
 
-        applicationGateway.insert(application);
+        applicationGateway.update(application);
     }
 
 
