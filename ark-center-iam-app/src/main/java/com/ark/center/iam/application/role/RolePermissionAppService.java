@@ -38,7 +38,7 @@ public class RolePermissionAppService {
 
 
     @Transactional(rollbackFor = Throwable.class)
-    public void grantRoutes(RoleRoutePermissionGrantCmd cmd) {
+    public void grantRoutePermissions(RoleRoutePermissionGrantCmd cmd) {
         Long roleId = cmd.getRoleId();
         Long applicationId = cmd.getApplicationId();
         List<Long> toRemoveIds = CollectionUtil.newArrayList(cmd.getToRemoveRoutePermissionIds());

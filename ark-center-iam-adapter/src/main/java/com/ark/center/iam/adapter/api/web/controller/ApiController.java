@@ -18,23 +18,22 @@ import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 @Tag(name = "API管理", description = "API管理")
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
 public class ApiController extends BaseController {
-    private final ApiAppService apiAppService;
-    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
 
-    @Operation(summary = "API管理 - API列表（全量）")
+    private final ApiAppService apiAppService;
+
+    @Operation(summary = "API列表（全量）")
     @GetMapping("/apis")
     public MultiResponse<ApiDetailsDTO> queryList(ApiQry dto) {
         return MultiResponse.ok(apiAppService.queryList(dto));
     }
 
-    @Operation(summary = "API管理 - 创建API")
+    @Operation(summary = "创建API")
     @PostMapping("/api")
     public ServerResponse saveApi(@Validated({ValidateGroup.Add.class, Default.class})
                                   @RequestBody ApiUpdateCmd dto) {
@@ -42,14 +41,14 @@ public class ApiController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @Operation(summary = "API管理 - 查询API详情")
+    @Operation(summary = "查询API详情")
     @GetMapping("/api")
     public SingleResponse<ApiDetailDTO> getApi(Long id) {
         ApiDetailDTO vo = apiAppService.getApi(id);
         return SingleResponse.ok(vo);
     }
 
-    @Operation(summary = "API管理 - 更新API")
+    @Operation(summary = "更新API")
     @PutMapping("/api")
     public ServerResponse updateApi(@Validated({ValidateGroup.Update.class, Default.class})
                                     @RequestBody ApiUpdateCmd dto) {
@@ -57,7 +56,7 @@ public class ApiController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @Operation(summary = "API管理 - 启用/禁用")
+    @Operation(summary = "启用/禁用")
     @PostMapping("/api/enable")
     public ServerResponse enable(@RequestBody ApiEnableCmd dto) {
         apiAppService.enableOrDisable(dto);

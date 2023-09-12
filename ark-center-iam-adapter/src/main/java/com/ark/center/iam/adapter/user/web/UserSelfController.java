@@ -8,7 +8,7 @@ import com.ark.component.dto.SingleResponse;
 import com.ark.component.security.base.user.LoginUser;
 import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ import java.util.List;
 
 
 
-@Schema(description = "登录用户相关接口")
+@Tag(name = "登录用户相关接口", description = "登录用户接口")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1")
@@ -27,7 +27,7 @@ public class UserSelfController extends BaseController {
     private final UserSelfAppService userSelfAppService;
 
     @GetMapping("/user/self")
-    @Operation(summary = "登录用户 - 查询登录用户基本信息")
+    @Operation(summary = "查询登录用户基本信息")
     public SingleResponse<LoginUser> queryUserSelf() {
         return SingleResponse.ok(userSelfAppService.queryUserSelf());
     }
@@ -36,7 +36,7 @@ public class UserSelfController extends BaseController {
      * 获取用户菜单权限
      */
     @GetMapping("/user/self/routes")
-    @Operation(summary = "登录用户 - 查询登录用户的菜单权限")
+    @Operation(summary = "查询登录用户的菜单权限")
     public MultiResponse<UserRouteDTO> queryUserSelfRoutes() {
         List<UserRouteDTO> selfRoutes = userSelfAppService.queryUserSelfRoutes();
         return MultiResponse.ok(selfRoutes);
@@ -46,7 +46,7 @@ public class UserSelfController extends BaseController {
      * 获取用户页面元素权限
      */
     @GetMapping("/user/self/elements")
-    @Operation(summary = "登录用户 - 查询登录用户的元素权限")
+    @Operation(summary = "查询登录用户的元素权限")
     public MultiResponse<PermissionDTO> queryUserSelfElements() {
         List<PermissionDTO> selfElements = userSelfAppService.queryUserSelfElements();
         return MultiResponse.ok(selfElements);

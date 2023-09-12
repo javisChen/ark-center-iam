@@ -33,13 +33,13 @@ public class ApplicationController extends BaseController {
     private final ApplicationAppService applicationAppService;
 
     @PostMapping("/v1/applications")
-    @Operation(summary = "应用管理 - 查询应用列表")
+    @Operation(summary = "查询应用列表")
     public MultiResponse<ApplicationDTO> queryList(@RequestBody ApplicationQry dto) {
         return MultiResponse.ok(applicationAppService.queryList(dto));
     }
 
     @PostMapping("/v1/application/create")
-    @Operation(summary = "应用管理 - 创建应用")
+    @Operation(summary = "创建应用")
     public ServerResponse createApplication(@Validated({ValidateGroup.Add.class, Default.class})
                                           @RequestBody ApplicationCmd dto) {
         applicationAppService.createApplication(dto);
@@ -47,7 +47,7 @@ public class ApplicationController extends BaseController {
     }
 
     @PutMapping("/v1/application/update")
-    @Operation(summary = "应用管理 - 更新应用")
+    @Operation(summary = "更新应用")
     public ServerResponse updateApplication(@Validated({ValidateGroup.Update.class, Default.class})
                                             @RequestBody ApplicationCmd dto) {
         applicationAppService.updateApplication(dto);

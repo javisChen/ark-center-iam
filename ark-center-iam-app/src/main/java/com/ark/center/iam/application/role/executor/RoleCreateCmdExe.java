@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class RoleCreateCmdExe {
 
     private final RoleGateway roleGateway;
+
     private final RoleAssembler roleAssembler;
 
     private final RoleCheckService roleCheckService;

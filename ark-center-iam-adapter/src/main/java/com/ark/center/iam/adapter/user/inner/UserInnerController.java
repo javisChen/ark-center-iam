@@ -11,11 +11,13 @@ import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.logger.annotation.CatchAndLog;
 import com.ark.component.web.base.BaseController;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+@Tag(name = "用户接口（内部调用）", description = "用户接口（内部调用）")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/inner/users")

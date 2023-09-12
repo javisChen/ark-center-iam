@@ -26,26 +26,26 @@ public class RoleController extends BaseController {
     private final RoleAppService roleAppService;
 
     @GetMapping("/roles")
-    @Operation(summary = "角色管理 - 分页查询")
+    @Operation(summary = "分页查询")
     public SingleResponse<PageResponse<RoleBaseDTO>> pageQuery(RoleQry dto) {
         return SingleResponse.ok(PageResponse.of(roleAppService.pageQuery(dto)));
     }
 
     @GetMapping("/roles/all")
-    @Operation(summary = "角色管理 - 全量查询")
+    @Operation(summary = "全量查询")
     public MultiResponse<RoleBaseDTO> queryList() {
         return MultiResponse.ok(roleAppService.queryList());
     }
 
     @PostMapping("/role/create")
-    @Operation(summary = "角色管理 - 创建角色")
+    @Operation(summary = "创建角色")
     public ServerResponse createRole(@RequestBody @Validated RoleCmd dto) {
         roleAppService.createRole(dto);
         return ServerResponse.ok();
     }
 
     @PostMapping("/role/update")
-    @Operation(summary = "角色管理 - 更新角色")
+    @Operation(summary = "更新角色")
     public ServerResponse updateRole(@RequestBody @Validated RoleCmd dto) {
         roleAppService.updateRole(dto);
         return ServerResponse.ok();
@@ -53,7 +53,7 @@ public class RoleController extends BaseController {
 
     @GetMapping("/role")
     @Operation(
-            summary = "角色管理 - 角色详情",
+            summary = "角色详情",
             description = "根据id查询角色详细信息",
             parameters = {@Parameter(name = "id", description = "角色id")}
     )
@@ -63,7 +63,7 @@ public class RoleController extends BaseController {
     }
 
     @DeleteMapping("/role/delete")
-    @Operation(summary = "角色管理 - 删除角色")
+    @Operation(summary = "删除角色")
     public ServerResponse removeRole(Long id) {
         roleAppService.removeRole(id);
         return ServerResponse.ok();

@@ -24,7 +24,7 @@ import jakarta.validation.groups.Default;
  * @author
  * @since 2020-11-09
  */
-@Tag(name = "API类目管理", description = "API类目管理")
+@Tag(name = "API分类", description = "API分类")
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
@@ -33,13 +33,13 @@ public class ApiCategoryController extends BaseController {
     private final ApiCategoryAppService apiCategoryAppService;
 
     @GetMapping("/api/categories")
-    @Operation(summary = "API类目管理 - 分页列表")
+    @Operation(summary = "分页列表")
     public MultiResponse<ApiCategoryBaseDTO> queryList(Long applicationId) {
         return MultiResponse.ok(apiCategoryAppService.queryList(applicationId));
     }
 
     @PostMapping("/api/category/create")
-    @Operation(summary = "API类目管理 - 新建类目")
+    @Operation(summary = "新建分类")
     public ServerResponse save(@Validated({ValidateGroup.Add.class, Default.class})
                                @RequestBody ApiCategoryCmd dto) {
         apiCategoryAppService.createApiCategory(dto);
@@ -47,15 +47,15 @@ public class ApiCategoryController extends BaseController {
     }
 
     @PutMapping("/api/category/update")
-    @Operation(summary = "API类目管理 - 更新类目")
+    @Operation(summary = "更新分类")
     public ServerResponse update(@Validated({ValidateGroup.Update.class, Default.class})
                                  @RequestBody ApiCategoryCmd dto) {
         apiCategoryAppService.updateApiCategory(dto);
         return ServerResponse.ok();
     }
 
-    @DeleteMapping("/api/category")
-    @Operation(summary = "API类目管理 - 删除类目")
+    @DeleteMapping("/api/category/delete")
+    @Operation(summary = "删除分类")
     public ServerResponse delete(Long id) {
         apiCategoryAppService.deleteApiCategory(id);
         return ServerResponse.ok();

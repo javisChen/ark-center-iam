@@ -278,7 +278,7 @@ public class ApiSyncCmdExe {
         api.setCategoryId(MapUtils.getLong(categoriesMappings, tag, 0L));
         api.setHasPathVariable(false);
         api.setUri("/" + serviceInstance.getServiceId() + uri);
-        api.setMethod(method.toLowerCase());
+        api.setMethod(method.toUpperCase());
         api.setAuthType(ApiAuthTypeEnums.NEED_AUTHENTICATION_AND_AUTHORIZATION.getValue());
         api.setStatus(ApiStatusEnums.ENABLED.getValue());
         return api;
