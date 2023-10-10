@@ -4,21 +4,19 @@ spring:
   application:
     name: iam
   datasource:
-    url: jdbc:mysql://mysql.ark.com:3306/iam?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
+    url: jdbc:p6spy:mysql://mysql.ark.com:3306/iam?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
     username: root
     password: root
     name: defaultDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
 ark:
-  security:
-    allow-list:
-      - /iam/login/account
-      - /iam/logout
-      - /iam/kick
-      - /iam/api/init
-      - /iam/user/permission/check
-      - /iam/alert/*
-      - /iam/docker', 'bef9dddc5f16445b06aab1c648207cb5', '2023-06-02 17:40:13', '2023-06-14 15:03:20', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', '', '', 'yaml', '', '');
+  component:
+    mq:
+      rocketmq:
+        enabled: true
+        server: rocketmq.ark-dev.svc:9876
+        producer:
+          group: \'iam_pg\'', 'cc4d509adc74f8c02ba7d42fdf9c4c67', '2023-06-02 17:40:13', '2023-09-12 10:32:35', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', '', '', 'yaml', '', '');
 INSERT INTO nacos_config.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (76, 'eop.yml', 'DEFAULT_GROUP', 'server:
   port: 8081
 spring:
@@ -71,25 +69,21 @@ spring:
   application:
     name: commodity
   datasource:
-    druid:
-      url: jdbc:p6spy:mysql://mysql.ark.com:3306/commodity?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
-      username: root
-      password: root
-      name: defaultDataSource
-      driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-      initial-size: 10
-      max-active: 100
-      max-open-prepared-statements: 20
-      max-pool-prepared-statement-per-connection-size: 20
-      max-wait: 60000
-      min-idle: 10
-      pool-prepared-statements: true
-      test-on-borrow: false
-      test-on-return: false
-      test-while-idle: true
+    url: jdbc:p6spy:mysql://mysql.ark.com:3306/commodity?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
+    username: root
+    password: root
+    name: defaultDataSource
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+  elasticsearch:
+    uris: http://es-01:9200
+    username: elastic
 knife4j:
   enable: true
-  production: false', 'a566f3cabe7878879ba4fc7925346055', '2023-06-02 17:40:13', '2023-06-02 17:40:13', null, '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '8083', null, null, 'yaml', null, '');
+  production: false', '5e6ae5a19804b0abacaac49214feaf0d', '2023-06-02 17:40:13', '2023-10-10 17:19:01', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '8083', '', '', 'yaml', '', '');
 INSERT INTO nacos_config.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (78, 'gateway.yml', 'DEFAULT_GROUP', 'server:
   port: 8082
 spring:
@@ -135,35 +129,17 @@ spring:
             - Path=/commodity/**
   application:
     name: gateway
-logging:
-  level:
-    root: info
-    org:
-      springframework:
-        cloud:
-          gateway:
-            filter:
-              LoadBalancerClientFilter: trace
-    com:
-      kt:
-        cloud:
-          iam:
-            api:
-              access: debug
 ark:
   center:
     gateway:
       allow-list:
-        - /iam/login/account
-        - /iam/logout
-        - /iam/user/permission/elements
-        - /iam/user/permission/routes
-        - /commodity/**
-    feign:
-      transmit-headers: X-Authorization, X-Trace-Id
+        - /auth/v1/login/*
+        - /auth/v1/logout
+        - /auth/v1/code/sms
+        - /oss/v1/oss/upload
 feign:
   okhttp:
-    enabled: true', '173d3b53b51ca9cbe3c3c6ec3c8258ee', '2023-06-02 17:40:13', '2023-06-06 16:24:30', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', '', '', 'yaml', '', '');
+    enabled: true', 'bb2c2178b83e9018389fd3850c033283', '2023-06-02 17:40:13', '2023-09-18 16:58:02', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', '', '', 'yaml', '', '');
 INSERT INTO nacos_config.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (79, 'oss.yml', 'DEFAULT_GROUP', 'server:
   port: 8084
   servlet:
@@ -189,35 +165,23 @@ INSERT INTO nacos_config.config_info (id, data_id, group_id, content, md5, gmt_c
   data:
     redis:
       host: redis.ark-dev.svc
-      port: 6379', 'fda02afdc896b20a8def69b839287eba', '2023-06-02 17:40:13', '2023-06-02 17:40:13', null, '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', null, null, 'yaml', null, '');
+      port: 6379', 'fda02afdc896b20a8def69b839287eba', '2023-06-02 17:40:13', '2023-09-18 13:59:42', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', '', '', 'yaml', '', '');
 INSERT INTO nacos_config.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (81, 'pay.yml', 'DEFAULT_GROUP', 'server:
   port: 8086
+  servlet:
+    context-path: 
 spring:
   application:
     name: pay
   datasource:
-    druid:
-      url: jdbc:mysql://localhost:3306/pay?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
-      username: root
-      password: root
-      name: defaultDataSource
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      initial-size: 10
-      max-active: 100
-      max-open-prepared-statements: 20
-      max-pool-prepared-statement-per-connection-size: 20
-      max-wait: 60000
-      min-idle: 10
-      pool-prepared-statements: true
-      test-on-borrow: false
-      test-on-return: false
-      test-while-idle: true
-  main:
-    allow-bean-definition-overriding: true
-# mybatis
-mybatis-plus:
-  mapper-locations: classpath:mapper/*.xml
-
+    url: jdbc:p6spy:mysql://mysql.ark.com:3306/pay?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
+    username: root
+    password: root
+    name: defaultDataSource
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+knife4j:
+  enable: true
+  production: false
 ark:
   component:
     mq:
@@ -225,37 +189,30 @@ ark:
         producer:
           group: pg_pay
           enabled: true
-        server: rocketmq.ark-dev.svc:9876', '8bb002aa8632eb646700f598369df8bf', '2023-06-02 17:40:13', '2023-06-02 17:40:13', null, '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', null, null, 'yaml', null, '');
+        server: rocketmq.ark-dev.svc:9876', '71110b66e6f2e6b021002f73e94bf2a2', '2023-06-02 17:40:13', '2023-10-10 15:59:53', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', '', '', 'yaml', '', '');
 INSERT INTO nacos_config.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (82, 'trade.yml', 'DEFAULT_GROUP', 'server:
   port: 8085
+  servlet:
+    context-path: 
 spring:
   application:
     name: trade
   datasource:
-    druid:
-      url: jdbc:mysql://mysql.ark.com:3306/trade?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
-      username: root
-      password: root
-      name: defaultDataSource
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      initial-size: 10
-      max-active: 100
-      max-open-prepared-statements: 20
-      max-pool-prepared-statement-per-connection-size: 20
-      max-wait: 60000
-      min-idle: 10
-      pool-prepared-statements: true
-      test-on-borrow: false
-      test-on-return: false
-      test-while-idle: true
-
+    url: jdbc:p6spy:mysql://mysql.ark.com:3306/trade?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True
+    username: root
+    password: root
+    name: defaultDataSource
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+knife4j:
+  enable: true
+  production: false
 ark:
   component:
     mq:
       rocketmq:
         producer:
           group: trade_group
-        server: rocketmq.ark-dev.svc:9876', '9defd7f2098894b5fbc14e5841f411e2', '2023-06-02 17:40:13', '2023-06-02 17:40:13', null, '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', null, null, 'yaml', null, '');
+        server: rocketmq.ark-dev.svc:9876', '3b447ce2d45bc53c79dc2f7925dd43e8', '2023-06-02 17:40:13', '2023-10-10 15:59:21', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', '', '', 'yaml', '', '');
 INSERT INTO nacos_config.config_info (id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema, encrypted_data_key) VALUES (85, 'auth.yml', 'DEFAULT_GROUP', 'server:
   port: 8089
 spring:
@@ -266,4 +223,12 @@ spring:
     username: root
     password: root
     name: defaultDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver', 'aaec9dd4fb1e162c1c2d0b623dcaa56f', '2023-06-14 17:26:13', '2023-06-14 17:26:38', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', '', '', 'yaml', '', '');
+    driver-class-name: com.mysql.cj.jdbc.Driver
+ark:
+  component:
+    mq:
+      rocketmq:
+        enabled: true
+        server: rocketmq.ark-dev.svc:9876
+        producer:
+          group: \'auth_pg\'', '6984ba492a405ac7ad3dba8bc7929111', '2023-06-14 17:26:13', '2023-09-08 10:43:45', 'nacos', '172.18.0.1', '', 'aaff0c75-80b1-4c85-ad3f-c625501368ba', '', '', '', 'yaml', '', '');

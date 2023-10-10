@@ -1,0 +1,9 @@
+INSERT INTO iam.iam_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (1, 'IAM', 'iam', 1, 1, '2023-09-11 16:06:40', '2021-01-25 15:29:20', 0, 1, 0);
+INSERT INTO iam.iam_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (2, '研发效能', 'eop', 1, 1, '2021-05-26 13:16:09', '2021-05-26 13:16:09', 0, 0, 0);
+INSERT INTO iam.iam_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (3, '商品中心', 'commodity', 1, 1, '2022-02-25 13:57:08', '2022-02-25 13:57:08', 0, 0, 0);
+INSERT INTO iam.iam_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (4, '订单中心', 'order', 1, 1, '2022-02-25 14:00:27', '2022-02-25 14:00:27', 0, 0, 0);
+INSERT INTO iam.iam_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (5, '支付中心', 'payment', 1, 1, '2022-02-25 14:12:28', '2022-02-25 14:12:28', 0, 0, 0);
+INSERT INTO iam.iam_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (6, '物流中心', 'logistics', 1, 1, '2022-02-25 14:13:15', '2022-02-25 14:13:15', 0, 0, 0);
+INSERT INTO iam.iam_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (7, '搜索中心', 'search', 1, 1, '2022-02-25 14:13:37', '2022-02-25 14:13:37', 0, 0, 0);
+INSERT INTO iam.iam_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (8, '消息中心', 'message', 1, 1, '2022-02-25 14:13:53', '2022-02-25 14:13:53', 0, 0, 0);
+INSERT INTO iam.iam_application (id, name, code, status, type, gmt_modified, gmt_create, creator, modifier, is_deleted) VALUES (9, '网关服务', 'gateway', 1, 1, '2022-02-25 14:14:46', '2022-02-25 14:14:46', 0, 0, 0);
