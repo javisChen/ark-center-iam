@@ -44,7 +44,6 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
 
     public void onApplicationEvent(@NotNull RolePermissionChangedEvent event) {
         log.info("角色权限发生变更: Event = {}, ", event);
-        long eventTime = event.getTimestamp();
         Long roleId = event.getRoleId();
         // 查询角色最新的Api权限
         List<Api> apis = queryRoleApis(event);
@@ -57,16 +56,18 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
             // 发布权限变更消息
             publishPermissionChangedEvents(user, apis);
             // 清除用户维度的缓存数据
-            invalidateUserCache(user);
+            invalidateUserCache(user, event);
         }
     }
 
-    private void invalidateUserCache(User user) {
+    private void invalidateUserCache(User user, RolePermissionChangedEvent event) {
         Long userId = user.getId();
-        // 清除用户页面元素缓存
-        cacheService.remove(String.format(UserCacheKey.CACHE_KEY_USER_ELEMS, userId));
-        // 清除用户路由缓存
-        cacheService.remove(String.format(UserCacheKey.CACHE_KEY_USER_ROUTES, userId));
+        if (event.getPermissionType().equals(PermissionType.FRONT_ROUTE)) {
+            // 清除用户页面元素缓存
+            cacheService.remove(String.format(UserCacheKey.CACHE_KEY_USER_ELEMS, userId));
+            // 清除用户路由缓存
+            cacheService.remove(String.format(UserCacheKey.CACHE_KEY_USER_ROUTES, userId));
+        }
     }
 
     private void publishPermissionChangedEvents(User user, List<Api> apis) {

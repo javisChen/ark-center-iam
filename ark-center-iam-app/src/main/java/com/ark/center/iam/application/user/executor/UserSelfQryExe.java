@@ -6,7 +6,6 @@ import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.route.gateway.RouteGateway;
 import com.ark.center.iam.domain.user.service.UserPermissionService;
 import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
-import com.ark.component.cache.CacheService;
 import com.ark.component.cache.core.CacheHelper;
 import com.ark.component.context.core.ServiceContext;
 import com.ark.component.security.base.user.LoginUser;
@@ -30,8 +29,6 @@ public class UserSelfQryExe {
     private final RouteGateway routeGateway;
 
     private final PermissionAssembler permissionAssembler;
-
-    private final CacheService cacheService;
 
     public List<PermissionDTO> queryUserSelfElements() {
         LoginUser user = ServiceContext.getCurrentUser();

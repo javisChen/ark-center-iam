@@ -49,6 +49,10 @@ public class RolePermissionAppService {
         List<Long> toAddIds = CollectionUtil.newArrayList(cmd.getToAddRoutePermissionIds());
         toAddIds.addAll(cmd.getToAddElementPermissionIds());
         permissionGateway.insertBatchRolePermissionRelations(roleId, toAddIds);
+
+        RoleBaseDTO roleBaseDTO = roleGateway.selectById(roleId);
+        String roleName = roleBaseDTO.getName();
+        eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, PermissionType.FRONT_ROUTE));
     }
 
     public List<PermissionDTO> queryRoleRoutesPermissions(Long roleId, Long applicationId) {
