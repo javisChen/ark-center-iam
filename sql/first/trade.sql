@@ -8,19 +8,16 @@ drop table if exists trade.od_order_item;
 
 drop table if exists trade.od_receive;
 
-drop table if exists trade.stm_statemachine_definition;
+drop table if exists trade.stm_history;
 
-drop table if exists trade.stm_statemachine_history;
-
-drop table if exists trade.stm_statemachine_runtime;
-
+drop table if exists trade.stm_state;
 create table if not exists trade.od_cart_item
 (
     id            bigint unsigned                           not null
         primary key,
     buyer_id      bigint                                    not null comment '买家ID',
     sku_id        bigint                                    not null comment 'SKU ID',
-    spu_name      varchar(64)     default ''                not null comment '商品名称',
+    product_name  varchar(64)     default ''                not null comment '商品名称',
     price         int             default 0                 not null comment 'SKU单价',
     quantity      int             default 0                 not null comment '购买数量',
     expect_amount int             default 0                 not null comment '应付金额',
@@ -58,6 +55,7 @@ create table if not exists trade.od_order
     confirm_time      datetime                                  null comment '确认收货时间',
     buyer_remark      varchar(500)    default ''                not null comment '买家备注',
     buyer_id          bigint                                    not null comment '买家ID',
+    buyer_name        varchar(64)     default ''                not null comment '买家名称（冗余）',
     seller_id         bigint                                    not null comment '卖家ID',
     logistics_company varchar(32)     default ''                not null comment '物流公司',
     logistics_code    varchar(32)     default ''                not null comment '物流单号',
@@ -77,7 +75,7 @@ create table if not exists trade.od_order_item
         primary key,
     order_id      bigint                                    not null comment '订单ID',
     trade_no      varchar(64)     default ''                not null comment '交易订单号',
-    spu_name      varchar(64)     default ''                not null comment '商品名称（冗余）',
+    product_name  varchar(64)     default ''                not null comment '商品名称（冗余）',
     sku_id        bigint                                    not null comment 'SKU ID',
     price         int             default 0                 not null comment 'SKU单价',
     quantity      int             default 0                 not null comment '购买数量',
@@ -122,59 +120,38 @@ create table if not exists trade.od_receive
 create index idx_order_id
     on trade.od_receive (order_id);
 
-create table if not exists trade.stm_statemachine_definition
-(
-    id           bigint unsigned auto_increment
-        primary key,
-    biz_code     varchar(50)      default ''                not null comment '业务编码',
-    config       varchar(1024)    default ''                not null comment '状态机规则配置（JSON）',
-    status       tinyint unsigned default 1                 not null comment '启用状态 0-禁用；1-启用；',
-    gmt_modified datetime         default CURRENT_TIMESTAMP not null,
-    gmt_create   datetime         default CURRENT_TIMESTAMP not null,
-    creator      bigint unsigned  default 0                 not null comment '创建人',
-    modifier     bigint unsigned  default 0                 not null comment '更新人',
-    is_deleted   bigint unsigned  default 0                 not null comment '删除标识 0-表示未删除 大于0-已删除',
-    constraint uk_biz_code
-        unique (biz_code)
-)
-    comment '状态机规则定义表' charset = utf8;
-
-create table if not exists trade.stm_statemachine_history
+create table if not exists trade.stm_history
 (
     id            bigint unsigned auto_increment
         primary key,
-    biz_code      varchar(50)     default ''                not null comment '业务编码',
-    biz_id        bigint                                    not null comment '业务ID',
+    machine_id    varchar(64)     default ''                not null comment '状态机id',
+    biz_id        varchar(64)                               not null comment '业务id',
     event         varchar(64)     default ''                not null comment '驱动的事件',
     pre_state     varchar(64)     default ''                not null comment '转换前状态',
     current_state varchar(64)     default ''                not null comment '当前状态',
-    gmt_modified  datetime        default CURRENT_TIMESTAMP not null,
+    extras        varchar(2048)                             null comment '状态流转的参数',
+    remark        varchar(2048)   default ''                not null comment '保留信息',
     gmt_create    datetime        default CURRENT_TIMESTAMP not null,
-    creator       bigint unsigned default 0                 not null comment '创建人',
-    modifier      bigint unsigned default 0                 not null comment '更新人',
-    is_deleted    bigint unsigned default 0                 not null comment '删除标识 0-表示未删除 大于0-已删除'
+    creator       bigint unsigned default 0                 not null comment '创建人'
 )
-    comment '状态机历史表' charset = utf8;
+    comment '状态机历史表';
 
-create index idx_biz_code_biz_id
-    on trade.stm_statemachine_history (biz_code, biz_id);
+create index idx_machine_id_biz_id
+    on trade.stm_history (machine_id, biz_id);
 
-create table if not exists trade.stm_statemachine_runtime
+create table if not exists trade.stm_state
 (
     id           bigint unsigned auto_increment
         primary key,
-    biz_code     varchar(50)     default ''                not null comment '业务编码',
-    biz_id       bigint                                    not null comment '业务ID',
+    machine_id   varchar(64)     default ''                not null comment '状态机id',
+    biz_id       varchar(64)                               not null comment '业务id',
     state        varchar(64)     default ''                not null comment '状态',
-    finished     tinyint(1)      default 0                 not null comment '完结状态 0-否 1-是',
+    ended        tinyint(1)      default 0                 not null comment '完结状态 0-否 1-是',
     gmt_modified datetime        default CURRENT_TIMESTAMP not null,
     gmt_create   datetime        default CURRENT_TIMESTAMP not null,
     creator      bigint unsigned default 0                 not null comment '创建人',
     modifier     bigint unsigned default 0                 not null comment '更新人',
-    is_deleted   bigint unsigned default 0                 not null comment '删除标识 0-表示未删除 大于0-已删除'
+    constraint idx_machine_id_biz_id
+        unique (machine_id, biz_id)
 )
-    comment '状态机运行时表' charset = utf8;
-
-create index idx_biz_code_biz_id
-    on trade.stm_statemachine_runtime (biz_code, biz_id);
-
+    comment '状态机数据记录表';
