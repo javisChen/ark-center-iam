@@ -11,6 +11,7 @@ drop table if exists trade.od_receive;
 drop table if exists trade.stm_history;
 
 drop table if exists trade.stm_state;
+
 create table if not exists trade.od_cart_item
 (
     id            bigint unsigned                           not null
@@ -45,7 +46,7 @@ create table if not exists trade.od_order
     order_channel     int             default 0                 not null comment '下单渠道 enums[PC,PC,1;APP,APP,2;MINI,小程序,3]',
     order_status      int             default 1                 not null comment '订单状态 enums[PENDING_PAY,待支付,1;PENDING_DELIVER,待发货,2;PENDING_RECEIVE,待收货,3;SUCCESS,交易成功,4]',
     pay_status        int             default 1                 not null comment '支付状态 enums[PENDING_PAY,待支付,1;PAYING,支付中,2;PAY_SUCCESS,支付成功,3;PAY_FAIL,支付失败,4]',
-    pay_type          int                                       null comment '支付类型 enums[WECHAT,微信支付,1;ALIPAY,支付宝,2]',
+    pay_type_code     varchar(32)                               null comment '支付类型编码',
     expect_amount     int             default 0                 not null comment '应付金额',
     actual_amount     int             default 0                 not null comment '实付金额',
     freight_amount    int             default 0                 not null comment '运费金额',
