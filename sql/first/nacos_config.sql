@@ -1,5 +1,7 @@
 create schema if not exists nacos_config collate utf8mb4_general_ci;
 
+use nacos_config;
+
 drop table if exists nacos_config.config_info;
 
 drop table if exists nacos_config.config_info_aggr;
