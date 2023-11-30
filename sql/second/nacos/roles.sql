@@ -1,1 +1,1 @@
-INSERT INTO nacos_config.roles (username, role) VALUES ('nacos', 'ROLE_ADMIN');
+insert into MY_TABLE (username, role) values ('nacos', 'ROLE_ADMIN');
