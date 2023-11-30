@@ -1,12 +1,14 @@
 create schema if not exists pay collate utf8mb4_general_ci;
 
+use pay
+
 drop table if exists pay.pay_notify_record;
 
 drop table if exists pay.pay_order;
 
 drop table if exists pay.pay_type;
 
-drop table if exists trade.stm_state;
+drop table if exists pay.stm_state;
 
 create table if not exists pay.pay_notify_record
 (

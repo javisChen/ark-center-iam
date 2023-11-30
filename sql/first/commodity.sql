@@ -1,5 +1,7 @@
 create schema if not exists commodity collate utf8mb4_general_ci;
 
+use commodity;
+
 drop table if exists commodity.co_attachment;
 
 drop table if exists commodity.co_attr;

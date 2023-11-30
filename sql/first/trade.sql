@@ -1,5 +1,7 @@
 create schema if not exists trade collate utf8mb4_general_ci;
 
+use trade;
+
 drop table if exists trade.od_cart_item;
 
 drop table if exists trade.od_order;
