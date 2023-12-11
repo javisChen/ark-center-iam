@@ -38,7 +38,7 @@ CREATE TABLE `co_attachment` (
   `is_deleted` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
   KEY `idx_biz_type_biz_id` (`biz_type`,`biz_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1706966670350266371 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='附件表';
+) ENGINE=InnoDB AUTO_INCREMENT=1706966670350266371 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='附件表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -463,7 +463,7 @@ CREATE TABLE `co_sku` (
   `is_deleted` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
   KEY `idx_spu_id` (`spu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1706962860873658376 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='sku';
+) ENGINE=InnoDB AUTO_INCREMENT=1706962860873658376 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='sku';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -561,7 +561,7 @@ CREATE TABLE `co_sku_attr` (
   `is_deleted` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
   KEY `idx_sku_id` (`sku_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1585930690743549954 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='sku规格属性';
+) ENGINE=InnoDB AUTO_INCREMENT=1585930690743549954 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='sku规格属性';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -654,7 +654,7 @@ CREATE TABLE `co_spu` (
   PRIMARY KEY (`id`),
   KEY `idx_brand_id` (`brand_id`),
   KEY `idx_category_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1706962859971883010 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='spu主表';
+) ENGINE=InnoDB AUTO_INCREMENT=1706962859971883010 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='spu主表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -688,7 +688,7 @@ CREATE TABLE `co_spu_attr` (
   `is_deleted` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
   KEY `idx_spu_id` (`spu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1706966670539010052 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='spu参数属性';
+) ENGINE=InnoDB AUTO_INCREMENT=1706966670539010052 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='spu参数属性';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -749,7 +749,7 @@ CREATE TABLE `co_spu_sales` (
   `modifier` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新人',
   `is_deleted` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1706962860164820995 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='spu销售属性';
+) ENGINE=InnoDB AUTO_INCREMENT=1706962860164820995 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='spu销售属性';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
