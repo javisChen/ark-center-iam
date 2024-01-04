@@ -144,11 +144,11 @@ public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @Override
     public void saveRoleApiPermissionCache(Long roleId, List<Api> apis) {
         String key = String.format(RoleCacheKey.ROLE_API_PERM_KEY, roleId);
-        cacheService.remove(key);
+        cacheService.del(key);
 
         if (CollectionUtil.isNotEmpty(apis)) {
             List<String> elements = apis.stream().map(item -> item.getUri() + ":" + item.getMethod()).toList();
-            cacheService.setAdd(key, elements.toArray());
+            cacheService.sAdd(key, elements.toArray());
         }
     }
 }

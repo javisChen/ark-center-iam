@@ -97,7 +97,7 @@ public class UserGroupGatewayImpl extends ServiceImpl<UserGroupMapper, UserGroup
                 .like(StrUtil.isNotBlank(dto.getName()), UserGroup::getName, dto.getName())
                 .eq(UserGroup::getPid, dto.getPid())
                 .eq(UserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
-                .orderByAsc(UserGroup::getGmtCreate);
+                .orderByAsc(UserGroup::getCreateTime);
         return page(new Page<>(dto.getCurrent(), dto.getSize()), queryWrapper);
     }
 
@@ -110,7 +110,7 @@ public class UserGroupGatewayImpl extends ServiceImpl<UserGroupMapper, UserGroup
     @Override
     public List<UserGroupBaseDTO> selectList() {
         LambdaQueryWrapper<UserGroup> queryWrapper = new LambdaQueryWrapper<UserGroup>()
-                .orderByAsc(UserGroup::getGmtCreate)
+                .orderByAsc(UserGroup::getCreateTime)
                 .orderByAsc(UserGroup::getLevel);
         return list(queryWrapper).stream()
                 .map(userGroupAssembler::toBaseDTO)
