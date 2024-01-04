@@ -5,8 +5,8 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.route.Route">
         <result column="id" property="id"/>
-        <result column="gmt_create" property="gmtCreate"/>
-        <result column="gmt_modified" property="gmtModified"/>
+        <result column="gmt_create" property="createTime"/>
+        <result column="gmt_modified" property="updateTime"/>
         <result column="name" property="name"/>
         <result column="component" property="component"/>
         <result column="path" property="path"/>

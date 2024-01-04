@@ -14,8 +14,8 @@ public interface ElementAssembler {
     @Mapping(target = "routeId", source = "routeId")
     @Mapping(target = "modifier", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "gmtModified", ignore = true)
-    @Mapping(target = "gmtCreate", ignore = true)
+    @Mapping(target = "updateTime", ignore = true)
+    @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
     Element toElementDO(RouteCmd.Element element, Long routeId);
 
