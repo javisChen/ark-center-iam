@@ -9,8 +9,8 @@
         <result column="level" property="level"/>
         <result column="inherit_type" property="inheritType"/>
         <result column="type" property="type"/>
-        <result column="gmt_create" property="gmtCreate"/>
-        <result column="gmt_modified" property="gmtModified"/>
+        <result column="gmt_create" property="createTime"/>
+        <result column="gmt_modified" property="updateTime"/>
         <result column="name" property="name"/>
     </resultMap>
 

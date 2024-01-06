@@ -18,8 +18,8 @@ public interface UserGroupAssembler {
         DTO.setPid(item.getPid());
         DTO.setName(item.getName());
         DTO.setStatus(item.getStatus());
-        DTO.setCreateTime(item.getGmtCreate());
-        DTO.setUpdateTime(item.getGmtModified());
+        DTO.setCreateTime(item.getCreateTime());
+        DTO.setUpdateTime(item.getUpdateTime());
         DTO.setInheritType(item.getInheritType());
         DTO.setType(item.getType());
         DTO.setChildren(new ArrayList<>());

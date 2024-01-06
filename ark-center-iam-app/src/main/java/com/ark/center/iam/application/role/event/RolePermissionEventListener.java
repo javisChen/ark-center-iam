@@ -64,9 +64,9 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         Long userId = user.getId();
         if (event.getPermissionType().equals(PermissionType.FRONT_ROUTE)) {
             // 清除用户页面元素缓存
-            cacheService.remove(String.format(UserCacheKey.CACHE_KEY_USER_ELEMS, userId));
+            cacheService.del(String.format(UserCacheKey.CACHE_KEY_USER_ELEMS, userId));
             // 清除用户路由缓存
-            cacheService.remove(String.format(UserCacheKey.CACHE_KEY_USER_ROUTES, userId));
+            cacheService.del(String.format(UserCacheKey.CACHE_KEY_USER_ROUTES, userId));
         }
     }
 

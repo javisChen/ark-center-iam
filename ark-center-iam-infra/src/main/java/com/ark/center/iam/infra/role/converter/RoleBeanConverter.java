@@ -18,8 +18,8 @@ public class RoleBeanConverter {
         roleListVO.setId(role.getId());
         roleListVO.setName(role.getName());
         roleListVO.setCode(role.getCode());
-        roleListVO.setCreateTime(role.getGmtCreate());
-        roleListVO.setUpdateTime(role.getGmtModified());
+        roleListVO.setCreateTime(role.getCreateTime());
+        roleListVO.setUpdateTime(role.getUpdateTime());
         return roleListVO;
     }
 

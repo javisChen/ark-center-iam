@@ -8,8 +8,8 @@
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="status" jdbcType="BOOLEAN" property="status"/>
         <result column="type" jdbcType="BOOLEAN" property="type"/>
-        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
-        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="creator" jdbcType="BIGINT" property="creator"/>
         <result column="modifier" jdbcType="BIGINT" property="modifier"/>
         <result column="is_deleted" jdbcType="BIGINT" property="isDeleted"/>
