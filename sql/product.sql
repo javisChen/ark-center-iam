@@ -430,7 +430,7 @@ CREATE TABLE `inventory` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `spu_id` bigint unsigned NOT NULL COMMENT 'spuId',
   `sku_id` bigint unsigned NOT NULL COMMENT 'skuId',
-  `available_stock` int unsigned NOT NULL DEFAULT '0' COMMENT '可用库存数',
+  `available_stock` int unsigned NOT  NULL DEFAULT '0' COMMENT '可用库存数',
   `locked_stock` int unsigned NOT NULL DEFAULT '0' COMMENT '锁定库存数',
   `sold_stock` int unsigned DEFAULT '0' COMMENT '已售库存',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
