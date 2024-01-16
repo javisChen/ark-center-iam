@@ -1005,6 +1005,459 @@ INSERT INTO `iam_user_role_rel` (`id`, `user_id`, `role_id`, `gmt_create`, `gmt_
 INSERT INTO `iam_user_role_rel` (`id`, `user_id`, `role_id`, `gmt_create`, `gmt_modified`, `creator`, `modifier`) VALUES (2,2,2,'2022-02-21 18:00:54','2022-02-21 18:00:54',0,0);
 
 --
+-- Current Database: `nacos_config`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `nacos_config` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+USE `nacos_config`;
+
+--
+-- Table structure for table `config_info`
+--
+
+DROP TABLE IF EXISTS `config_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `config_info` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `data_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'data_id',
+  `group_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'content',
+  `md5` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'md5',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `src_user` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin COMMENT 'source user',
+  `src_ip` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'source ip',
+  `app_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `tenant_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT '' COMMENT '租户字段',
+  `c_desc` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `c_use` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `effect` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `type` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `c_schema` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin,
+  `encrypted_data_key` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '秘钥',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_configinfo_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='config_info';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `config_info`
+--
+
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (75,'iam.yml','DEFAULT_GROUP','server:\n  port: 8080\nspring:\n  application:\n    name: iam\n  datasource:\n    url: jdbc:p6spy:mysql://mysql:3306/iam?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True\n    username: root\n    password: root\n    name: defaultDataSource\n    driver-class-name: com.p6spy.engine.spy.P6SpyDriver\nark:\n  component:\n    mq:\n      rocketmq:\n        enabled: true\n        server: rocketmq:9876\n        producer:\n          group: \'iam_pg\'','24b30ceed33f301e672181fc81440ee7','2023-06-02 17:40:13','2023-12-01 00:22:11','nacos','192.168.65.1','','aaff0c75-80b1-4c85-ad3f-c625501368ba','','','','yaml','','');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (76,'eop.yml','DEFAULT_GROUP','server:\n  port: 8081\nspring:\n  application:\n    name: eop\n  datasource:\n    druid:\n      url: jdbc:mysql://gz-cynosdbmysql-grp-irl7x9ar.sql.tencentcdb.com:20716/eop?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True\n      username: kt_cloud8888\n      password: Kt.cloud1234!@#$\n      name: defaultDataSource\n      driver-class-name: com.mysql.cj.jdbc.Driver\n      initial-size: 10\n      max-active: 100\n      max-open-prepared-statements: 20\n      max-pool-prepared-statement-per-connection-size: 20\n      max-wait: 60000\n      min-idle: 10\n      pool-prepared-statements: true\n      test-on-borrow: false\n      test-on-return: false\n      test-while-idle: true\n  main:\n    allow-bean-definition-overriding: true\nbiz-module:\n  git:\n    gitee:\n      client-id: dc7f80b02163e4f76fbcffb03eff926566aaf19f2c51a0339391a599d60b32ba\n      client-secret: b68bc45b2f30ee460e8dfa468242697f276b144778bfb9011e29ee4253e8d03d\n      email: javischen9548@foxmail.com\n      password: javis9548chen\n      scope: \"user_info projects pull_requests issues notes keys hook groups gists enterprises\"\n      access-token: 3814b82ee62c6d47511fd238879e2561\n    github:\n      authorization: Basic amF2aXNDaGVuOmdocF9xVWpzS1NVdHNBUUFRQ09zZEdkV1JOTERJbFFqQlgwbXJJa0s=\n  generate:\n    temp-dir:\n\nmybatis-plus:\n  global-config:\n    db-config:\n      logic-delete-field: is_deleted\n      logic-not-delete-value: 0\n','944acfcc9184d160e2e85ab02fad7489','2023-06-02 17:40:13','2023-06-02 17:40:13',NULL,'172.18.0.1','','aaff0c75-80b1-4c85-ad3f-c625501368ba','',NULL,NULL,'yaml',NULL,'');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (78,'gateway.yml','DEFAULT_GROUP','server:\n  port: 8082\nspring:\n  cloud:\n    gateway:\n      globalcors:\n        cors-configurations:\n          \'[/**]\':\n            # 设置允许的域名\n            allowedOrigins:\n              - \"*\"\n            # 允许所有头信息\n            allowedHeaders: \"*\"\n            # 设置允许携带cookie\n            # 为true时allowedOrigins不允许为* 会报错\n            allowCredentials: false\n            # 允许跨域请求的请求方式\n            allowedMethods:\n              - GET\n              - POST\n              - DELETE\n              - PUT\n      discovery:\n        locator:\n          enabled: true\n          lower-case-service-id: true\n      routes:\n        - id: gateway\n          uri: localhost:${server.port}\n          predicates:\n            - Path=/${spring.application.name}/**\n        - id: iam\n          uri: lb://iam\n          predicates:\n            - Path=/iam/**\n        - id: eop\n          uri: lb://eop\n          predicates:\n            - Path=/eop/**\n        - id: commodity\n          uri: lb://commodity\n          predicates:\n            - Path=/commodity/**\n  application:\n    name: gateway\nark:\n  center:\n    gateway:\n      allow-list:\n        - /auth/v1/login/*\n        - /auth/v1/logout\n        - /auth/v1/code/sms\n        - /oss/v1/file/*\nfeign:\n  okhttp:\n    enabled: true','94081c8fbd0462567ad392095d409380','2023-06-02 17:40:13','2023-12-13 16:57:30','nacos','192.168.65.1','','aaff0c75-80b1-4c85-ad3f-c625501368ba','','','','yaml','','');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (79,'oss.yml','DEFAULT_GROUP','server:\n  port: 8084\n  servlet:\n    context-path: \nspring:\n  application:\n    name: oss\n  main:\n    allow-bean-definition-overriding: true\n  autoconfigure:\n    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration\nark:\n  component:\n    oss:\n      minio:\n        end-point: http://minio:9000\n        access-key: admin\n        secret-key: admin123456\n        enabled: true\n      aliyun:\n        enabled: false','3152bb9e9a2ffb710fc0278f250b0990','2023-06-02 17:40:13','2023-11-30 13:08:40','nacos','192.168.65.1','','aaff0c75-80b1-4c85-ad3f-c625501368ba','','','','yaml','','');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (80,'common.yml','DEFAULT_GROUP','spring:\n  data:\n    redis:\n      host: redis\n      port: 6379\n      client-type: lettuce','21939a8528061a7b94887ba41d54aced','2023-06-02 17:40:13','2023-12-26 16:39:43','nacos','192.168.65.1','','aaff0c75-80b1-4c85-ad3f-c625501368ba','','','','yaml','','');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (81,'pay.yml','DEFAULT_GROUP','server:\n  port: 8086\n  servlet:\n    context-path: \nspring:\n  application:\n    name: pay\n  datasource:\n    url: jdbc:p6spy:mysql://mysql:3306/pay?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True\n    username: root\n    password: root\n    name: defaultDataSource\n    driver-class-name: com.p6spy.engine.spy.P6SpyDriver\nknife4j:\n  enable: true\n  production: false\nark:\n  component:\n    mq:\n      rocketmq:\n        producer:\n          group: pg_pay\n          enabled: true\n        server: rocketmq:9876','b0eb6de213303302dead8c7c4acaaaed','2023-06-02 17:40:13','2023-11-30 13:08:59','nacos','192.168.65.1','','aaff0c75-80b1-4c85-ad3f-c625501368ba','','','','yaml','','');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (82,'trade.yml','DEFAULT_GROUP','server:\n  port: 8085\n  servlet:\n    context-path: \nspring:\n  application:\n    name: trade\n  datasource:\n    url: jdbc:p6spy:mysql://mysql:3306/trade?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True\n    username: root\n    password: root\n    name: defaultDataSource\n    driver-class-name: com.p6spy.engine.spy.P6SpyDriver\nknife4j:\n  enable: true\n  production: false\nark:\n  component:\n    mq:\n      rocketmq:\n        producer:\n          group: trade_group\n        server: rocketmq:9876','653df34fb54ceebccf49029e88484c99','2023-06-02 17:40:13','2023-11-30 13:09:12','nacos','192.168.65.1','','aaff0c75-80b1-4c85-ad3f-c625501368ba','','','','yaml','','');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (85,'auth.yml','DEFAULT_GROUP','server:\n  port: 8089\nspring:\n  application:\n    name: auth\n  datasource:\n    url: jdbc:mysql://mysql:3306/iam?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True\n    username: root\n    password: root\n    name: defaultDataSource\n    driver-class-name: com.mysql.cj.jdbc.Driver\nark:\n  component:\n    mq:\n      rocketmq:\n        enabled: true\n        server: rocketmq:9876\n        producer:\n          group: \'auth_pg\'','8daabbd972d5ce5654e527483546f786','2023-06-14 17:26:13','2023-11-30 13:01:47','nacos','192.168.65.1','','aaff0c75-80b1-4c85-ad3f-c625501368ba','','','','yaml','','');
+INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (90,'product.yml','DEFAULT_GROUP','server:\n  port: 8083\n  servlet:\n    context-path: \nspring:\n  application:\n    name: product\n  datasource:\n    url: jdbc:p6spy:mysql://mysql:3306/product?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True\n    username: root\n    password: root\n    name: defaultDataSource\n    driver-class-name: com.p6spy.engine.spy.P6SpyDriver\n  data:\n    elasticsearch:\n      repositories:\n        enabled: true\n  elasticsearch:\n    uris: http://es-01:9200\n    username: elastic\nknife4j:\n  enable: true\n  production: false','ba67ecd139a165c2cc77d33d3b5b5e2d','2023-12-14 15:54:55','2023-12-14 15:55:11','nacos','192.168.65.1','','aaff0c75-80b1-4c85-ad3f-c625501368ba','8083','','','yaml','','');
+
+--
+-- Table structure for table `config_info_aggr`
+--
+
+DROP TABLE IF EXISTS `config_info_aggr`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `config_info_aggr` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `data_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'data_id',
+  `group_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'group_id',
+  `datum_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'datum_id',
+  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '内容',
+  `gmt_modified` datetime NOT NULL COMMENT '修改时间',
+  `app_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `tenant_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT '' COMMENT '租户字段',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_configinfoaggr_datagrouptenantdatum` (`data_id`,`group_id`,`tenant_id`,`datum_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='增加租户字段';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `config_info_aggr`
+--
+
+
+--
+-- Table structure for table `config_info_beta`
+--
+
+DROP TABLE IF EXISTS `config_info_beta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `config_info_beta` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `data_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'data_id',
+  `group_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'group_id',
+  `app_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'app_name',
+  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'content',
+  `beta_ips` varchar(1024) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'betaIps',
+  `md5` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'md5',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `src_user` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin COMMENT 'source user',
+  `src_ip` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'source ip',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT '' COMMENT '租户字段',
+  `encrypted_data_key` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '秘钥',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_configinfobeta_datagrouptenant` (`data_id`,`group_id`,`tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='config_info_beta';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `config_info_beta`
+--
+
+
+--
+-- Table structure for table `config_info_tag`
+--
+
+DROP TABLE IF EXISTS `config_info_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `config_info_tag` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `data_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'data_id',
+  `group_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'group_id',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT '' COMMENT 'tenant_id',
+  `tag_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'tag_id',
+  `app_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'app_name',
+  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'content',
+  `md5` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'md5',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  `src_user` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin COMMENT 'source user',
+  `src_ip` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'source ip',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_configinfotag_datagrouptenanttag` (`data_id`,`group_id`,`tenant_id`,`tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='config_info_tag';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `config_info_tag`
+--
+
+
+--
+-- Table structure for table `config_tags_relation`
+--
+
+DROP TABLE IF EXISTS `config_tags_relation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `config_tags_relation` (
+  `id` bigint NOT NULL COMMENT 'id',
+  `tag_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'tag_name',
+  `tag_type` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'tag_type',
+  `data_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'data_id',
+  `group_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'group_id',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT '' COMMENT 'tenant_id',
+  `nid` bigint NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`nid`),
+  UNIQUE KEY `uk_configtagrelation_configidtag` (`id`,`tag_name`,`tag_type`),
+  KEY `idx_tenant_id` (`tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='config_tag_relation';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `config_tags_relation`
+--
+
+
+--
+-- Table structure for table `group_capacity`
+--
+
+DROP TABLE IF EXISTS `group_capacity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `group_capacity` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `group_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL DEFAULT '' COMMENT 'Group ID，空字符表示整个集群',
+  `quota` int unsigned NOT NULL DEFAULT '0' COMMENT '配额，0表示使用默认值',
+  `usage` int unsigned NOT NULL DEFAULT '0' COMMENT '使用量',
+  `max_size` int unsigned NOT NULL DEFAULT '0' COMMENT '单个配置大小上限，单位为字节，0表示使用默认值',
+  `max_aggr_count` int unsigned NOT NULL DEFAULT '0' COMMENT '聚合子配置最大个数，，0表示使用默认值',
+  `max_aggr_size` int unsigned NOT NULL DEFAULT '0' COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
+  `max_history_count` int unsigned NOT NULL DEFAULT '0' COMMENT '最大变更历史数量',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_group_id` (`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='集群、各Group容量信息表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `group_capacity`
+--
+
+
+--
+-- Table structure for table `his_config_info`
+--
+
+DROP TABLE IF EXISTS `his_config_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `his_config_info` (
+  `id` bigint unsigned NOT NULL,
+  `nid` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `data_id` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `group_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `app_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'app_name',
+  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
+  `md5` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `src_user` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin,
+  `src_ip` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `op_type` char(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `tenant_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT '' COMMENT '租户字段',
+  `encrypted_data_key` text CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT '秘钥',
+  PRIMARY KEY (`nid`),
+  KEY `idx_did` (`data_id`),
+  KEY `idx_gmt_create` (`gmt_create`),
+  KEY `idx_gmt_modified` (`gmt_modified`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='多租户改造';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `his_config_info`
+--
+
+INSERT INTO `his_config_info` (`id`, `nid`, `data_id`, `group_id`, `app_name`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `op_type`, `tenant_id`, `encrypted_data_key`) VALUES (80,8,'common.yml','DEFAULT_GROUP','','spring:\n  data:\n    redis:\n      host: redis\n      port: 6379','b6303d626653e4c7a5b831924fb6b0f9','2023-12-26 08:39:43','2023-12-26 16:39:43','nacos','192.168.65.1','U','aaff0c75-80b1-4c85-ad3f-c625501368ba','');
+
+--
+-- Table structure for table `permissions`
+--
+
+DROP TABLE IF EXISTS `permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `permissions` (
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `resource` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `action` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  UNIQUE KEY `uk_role_permission` (`role`,`resource`,`action`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permissions`
+--
+
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `roles` (
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  UNIQUE KEY `idx_user_role` (`username`,`role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`username`, `role`) VALUES ('nacos','ROLE_ADMIN');
+
+--
+-- Table structure for table `tenant_capacity`
+--
+
+DROP TABLE IF EXISTS `tenant_capacity`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tenant_capacity` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL DEFAULT '' COMMENT 'Tenant ID',
+  `quota` int unsigned NOT NULL DEFAULT '0' COMMENT '配额，0表示使用默认值',
+  `usage` int unsigned NOT NULL DEFAULT '0' COMMENT '使用量',
+  `max_size` int unsigned NOT NULL DEFAULT '0' COMMENT '单个配置大小上限，单位为字节，0表示使用默认值',
+  `max_aggr_count` int unsigned NOT NULL DEFAULT '0' COMMENT '聚合子配置最大个数',
+  `max_aggr_size` int unsigned NOT NULL DEFAULT '0' COMMENT '单个聚合数据的子配置大小上限，单位为字节，0表示使用默认值',
+  `max_history_count` int unsigned NOT NULL DEFAULT '0' COMMENT '最大变更历史数量',
+  `gmt_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `gmt_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_tenant_id` (`tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='租户容量信息表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tenant_capacity`
+--
+
+
+--
+-- Table structure for table `tenant_info`
+--
+
+DROP TABLE IF EXISTS `tenant_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tenant_info` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `kp` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL COMMENT 'kp',
+  `tenant_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT '' COMMENT 'tenant_id',
+  `tenant_name` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT '' COMMENT 'tenant_name',
+  `tenant_desc` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'tenant_desc',
+  `create_source` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'create_source',
+  `gmt_create` bigint NOT NULL COMMENT '创建时间',
+  `gmt_modified` bigint NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_tenant_info_kptenantid` (`kp`,`tenant_id`),
+  KEY `idx_tenant_id` (`tenant_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='tenant_info';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tenant_info`
+--
+
+INSERT INTO `tenant_info` (`id`, `kp`, `tenant_id`, `tenant_name`, `tenant_desc`, `create_source`, `gmt_create`, `gmt_modified`) VALUES (1,'1','aaff0c75-80b1-4c85-ad3f-c625501368ba','dev','开发环境','nacos',1645783278240,1645783278240);
+INSERT INTO `tenant_info` (`id`, `kp`, `tenant_id`, `tenant_name`, `tenant_desc`, `create_source`, `gmt_create`, `gmt_modified`) VALUES (2,'1','74ac3a8d-d15e-4f1b-a5cd-112f438c975d','sit','系统集成测试环境','nacos',1645783291848,1645783291848);
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`username`, `password`, `enabled`) VALUES ('nacos','$2a$10$V749LJiYy1tUGVDG7Mu/R.g1uqrm9FFF.iLAP78LWqcyManu/N60y',1);
+
+--
+-- Current Database: `pay`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `pay` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+USE `pay`;
+
+--
+-- Table structure for table `pay_notify_record`
+--
+
+DROP TABLE IF EXISTS `pay_notify_record`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pay_notify_record` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `biz_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '业务订单号',
+  `pay_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付订单号',
+  `req_body` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '通知请求体',
+  `status` int DEFAULT NULL COMMENT '支付状态',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creator` bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
+  `modifier` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新人',
+  `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付结果通知记录表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pay_notify_record`
+--
+
+
+--
+-- Table structure for table `pay_order`
+--
+
+DROP TABLE IF EXISTS `pay_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pay_order` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `biz_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '业务订单号',
+  `pay_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付订单号',
+  `out_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '第三方平台交易单号',
+  `pay_type_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付类型编码',
+  `pay_type_id` tinyint DEFAULT NULL COMMENT '支付类型id',
+  `amount` int DEFAULT NULL COMMENT '支付金额',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付单描述信息',
+  `status` int DEFAULT NULL COMMENT '支付状态',
+  `last_notify_time` datetime DEFAULT NULL COMMENT '最后一次支付结果通知时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creator` bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
+  `modifier` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新人',
+  `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1732698697939087363 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付订单表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pay_order`
+--
+
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732066895314612226,'202312052350233','1732066857280663552',NULL,'ALIPAY',2,229900,'',1,NULL,'2023-12-05 23:58:23','2023-12-05 23:58:23',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732067388506042369,'202312052350233','1732067387302277120',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 00:00:20','2023-12-06 00:00:20',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732236624390057986,'202312061112464','1732236623882547200',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 11:12:49','2023-12-06 11:12:49',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732236752844812290,'202312061113168','1732236752563793920',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 11:13:20','2023-12-06 11:13:20',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732326989168177154,'202312061711453','1732326988820049920',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 17:11:54','2023-12-06 17:11:54',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732403898484846593,'202312062217033','1732403898044444672',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 22:17:31','2023-12-06 22:17:31',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732405084898258946,'202312062222110','1732405084654989312',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 22:22:13','2023-12-06 22:22:13',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732405570305060866,'202312062224042','1732405569994682368',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 22:24:09','2023-12-06 22:24:09',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732413838259712002,'202312062256575','1732413837760589824',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 22:57:00','2023-12-06 22:57:00',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732649903981654017,'202312071431093','1732649902933078016',NULL,'ALIPAY',2,229900,'',1,NULL,'2023-12-07 14:35:03','2023-12-07 14:35:03',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732650035783462913,'202312071431093','1732650034885881856',NULL,'ALIPAY',2,229900,'',1,NULL,'2023-12-07 14:35:34','2023-12-07 14:35:34',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732651000720846850,'202312071431093','1732651000259473408',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-07 14:39:24','2023-12-07 14:39:24',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732696403520581634,'202312071739436','1732696402786578432',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-07 17:39:49','2023-12-07 17:39:49',1,1,0);
+INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732698697939087362,'202312071748505','1732698697783898112',NULL,'ALIPAY',2,2299000,'',3,NULL,'2023-12-07 17:48:56','2023-12-07 17:48:56',1,1,0);
+
+--
+-- Table structure for table `pay_type`
+--
+
+DROP TABLE IF EXISTS `pay_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `pay_type` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付类型名称',
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付类型编号',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付单描述信息',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creator` bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
+  `modifier` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新人',
+  `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付类别表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pay_type`
+--
+
+
+--
 -- Current Database: `product`
 --
 
@@ -1380,7 +1833,7 @@ CREATE TABLE `func_attachment` (
   `is_deleted` bigint unsigned NOT NULL DEFAULT '0' COMMENT '删除标识 0-表示未删除 大于0-已删除',
   PRIMARY KEY (`id`),
   KEY `idx_biz_type_biz_id` (`biz_type`,`biz_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1745016328713449475 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='附件表';
+) ENGINE=InnoDB AUTO_INCREMENT=1746827379411038211 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='附件表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1396,11 +1849,11 @@ INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`,
 INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1742373728210694145,'SPU_',1706962859971883009,'/minio/ark/2024/01/product/a1415883-75db-465f-b470-63b9d98cea81.pms_1672220453.00928774.png','2024-01-03 10:34:03','2024-01-03 10:34:03',1,1,0);
 INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1742373728214888449,'SPU_',1706962859971883009,'/minio/ark/2024/01/product/3cee9cdc-b607-4a75-8d1c-1d1a45750216.pms_1672037284.35878773.png','2024-01-03 10:34:03','2024-01-03 10:34:03',1,1,0);
 INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744266916072566785,'SPU_',1585928498976456706,'/minio/ark/2024/01/product/918d762c-6636-49af-9cc4-c5e7c86baaca.pms_1701682022.1651733.png','2024-01-08 15:56:54','2024-01-08 15:56:54',1,1,0);
-INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979190218753,'SPU_',1585930689908883458,'/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png','2024-01-08 16:01:08','2024-01-08 16:01:08',1,1,0);
-INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979194413057,'SPU_',1585930689908883458,'/minio/ark/2024/01/product/be356180-1deb-4f6b-9b7b-916e83cfa06f.pms_1672037284.40181961.png','2024-01-08 16:01:08','2024-01-08 16:01:08',1,1,0);
-INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979194413058,'SPU_',1585930689908883458,'/minio/ark/2024/01/product/8ad39cda-9455-4746-a4d6-703610fdead9.pms_1672220453.00928774.png','2024-01-08 16:01:08','2024-01-08 16:01:08',1,1,0);
 INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744291067885826050,'SPU_',1566986790461059073,'/minio/ark/2024/01/product/47421d7d-1607-4513-bff7-e6b6335c2ac9.pms_1690270971.0569483.png','2024-01-08 17:32:53','2024-01-08 17:32:53',1,1,0);
 INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1745016328713449474,'SPU_',1566725672303931393,'/minio/ark/2024/01/product/4b68f72b-ba95-4f39-9c72-cf20e25e2691.pms_1692003915.92768559.jpg','2024-01-10 17:34:48','2024-01-10 17:34:48',1,1,0);
+INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1746827379402649602,'SPU_',1585930689908883458,'/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png','2024-01-15 17:31:16','2024-01-15 17:31:16',1,1,0);
+INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1746827379411038209,'SPU_',1585930689908883458,'/minio/ark/2024/01/product/be356180-1deb-4f6b-9b7b-916e83cfa06f.pms_1672037284.40181961.png','2024-01-15 17:31:16','2024-01-15 17:31:16',1,1,0);
+INSERT INTO `func_attachment` (`id`, `biz_type`, `biz_id`, `url`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1746827379411038210,'SPU_',1585930689908883458,'/minio/ark/2024/01/product/8ad39cda-9455-4746-a4d6-703610fdead9.pms_1672220453.00928774.png','2024-01-15 17:31:16','2024-01-15 17:31:16',1,1,0);
 
 --
 -- Table structure for table `inventory`
@@ -1547,10 +2000,10 @@ INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`
 INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1740734615916703746,1706962859971883009,'Redmi K60123 12GB+512GB 无线充版本 素皮晴蓝','','/minio/ark/2023/12/product/654a0f9a-bf40-4b7d-bafb-dfbbeab18b67.pms_1672037284.35878773.png',299900,200000,200,0,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+512GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"无线充版本\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"素皮晴蓝\"}]','2024-01-03 10:34:03','2023-12-29 22:00:48',1,1,0);
 INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1740734615933480961,1706962859971883009,'Redmi K60123 12GB+512GB 无线充版本 晴雪','','/minio/ark/2023/12/product/654a0f9a-bf40-4b7d-bafb-dfbbeab18b67.pms_1672037284.35878773.png',299900,200000,200,0,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+512GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"无线充版本\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"晴雪\"}]','2024-01-03 10:34:03','2023-12-29 22:00:48',1,1,0);
 INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1740734615941869569,1706962859971883009,'Redmi K60123 12GB+512GB 无线充版本 墨羽','','/minio/ark/2023/12/product/654a0f9a-bf40-4b7d-bafb-dfbbeab18b67.pms_1672037284.35878773.png',299900,200000,200,0,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+512GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"无线充版本\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"墨羽\"}]','2024-01-03 10:34:03','2023-12-29 22:00:48',1,1,0);
-INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979374768129,1585930689908883458,'红米4.0 12GB+256GB 无线充版本 晴雪','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',299900,100000,20,10,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+256GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"无线充版本\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"晴雪\"}]','2024-01-08 16:01:08','2024-01-08 16:01:08',1,1,0);
-INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979383156737,1585930689908883458,'红米4.0 12GB+256GB 无线充版本 墨羽','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',399900,100000,20,10,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+256GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"无线充版本\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"墨羽\"}]','2024-01-08 16:01:08','2024-01-08 16:01:08',1,1,0);
-INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979391545346,1585930689908883458,'红米4.0 12GB+256GB 官方标配 晴雪','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',499900,100000,20,10,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+256GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"官方标配\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"晴雪\"}]','2024-01-08 16:01:08','2024-01-08 16:01:08',1,1,0);
-INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979399933954,1585930689908883458,'红米4.0 12GB+256GB 官方标配 墨羽','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',299900,100000,20,10,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+256GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"官方标配\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"墨羽\"}]','2024-01-08 16:01:08','2024-01-08 16:01:08',1,1,0);
+INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979374768129,1585930689908883458,'红米4.0 12GB+256GB 无线充版本 晴雪','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',299900,100000,20,10,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+256GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"无线充版本\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"晴雪\"}]','2024-01-15 17:31:16','2024-01-08 16:01:08',1,1,0);
+INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979383156737,1585930689908883458,'红米4.0 12GB+256GB 无线充版本 墨羽','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',399900,100000,20,10,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+256GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"无线充版本\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"墨羽\"}]','2024-01-15 17:31:16','2024-01-08 16:01:08',1,1,0);
+INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979391545346,1585930689908883458,'红米4.0 12GB+256GB 官方标配 晴雪','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',499900,100000,20,10,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+256GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"官方标配\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"晴雪\"}]','2024-01-15 17:31:16','2024-01-08 16:01:08',1,1,0);
+INSERT INTO `sku` (`id`, `spu_id`, `name`, `code`, `main_picture`, `sales_price`, `cost_price`, `stock`, `warn_stock`, `specs`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1744267979399933954,1585930689908883458,'红米4.0 12GB+256GB 官方标配 墨羽','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',299900,100000,20,10,'[{\"attrId\":\"1706957820544987138\",\"attrName\":\"版本\",\"attrValue\":\"12GB+256GB\"},{\"attrId\":\"1706958003538276354\",\"attrName\":\"购买方式\",\"attrValue\":\"官方标配\"},{\"attrId\":\"1706958257767624705\",\"attrName\":\"颜色\",\"attrValue\":\"墨羽\"}]','2024-01-15 17:31:16','2024-01-08 16:01:08',1,1,0);
 
 --
 -- Table structure for table `sku_attr`
@@ -1648,7 +2101,6 @@ CREATE TABLE `spu` (
   `shelf_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '上下架状态：enums[DOWN,下架,0;UP,上架,1]',
   `verify_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '审核状态：enums[NO_CHECK,未审核,0;CHECK_PASS,审核通过,1;CHECK_NO_PASS,审核不通过,2]',
   `sales` int NOT NULL DEFAULT '0' COMMENT '销量',
-  `show_price` int NOT NULL DEFAULT '0' COMMENT '默认展示价格（单位：分）',
   `unit` tinyint(1) DEFAULT '1' COMMENT '单位：enums[G,克,1;KG,千克,2]',
   `weight` int DEFAULT NULL COMMENT '商品重量，默认为克(g)',
   `brand_id` bigint NOT NULL COMMENT '品牌id，关联co_brand.id',
@@ -1668,13 +2120,13 @@ CREATE TABLE `spu` (
 -- Dumping data for table `spu`
 --
 
-INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `show_price`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1523329483184857089,'Redmi Note11 5G','XM001','','http://file.cloud.org:9000/default/5FFCQcW3yqvbo12iny1oNQ.jpeg',0,0,0,0,2,2,1523326203994103809,1523328341960876034,'2024-01-09 13:56:13','2022-05-08 23:50:26',1,1,0);
-INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `show_price`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1566725672303931393,'Xiaomi MIX Fold 2','XM0000001','','/minio/ark/2024/01/product/4b68f72b-ba95-4f39-9c72-cf20e25e2691.pms_1692003915.92768559.jpg',1,0,0,999900,1,256,1523326203994103809,1566616161236848642,'2024-01-10 17:35:04','2022-09-05 17:51:23',1,1,0);
-INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `show_price`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1566986790461059073,'小米电视6至尊版 55英寸','XM0000002','','/minio/ark/2024/01/product/47421d7d-1607-4513-bff7-e6b6335c2ac9.pms_1690270971.0569483.png',0,0,0,99900,2,21,1523326203994103809,1566616909194498050,'2024-01-09 13:55:12','2022-09-06 11:08:59',1,1,0);
-INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `show_price`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585908375347568641,'红米1.0','MM9090','','',0,0,0,0,1,250,1523326203994103809,1566616161236848642,'2024-01-08 15:51:16','2022-10-28 16:16:36',1,1,0);
-INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `show_price`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585928498976456706,'红米3.0','MI3232','','/minio/ark/2024/01/product/918d762c-6636-49af-9cc4-c5e7c86baaca.pms_1701682022.1651733.png',1,0,0,99900,2,1,1523326203994103809,1566616909194498050,'2024-01-10 17:33:53','2022-10-28 17:36:34',1,1,0);
-INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `show_price`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585930689908883458,'红米4.0','MI222333','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',1,0,0,299900,2,1,1523326203994103809,1566616161236848642,'2024-01-09 15:24:36','2022-10-28 17:45:16',1,1,0);
-INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `show_price`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1706962859971883009,'Redmi K60123','XM000123','超轻薄好手感，前置仿生双主摄，小米Civi3到手价2499起','/minio/ark/2023/12/product/654a0f9a-bf40-4b7d-bafb-dfbbeab18b67.pms_1672037284.35878773.png',0,0,0,299900,2,540,1523326203994103809,1566616161236848642,'2024-01-08 15:21:59','2023-09-27 17:23:54',1,1,0);
+INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1523329483184857089,'Redmi Note11 5G','XM001','','http://file.cloud.org:9000/default/5FFCQcW3yqvbo12iny1oNQ.jpeg',0,0,0,2,2,1523326203994103809,1523328341960876034,'2024-01-09 13:56:13','2022-05-08 23:50:26',1,1,0);
+INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1566725672303931393,'Xiaomi MIX Fold 2','XM0000001','','/minio/ark/2024/01/product/4b68f72b-ba95-4f39-9c72-cf20e25e2691.pms_1692003915.92768559.jpg',1,0,0,1,256,1523326203994103809,1566616161236848642,'2024-01-15 14:56:36','2022-09-05 17:51:23',1,1,0);
+INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1566986790461059073,'小米电视6至尊版 55英寸','XM0000002','','/minio/ark/2024/01/product/47421d7d-1607-4513-bff7-e6b6335c2ac9.pms_1690270971.0569483.png',0,0,0,2,21,1523326203994103809,1566616909194498050,'2024-01-09 13:55:12','2022-09-06 11:08:59',1,1,0);
+INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585908375347568641,'红米1.0','MM9090','','',0,0,0,1,250,1523326203994103809,1566616161236848642,'2024-01-08 15:51:16','2022-10-28 16:16:36',1,1,0);
+INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585928498976456706,'红米3.0','MI3232','','/minio/ark/2024/01/product/918d762c-6636-49af-9cc4-c5e7c86baaca.pms_1701682022.1651733.png',1,0,0,2,1,1523326203994103809,1566616909194498050,'2024-01-15 14:56:33','2022-10-28 17:36:34',1,1,0);
+INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585930689908883458,'红米4.0','MI222333','','/minio/ark/2024/01/product/c2d9b925-32c9-495d-ab73-e98cf075b599.pms_1672037284.35878773.png',1,0,0,2,1,1583373803992973313,1566616161236848642,'2024-01-15 17:31:23','2022-10-28 17:45:16',1,1,0);
+INSERT INTO `spu` (`id`, `name`, `code`, `description`, `main_picture`, `shelf_status`, `verify_status`, `sales`, `unit`, `weight`, `brand_id`, `category_id`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1706962859971883009,'Redmi K60123','XM000123','超轻薄好手感，前置仿生双主摄，小米Civi3到手价2499起','/minio/ark/2023/12/product/654a0f9a-bf40-4b7d-bafb-dfbbeab18b67.pms_1672037284.35878773.png',0,0,0,2,540,1523326203994103809,1566616161236848642,'2024-01-08 15:21:59','2023-09-27 17:23:54',1,1,0);
 
 --
 -- Table structure for table `spu_attr`
@@ -1983,115 +2435,8 @@ INSERT INTO `spu_sales` (`id`, `spu_id`, `freight_template_id`, `pc_rich_text`, 
 INSERT INTO `spu_sales` (`id`, `spu_id`, `freight_template_id`, `pc_rich_text`, `mobile_rich_text`, `param_data`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1566986790653997057,1566986790461059073,0,'<p><br></p>','','[{\"attrId\":\"1566985652697378818\",\"attrValue\":\"直下式\"},{\"attrId\":\"1566985744619745281\",\"attrValue\":\"120Hz\"},{\"attrId\":\"1566985820662476802\",\"attrValue\":\"Cortex A73 四核\"},{\"attrId\":\"1566985853843615745\",\"attrValue\":\"4.5GB\"},{\"attrId\":\"1566985899037241346\",\"attrValue\":\"2.4GHz、5GHz双频WiFi 6\"},{\"attrId\":\"1566985933401174017\",\"attrValue\":\"支持蓝牙5.0\"}]','2024-01-08 17:32:53','2022-09-06 11:08:59',1,1,0);
 INSERT INTO `spu_sales` (`id`, `spu_id`, `freight_template_id`, `pc_rich_text`, `mobile_rich_text`, `param_data`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585908375754416130,1585908375347568641,0,'<p>hello</p>','','[]','2022-10-28 16:16:36','2022-10-28 16:16:36',1,1,0);
 INSERT INTO `spu_sales` (`id`, `spu_id`, `freight_template_id`, `pc_rich_text`, `mobile_rich_text`, `param_data`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585928499081314305,1585928498976456706,0,'<p><br></p>','','[]','2024-01-08 15:56:54','2022-10-28 17:36:34',1,1,0);
-INSERT INTO `spu_sales` (`id`, `spu_id`, `freight_template_id`, `pc_rich_text`, `mobile_rich_text`, `param_data`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585930690022129666,1585930689908883458,0,'<p><br></p>','','[]','2024-01-08 16:01:08','2022-10-28 17:45:16',1,1,0);
+INSERT INTO `spu_sales` (`id`, `spu_id`, `freight_template_id`, `pc_rich_text`, `mobile_rich_text`, `param_data`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1585930690022129666,1585930689908883458,0,'<p><br></p>','','[]','2024-01-15 17:31:16','2022-10-28 17:45:16',1,1,0);
 INSERT INTO `spu_sales` (`id`, `spu_id`, `freight_template_id`, `pc_rich_text`, `mobile_rich_text`, `param_data`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1740278952874799105,1706962859971883009,0,'<p><br></p>','','[{\"attrId\":\"1706956185395572737\",\"attrValue\":\"是\"},{\"attrId\":\"1706956206258040833\",\"attrValue\":\"否\"},{\"attrId\":\"1706956274843299841\",\"attrValue\":\"321312\"},{\"attrId\":\"1706956249597784066\",\"attrValue\":\"993213\"},{\"attrId\":\"1706956293210157057\",\"attrValue\":\"123123\"}]','2024-01-03 10:34:03','2023-12-28 15:50:10',1,1,0);
-
---
--- Current Database: `pay`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `pay` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-
-USE `pay`;
-
---
--- Table structure for table `pay_notify_record`
---
-
-DROP TABLE IF EXISTS `pay_notify_record`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pay_notify_record` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `biz_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '业务订单号',
-  `pay_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付订单号',
-  `req_body` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '通知请求体',
-  `status` int DEFAULT NULL COMMENT '支付状态',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creator` bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
-  `modifier` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新人',
-  `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付结果通知记录表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pay_notify_record`
---
-
-
---
--- Table structure for table `pay_order`
---
-
-DROP TABLE IF EXISTS `pay_order`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pay_order` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `biz_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '业务订单号',
-  `pay_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付订单号',
-  `out_trade_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '第三方平台交易单号',
-  `pay_type_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付类型编码',
-  `pay_type_id` tinyint DEFAULT NULL COMMENT '支付类型id',
-  `amount` int DEFAULT NULL COMMENT '支付金额',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付单描述信息',
-  `status` int DEFAULT NULL COMMENT '支付状态',
-  `last_notify_time` datetime DEFAULT NULL COMMENT '最后一次支付结果通知时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creator` bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
-  `modifier` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新人',
-  `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1732698697939087363 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付订单表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pay_order`
---
-
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732066895314612226,'202312052350233','1732066857280663552',NULL,'ALIPAY',2,229900,'',1,NULL,'2023-12-05 23:58:23','2023-12-05 23:58:23',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732067388506042369,'202312052350233','1732067387302277120',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 00:00:20','2023-12-06 00:00:20',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732236624390057986,'202312061112464','1732236623882547200',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 11:12:49','2023-12-06 11:12:49',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732236752844812290,'202312061113168','1732236752563793920',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 11:13:20','2023-12-06 11:13:20',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732326989168177154,'202312061711453','1732326988820049920',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 17:11:54','2023-12-06 17:11:54',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732403898484846593,'202312062217033','1732403898044444672',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 22:17:31','2023-12-06 22:17:31',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732405084898258946,'202312062222110','1732405084654989312',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 22:22:13','2023-12-06 22:22:13',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732405570305060866,'202312062224042','1732405569994682368',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 22:24:09','2023-12-06 22:24:09',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732413838259712002,'202312062256575','1732413837760589824',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-06 22:57:00','2023-12-06 22:57:00',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732649903981654017,'202312071431093','1732649902933078016',NULL,'ALIPAY',2,229900,'',1,NULL,'2023-12-07 14:35:03','2023-12-07 14:35:03',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732650035783462913,'202312071431093','1732650034885881856',NULL,'ALIPAY',2,229900,'',1,NULL,'2023-12-07 14:35:34','2023-12-07 14:35:34',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732651000720846850,'202312071431093','1732651000259473408',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-07 14:39:24','2023-12-07 14:39:24',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732696403520581634,'202312071739436','1732696402786578432',NULL,'ALIPAY',2,229900,'',3,NULL,'2023-12-07 17:39:49','2023-12-07 17:39:49',1,1,0);
-INSERT INTO `pay_order` (`id`, `biz_trade_no`, `pay_trade_no`, `out_trade_no`, `pay_type_code`, `pay_type_id`, `amount`, `description`, `status`, `last_notify_time`, `update_time`, `create_time`, `creator`, `modifier`, `is_deleted`) VALUES (1732698697939087362,'202312071748505','1732698697783898112',NULL,'ALIPAY',2,2299000,'',3,NULL,'2023-12-07 17:48:56','2023-12-07 17:48:56',1,1,0);
-
---
--- Table structure for table `pay_type`
---
-
-DROP TABLE IF EXISTS `pay_type`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pay_type` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付类型名称',
-  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付类型编号',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付单描述信息',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creator` bigint unsigned NOT NULL DEFAULT '0' COMMENT '创建人',
-  `modifier` bigint unsigned NOT NULL DEFAULT '0' COMMENT '更新人',
-  `is_deleted` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付类别表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pay_type`
---
-
 
 --
 -- Current Database: `trade`
@@ -2400,4 +2745,4 @@ INSERT INTO `us_receive` (`id`, `user_id`, `name`, `mobile`, `province`, `city`,
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-14 22:21:25
+-- Dump completed on 2024-01-16  9:33:24
