@@ -23,8 +23,8 @@ public class ApplicationCreateCmdExe {
         }
 
 //        baseCheck(cmd);
-//
-//        applicationGateway.insert(application);
+
+        applicationGateway.save(application);
 
     }
 }

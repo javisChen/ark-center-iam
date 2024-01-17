@@ -10,7 +10,7 @@ public interface ApplicationGateway {
 
     List<ApplicationDTO> selectApplications(ApplicationQry dto);
 
-    void insert(Application application);
+    void save(Application application);
 
     void update(Application application);
 

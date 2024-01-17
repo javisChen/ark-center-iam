@@ -34,7 +34,7 @@ public class ApplicationAppService {
 
         baseCheck(dto);
 
-        applicationGateway.insert(application);
+        applicationGateway.save(application);
     }
 
     public void updateApplication(ApplicationCmd dto) {

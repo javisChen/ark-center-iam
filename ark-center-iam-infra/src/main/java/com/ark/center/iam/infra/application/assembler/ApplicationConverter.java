@@ -10,16 +10,18 @@ import org.mapstruct.Mapping;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface ApplicationAssembler {
+public interface ApplicationConverter {
 
-    ApplicationDTO toApplicationDTO(ApplicationDO application);
+    ApplicationDTO toDTO(ApplicationDO application);
 
-    List<ApplicationDTO> toApplicationDTO(List<ApplicationDO> applications);
+    List<ApplicationDTO> toDTO(List<ApplicationDO> applications);
 
     @Mapping(target = "modifier", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    Application toDomain(ApplicationCmd applicationCmd);
+    Application toDomain(ApplicationDO applicationDO);
+
+    ApplicationDO fromDomain(Application application);
 }
