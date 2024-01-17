@@ -22,7 +22,7 @@
 - **最前沿的版本**：使用SpringBoot 3.x、JDK21、Vue3进行开发
 
 ## 功能清单
-![功能清单](.\asserts\feature-list.jpg)
+![功能清单](./asserts/feature-list.jpg)
 
 [//]: # ()
 [//]: # (| 项目名称                 | 仓库地址                                                                                                                                                                        | 备注                                                              |)
