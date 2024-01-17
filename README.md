@@ -1,20 +1,28 @@
-![ark](./asserts/logo.png)
-
-![Build Status](https://img.shields.io/badge/build-passing-green.svg)
-![Version 4.0.0](https://img.shields.io/badge/version-1.0.0-yellow.svg)
-[![License](https://img.shields.io/badge/license-GPL3.0-blue.svg)](https://github.com/newbee-ltd/ark-center-iam/blob/main/LICENSE)
+<div align="center">
+<div>
+  <img alt="" width="200" height="200" src="./asserts/logo.png">
+</div>
+  <h2>Ark-Center-Iam</h2>
+<div>
+  <img alt="" src="https://img.shields.io/badge/build-passing-green.svg">
+  <img alt="" src="https://img.shields.io/badge/version-1.0.0-yellow.svg">
+  <img alt="" src="https://img.shields.io/badge/build-passing-green.svg">
+</div>
+</div>
 
 ## 项目简介
 
 `ark-center-iam` 项目是`ark-center`系列的用户中心，该项目集合了领域驱动设计（Domain-Driven Design, DDD）、COLA和六边形架构（Hexagonal Architecture）进行构建，借鉴DDD对于领域模型的提炼及划分；同时使用COLA、六边形架构进行落地真实的企业级微服务架构项目。
 
 ## 主要特点
-1. **DDD**：参考DDD思想构建稳固且清晰的领域模型
-2. **COLA+六边形架构**：使用COLA+六边形架构进行真正的代码工程落地
-3. **微服务**：教你解决微服务实际的难点，包括但不限于高并发、海量数据、缓存、限流、安全等。
-4. **前后端分离**：提升用户体验以及开发体验，学习最前沿的开发模式
-5. **容器化部署**：使用Docker/PodMan进行打包构建
-6. **最前沿的版本**：使用SpringBoot 3.x、JDK21、Vue3进行开发
+- **COLA+六边形架构**：使用COLA+六边形架构进行真正的代码工程落地
+- **微服务**：教你解决微服务实际的难点，包括但不限于高并发、海量数据、缓存、限流、安全等。
+- **前后端分离**：提升用户体验以及开发体验，学习最前沿的开发模式
+- **容器化部署**：使用Docker/PodMan进行打包构建
+- **最前沿的版本**：使用SpringBoot 3.x、JDK21、Vue3进行开发
+
+## 功能清单
+![功能清单](D:\code\ark\ark-center-iam\asserts\feature-list.jpg)
 
 [//]: # ()
 [//]: # (| 项目名称                 | 仓库地址                                                                                                                                                                        | 备注                                                              |)
