@@ -1,4 +1,4 @@
-![ark](./asserts/logo.jpeg)
+![ark](./asserts/logo.png)
 
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Version 4.0.0](https://img.shields.io/badge/version-1.0.0-yellow.svg)
