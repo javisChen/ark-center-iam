@@ -55,7 +55,7 @@ public class ApplicationGatewayImpl extends ServiceImpl<ApplicationMapper, Appli
     }
 
     @Override
-    public Application selectById(Long applicationId) {
+    public Application queryById(Long applicationId) {
         return getById(applicationId);
     }
 }

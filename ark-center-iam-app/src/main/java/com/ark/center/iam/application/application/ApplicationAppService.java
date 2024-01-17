@@ -22,13 +22,15 @@ public class ApplicationAppService {
 
     private final ApplicationCheckService applicationCheckService;
 
+    private final ApplicationCreateCmdExe applicationCreateCmdExe;
+
     public List<ApplicationDTO> queryList(ApplicationQry dto) {
         return applicationGateway.selectApplications(dto);
     }
 
     public void createApplication(ApplicationCmd dto) {
 
-        Application application = applicationAssembler.toApplicationDO(dto);
+        Application application = applicationAssembler.toDomain(dto);
 
         baseCheck(dto);
 
@@ -39,7 +41,7 @@ public class ApplicationAppService {
 
         baseCheck(dto);
 
-        Application application = applicationAssembler.toApplicationDO(dto);
+        Application application = applicationAssembler.toDomain(dto);
 
         applicationGateway.update(application);
     }

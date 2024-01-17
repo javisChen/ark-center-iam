@@ -20,5 +20,5 @@ public interface ApplicationAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    Application toApplicationDO(ApplicationCmd applicationCmd);
+    Application toDomain(ApplicationCmd applicationCmd);
 }

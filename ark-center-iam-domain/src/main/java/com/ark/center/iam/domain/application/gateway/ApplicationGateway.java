@@ -18,5 +18,5 @@ public interface ApplicationGateway {
 
     Application selectByName(String name);
 
-    Application selectById(Long applicationId);
+    Application queryById(Long applicationId);
 }

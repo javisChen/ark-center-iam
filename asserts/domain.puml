@@ -1,6 +1,5 @@
 @startuml
 !theme sketchy-outline
 
-class Person
 
 @enduml

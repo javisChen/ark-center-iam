@@ -286,7 +286,7 @@ public class ApiSyncCmdExe {
 
     private Application getApplication(ApiSyncCmd cmd) {
         Long applicationId = cmd.getApplicationId();
-        return applicationGateway.selectById(applicationId);
+        return applicationGateway.queryById(applicationId);
     }
 
     private ServiceInstance getServiceInstance(Application application) {
