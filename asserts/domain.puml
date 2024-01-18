@@ -1,5 +1,63 @@
 @startuml
-!theme sketchy-outline
+!include eventstorming/single.puml
 
+
+Person("person", "管理员")
+
+Command('SaveApplication')[
+    保存应用
+    --
+    应用编码
+    --
+    应用编码必须是唯一的
+]
+
+Command('DeleteApplication')[
+    删除应用
+    --
+    应用id
+]
+
+Aggregate('Application')[
+    应用
+    ---
+    id 应用编码
+    ---
+    应用名称
+]
+
+DomainEvent('')[
+]
+
+
+
+person --> DeleteApplication
+person --> SaveApplication
+
+SaveApplication --> Application
+DeleteApplication --> Application
+
+
+
+'System('system')
+'Command('command1', 'command')
+'Aggregate('aggregate')
+'DomainEvent('domain_event', 'domain event')
+'ReadModel('read_model', 'read model')
+'UserInterface('user_interface', 'user interface')
+'Command('command2', 'command')
+'Policy('policy')
+'Person('person')
+'
+'command1 --> aggregate : invoked on
+'command1 --> system : invoked on
+'aggregate --> domain_event : generates
+'system --> domain_event : generates
+'domain_event --> read_model : translated into
+'read_model --> user_interface : displayed by
+'domain_event --> policy : triggers
+'policy --> command2 : invokes
+'person --> command2 : invokes
+'person -l-> user_interface : used by
 
 @enduml
