@@ -1,5 +1,6 @@
 package com.ark.center.iam.domain.application;
 
+import com.ark.component.ddd.vo.EnableDisableStatus;
 import lombok.Data;
 
 @Data
@@ -18,10 +19,11 @@ public class Application  {
     /**
      * 状态 1-已上线；2-已下线；
      */
-    private Integer status;
+    private EnableDisableStatus status;
 
     /**
-     * 应用类型 1-业务系统（前后端）2-纯后台服务
+     *
+     * @see ApplicationType
      */
-    private Integer type;
+    private ApplicationType type;
 }

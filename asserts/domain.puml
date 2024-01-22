@@ -22,9 +22,25 @@ Command('DeleteApp')[
     ---
 ]
 
-管理员 --> CreateApp
-管理员 --> UpdateApp
-管理员 --> DeleteApp
+Command('CreateUser')[
+    新建用户
+    ---
+]
+
+Command('UpdateUser')[
+    修改用户
+    ---
+]
+
+Command('EnableUser')[
+    启用用户
+    ---
+]
+
+Command('DisableUser')[
+    禁用用户
+    ---
+]
 
 ' Aggregate('Application')[
 '     应用
@@ -58,7 +74,7 @@ DomainEvent('UserJoinedGroup')[
     用户已加入用户组
 ]
 
-DomainEvent('UserLeftdGroup')[
+DomainEvent('UserLeftGroup')[
     用户已离开用户组
 ]
 
@@ -74,7 +90,7 @@ DomainEvent('RoleCreated')[
     角色已创建
 ]
 
-DomainEvent('RoleDelete')[
+DomainEvent('RoleDeleted')[
     角色已删除
 ]
 
@@ -98,6 +114,20 @@ DomainEvent('APIDeleted')[
     接口已删除
 ]
 
+admin --> CreateApp
+admin --> UpdateApp
+admin --> DeleteApp
+
+CreateApp --> AppCreated
+
+admin --> CreateUser
+admin --> UpdateUser
+admin --> EnableUser
+admin --> DisableUser
+
+CreateUser --> UserCreated
+EnableUser --> UserEnabled
+DisableUser --> UserDisabled
 
 ' person --> CreateApp
 

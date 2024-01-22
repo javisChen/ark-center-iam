@@ -20,8 +20,6 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_user")
 public class User extends BaseEntity {
 
-    
-
     /**
      * 用户名称
      */

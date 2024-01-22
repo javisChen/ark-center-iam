@@ -23,6 +23,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ark.ddd</groupId>
+            <artifactId>ark-component-ddd</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.ark.orm</groupId>
             <artifactId>ark-component-orm-mybatis-spring-boot-starter</artifactId>
         </dependency>
