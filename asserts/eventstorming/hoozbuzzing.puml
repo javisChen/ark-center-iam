@@ -1,10 +1,22 @@
 @startuml
 ' configures the library
 !global $INCLUSION_MODE="local"
-!global $LIB_BASE_LOCATION="."
+!global $LIB_BASE_LOCATION=".."
 
 ' loads the library's bootstrap
-!include $LIB_BASE_LOCATION/single.puml
+!include $LIB_BASE_LOCATION/bootstrap.puml
+
+' loads the package bootstrap
+include('eventstorming/bootstrap')
+
+include('eventstorming/Element/FacadeCommand')
+include('eventstorming/Element/Command')
+include('eventstorming/Element/Event')
+include('eventstorming/Element/Aggregate')
+include('eventstorming/Element/Saga')
+include('eventstorming/Element/Comment')
+include('eventstorming/Element/Service')
+include('eventstorming/Element/Query')
 
 FacadeCommand("SubmitMoment", "Submit Moment")
 Command("CreateMoment", "Create Moment")

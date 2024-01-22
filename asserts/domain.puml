@@ -1,41 +1,113 @@
 @startuml
-!include eventstorming/single.puml
+!include ./eventstorming/single.puml
 
+Person('admin', '管理员')
 
-Person("person", "管理员")
-
-Command('SaveApplication')[
-    保存应用
-    --
-    应用编码
-    --
-    应用编码必须是唯一的
+Command('CreateApp')[
+    创建应用
+    ---
+    应用编码不能重复
+    应用名称不能重复
 ]
 
-Command('DeleteApplication')[
+Command('UpdateApp')[
+    修改应用
+    ---
+    应用编码不能重复
+    应用名称不能重复
+]
+
+Command('DeleteApp')[
     删除应用
-    --
-    应用id
-]
-
-Aggregate('Application')[
-    应用
     ---
-    id 应用编码
-    ---
-    应用名称
 ]
 
-DomainEvent('')[
+管理员 --> CreateApp
+管理员 --> UpdateApp
+管理员 --> DeleteApp
+
+' Aggregate('Application')[
+'     应用
+'     ---
+'     id 应用编码
+'     ---
+'     应用名称
+' ]
+
+DomainEvent('AppCreated')[
+    应用已创建
+]
+
+DomainEvent('UserCreated')[
+    用户已创建
+]
+
+DomainEvent('UserDisabled')[
+    用户已启用
+]
+
+DomainEvent('UserEnabled')[
+    用户已禁用
+]
+
+DomainEvent('UserDeleted')[
+    用户已删除
+]
+
+DomainEvent('UserJoinedGroup')[
+    用户已加入用户组
+]
+
+DomainEvent('UserLeftdGroup')[
+    用户已离开用户组
+]
+
+DomainEvent('UserGroupCreated')[
+    用户组已创建
+]
+
+DomainEvent('UserGroupDeleted')[
+    用户组已删除
+]
+
+DomainEvent('RoleCreated')[
+    角色已创建
+]
+
+DomainEvent('RoleDelete')[
+    角色已删除
+]
+
+DomainEvent('RolePermissionChanged')[
+    角色权限发生变更
+]
+
+DomainEvent('MenuCreated')[
+    菜单已创建
+]
+
+DomainEvent('MenuDeleted')[
+    菜单已删除
+]
+
+DomainEvent('APICreated')[
+    接口已创建
+]
+
+DomainEvent('APIDeleted')[
+    接口已删除
 ]
 
 
+' person --> CreateApp
 
-person --> DeleteApplication
-person --> SaveApplication
+' person --> UpdateApp
 
-SaveApplication --> Application
-DeleteApplication --> Application
+' CreateApp --> Application
+
+' UpdateApp --> Application
+
+' Application --> AppCreated
 
 
 

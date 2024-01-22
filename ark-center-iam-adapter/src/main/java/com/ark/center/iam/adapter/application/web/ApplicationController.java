@@ -1,8 +1,7 @@
 package com.ark.center.iam.adapter.application.web;
 
-
 import com.ark.center.iam.application.application.ApplicationAppService;
-import com.ark.center.iam.client.application.command.ApplicationCmd;
+import com.ark.center.iam.client.application.command.ApplicationCommand;
 import com.ark.center.iam.client.application.dto.ApplicationDTO;
 import com.ark.center.iam.client.application.query.ApplicationQry;
 import com.ark.component.dto.MultiResponse;
@@ -16,14 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * <p>
- * 角色表 前端控制器
- * </p>
- *
- * @author
- * @since 2020-11-09
- */
 @Tag(name = "应用管理", description = "应用管理")
 @RequiredArgsConstructor
 @RestController
@@ -41,7 +32,7 @@ public class ApplicationController extends BaseController {
     @PostMapping("/v1/application/create")
     @Operation(summary = "创建应用")
     public ServerResponse createApplication(@Validated({ValidateGroup.Add.class, Default.class})
-                                          @RequestBody ApplicationCmd dto) {
+                                          @RequestBody ApplicationCommand dto) {
         applicationAppService.createApplication(dto);
         return ServerResponse.ok();
     }
@@ -49,7 +40,7 @@ public class ApplicationController extends BaseController {
     @PutMapping("/v1/application/update")
     @Operation(summary = "更新应用")
     public ServerResponse updateApplication(@Validated({ValidateGroup.Update.class, Default.class})
-                                            @RequestBody ApplicationCmd dto) {
+                                            @RequestBody ApplicationCommand dto) {
         applicationAppService.updateApplication(dto);
         return ServerResponse.ok();
     }

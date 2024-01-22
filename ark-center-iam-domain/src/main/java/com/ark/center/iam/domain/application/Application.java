@@ -1,12 +1,6 @@
 package com.ark.center.iam.domain.application;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.io.Serializable;
 
 @Data
 public class Application  {

@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.application;
 
-import com.ark.center.iam.client.application.command.ApplicationCmd;
+import com.ark.center.iam.client.application.command.ApplicationCommand;
 import com.ark.center.iam.client.application.dto.ApplicationDTO;
 import com.ark.center.iam.client.application.query.ApplicationQry;
 import com.ark.center.iam.domain.application.Application;
@@ -28,7 +28,7 @@ public class ApplicationAppService {
         return applicationGateway.selectApplications(dto);
     }
 
-    public void createApplication(ApplicationCmd dto) {
+    public void createApplication(ApplicationCommand dto) {
 
         Application application = applicationAssembler.toDomain(dto);
 
@@ -37,7 +37,7 @@ public class ApplicationAppService {
         applicationGateway.save(application);
     }
 
-    public void updateApplication(ApplicationCmd dto) {
+    public void updateApplication(ApplicationCommand dto) {
 
         baseCheck(dto);
 
@@ -47,14 +47,14 @@ public class ApplicationAppService {
     }
 
 
-    private void baseCheck(ApplicationCmd cmd) {
+    private void baseCheck(ApplicationCommand cmd) {
 
         applicationCheckService.ensureNameNotExists(cmd.getName(), cmd.getId());
 
         applicationCheckService.ensureCodeNotExists(cmd.getCode(), cmd.getId());
     }
 
-    private boolean sameRecord(ApplicationCmd cmd, Application application) {
+    private boolean sameRecord(ApplicationCommand cmd, Application application) {
         return cmd.getId() != null && cmd.getId().equals(application.getId());
     }
 

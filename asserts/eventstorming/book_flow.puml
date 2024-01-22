@@ -1,10 +1,22 @@
 @startuml
 ' configures the library
 !global $INCLUSION_MODE="local"
-!global $LIB_BASE_LOCATION="."
+!global $LIB_BASE_LOCATION=".."
 
 ' loads the library's bootstrap
-!include $LIB_BASE_LOCATION/single.puml
+!include $LIB_BASE_LOCATION/bootstrap.puml
+
+' loads the package bootstrap
+include('eventstorming/bootstrap')
+
+include('eventstorming/Element/System')
+include('eventstorming/Element/Command')
+include('eventstorming/Element/Aggregate')
+include('eventstorming/Element/DomainEvent')
+include('eventstorming/Element/ReadModel')
+include('eventstorming/Element/UserInterface')
+include('eventstorming/Element/Policy')
+include('eventstorming/Element/Person')
 
 System('system')
 Command('command1', 'command')
