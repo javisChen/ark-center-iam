@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.application.assembler;
 
-import com.ark.center.iam.client.application.dto.ApplicationDTO;
+import com.ark.center.iam.client.application.query.dto.ApplicationDTO;
 import com.ark.center.iam.domain.application.Application;
 import com.ark.center.iam.infra.application.gateway.db.ApplicationDO;
 import org.mapstruct.Mapper;

@@ -1,6 +1,5 @@
 package com.ark.center.iam.domain.application;
 
-import cn.hutool.core.util.EnumUtil;
 import com.ark.component.ddd.util.EnumUtils;
 import com.ark.component.ddd.vo.BaseEnum;
 import lombok.Getter;
@@ -16,7 +15,7 @@ public enum ApplicationType implements BaseEnum {
     private final Integer value;
     private final String desc;
 
-    ApplicationType from(Integer value) {
+    public static ApplicationType from(Integer value) {
         return EnumUtils.getByValue(values(), value);
     }
 

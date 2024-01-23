@@ -29,6 +29,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ark.ddd</groupId>
+            <artifactId>ark-component-ddd-application</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>

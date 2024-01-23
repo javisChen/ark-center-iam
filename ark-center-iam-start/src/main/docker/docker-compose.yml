@@ -1,0 +1,15 @@
+version: '3'
+services:
+  iam:
+    container_name: ark-center-iam
+    image: ark-center-iam:1.0.0
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - start.env
+    networks:
+      - "compose_default"
+networks:
+  compose_default:
+    external: true

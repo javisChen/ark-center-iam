@@ -1,4 +1,4 @@
-package com.ark.center.iam.adapter.role.web.controller;
+package com.ark.center.iam.adapter.role.http.controller;
 
 
 import com.ark.center.iam.application.role.RoleAppService;

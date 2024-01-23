@@ -1,7 +1,5 @@
 package com.ark.center.iam.domain.api.gateway;
 
-import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
-import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.domain.api.Api;
 
 import java.util.List;

@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @TableName("iam_application")
-public class ApplicationDO extends BaseEntity  {
+public class ApplicationDO extends BaseEntity {
 
     /**
      * 应用名称

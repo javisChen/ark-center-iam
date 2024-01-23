@@ -1,7 +1,8 @@
-package com.ark.center.iam.adapter.api.web.controller;
+package com.ark.center.iam.adapter.api.http.controller;
 
 
 import com.ark.center.iam.application.api.ApiCategoryAppService;
+import com.ark.center.iam.client.api.ApiQryApi;
 import com.ark.center.iam.client.api.command.ApiCategoryCmd;
 import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 import com.ark.component.dto.MultiResponse;

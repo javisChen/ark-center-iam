@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ApplicationQry extends PagingQuery {
+public class ApplicationQuery extends PagingQuery {
 
     private String name;
 

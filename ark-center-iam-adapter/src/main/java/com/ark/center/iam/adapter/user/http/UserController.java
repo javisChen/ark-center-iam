@@ -1,4 +1,4 @@
-package com.ark.center.iam.adapter.user.web;
+package com.ark.center.iam.adapter.user.http;
 
 import com.ark.center.iam.application.user.UserAppService;
 import com.ark.center.iam.client.user.command.UserCmd;

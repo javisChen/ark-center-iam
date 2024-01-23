@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.application.dto;
+package com.ark.center.iam.client.application.query.dto;
 
 import lombok.Data;
 

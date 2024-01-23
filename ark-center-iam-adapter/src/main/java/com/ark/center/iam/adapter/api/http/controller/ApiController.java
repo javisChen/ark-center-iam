@@ -1,6 +1,7 @@
-package com.ark.center.iam.adapter.api.web.controller;
+package com.ark.center.iam.adapter.api.http.controller;
 
 import com.ark.center.iam.application.api.ApiAppService;
+import com.ark.center.iam.client.api.ApiQryApi;
 import com.ark.center.iam.client.api.command.ApiEnableCmd;
 import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;

@@ -1,5 +1,5 @@
 
-package com.ark.center.iam.adapter.route.web.controller;
+package com.ark.center.iam.adapter.route.http.controller;
 
 import com.ark.center.iam.application.route.RouteAppService;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;

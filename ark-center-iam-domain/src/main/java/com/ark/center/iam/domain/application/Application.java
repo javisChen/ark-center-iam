@@ -1,10 +1,14 @@
 package com.ark.center.iam.domain.application;
 
+import com.ark.component.ddd.AggregateRoot;
 import com.ark.component.ddd.vo.EnableDisableStatus;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
-public class Application  {
+@EqualsAndHashCode(callSuper = true)
+@Getter
+public class Application extends AggregateRoot {
 
     /**
      * 应用名称
@@ -14,16 +18,27 @@ public class Application  {
     /**
      * 应用编码
      */
-    private String code;
+    private final String code;
 
     /**
      * 状态 1-已上线；2-已下线；
      */
-    private EnableDisableStatus status;
+    private final EnableDisableStatus status = EnableDisableStatus.ENABLED;
 
     /**
+     * 应用类型
      *
      * @see ApplicationType
      */
-    private ApplicationType type;
+    private final ApplicationType type;
+
+    public Application(String name, String code, ApplicationType type) {
+        this.name = name;
+        this.code = code;
+        this.type = type;
+    }
+
+    public void rename(String name) {
+        this.name = name;
+    }
 }

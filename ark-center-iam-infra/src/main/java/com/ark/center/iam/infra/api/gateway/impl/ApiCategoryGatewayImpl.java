@@ -14,7 +14,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class ApiCategoryGatewayImpl extends ServiceImpl<ApiCategoryMapper, ApiCategory> implements ApiCategoryGateway {
+public class ApiCategoryGatewayImpl extends <ApiCategoryMapper, ApiCategory> implements ApiCategoryGateway {
 
     private final ApiCategoryAssembler apiCategoryAssembler;
 

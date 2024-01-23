@@ -19,6 +19,11 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.ark.ddd</groupId>
+            <artifactId>ark-component-ddd-application</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.ark.center</groupId>
             <artifactId>ark-center-iam-client</artifactId>
         </dependency>

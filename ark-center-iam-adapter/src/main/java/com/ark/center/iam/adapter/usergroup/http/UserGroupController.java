@@ -1,4 +1,4 @@
-package com.ark.center.iam.adapter.usergroup.web;
+package com.ark.center.iam.adapter.usergroup.http;
 
 import com.ark.center.iam.application.usergroup.UserGroupAppService;
 import com.ark.center.iam.client.usergroup.command.UserGroupCmd;
