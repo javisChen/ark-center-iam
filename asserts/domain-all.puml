@@ -1,0 +1,37 @@
+@startuml
+!theme cyborg-outline
+
+rectangle IAM as "IAM" {
+usecase "应用" as app
+usecase "用户" as user
+usecase "用户组" as usergroup
+usecase "角色" as role
+usecase "路由" as route
+usecase "接口" as api
+}
+
+rectangle Auth {
+
+}
+
+rectangle Product {
+}
+
+
+rectangle Trade {
+}
+
+
+rectangle Pay {
+}
+
+Auth --> IAM
+
+Trade --> IAM
+
+Pay --> IAM
+
+Product --> IAM
+
+
+@enduml
