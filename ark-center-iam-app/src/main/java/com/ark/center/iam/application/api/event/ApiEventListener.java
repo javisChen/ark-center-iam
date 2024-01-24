@@ -25,10 +25,12 @@ public class ApiEventListener {
     public void onApplicationEvent(@NotNull ApiCreatedEvent event) {
         publishMQ(ApiMqInfo.EVENT_CREATED);
     }
+
     @EventListener
     public void onApplicationEvent(@NotNull ApiChangedEvent event) {
         publishMQ(ApiMqInfo.EVENT_CHANGED);
     }
+
     @EventListener
     public void onApplicationEvent(@NotNull ApiDeletedEvent event) {
         publishMQ(ApiMqInfo.EVENT_DELETED);

@@ -8,6 +8,7 @@ import com.ark.center.iam.domain.application.event.ApplicationCreatedEvent;
 import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,15 +18,11 @@ public class ApplicationCommandService {
 
     private final ApplicationGateway applicationGateway;
     private final ApplicationDomainService applicationDomainService;
-    private final ApplicationFactory applicationFactory;
-    private final ApplicationFactory applicationFactory;
 
     @Transactional(rollbackFor = Throwable.class)
     public void handleCreate(ApplicationCreateCommand dto) {
 
-        Application application = applicationFactory.create(dto.getName(), dto.getCode(), dto.getType());
-
-        application.publishEvent(new ApplicationCreatedEvent(application.getId()));
+        Application application = applicationDomainService.create(dto.getName(), dto.getCode(), dto.getType());
 
         applicationGateway.save(application);
 

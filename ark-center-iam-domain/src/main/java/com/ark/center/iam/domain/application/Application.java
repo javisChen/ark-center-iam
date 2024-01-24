@@ -1,5 +1,6 @@
 package com.ark.center.iam.domain.application;
 
+import com.ark.center.iam.domain.application.event.ApplicationCreatedEvent;
 import com.ark.ddd.domain.AggregateRoot;
 import com.ark.ddd.domain.vo.EnableDisableStatus;
 import lombok.EqualsAndHashCode;
@@ -22,7 +23,7 @@ public class Application extends AggregateRoot {
     /**
      * 状态 1-已上线；2-已下线；
      */
-    private final EnableDisableStatus status = EnableDisableStatus.ENABLED;
+    private final EnableDisableStatus status;
 
     /**
      * 应用类型
@@ -35,6 +36,8 @@ public class Application extends AggregateRoot {
         this.name = name;
         this.code = code;
         this.type = type;
+        this.status = EnableDisableStatus.ENABLED;
+        raiseEvent(new ApplicationCreatedEvent(this.getId()));
     }
 
     public void rename(String name) {

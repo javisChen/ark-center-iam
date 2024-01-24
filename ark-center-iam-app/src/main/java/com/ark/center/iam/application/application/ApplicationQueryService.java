@@ -23,10 +23,11 @@ public class ApplicationQueryService {
 
     private final ApplicationConverter applicationConverter;
 
-    public Collection<ApplicationDTO> queryList(ApplicationQuery dto) {
-        LambdaQueryWrapper<ApplicationDO> qw = Wrappers.lambdaQuery(ApplicationDO.class);
-        qw.like(StringUtils.isNotBlank(dto.getName()), ApplicationDO::getName, dto.getName());
-        qw.eq(ApplicationDO::getIsDeleted, DeletedEnums.NOT.getCode());
+    public Collection<ApplicationDTO> queryAll(ApplicationQuery dto) {
+        LambdaQueryWrapper<ApplicationDO> qw =
+                Wrappers.lambdaQuery(ApplicationDO.class)
+                        .like(StringUtils.isNotBlank(dto.getName()), ApplicationDO::getName, dto.getName())
+                        .eq(ApplicationDO::getIsDeleted, DeletedEnums.NOT.getCode());
         return applicationMapper.selectList(qw)
                 .stream()
                 .map(applicationConverter::toDTO)

@@ -1,5 +1,6 @@
 package com.ark.center.iam.domain.api;
 
+import com.ark.ddd.domain.AggregateRoot;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -17,9 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_api_category")
-public class ApiCategory extends BaseEntity {
-
-    
+public class ApiCategory extends AggregateRoot {
 
     /**
      * API名称
