@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Assert;
 import com.ark.center.iam.client.application.command.ApplicationCreateCommand;
 import com.ark.center.iam.client.application.command.ApplicationUpdateCommand;
 import com.ark.center.iam.domain.application.*;
+import com.ark.center.iam.domain.application.event.ApplicationCreatedEvent;
 import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,14 @@ public class ApplicationCommandService {
     private final ApplicationGateway applicationGateway;
     private final ApplicationDomainService applicationDomainService;
     private final ApplicationFactory applicationFactory;
+    private final ApplicationFactory applicationFactory;
 
     @Transactional(rollbackFor = Throwable.class)
     public void handleCreate(ApplicationCreateCommand dto) {
 
         Application application = applicationFactory.create(dto.getName(), dto.getCode(), dto.getType());
+
+        application.publishEvent(new ApplicationCreatedEvent(application.getId()));
 
         applicationGateway.save(application);
 

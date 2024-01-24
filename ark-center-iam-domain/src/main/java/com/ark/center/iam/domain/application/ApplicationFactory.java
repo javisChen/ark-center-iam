@@ -1,6 +1,7 @@
 package com.ark.center.iam.domain.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Component;
 public class ApplicationFactory {
 
     private final ApplicationChecker applicationChecker;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     public Application create(String name, String code, Integer type) {
 
