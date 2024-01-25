@@ -102,12 +102,28 @@ DomainEvent('MenuCreated')[
     菜单已创建
 ]
 
+DomainEvent('MenuChanged')[
+    菜单已修改
+]
+
 DomainEvent('MenuDeleted')[
     菜单已删除
 ]
 
 DomainEvent('APICreated')[
     接口已创建
+]
+
+DomainEvent('APIChanged')[
+    接口已修改
+]
+
+DomainEvent('APIDeleted')[
+    接口已删除
+]
+
+DomainEvent('APICategoryCreated')[
+    接口分类已创建
 ]
 
 DomainEvent('APIDeleted')[
@@ -128,6 +144,11 @@ admin --> DisableUser
 CreateUser --> UserCreated
 EnableUser --> UserEnabled
 DisableUser --> UserDisabled
+
+admin --> MenuCreated
+admin --> menu
+admin --> EnableUser
+admin --> DisableUser
 
 ' person --> CreateApp
 
