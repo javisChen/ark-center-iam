@@ -1,7 +1,7 @@
 package com.ark.center.iam.domain.application;
 
-import com.ark.component.ddd.util.EnumUtils;
-import com.ark.component.ddd.vo.BaseEnum;
+import com.ark.component.ddd.domain.util.EnumUtils;
+import com.ark.component.ddd.domain.vo.BaseEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

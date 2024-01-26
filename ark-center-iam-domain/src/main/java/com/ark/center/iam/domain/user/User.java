@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_user")
-public class User extends BaseEntity {
+public class User extends AggregateRoot {
 
     /**
      * 用户名称

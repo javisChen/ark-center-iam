@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@Schema(description = "启用/禁用Api")
-public class ApiEnableCmd {
+@Schema(description = "启用/禁用Api命令")
+public class ApiStatusUpdateCommand {
 
     @NotNull(message = "id不能为空")
     @Schema(description = "id")

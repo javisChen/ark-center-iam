@@ -9,12 +9,11 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.domain.api.Api;
-import com.ark.center.iam.domain.api.ApiCategory;
-import com.ark.center.iam.domain.api.gateway.ApiCategoryGateway;
+import com.ark.center.iam.domain.apicategory.ApiCategory;
+import com.ark.center.iam.domain.apicategory.ApiCategoryGateway;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
 import com.ark.center.iam.domain.application.Application;
 import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
-import com.ark.center.iam.domain.enums.ApiAuthTypeEnums;
 import com.ark.center.iam.domain.enums.ApiStatusEnums;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.service.PermissionService;
@@ -102,7 +101,7 @@ public class ApiSyncCmdExe {
                     apiCategory.setApplicationId(application.getId());
                     return apiCategory;
                 })
-                .forEach(apiCategoryGateway::insert);
+                .forEach(apiCategoryGateway::save);
         return apiCategoryGateway.selectByApplicationId(application.getId());
     }
 
@@ -279,7 +278,7 @@ public class ApiSyncCmdExe {
         api.setHasPathVariable(false);
         api.setUri("/" + serviceInstance.getServiceId() + uri);
         api.setMethod(method.toUpperCase());
-        api.setAuthType(ApiAuthTypeEnums.NEED_AUTHENTICATION_AND_AUTHORIZATION.getValue());
+        api.setAuthType(ApiAuthType.NEED_AUTHENTICATION_AND_AUTHORIZATION.getValue());
         api.setStatus(ApiStatusEnums.ENABLED.getValue());
         return api;
     }

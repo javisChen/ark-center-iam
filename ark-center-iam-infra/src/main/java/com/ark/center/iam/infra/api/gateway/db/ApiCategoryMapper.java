@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.api.gateway.db;
 
-import com.ark.center.iam.domain.api.ApiCategory;
+import com.ark.center.iam.domain.apicategory.ApiCategory;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

@@ -7,8 +7,9 @@ project="ark-center-iam"
 package="com/ark/center/iam"
 
 mkdir -p "${project}-adapter/src/main/java/${package}/adapter/${module}"
-mkdir -p "${project}-adapter/src/main/java/${package}/adapter/${module}/web"
+mkdir -p "${project}-adapter/src/main/java/${package}/adapter/${module}/http"
 mkdir -p "${project}-adapter/src/main/java/${package}/adapter/${module}/consumer"
+mkdir -p "${project}-adapter/src/main/java/${package}/adapter/${module}/schedule"
 
 mkdir -p "${project}-client/src/main/java/${package}/client/${module}"
 mkdir -p "${project}-client/src/main/java/${package}/client/${module}/command"

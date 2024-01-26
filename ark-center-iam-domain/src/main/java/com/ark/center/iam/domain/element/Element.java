@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_element")
-public class Element extends BaseEntity {
+public class Element extends AggregateRoot {
 
     
 

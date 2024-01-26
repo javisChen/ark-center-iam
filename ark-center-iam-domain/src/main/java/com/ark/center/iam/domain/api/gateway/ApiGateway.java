@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface ApiGateway {
 
-    List<ApiDetailsDTO> selectList(ApiQry apiQry);
-
     Api selectApiByApplicationIdAndMethodAndUrl(Long applicationId, String method, String url);
 
     void insert(Api api);

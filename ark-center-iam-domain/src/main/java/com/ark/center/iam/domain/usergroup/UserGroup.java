@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_user_group")
-public class UserGroup extends BaseEntity {
+public class UserGroup extends AggregateRoot {
 
     public final static Long DEFAULT_PID = 0L;
     public final static Integer FIRST_LEVEL = 1;

@@ -42,20 +42,73 @@ Command('DisableUser')[
     ---
 ]
 
-' Aggregate('Application')[
-'     应用
-'     ---
-'     id 应用编码
-'     ---
-'     应用名称
-' ]
+Command('CreateMenu')[
+    创建菜单
+    ---
+]
+
+Command('UpdateMenu')[
+    更新菜单
+    ---
+]
+Command('DeleteMenu')[
+    删除菜单
+    ---
+]
+
+
+Command('CreateApi')[
+    创建Api
+    ---
+]
+
+Command('UpdateApi')[
+    更新Api
+    ---
+]
+
+Command('DeleteApi')[
+    删除Api
+    ---
+]
+
+Command('CreateApiCategory')[
+    创建Api分类
+    ---
+]
+
+Command('UpdateApiCategory')[
+    更新Api分类
+    ---
+]
+
+Command('DeleteApiCategory')[
+    删除Api分类
+    ---
+]
+
+Aggregate('App')[
+    应用
+    ---
+    code 应用编码
+    ---
+    应用名称
+]
 
 DomainEvent('AppCreated')[
     应用已创建
 ]
 
+DomainEvent('AppChanged')[
+    应用已被修改
+]
+
 DomainEvent('UserCreated')[
     用户已创建
+]
+
+DomainEvent('UserChanged')[
+    用户已被修改
 ]
 
 DomainEvent('UserDisabled')[
@@ -126,15 +179,32 @@ DomainEvent('APICategoryCreated')[
     接口分类已创建
 ]
 
-DomainEvent('APIDeleted')[
-    接口已删除
+DomainEvent('APICategoryDeleted')[
+    接口分类已删除
 ]
+
+
+DomainEvent('PermissionResourceCreated')[
+    权限资源已创建
+]
+
+DomainEvent('PermissionResourceDeleted')[
+    权限资源已删除
+]
+
+' 应用
 
 admin --> CreateApp
 admin --> UpdateApp
 admin --> DeleteApp
 
-CreateApp --> AppCreated
+CreateApp --> App
+UpdateApp --> App
+
+App --> AppCreated
+App --> AppChanged
+
+' 用户
 
 admin --> CreateUser
 admin --> UpdateUser
@@ -142,13 +212,30 @@ admin --> EnableUser
 admin --> DisableUser
 
 CreateUser --> UserCreated
+UpdateUser --> UserChanged
 EnableUser --> UserEnabled
 DisableUser --> UserDisabled
 
-admin --> MenuCreated
-admin --> menu
-admin --> EnableUser
-admin --> DisableUser
+admin --> APICategoryCreated
+admin --> APICategoryDeleted
+
+admin --> CreateMenu
+admin --> UpdateMenu
+admin --> DeleteMenu
+admin --> CreateApi
+admin --> UpdateApi
+admin --> DeleteApi
+admin --> CreateApiCategory
+admin --> UpdateApiCategory
+admin --> DeleteApiCategory
+
+CreateMenu --> MenuCreated
+UpdateMenu --> MenuChanged
+DeleteMenu --> MenuDeleted
+CreateApi --> APICreated
+UpdateApi --> APIChanged
+DeleteApi --> APIDeleted
+
 
 ' person --> CreateApp
 

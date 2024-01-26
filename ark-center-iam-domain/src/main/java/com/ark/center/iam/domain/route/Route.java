@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("iam_route")
-public class Route extends BaseEntity {
+public class Route extends AggregateRoot {
 
     
 

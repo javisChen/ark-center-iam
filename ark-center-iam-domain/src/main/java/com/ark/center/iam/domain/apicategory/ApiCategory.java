@@ -1,10 +1,9 @@
-package com.ark.center.iam.domain.api;
+package com.ark.center.iam.domain.apicategory;
 
-import com.ark.ddd.domain.AggregateRoot;
+import com.ark.component.ddd.domain.AggregateRoot;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 /**
  * <p>
@@ -14,13 +13,13 @@ import lombok.EqualsAndHashCode;
  * @author
  * @since 2020-11-09
  */
-@Data
+@Getter
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_api_category")
 public class ApiCategory extends AggregateRoot {
 
     /**
-     * API名称
+     * 分类名称
      */
     @TableField("name")
     private String name;
@@ -31,6 +30,17 @@ public class ApiCategory extends AggregateRoot {
     @TableField("application_id")
     private Long applicationId;
 
+    public ApiCategory(String name, Long applicationId) {
+        this.name = name;
+        this.applicationId = applicationId;
+    }
+
     @TableField(value = "is_deleted")
     private Long isDeleted;
+
+
+    public void update(Long applicationId, String name) {
+        this.applicationId = applicationId;
+        this.name = name;
+    }
 }

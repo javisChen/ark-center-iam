@@ -1,8 +1,8 @@
 package com.ark.center.iam.domain.api;
 
-import com.ark.ddd.domain.AggregateRoot;
+import com.ark.component.ddd.domain.AggregateRoot;
+import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,8 +19,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_api")
 public class Api extends AggregateRoot {
-
-    
 
     /**
      * API名称
@@ -54,9 +52,10 @@ public class Api extends AggregateRoot {
 
     /**
      * 认证授权类型 1-无需认证授权 2-只需认证无需授权 3-需要认证和授权
+     * @see com.ark.center.iam.domain.api.vo.ApiAuthType
      */
     @TableField("auth_type")
-    private Integer authType;
+    private com.ark.center.iam.domain.api.vo.ApiAuthType authType;
 
     /**
      * url是否包含路径参数，例： /user/{userId}/api/{apiId} 0-不包含 1-包含
@@ -68,7 +67,7 @@ public class Api extends AggregateRoot {
      * 状态 1-已启用；2-已禁用；
      */
     @TableField("status")
-    private Integer status;
+    private EnableDisableStatus status;
 
     @TableField(value = "is_deleted")
     private Long isDeleted;

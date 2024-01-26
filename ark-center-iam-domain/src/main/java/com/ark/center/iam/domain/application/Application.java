@@ -1,8 +1,8 @@
 package com.ark.center.iam.domain.application;
 
 import com.ark.center.iam.domain.application.event.ApplicationCreatedEvent;
-import com.ark.ddd.domain.AggregateRoot;
-import com.ark.ddd.domain.vo.EnableDisableStatus;
+import com.ark.component.ddd.domain.AggregateRoot;
+import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 

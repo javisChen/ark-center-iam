@@ -1,11 +1,11 @@
-package com.ark.center.iam.domain.enums;
+package com.ark.center.iam.domain.api.vo;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public enum ApiAuthTypeEnums {
+public enum ApiAuthType {
 
     NO_AUTHENTICATION_AND_AUTHORIZATION(1, "无需认证授权"),
     NEED_AUTHENTICATION(2, "只需认证无需授权"),

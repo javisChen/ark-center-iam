@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_user_role_rel")
-public class UserRoleRel extends BaseEntity {
+public class UserRoleRel extends AggregateRoot {
 
     
 

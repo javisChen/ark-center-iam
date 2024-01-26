@@ -5,14 +5,14 @@ import com.ark.center.iam.application.api.event.ApiChangedEvent;
 import com.ark.center.iam.application.api.event.ApiCreatedEvent;
 import com.ark.center.iam.application.api.event.ApiDeletedEvent;
 import com.ark.center.iam.application.api.executor.ApiSyncCmdExe;
-import com.ark.center.iam.client.api.command.ApiEnableCmd;
+import com.ark.center.iam.client.api.command.ApiCreateCommand;
+import com.ark.center.iam.client.api.command.ApiStatusUpdateCommand;
 import com.ark.center.iam.client.api.command.ApiSyncCmd;
-import com.ark.center.iam.client.api.command.ApiUpdateCmd;
+import com.ark.center.iam.client.api.command.ApiUpdateCommand;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
-import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
+import com.ark.center.iam.domain.api.service.ApiDomainService;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.service.PermissionService;
 import com.ark.center.iam.infra.api.assembler.ApiAssembler;
@@ -22,23 +22,20 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
-public class ApiAppService {
+public class ApiCommandHandler {
 
     private final ApiSyncCmdExe apiSyncCmdExe;
     private final ApiGateway apiGateway;
     private final PermissionService permissionService;
     private final ApiAssembler apiAssembler;
     private final ApplicationEventPublisher eventPublisher;
+    private final ApiDomainService apiDomainService;
 
-    public List<ApiDetailsDTO> queryList(ApiQry dto) {
-        return apiGateway.selectList(dto);
-    }
+    public void createApi(ApiCreateCommand dto) {
 
-    public void createApplication(ApiUpdateCmd dto) {
+        apiDomainService.create()
 
         baseCheck(dto);
 
@@ -54,13 +51,13 @@ public class ApiAppService {
         permissionService.addPermission(apiInsert.getId(), PermissionType.SER_API);
     }
 
-    private void baseCheck(ApiUpdateCmd dto) {
+    private void baseCheck(ApiUpdateCommand dto) {
         Api api = apiGateway.selectApiByApplicationIdAndMethodAndUrl(dto.getApplicationId(), dto.getMethod(), dto.getUri());
         Assert.isTrue(api == null || dto.getId().equals(api.getId()),
                 () -> ExceptionFactory.userException("API已存在"));
     }
 
-    private Api saveApi(ApiUpdateCmd dto) {
+    private Api saveApi(ApiUpdateCommand dto) {
         Api apiInsert = apiAssembler.toApiDO(dto);
         apiGateway.insert(apiInsert);
         return apiInsert;
@@ -71,7 +68,7 @@ public class ApiAppService {
         return apiAssembler.toApiDetailDTO(api);
     }
 
-    public void updateApi(ApiUpdateCmd dto) {
+    public void updateApi(ApiUpdateCommand dto) {
 
         baseCheck(dto);
 
@@ -88,7 +85,7 @@ public class ApiAppService {
         eventPublisher.publishEvent(new ApiDeletedEvent(this));
     }
 
-    public void enableOrDisable(ApiEnableCmd cmd) {
+    public void handleChangeStatus(ApiStatusUpdateCommand cmd) {
         Api api = new Api();
         api.setId(cmd.getId());
         api.setStatus(cmd.getStatus());

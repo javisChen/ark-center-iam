@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_permission")
-public class Permission extends BaseEntity {
+public class Permission extends AggregateRoot {
 
 
     @TableField("application_id")

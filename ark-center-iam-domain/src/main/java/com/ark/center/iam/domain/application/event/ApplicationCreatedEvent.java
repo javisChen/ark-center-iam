@@ -2,7 +2,7 @@ package com.ark.center.iam.domain.application.event;
 
 
 import com.ark.center.iam.domain.common.DomainEventTypes;
-import com.ark.ddd.domain.event.DomainEvent;
+import com.ark.component.ddd.domain.event.DomainEvent;
 import lombok.Getter;
 
 @Getter

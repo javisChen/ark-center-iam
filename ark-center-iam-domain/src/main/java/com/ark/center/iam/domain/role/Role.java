@@ -1,9 +1,10 @@
 package com.ark.center.iam.domain.role;
 
 
+import com.ark.component.ddd.domain.AggregateRoot;
+import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.ark.component.orm.mybatis.baseb.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,9 +20,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_role")
-public class Role extends BaseEntity {
-
-    
+public class Role extends AggregateRoot {
 
     /**
      * 用户名称
@@ -39,7 +38,7 @@ public class Role extends BaseEntity {
      * 状态 1-已启用；2-已禁用；
      */
     @TableField("status")
-    private Integer status;
+    private EnableDisableStatus status;
 
     @TableField(value = "is_deleted")
     @TableLogic

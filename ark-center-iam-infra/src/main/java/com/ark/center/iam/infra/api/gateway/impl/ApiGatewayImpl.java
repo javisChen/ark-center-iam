@@ -1,7 +1,5 @@
 package com.ark.center.iam.infra.api.gateway.impl;
 
-import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
-import com.ark.center.iam.client.api.query.ApiQry;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
 import com.ark.center.iam.infra.api.assembler.ApiAssembler;
@@ -22,11 +20,6 @@ public class ApiGatewayImpl extends ServiceImpl<ApiMapper, Api> implements ApiGa
     private final ApiAssembler apiAssembler;
 
     private final CacheService cacheService;
-
-    @Override
-    public List<ApiDetailsDTO> selectList(ApiQry apiQry) {
-        return baseMapper.selectApiList(apiQry);
-    }
 
     @Override
     public Api selectApiByApplicationIdAndMethodAndUrl(Long applicationId, String method, String url) {

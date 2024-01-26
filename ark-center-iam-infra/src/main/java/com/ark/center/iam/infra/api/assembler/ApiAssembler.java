@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.api.assembler;
 
-import com.ark.center.iam.client.api.command.ApiUpdateCmd;
+import com.ark.center.iam.client.api.command.ApiUpdateCommand;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.domain.api.Api;
@@ -25,7 +25,7 @@ public interface ApiAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    default Api toApiDO(ApiUpdateCmd dto) {
+    default Api toApiDO(ApiUpdateCommand dto) {
         Api api = new Api();
         api.setId(dto.getId());
         api.setName(dto.getName());
