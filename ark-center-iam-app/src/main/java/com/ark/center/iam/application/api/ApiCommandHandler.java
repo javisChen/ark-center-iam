@@ -35,7 +35,7 @@ public class ApiCommandHandler {
 
     public void createApi(ApiCreateCommand dto) {
 
-        Api api = apiDomainService.create(dto.getId(), dto.getName(), dto.getMethod(), dto.getUri(), dto.getAuthType());
+        Api api = apiDomainService.create(dto.getName(), dto.getApplicationId(), dto.getCategoryId(), dto.getMethod(), dto.getUri(), dto.getAuthType());
 
         apiGateway.save(api);
 

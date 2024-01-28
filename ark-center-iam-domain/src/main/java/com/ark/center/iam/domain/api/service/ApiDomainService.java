@@ -22,16 +22,15 @@ public class ApiDomainService {
                       Long categoryId,
                       String method,
                       String url,
-                      Integer authType,
-                      boolean hasPathVariable) {
+                      Integer authType) {
 
         checkIsDuplicate(appId, method, url);
 
-        Api api = new Api(name, appId, categoryId, url, method, ApiAuthType.from(authType), hasPathVariable);
+        Api api = new Api(name, appId, categoryId, url, method, ApiAuthType.from(authType));
 
-        addPermission(api);
+        // addPermission(api);
 
-        eventPublisher.publishEvent(new ApiCreatedEvent(this));
+        eventPublisher.publishEvent(new ApiCreatedEvent(this, api.getId()));
 
         return api;
     }
@@ -43,6 +42,7 @@ public class ApiDomainService {
     private void checkIsDuplicate(Long apiId, Long appId, String method, String uri) {
         Assert.isFalse(apiGateway.existsByAppIdAndMethodAndUrl(apiId, appId, method, uri),
                 ExceptionFactory.userExceptionSupplier("API已存在")
-                ;
+        ;
     }
+}
 

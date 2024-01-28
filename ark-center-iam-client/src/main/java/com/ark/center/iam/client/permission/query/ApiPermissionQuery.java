@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ApiPermissionQry extends PagingQuery {
+public class ApiPermissionQuery extends PagingQuery {
 
     @Schema(description = "应用id")
     private Long applicationId;

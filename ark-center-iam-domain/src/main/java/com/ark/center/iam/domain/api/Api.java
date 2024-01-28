@@ -1,5 +1,6 @@
 package com.ark.center.iam.domain.api;
 
+import com.ark.center.iam.domain.api.vo.ApiAuthType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -7,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -56,7 +58,7 @@ public class Api extends AggregateRoot {
      * @see com.ark.center.iam.domain.api.vo.ApiAuthType
      */
     @TableField("auth_type")
-    private com.ark.center.iam.domain.api.vo.ApiAuthType authType;
+    private ApiAuthType authType;
 
     /**
      * url是否包含路径参数，例： /user/{userId}/api/{apiId} 0-不包含 1-包含
@@ -78,14 +80,13 @@ public class Api extends AggregateRoot {
                Long categoryId,
                String uri,
                String method,
-               com.ark.center.iam.domain.api.vo.ApiAuthType authType,
-               Boolean hasPathVariable) {
+               ApiAuthType authType) {
         this.name = name;
         this.applicationId = applicationId;
         this.categoryId = categoryId;
         this.uri = uri;
         this.method = method;
         this.authType = authType;
-        this.hasPathVariable = hasPathVariable;
+        this.hasPathVariable = StringUtils.contains(uri, "*");
     }
 }

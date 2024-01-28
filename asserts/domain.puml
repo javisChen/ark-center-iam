@@ -3,6 +3,16 @@
 
 Person('admin', '管理员')
 
+Command('CreatePermission')[
+    新建权限资源
+    ---
+]
+
+Command('DeletePermission')[
+    删除权限资源
+    ---
+]
+
 Command('CreateApp')[
     创建应用
     ---
@@ -22,13 +32,13 @@ Command('DeleteApp')[
     ---
 ]
 
-Command('CreateUser')[
-    新建用户
+Command('UpdateUser')[
+    修改用户
     ---
 ]
 
-Command('UpdateUser')[
-    修改用户
+Command('CreateUser')[
+    新建用户
     ---
 ]
 
@@ -39,20 +49,6 @@ Command('EnableUser')[
 
 Command('DisableUser')[
     禁用用户
-    ---
-]
-
-Command('CreateMenu')[
-    创建菜单
-    ---
-]
-
-Command('UpdateMenu')[
-    更新菜单
-    ---
-]
-Command('DeleteMenu')[
-    删除菜单
     ---
 ]
 
@@ -69,6 +65,21 @@ Command('UpdateApi')[
 
 Command('DeleteApi')[
     删除Api
+    ---
+]
+
+Command('CreateMenu')[
+    创建菜单
+    ---
+]
+
+Command('UpdateMenu')[
+    更新菜单
+    ---
+]
+
+Command('DeleteMenu')[
+    删除菜单
     ---
 ]
 
@@ -245,6 +256,13 @@ DeleteMenu --> MenuDeleted
 CreateApi --> APICreated
 UpdateApi --> APIChanged
 DeleteApi --> APIDeleted
+
+APICreated --> CreatePermission
+MenuCreated --> CreatePermission
+MenuDeleted --> DeletePermission
+APIDeleted --> DeletePermission
+CreatePermission --> Permission
+DeletePermission --> Permission
 
 
 ' person --> CreateApp
