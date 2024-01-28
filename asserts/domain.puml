@@ -1,4 +1,4 @@
-@startuml
+@startuml Iam
 !include ./eventstorming/single.puml
 
 Person('admin', '管理员')
@@ -85,14 +85,6 @@ Command('UpdateApiCategory')[
 Command('DeleteApiCategory')[
     删除Api分类
     ---
-]
-
-Aggregate('App')[
-    应用
-    ---
-    code 应用编码
-    ---
-    应用名称
 ]
 
 DomainEvent('AppCreated')[
@@ -191,6 +183,24 @@ DomainEvent('PermissionResourceCreated')[
 DomainEvent('PermissionResourceDeleted')[
     权限资源已删除
 ]
+
+
+Aggregate('App')[
+    应用
+    ---
+    code 应用编码
+    ---
+    应用名称
+]
+
+
+Aggregate('Permission')[
+    权限
+    ---
+    权限资源类型
+    资源id
+]
+
 
 ' 应用
 

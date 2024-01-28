@@ -160,7 +160,7 @@ public class ApiSyncCmdExe {
         }
 
         for (Api api : insertApis) {
-            apiGateway.insert(api);
+            apiGateway.save(api);
             permissionService.addPermission(api.getId(), PermissionType.SER_API);
         }
 
@@ -178,7 +178,7 @@ public class ApiSyncCmdExe {
     }
 
     private MultiKeyMap<String, Api> queryExistsApis(Application application) {
-        List<Api> existingApis = apiGateway.selectByApplicationId(application.getId());
+        List<Api> existingApis = apiGateway.byAppId(application.getId());
         MultiKeyMap<String, Api> map = new MultiKeyMap<>();
         for (Api existingApi : existingApis) {
             map.put(createApiMultiKey(existingApi), existingApi);

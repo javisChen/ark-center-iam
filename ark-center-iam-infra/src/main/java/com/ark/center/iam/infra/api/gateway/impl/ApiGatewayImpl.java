@@ -2,12 +2,11 @@ package com.ark.center.iam.infra.api.gateway.impl;
 
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
-import com.ark.center.iam.infra.api.assembler.ApiAssembler;
 import com.ark.center.iam.infra.api.gateway.db.ApiMapper;
-import com.ark.component.cache.CacheService;
-import com.ark.component.orm.mybatis.base.BaseEntity;
+import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.web.common.DeletedEnums;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,62 +14,55 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class ApiGatewayImpl extends ServiceImpl<ApiMapper, Api> implements ApiGateway {
+public class ApiGatewayImpl implements ApiGateway {
 
-    private final ApiAssembler apiAssembler;
-
-    private final CacheService cacheService;
+    private final ApiMapper apiMapper;
 
     @Override
-    public Api selectApiByApplicationIdAndMethodAndUrl(Long applicationId, String method, String url) {
-        return lambdaQuery()
+    public boolean existsByAppIdAndMethodAndUrl(Long excludeId, Long applicationId, String method, String url) {
+        LambdaQueryWrapper<Api> qw = Wrappers.lambdaQuery(Api.class)
+                .ne(excludeId != null, AggregateRoot::getId, excludeId)
                 .eq(Api::getUri, url)
                 .eq(Api::getMethod, method)
                 .eq(Api::getApplicationId, applicationId)
-                .eq(Api::getIsDeleted, DeletedEnums.NOT.getCode())
-                .one();
+                .eq(Api::getIsDeleted, DeletedEnums.NOT.getCode());
+        return apiMapper.exists(qw);
+
     }
 
     @Override
-    public void insert(Api api) {
-        save(api);
+    public void save(Api api) {
+        if (api.getId() != null) {
+            apiMapper.updateById(api);
+        } else {
+            apiMapper.insert(api);
+        }
     }
 
     @Override
-    public Api selectById(Long id) {
-        return getById(id);
-    }
-
-    @Override
-    public void updateByApiId(Api api) {
-        updateById(api);
+    public Api byId(Long id) {
+        return apiMapper.selectById(id);
     }
 
     @Override
     public void delete(Long id) {
-        lambdaUpdate()
-                .eq(Api::getId, id)
-                .eq(Api::getIsDeleted, DeletedEnums.NOT.getCode())
-                .set(Api::getIsDeleted, DeletedEnums.YET.getCode())
-                .update();
+        apiMapper.deleteById(id);
     }
 
     @Override
     public List<Api> selectByIds(List<Long> resourceIds) {
-        return lambdaQuery()
-                .in(BaseEntity::getId, resourceIds)
-                .eq(Api::getIsDeleted, 0)
-                .list();
+        LambdaQueryWrapper<Api> qw = Wrappers.lambdaQuery(Api.class);
+        qw.in(AggregateRoot::getId, resourceIds)
+                .eq(Api::getIsDeleted, 0);
+        return apiMapper.selectList(qw);
     }
 
     @Override
-    public List<Api> selectByApplicationId(Long applicationId) {
-        return lambdaQuery().eq(Api::getApplicationId, applicationId).list();
-    }
-
-    @Override
-    public boolean insertOrUpdate(Api api) {
-        return saveOrUpdate(api);
+    public List<Api> byAppId(Long applicationId) {
+        LambdaQueryWrapper<Api> qw = Wrappers.lambdaQuery(Api.class);
+        qw.eq(Api::getApplicationId, applicationId)
+                .eq(Api::getIsDeleted, 0);
+        return apiMapper.selectList(qw);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.ark.center.iam.application.api.event;
+package com.ark.center.iam.domain.api.event;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -17,7 +17,6 @@
 
     <dependencies>
 
-
         <dependency>
             <groupId>com.ark.ddd</groupId>
             <artifactId>ark-component-ddd-domain</artifactId>

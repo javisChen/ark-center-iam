@@ -1,9 +1,9 @@
 package com.ark.center.iam.application.api;
 
 import cn.hutool.core.lang.Assert;
-import com.ark.center.iam.application.api.event.ApiChangedEvent;
-import com.ark.center.iam.application.api.event.ApiCreatedEvent;
-import com.ark.center.iam.application.api.event.ApiDeletedEvent;
+import com.ark.center.iam.domain.api.event.ApiChangedEvent;
+import com.ark.center.iam.domain.api.event.ApiCreatedEvent;
+import com.ark.center.iam.domain.api.event.ApiDeletedEvent;
 import com.ark.center.iam.application.api.executor.ApiSyncCmdExe;
 import com.ark.center.iam.client.api.command.ApiCreateCommand;
 import com.ark.center.iam.client.api.command.ApiStatusUpdateCommand;
@@ -35,7 +35,9 @@ public class ApiCommandHandler {
 
     public void createApi(ApiCreateCommand dto) {
 
-        apiDomainService.create()
+        Api api = apiDomainService.create(dto.getId(), dto.getName(), dto.getMethod(), dto.getUri(), dto.getAuthType());
+
+        apiGateway.save(api);
 
         baseCheck(dto);
 
@@ -52,19 +54,19 @@ public class ApiCommandHandler {
     }
 
     private void baseCheck(ApiUpdateCommand dto) {
-        Api api = apiGateway.selectApiByApplicationIdAndMethodAndUrl(dto.getApplicationId(), dto.getMethod(), dto.getUri());
+        Api api = apiGateway.existsByAppIdAndMethodAndUrl(dto.getApplicationId(), dto.getMethod(), dto.getUri());
         Assert.isTrue(api == null || dto.getId().equals(api.getId()),
                 () -> ExceptionFactory.userException("API已存在"));
     }
 
     private Api saveApi(ApiUpdateCommand dto) {
         Api apiInsert = apiAssembler.toApiDO(dto);
-        apiGateway.insert(apiInsert);
+        apiGateway.save(apiInsert);
         return apiInsert;
     }
 
     public ApiDetailDTO getApi(Long id) {
-        Api api = apiGateway.selectById(id);
+        Api api = apiGateway.byId(id);
         return apiAssembler.toApiDetailDTO(api);
     }
 

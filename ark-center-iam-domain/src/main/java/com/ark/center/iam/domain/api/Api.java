@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 /**
  * <p>
@@ -15,7 +16,7 @@ import lombok.EqualsAndHashCode;
  * @author
  * @since 2020-11-09
  */
-@Data
+@Getter
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_api")
 public class Api extends AggregateRoot {
@@ -72,5 +73,19 @@ public class Api extends AggregateRoot {
     @TableField(value = "is_deleted")
     private Long isDeleted;
 
-
+    public Api(String name,
+               Long applicationId,
+               Long categoryId,
+               String uri,
+               String method,
+               com.ark.center.iam.domain.api.vo.ApiAuthType authType,
+               Boolean hasPathVariable) {
+        this.name = name;
+        this.applicationId = applicationId;
+        this.categoryId = categoryId;
+        this.uri = uri;
+        this.method = method;
+        this.authType = authType;
+        this.hasPathVariable = hasPathVariable;
+    }
 }

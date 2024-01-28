@@ -6,19 +6,18 @@ import java.util.List;
 
 public interface ApiGateway {
 
-    Api selectApiByApplicationIdAndMethodAndUrl(Long applicationId, String method, String url);
+    boolean existsByAppIdAndMethodAndUrl(Long excludeId, Long applicationId, String method, String url);
 
-    void insert(Api api);
+    void save(Api api);
 
-    Api selectById(Long id);
+    Api byId(Long id);
 
-    void updateByApiId(Api apiUpdate);
+//    void updateByApiId(Api apiUpdate);
 
     void delete(Long id);
 
     List<Api> selectByIds(List<Long> resourceIds);
 
-    List<Api> selectByApplicationId(Long applicationId);
+    List<Api> byAppId(Long applicationId);
 
-    boolean insertOrUpdate(Api api);
 }

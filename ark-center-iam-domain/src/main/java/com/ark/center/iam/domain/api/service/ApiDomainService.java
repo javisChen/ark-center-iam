@@ -1,9 +1,13 @@
 package com.ark.center.iam.domain.api.service;
 
+import cn.hutool.core.lang.Assert;
 import com.ark.center.iam.domain.api.Api;
+import com.ark.center.iam.domain.api.event.ApiCreatedEvent;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
+import com.ark.center.iam.domain.api.vo.ApiAuthType;
+import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,8 +15,34 @@ import org.springframework.stereotype.Service;
 public class ApiDomainService {
 
     private final ApiGateway apiGateway;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public Api create() {
+    public Api create(String name,
+                      Long appId,
+                      Long categoryId,
+                      String method,
+                      String url,
+                      Integer authType,
+                      boolean hasPathVariable) {
 
+        checkIsDuplicate(appId, method, url);
+
+        Api api = new Api(name, appId, categoryId, url, method, ApiAuthType.from(authType), hasPathVariable);
+
+        addPermission(api);
+
+        eventPublisher.publishEvent(new ApiCreatedEvent(this));
+
+        return api;
     }
-}
+
+    private void checkIsDuplicate(Long appId, String method, String uri) {
+        checkIsDuplicate(null, appId, method, uri);
+    }
+
+    private void checkIsDuplicate(Long apiId, Long appId, String method, String uri) {
+        Assert.isFalse(apiGateway.existsByAppIdAndMethodAndUrl(apiId, appId, method, uri),
+                ExceptionFactory.userExceptionSupplier("API已存在")
+                ;
+    }
+
