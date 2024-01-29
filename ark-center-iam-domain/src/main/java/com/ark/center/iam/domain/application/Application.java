@@ -1,8 +1,10 @@
 package com.ark.center.iam.domain.application;
 
+import com.ark.center.iam.domain.application.event.ApplicationChangedEvent;
 import com.ark.center.iam.domain.application.event.ApplicationCreatedEvent;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -13,16 +15,19 @@ public class Application extends AggregateRoot {
     /**
      * 应用名称
      */
+    @TableField
     private String name;
 
     /**
      * 应用编码
      */
+    @TableField
     private final String code;
 
     /**
      * 状态 1-已上线；2-已下线；
      */
+    @TableField
     private final EnableDisableStatus status;
 
     /**
@@ -30,6 +35,7 @@ public class Application extends AggregateRoot {
      *
      * @see ApplicationType
      */
+    @TableField
     private final ApplicationType type;
 
     public Application(String name, String code, ApplicationType type) {
@@ -42,5 +48,6 @@ public class Application extends AggregateRoot {
 
     public void rename(String name) {
         this.name = name;
+        raiseEvent(new ApplicationChangedEvent(this, this.getId()));
     }
 }

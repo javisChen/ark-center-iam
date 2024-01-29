@@ -48,7 +48,7 @@ public class ApiController implements ApiQueryApi, ApiCommandApi {
 
     @Override
     public SingleResponse<ApiDetailDTO> getApi(Long id) {
-        ApiDetailDTO vo = apiCommandHandler.getApi(id);
+        ApiDetailDTO vo = apiQueryService.queryById(id);
         return SingleResponse.ok(vo);
     }
 
@@ -56,7 +56,7 @@ public class ApiController implements ApiQueryApi, ApiCommandApi {
     @PutMapping("/status")
     @Override
     public ServerResponse changeStatus(@RequestBody ApiStatusUpdateCommand dto) {
-        apiCommandHandler.handleChangeStatus(dto);
+        apiCommandHandler.changeStatus(dto);
         return ServerResponse.ok();
     }
 

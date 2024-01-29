@@ -1,7 +1,7 @@
 package com.ark.center.iam.adapter.application.http;
 
 import com.ark.center.iam.application.application.ApplicationQueryService;
-import com.ark.center.iam.application.application.ApplicationCommandService;
+import com.ark.center.iam.application.application.ApplicationCommandHandler;
 import com.ark.center.iam.client.application.command.ApplicationCreateCommand;
 import com.ark.center.iam.client.application.command.ApplicationUpdateCommand;
 import com.ark.center.iam.client.application.query.dto.ApplicationDTO;
@@ -20,27 +20,27 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping
 public class ApplicationController extends BaseController {
 
-    private final ApplicationCommandService applicationCommandService;
+    private final ApplicationCommandHandler applicationCommandHandler;
 
     private final ApplicationQueryService applicationQueryService;
 
     @GetMapping("/v1/applications")
     @Operation(summary = "查询应用列表")
-    public MultiResponse<ApplicationDTO> queryList(@RequestBody ApplicationQuery query) {
+    public MultiResponse<ApplicationDTO> queryAll(@RequestBody ApplicationQuery query) {
         return MultiResponse.ok(applicationQueryService.queryAll(query));
     }
 
     @PostMapping("/v1/applications")
     @Operation(summary = "创建应用")
     public ServerResponse createApplication(@RequestBody ApplicationCreateCommand command) {
-        applicationCommandService.handleCreate(command);
+        applicationCommandHandler.handleCreate(command);
         return ServerResponse.ok();
     }
 
     @PutMapping("/v1/applications")
     @Operation(summary = "更新应用")
     public ServerResponse updateApplication(@RequestBody ApplicationUpdateCommand command) {
-        applicationCommandService.handleUpdate(command);
+        applicationCommandHandler.handleUpdate(command);
         return ServerResponse.ok();
     }
 

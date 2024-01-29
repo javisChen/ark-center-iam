@@ -1,8 +1,8 @@
 package com.ark.center.iam.application.route.executor;
 
 import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
-import com.ark.center.iam.domain.route.Route;
-import com.ark.center.iam.domain.route.gateway.RouteGateway;
+import com.ark.center.iam.domain.route.Menu;
+import com.ark.center.iam.domain.route.gateway.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,21 +13,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RouteDeleteCmdExe {
 
-    private final RouteGateway routeGateway;
+    private final MenuRepository menuRepository;
     private final PermissionGateway permissionGateway;
 
     public void execute(Long id) {
-        Route route = routeGateway.selectBaseByRouteId(id);
+        Menu menu = menuRepository.selectBaseByRouteId(id);
 
-        List<Long> ids = querySubRoutes(route).stream().map(Route::getId).collect(Collectors.toList());
+        List<Long> ids = querySubRoutes(menu).stream().map(Menu::getId).collect(Collectors.toList());
 
-        routeGateway.logicDeleteBatchByIds(ids);
+        menuRepository.logicDeleteBatchByIds(ids);
 
         permissionGateway.deleteByResourceIds(ids);
     }
 
-    private List<Route> querySubRoutes(Route route) {
-        return routeGateway.selectSubRoutesByLevelPath(route.getLevelPath());
+    private List<Menu> querySubRoutes(Menu menu) {
+        return menuRepository.selectSubRoutesByLevelPath(menu.getLevelPath());
     }
 
 }

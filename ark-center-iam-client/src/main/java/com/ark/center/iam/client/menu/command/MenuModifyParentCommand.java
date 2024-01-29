@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.route.command;
+package com.ark.center.iam.client.menu.command;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "路由层级变更命令")
-public class RouteModifyParentCmd {
+public class MenuModifyParentCommand {
 
 
     @NotNull(message = "id 不能为空")

@@ -38,21 +38,21 @@ public class ApiCategoryController extends BaseController {
     @Operation(summary = "新建分类")
     public ServerResponse create(@Validated({ValidateGroup.Add.class, Default.class})
                                @RequestBody ApiCategoryCreateCommand dto) {
-        apiCategoryCommandHandler.handleCreate(dto);
+        apiCategoryCommandHandler.create(dto);
         return ServerResponse.ok();
     }
 
     @PutMapping("/api/categories")
     @Operation(summary = "更新分类")
     public ServerResponse update(@RequestBody ApiCategoryUpdateCommand dto) {
-        apiCategoryCommandHandler.handleUpdate(dto);
+        apiCategoryCommandHandler.update(dto);
         return ServerResponse.ok();
     }
 
     @DeleteMapping("/api/category/delete")
     @Operation(summary = "删除分类")
     public ServerResponse delete(Long id) {
-        apiCategoryCommandHandler.handleDelete(id);
+        apiCategoryCommandHandler.delete(id);
         return ServerResponse.ok();
     }
 

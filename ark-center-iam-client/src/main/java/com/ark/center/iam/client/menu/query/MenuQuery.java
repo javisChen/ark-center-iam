@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.route.query;
+package com.ark.center.iam.client.menu.query;
 
 
 import com.ark.component.dto.PagingQuery;
@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RouteQry extends PagingQuery {
+public class MenuQuery extends PagingQuery {
 
     private String name;
 

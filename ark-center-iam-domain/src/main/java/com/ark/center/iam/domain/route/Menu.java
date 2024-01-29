@@ -1,27 +1,19 @@
 package com.ark.center.iam.domain.route;
 
 import com.ark.center.iam.domain.route.common.RouteConst;
+import com.ark.component.ddd.domain.AggregateRoot;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-/**
- * <p>
- * 菜单表
- * </p>
- *
- * @author
- * @since 2020-11-09
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@TableName("iam_route")
-public class Route extends AggregateRoot {
+@TableName("iam_menu")
+public class Menu extends AggregateRoot {
 
     
 

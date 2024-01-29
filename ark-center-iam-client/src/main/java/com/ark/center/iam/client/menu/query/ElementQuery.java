@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.route.query;
+package com.ark.center.iam.client.menu.query;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
  * @author: Javis
  */
 @Data
-public class ElementQry {
+public class ElementQuery {
 
     private String name;
     private Integer type;

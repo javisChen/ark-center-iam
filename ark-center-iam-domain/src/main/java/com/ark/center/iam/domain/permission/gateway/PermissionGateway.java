@@ -14,7 +14,7 @@ public interface PermissionGateway {
 
     List<Permission> selectByTypeAndRoleIds(List<Long> roleIds, PermissionType permissionType);
 
-    void insert(Permission permission);
+    void save(Permission permission);
 
     void deletePermissionAndRoleRelationsByRoleId(Long roleId);
 

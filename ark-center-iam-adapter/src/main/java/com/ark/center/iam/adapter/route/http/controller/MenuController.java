@@ -1,12 +1,13 @@
 
 package com.ark.center.iam.adapter.route.http.controller;
 
-import com.ark.center.iam.application.route.RouteAppService;
+import com.ark.center.iam.application.route.MenuCommandService;
+import com.ark.center.iam.application.route.MenuQueryService;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
-import com.ark.center.iam.client.route.command.RouteCmd;
-import com.ark.center.iam.client.route.command.RouteModifyParentCmd;
-import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQry;
+import com.ark.center.iam.client.menu.command.MenuCommand;
+import com.ark.center.iam.client.menu.command.MenuModifyParentCommand;
+import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
@@ -22,49 +23,50 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "路由管理", description = "路由管理")
+@Tag(name = "菜单管理", description = "菜单管理")
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
-public class RouteController extends BaseController {
+public class MenuController extends BaseController {
 
-    private final RouteAppService routeAppService;
+    private final MenuCommandService menuCommandService;
+    private final MenuQueryService menuQueryService;
 
-    @PostMapping("/routes")
+    @PostMapping("/menus")
     @Operation(summary = "路由树形分页查询")
-    public SingleResponse<PageResponse<RouteDetailsDTO>> listPage(@RequestBody RouteQry dto) {
-        Page<RouteDetailsDTO> routeListTreeVOPage = routeAppService.queryPage(dto);
+    public SingleResponse<PageResponse<RouteDetailsDTO>> page(@RequestBody MenuQuery dto) {
+        Page<RouteDetailsDTO> routeListTreeVOPage = menuQueryService.queryPage(dto);
         return SingleResponse.ok(PageResponse.of(routeListTreeVOPage));
     }
 
-    @PostMapping("/routes/all")
+    @PostMapping("/menus/all")
     @Operation(summary = "路由全量查询")
-    public MultiResponse<RouteDetailsDTO> queryList(@RequestBody RouteQry dto) {
-        return MultiResponse.ok(routeAppService.queryList(dto));
+    public MultiResponse<RouteDetailsDTO> queryAll(@RequestBody MenuQuery dto) {
+        return MultiResponse.ok(menuQueryService.queryAll(dto));
     }
 
-    @PostMapping("/route/create")
+    @PostMapping("/menus")
     @Operation(summary = "创建路由")
-    public ServerResponse add(@RequestBody @Validated RouteCmd dto) {
-        routeAppService.saveRoute(dto);
+    public ServerResponse create(@RequestBody @Validated MenuCommand dto) {
+        menuCommandService.saveRoute(dto);
         return ServerResponse.ok();
     }
 
-    @PutMapping("/route/update")
+    @PutMapping("/menus")
     @Operation(summary = "更新路由")
-    public ServerResponse update(@RequestBody @Validated RouteCmd dto) {
-        routeAppService.updateRoute(dto);
+    public ServerResponse update(@RequestBody @Validated MenuCommand dto) {
+        menuCommandService.updateRoute(dto);
         return ServerResponse.ok();
     }
 
-    @PutMapping("/route/parent")
+    @PutMapping("/menus/parent")
     @Operation(summary = "移动路由层级")
-    public ServerResponse move(@RequestBody @Validated RouteModifyParentCmd dto) {
-        routeAppService.modifyParent(dto);
+    public ServerResponse move(@RequestBody @Validated MenuModifyParentCommand dto) {
+        menuCommandService.modifyParent(dto);
         return ServerResponse.ok();
     }
 
-    @GetMapping("/route")
+    @GetMapping("/menus/details")
     @Operation(
             summary = "查询路由详情",
             parameters = {
@@ -72,31 +74,31 @@ public class RouteController extends BaseController {
             }
     )
     public SingleResponse<RouteDetailsDTO> queryDetails(Long id) {
-        RouteDetailsDTO dto = routeAppService.queryDetails(id);
+        RouteDetailsDTO dto = menuQueryService.queryDetails(id);
         return SingleResponse.ok(dto);
     }
 
-    @PutMapping("/route/status")
+    @PutMapping("/menus/status")
     @Operation(summary = "更新路由状态")
     public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
-                                       @RequestBody RouteCmd dto) {
-        routeAppService.updateRouteStatus(dto);
+                                       @RequestBody MenuCommand dto) {
+        menuCommandService.updateRouteStatus(dto);
         return ServerResponse.ok();
     }
 
-    @DeleteMapping("/route/delete")
+    @DeleteMapping("/menus")
     @Operation(
             summary = "删除路由",
             parameters = {
                     @Parameter(name = "id", description = "路由id", required = true)
             }
     )
-    public ServerResponse deleteRoute(Long id) {
-        routeAppService.deleteRouteById(id);
+    public ServerResponse deleteMenu(Long id) {
+        menuCommandService.deleteRouteById(id);
         return ServerResponse.ok();
     }
 
-    @GetMapping("/route/elements")
+    @GetMapping("/menus/elements")
     @Operation(
             summary = "获取路由的页面元素",
             description = "根据路由id查询页面元素",
@@ -104,8 +106,8 @@ public class RouteController extends BaseController {
                     @Parameter(name = "id", description = "路由id", required = true)
             }
     )
-    public MultiResponse<ElementBaseDTO> queryRouteElements(Long id) {
-        return MultiResponse.ok(routeAppService.queryRouteElementsById(id));
+    public MultiResponse<ElementBaseDTO> queryMenuElements(Long id) {
+        return MultiResponse.ok(menuQueryService.queryRouteElementsById(id));
     }
 
 }

@@ -1,99 +1,76 @@
 package com.ark.center.iam.application.api;
 
-import cn.hutool.core.lang.Assert;
-import com.ark.center.iam.domain.api.event.ApiChangedEvent;
-import com.ark.center.iam.domain.api.event.ApiCreatedEvent;
-import com.ark.center.iam.domain.api.event.ApiDeletedEvent;
 import com.ark.center.iam.application.api.executor.ApiSyncCmdExe;
 import com.ark.center.iam.client.api.command.ApiCreateCommand;
 import com.ark.center.iam.client.api.command.ApiStatusUpdateCommand;
 import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.client.api.command.ApiUpdateCommand;
-import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.domain.api.Api;
-import com.ark.center.iam.domain.api.gateway.ApiGateway;
+import com.ark.center.iam.domain.api.ApiRepository;
+import com.ark.center.iam.domain.api.event.ApiChangedEvent;
 import com.ark.center.iam.domain.api.service.ApiDomainService;
-import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.service.PermissionService;
 import com.ark.center.iam.infra.api.assembler.ApiAssembler;
+import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static cn.hutool.core.lang.Assert.notNull;
+
 @Service
 @RequiredArgsConstructor
 public class ApiCommandHandler {
 
     private final ApiSyncCmdExe apiSyncCmdExe;
-    private final ApiGateway apiGateway;
-    private final PermissionService permissionService;
+    private final ApiRepository apiRepository;
     private final ApiAssembler apiAssembler;
     private final ApplicationEventPublisher eventPublisher;
     private final ApiDomainService apiDomainService;
 
     public void createApi(ApiCreateCommand dto) {
 
-        Api api = apiDomainService.create(dto.getName(), dto.getApplicationId(), dto.getCategoryId(), dto.getMethod(), dto.getUri(), dto.getAuthType());
+        Api api = apiDomainService.create(dto.getName(),
+                dto.getApplicationId(),
+                dto.getCategoryId(),
+                dto.getMethod(),
+                dto.getUri(),
+                dto.getAuthType());
 
-        apiGateway.save(api);
+        apiRepository.persist(api);
 
-        baseCheck(dto);
-
-        Api apiInsert = saveApi(dto);
-
-        addPermission(apiInsert);
-
-        eventPublisher.publishEvent(new ApiCreatedEvent(this));
-
-    }
-
-    private void addPermission(Api apiInsert) {
-        permissionService.addPermission(apiInsert.getId(), PermissionType.SER_API);
-    }
-
-    private void baseCheck(ApiUpdateCommand dto) {
-        Api api = apiGateway.existsByAppIdAndMethodAndUrl(dto.getApplicationId(), dto.getMethod(), dto.getUri());
-        Assert.isTrue(api == null || dto.getId().equals(api.getId()),
-                () -> ExceptionFactory.userException("API已存在"));
-    }
-
-    private Api saveApi(ApiUpdateCommand dto) {
-        Api apiInsert = apiAssembler.toApiDO(dto);
-        apiGateway.save(apiInsert);
-        return apiInsert;
-    }
-
-    public ApiDetailDTO getApi(Long id) {
-        Api api = apiGateway.byId(id);
-        return apiAssembler.toApiDetailDTO(api);
     }
 
     public void updateApi(ApiUpdateCommand dto) {
 
-        baseCheck(dto);
+        Api api = apiRepository.byId(dto.getId());
 
-        Api apiUpdate = apiAssembler.toApiDO(dto);
+        apiDomainService.update(api, dto.getName(), dto.getApplicationId(), dto.getCategoryId(), dto.getMethod(), dto.getUri(), dto.getAuthType());
 
-        apiGateway.updateByApiId(apiUpdate);
-
-        eventPublisher.publishEvent(new ApiChangedEvent(this));
+        eventPublisher.publishEvent(new ApiChangedEvent(this, api.getId()));
     }
 
     public void deleteApi(Long id) {
-        apiGateway.delete(id);
 
-        eventPublisher.publishEvent(new ApiDeletedEvent(this));
+        Api api = apiRepository.byId(id);
+
+        api.onDelete();
+
+        apiRepository.deleteById(id);
+
     }
 
-    public void handleChangeStatus(ApiStatusUpdateCommand cmd) {
-        Api api = new Api();
-        api.setId(cmd.getId());
-        api.setStatus(cmd.getStatus());
-        apiGateway.updateByApiId(api);
+    public void changeStatus(ApiStatusUpdateCommand cmd) {
 
-        eventPublisher.publishEvent(new ApiChangedEvent(this));
+        Api api = apiRepository.byId(cmd.getId());
+
+        notNull(api, ExceptionFactory.userExceptionSupplier("Api不存在"));
+
+        api.changeStatus(EnableDisableStatus.from(cmd.getStatus()));
+
+        apiRepository.persist(api);
+
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -101,7 +78,7 @@ public class ApiCommandHandler {
 
         apiSyncCmdExe.execute(cmd);
 
-        eventPublisher.publishEvent(new ApiCreatedEvent(this));
+//        eventPublisher.publishEvent(new ApiCreatedEvent(this));
 
     }
 }

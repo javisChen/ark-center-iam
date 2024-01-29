@@ -50,7 +50,8 @@ public class PermissionGatewayImpl implements PermissionGateway {
     }
 
     @Override
-    public void insert(Permission permission) {
+    public void save(Permission permission) {
+
         permissionMapper.insert(permission);
     }
 

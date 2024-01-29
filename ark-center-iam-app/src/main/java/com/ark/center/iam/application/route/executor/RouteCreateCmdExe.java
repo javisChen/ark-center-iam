@@ -1,17 +1,17 @@
 package com.ark.center.iam.application.route.executor;
 
 import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.client.route.command.RouteCmd;
+import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.service.ElementService;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.service.PermissionService;
-import com.ark.center.iam.domain.route.Route;
+import com.ark.center.iam.domain.route.Menu;
 import com.ark.center.iam.domain.route.common.RouteConst;
-import com.ark.center.iam.domain.route.gateway.RouteGateway;
+import com.ark.center.iam.domain.route.gateway.MenuRepository;
 import com.ark.center.iam.domain.route.service.RouteCheckService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.route.assembler.RouteAssembler;
+import com.ark.center.iam.infra.route.assembler.MenuAssembler;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -25,9 +25,9 @@ public class RouteCreateCmdExe {
 
     private final RouteCheckService routeCheckService;
 
-    private final RouteAssembler routeAssembler;
+    private final MenuAssembler menuAssembler;
 
-    private final RouteGateway routeGateway;
+    private final MenuRepository menuRepository;
 
     private final ElementAssembler elementAssembler;
 
@@ -35,34 +35,34 @@ public class RouteCreateCmdExe {
 
     private final PermissionService permissionService;
 
-    public void execute(RouteCmd cmd) {
+    public void execute(MenuCommand cmd) {
         baseCheck(cmd);
 
-        Route route = routeAssembler.toRouteDO(cmd);
+        Menu menu = menuAssembler.toDomain(cmd);
 
-        Route parentRoute = null;
-        if (route.isFirstLevel()) {
-            route.setLevel(RouteConst.FIRST_LEVEL);
+        Menu parentMenu = null;
+        if (menu.isFirstLevel()) {
+            menu.setLevel(RouteConst.FIRST_LEVEL);
         } else {
-            parentRoute = routeGateway.selectBaseByRouteId(route.getPid());
-            if (parentRoute == null) {
+            parentMenu = menuRepository.selectBaseByRouteId(menu.getPid());
+            if (parentMenu == null) {
                 throw ExceptionFactory.userException("父级路由不存在");
             }
-            route.setLevel(parentRoute.getLevel() + 1);
+            menu.setLevel(parentMenu.getLevel() + 1);
         }
-        routeGateway.insert(route);
+        menuRepository.insert(menu);
 
         // 新增完路由记录后再更新层级信息
-        updateLevelPathAfterSave(route, parentRoute);
+        updateLevelPathAfterSave(menu, parentMenu);
         // 添加到权限
-        Long routeId = route.getId();
-        permissionService.addPermission(routeId, PermissionType.FRONT_ROUTE);
+        Long routeId = menu.getId();
+        permissionService.addPermission(routeId, PermissionType.MENU);
         // 添加页面元素
         saveElements(cmd, routeId);
     }
 
-    private void saveElements(RouteCmd cmd, Long routeId) {
-        List<RouteCmd.Element> elements = cmd.getElements();
+    private void saveElements(MenuCommand cmd, Long routeId) {
+        List<MenuCommand.Element> elements = cmd.getElements();
         if (CollectionUtils.isEmpty(elements)) {
             return;
         }
@@ -72,18 +72,18 @@ public class RouteCreateCmdExe {
         elementService.saveBatchElements(elementList);
     }
 
-    private void updateLevelPathAfterSave(Route route, Route parentRoute) {
-        Long routeId = route.getId();
-        String levelPath = route.isFirstLevel()
+    private void updateLevelPathAfterSave(Menu menu, Menu parentMenu) {
+        Long routeId = menu.getId();
+        String levelPath = menu.isFirstLevel()
                 ? routeId + StrUtil.DOT
-                : parentRoute.getLevelPath() + routeId + StrUtil.DOT;
-        Route entity = new Route();
+                : parentMenu.getLevelPath() + routeId + StrUtil.DOT;
+        Menu entity = new Menu();
         entity.setId(routeId);
         entity.setLevelPath(levelPath);
-        routeGateway.updateByRouteId(entity);
+        menuRepository.updateByRouteId(entity);
     }
 
-    private void baseCheck(RouteCmd dto) {
+    private void baseCheck(MenuCommand dto) {
         routeCheckService.ensureNameNotExists(dto.getName(), dto.getId());
         routeCheckService.ensureCodeNotExists(dto.getCode(), dto.getId());
     }

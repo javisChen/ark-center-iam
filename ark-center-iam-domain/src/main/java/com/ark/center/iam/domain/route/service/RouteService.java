@@ -1,7 +1,7 @@
 package com.ark.center.iam.domain.route.service;
 
-import com.ark.center.iam.domain.route.Route;
-import com.ark.center.iam.domain.route.gateway.RouteGateway;
+import com.ark.center.iam.domain.route.Menu;
+import com.ark.center.iam.domain.route.gateway.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RouteService {
 
-    private final RouteGateway routeGateway;
+    private final MenuRepository menuRepository;
 
 
     /**
@@ -19,7 +19,7 @@ public class RouteService {
      * @param status  状态
      */
     public void updateRouteStatus(Long routeId, Integer status) {
-        Route route = routeGateway.selectBaseByRouteId(routeId);
-        routeGateway.updateStatusByLevelPath(status, route.getLevelPath());
+        Menu menu = menuRepository.selectBaseByRouteId(routeId);
+        menuRepository.updateStatusByLevelPath(status, menu.getLevelPath());
     }
 }

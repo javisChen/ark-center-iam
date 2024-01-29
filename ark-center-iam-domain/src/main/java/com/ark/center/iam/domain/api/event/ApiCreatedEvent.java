@@ -1,19 +1,17 @@
 package com.ark.center.iam.domain.api.event;
 
+import com.ark.center.iam.domain.common.DomainEventTypes;
+import com.ark.component.ddd.domain.event.DomainEvent;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.context.ApplicationEvent;
-
-import java.time.Clock;
 
 @Getter
-public class ApiCreatedEvent extends ApplicationEvent {
+public class ApiCreatedEvent extends DomainEvent {
 
     private final Long apiId;
 
+
     public ApiCreatedEvent(Object source, Long apiId) {
-        super(source);
+        super(source, DomainEventTypes.API_CREATED.name());
         this.apiId = apiId;
     }
-
 }

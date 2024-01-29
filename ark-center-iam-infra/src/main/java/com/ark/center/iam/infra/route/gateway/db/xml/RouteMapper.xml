@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ark.center.iam.infra.route.gateway.db.RouteMapper">
+<mapper namespace="com.ark.center.iam.infra.menu.gateway.db.RouteMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.route.Route">
+    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.menu.Menu">
         <result column="id" property="id"/>
         <result column="gmt_create" property="createTime"/>
         <result column="gmt_modified" property="updateTime"/>
@@ -43,13 +43,13 @@
         modifier
     </sql>
 
-    <select id="selectDetailsPages" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">
+    <select id="selectDetailsPages" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
         p.code as permissionCode,
         p.id as permissionId
-        FROM iam_route r
+        FROM iam_menu r
         inner join iam_permission p on p.resource_id = r.id
         inner join iam_application a on a.id = r.application_id
         <where>
@@ -72,13 +72,13 @@
         ORDER BY r.`sequence`
     </select>
 
-    <select id="selectSubRoutes" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">
+    <select id="selectSubRoutes" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
         p.code as permissionCode,
         p.id as permissionId
-        FROM iam_route r
+        FROM iam_menu r
         inner join iam_permission p on p.resource_id = r.id
         inner join iam_application a on a.id = r.application_id
         AND r.pid != 0
@@ -86,17 +86,17 @@
         AND p.type = 'FRONT_ROUTE'
     </select>
 
-    <select id="selectDetails" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">
+    <select id="selectDetails" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
         p.code as permissionCode,
         p.id as permissionId,
         rp.name as parentRouteName
-        FROM iam_route r
+        FROM iam_menu r
         inner join iam_permission p on p.resource_id = r.id
         inner join iam_application a on a.id = r.application_id
-        left join iam_route rp on rp.id = r.pid
+        left join iam_menu rp on rp.id = r.pid
         where r.is_deleted = 0 and r.id = #{id} 
     </select>
 

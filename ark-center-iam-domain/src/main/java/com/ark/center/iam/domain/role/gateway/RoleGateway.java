@@ -1,16 +1,12 @@
 package com.ark.center.iam.domain.role.gateway;
 
-import com.ark.center.iam.client.role.dto.RoleBaseDTO;
-import com.ark.center.iam.client.role.query.RoleQry;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
-import com.ark.component.orm.mybatis.base.BaseGateway;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 
-public interface RoleGateway extends BaseGateway<Role> {
+public interface RoleGateway {
     void insertUserRolesRelations(Long userId, List<Long> roleIds);
 
     void deleteUserRoleRelationsByUserId(Long userId);

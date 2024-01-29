@@ -52,11 +52,11 @@ public class RolePermissionAppService {
 
         RoleBaseDTO roleBaseDTO = roleGateway.selectById(roleId);
         String roleName = roleBaseDTO.getName();
-        eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, PermissionType.FRONT_ROUTE));
+        eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, PermissionType.MENU));
     }
 
     public List<PermissionDTO> queryRoleRoutesPermissions(Long roleId, Long applicationId) {
-        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.FRONT_ROUTE.getName());
+        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.MENU.getName());
     }
 
     @Transactional(rollbackFor = Throwable.class)

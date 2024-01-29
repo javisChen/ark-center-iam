@@ -1,11 +1,13 @@
 package com.ark.center.iam.domain.api;
 
+import com.ark.center.iam.domain.api.event.ApiChangedEvent;
+import com.ark.center.iam.domain.api.event.ApiCreatedEvent;
+import com.ark.center.iam.domain.api.event.ApiDeletedEvent;
 import com.ark.center.iam.domain.api.vo.ApiAuthType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -88,5 +90,52 @@ public class Api extends AggregateRoot {
         this.method = method;
         this.authType = authType;
         this.hasPathVariable = StringUtils.contains(uri, "*");
+        this.status = EnableDisableStatus.ENABLED;
+
+        raiseEvent(new ApiCreatedEvent(this, this.getId()));
+
     }
+
+    public void update(String name,
+                       Long appId,
+                       Long categoryId,
+                       String uri,
+                       String method,
+                       ApiAuthType authType) {
+        this.name = name;
+        this.applicationId = appId;
+        this.categoryId = categoryId;
+        this.uri = uri;
+        this.method = method;
+        this.authType = authType;
+        this.hasPathVariable = StringUtils.contains(uri, "*");
+        raiseEvent(new ApiChangedEvent(this, this.getId()));
+    }
+
+    public void update(String name, Long categoryId) {
+        this.name = name;
+        this.categoryId = categoryId;
+    }
+
+    public void changeStatus(EnableDisableStatus status) {
+        this.status = status;
+        raiseEvent(new ApiChangedEvent(this, this.getId()));
+    }
+
+    public void changeName(String name) {
+        this.name = name;
+    }
+
+    public void changeCategory(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void onDelete() {
+        new ApiDeletedEvent(this, this.getId());
+    }
+
+    public void onCreate() {
+        raiseEvent(new ApiCreatedEvent(this, getId()));
+    }
+
 }

@@ -1,9 +1,9 @@
 package com.ark.center.iam.application.route.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQry;
-import com.ark.center.iam.domain.route.gateway.RouteGateway;
+import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.menu.query.MenuQuery;
+import com.ark.center.iam.infra.route.gateway.db.MenuMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,9 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RouteTreeQryExe {
 
-    private final RouteGateway routeGateway;
-    
-    public Page<RouteDetailsDTO> execute(RouteQry dto) {
+    private final MenuMapper menuMapper;
+
+    public Page<RouteDetailsDTO> execute(MenuQuery dto) {
         Page<RouteDetailsDTO> pageResult = getFirstLevelRoutesByPage(dto);
         List<RouteDetailsDTO> firstLevelRoutes = pageResult.getRecords();
         List<RouteDetailsDTO> childrenLevelRoutes = getChildrenRoutes(firstLevelRoutes);
@@ -24,12 +24,12 @@ public class RouteTreeQryExe {
         return pageResult;
     }
 
-    private Page<RouteDetailsDTO> getFirstLevelRoutesByPage(RouteQry params) {
-        return routeGateway.selectDetailsPage(params);
+    private Page<RouteDetailsDTO> getFirstLevelRoutesByPage(MenuQuery query) {
+        return menuMapper.selectDetailsPages(new Page<>(query.getCurrent(), query.getSize()), query);
     }
     
     private List<RouteDetailsDTO> getChildrenRoutes(List<RouteDetailsDTO> firstLevelRoutes) {
-        return routeGateway.selectSubRoutes();
+        return menuMapper.selectSubRoutes();
     }
 
     /**

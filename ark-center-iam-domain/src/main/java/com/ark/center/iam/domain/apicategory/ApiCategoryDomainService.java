@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ApiCategoryDomainService {
 
-    private final ApiCategoryGateway apiCategoryGateway;
+    private final ApiCategoryRepository apiCategoryRepository;
 
     public ApiCategory create(String name, Long applicationId) {
 
@@ -31,6 +31,6 @@ public class ApiCategoryDomainService {
     }
 
     private void checkIsDuplicate(Long id, Long applicationId, String name) {
-        Assert.isFalse(apiCategoryGateway.existsByNameAndAppId(id, name, applicationId), ExceptionFactory.userExceptionSupplier("API类目已存在"));
+        Assert.isFalse(apiCategoryRepository.existsByNameAndAppId(id, name, applicationId), ExceptionFactory.userExceptionSupplier("API类目已存在"));
     }
 }

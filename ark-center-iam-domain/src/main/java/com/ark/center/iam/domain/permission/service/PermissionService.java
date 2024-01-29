@@ -20,7 +20,7 @@ public class PermissionService {
         permission.setCode(generatePermissionCode(permissionType.getTag(), resourceId));
         permission.setResourceId(resourceId);
         permission.setStatus(PermissionStatusEnums.ENABLED.getValue());
-        permissionGateway.insert(permission);
+        permissionGateway.save(permission);
     }
 
     /**

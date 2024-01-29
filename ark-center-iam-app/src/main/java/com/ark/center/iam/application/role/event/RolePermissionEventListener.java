@@ -5,7 +5,7 @@ import com.ark.center.iam.client.user.common.UserMqInfo;
 import com.ark.center.iam.client.user.dto.UserApiPermissionChangedDTO;
 import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.domain.api.Api;
-import com.ark.center.iam.domain.api.gateway.ApiGateway;
+import com.ark.center.iam.domain.api.ApiRepository;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
@@ -37,7 +37,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
 
     private final RoleGateway roleGateway;
     private final UserGateway userGateway;
-    private final ApiGateway apiGateway;
+    private final ApiRepository apiRepository;
     private final PermissionGateway permissionGateway;
     private final MessageTemplate messageTemplate;
     private final CacheService cacheService;
@@ -62,7 +62,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
 
     private void invalidateUserCache(User user, RolePermissionChangedEvent event) {
         Long userId = user.getId();
-        if (event.getPermissionType().equals(PermissionType.FRONT_ROUTE)) {
+        if (event.getPermissionType().equals(PermissionType.MENU)) {
             // 清除用户页面元素缓存
             cacheService.del(String.format(UserCacheKey.CACHE_KEY_USER_ELEMS, userId));
             // 清除用户路由缓存
@@ -99,7 +99,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         List<Permission> permissions = permissionGateway.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API);
         if (CollectionUtil.isNotEmpty(permissions)) {
             List<Long> permissionIds = permissions.stream().map(Permission::getResourceId).toList();
-            return apiGateway.selectByIds(permissionIds);
+            return apiRepository.byIds(permissionIds);
         }
         return Collections.emptyList();
     }

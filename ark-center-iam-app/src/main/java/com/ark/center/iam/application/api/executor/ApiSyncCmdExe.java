@@ -9,16 +9,17 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.domain.api.Api;
+import com.ark.center.iam.domain.api.ApiRepository;
+import com.ark.center.iam.domain.api.service.ApiDomainService;
+import com.ark.center.iam.domain.api.vo.ApiAuthType;
 import com.ark.center.iam.domain.apicategory.ApiCategory;
-import com.ark.center.iam.domain.apicategory.ApiCategoryGateway;
-import com.ark.center.iam.domain.api.gateway.ApiGateway;
+import com.ark.center.iam.domain.apicategory.ApiCategoryDomainService;
+import com.ark.center.iam.domain.apicategory.ApiCategoryRepository;
 import com.ark.center.iam.domain.application.Application;
-import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
-import com.ark.center.iam.domain.enums.ApiStatusEnums;
-import com.ark.center.iam.domain.permission.enums.PermissionType;
+import com.ark.center.iam.domain.application.gateway.ApplicationRepository;
 import com.ark.center.iam.domain.permission.service.PermissionService;
+import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.exception.ExceptionFactory;
-import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,14 +31,11 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -45,11 +43,15 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ApiSyncCmdExe {
 
-    private final ApplicationGateway applicationGateway;
+    private final ApplicationRepository applicationRepository;
 
-    private final ApiGateway apiGateway;
+    private final ApiRepository apiRepository;
 
-    private final ApiCategoryGateway apiCategoryGateway;
+    private final ApiCategoryRepository apiCategoryRepository;
+
+    private final ApiCategoryDomainService apiCategoryDomainService;
+
+    private final ApiDomainService apiDomainService;
 
     private final NacosServiceDiscovery nacosServiceDiscovery;
 
@@ -57,7 +59,9 @@ public class ApiSyncCmdExe {
 
     public void execute(ApiSyncCmd cmd) {
 
-        Application application = getApplication(cmd);
+        Long applicationId = cmd.getApplicationId();
+
+        Application application = applicationRepository.byId(applicationId);
 
         // 通过服务发现选择可用的应用实例
         ServiceInstance serviceInstance = getServiceInstance(application);
@@ -80,7 +84,7 @@ public class ApiSyncCmdExe {
     }
 
     private List<ApiCategory> saveApiCategories(Application application, List<String> tags) {
-        List<ApiCategory> existsCategories = apiCategoryGateway.selectByApplicationId(application.getId());
+        List<ApiCategory> existsCategories = apiCategoryRepository.byAppId(application.getId());
         Set<String> existsCategoryNames = existsCategories.stream()
                 .map(ApiCategory::getName)
                 .collect(Collectors.toSet());
@@ -92,32 +96,16 @@ public class ApiSyncCmdExe {
         }
 
         // 插入新的Api分类
-        newCategories
+        return newCategories
                 .stream()
                 .distinct()
-                .map(tag -> {
-                    ApiCategory apiCategory = new ApiCategory();
-                    apiCategory.setName(tag);
-                    apiCategory.setApplicationId(application.getId());
-                    return apiCategory;
-                })
-                .forEach(apiCategoryGateway::save);
-        return apiCategoryGateway.selectByApplicationId(application.getId());
+                .map(tag -> apiCategoryDomainService.create(tag, application.getId())).toList();
     }
 
     /**
      * 提取所有的Tag
      */
     private List<String> extractTags(JSONObject openAPI) {
-//        JSONArray tags = openAPI.getJSONArray("tags");
-//        if (CollectionUtils.isEmpty(tags)) {
-//            return Collections.emptyList();
-//        }
-//        return tags.stream()
-//                .map(item -> (JSONObject) item)
-//                .map(item -> item.getString("name"))
-//                .toList();
-
         JSONObject paths = openAPI.getJSONObject("paths");
         if (MapUtils.isEmpty(paths)) {
             return Collections.emptyList();
@@ -150,8 +138,8 @@ public class ApiSyncCmdExe {
                 if (originalApi == null) {
                     insertApis.add(serviceApi);
                 } else {
-                    originalApi.setName(serviceApi.getName());
-                    originalApi.setCategoryId(serviceApi.getCategoryId());
+                    originalApi.changeName(serviceApi.getName());
+                    originalApi.changeCategory(serviceApi.getCategoryId());
                     updateApis.add(originalApi);
                 }
             }
@@ -160,83 +148,30 @@ public class ApiSyncCmdExe {
         }
 
         for (Api api : insertApis) {
-            apiGateway.save(api);
-            permissionService.addPermission(api.getId(), PermissionType.SER_API);
+            api.onCreate();
+            apiRepository.persist(api);
         }
 
         for (Api api : updateApis) {
-            apiGateway.updateByApiId(api);
+            apiRepository.persist(api);
         }
+
     }
 
     /**
      * 复合Key，uri + method + categoryId
      */
     private MultiKey<String> createApiMultiKey(Api serviceApi) {
-        return new MultiKey<>(serviceApi.getUri(),
-                serviceApi.getMethod());
+        return new MultiKey<>(serviceApi.getUri(), serviceApi.getMethod());
     }
 
     private MultiKeyMap<String, Api> queryExistsApis(Application application) {
-        List<Api> existingApis = apiGateway.byAppId(application.getId());
+        List<Api> existingApis = apiRepository.byAppId(application.getId());
         MultiKeyMap<String, Api> map = new MultiKeyMap<>();
         for (Api existingApi : existingApis) {
             map.put(createApiMultiKey(existingApi), existingApi);
         }
         return map;
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-
-//        JSONArray jsonObject = JSON.parseArray(IoUtil.readBytes(new FileInputStream("C:\\Code\\ark\\ark-center-iam\\json.json")));
-//        List<Object> bisValid = jsonObject.stream().filter(item -> {
-//            JSONObject object = (JSONObject) item;
-//            boolean bisValid1 = object.getInteger("bisValid").equals(1)
-//                    && object.getString("erpTradeOuterId").equals("52CB0C8D-4606-4BC3-80E8-91A6731D4051");
-//            return bisValid1;
-//        }).collect(Collectors.toList());
-//        System.out.println(JSON.toJSONString(bisValid, JSONWriter.Feature.PrettyFormat));
-//
-//        List<Api> insertList = new ArrayList<>();
-//        Api a1 = new Api();
-//        a1.setName("api1");
-//        a1.setUri("/users1");
-//        a1.setMethod("get");
-//
-//        Api a2 = new Api();
-//        a2.setName("api2");
-//        a2.setUri("/users");
-//        a2.setMethod("post");
-//        insertList.add(a1);
-//        insertList.add(a2);
-//
-//        List<Api> customerInsertList = insertList.stream().
-//                collect(Collectors.collectingAndThen(Collectors.toCollection(
-//                        () -> new TreeSet<>(Comparator.comparing(Api::getUri))), ArrayList::new));
-////
-//        System.out.println(customerInsertList.size());
-
-        List<Api> existingApis = new ArrayList<>();
-        Api a1 = new Api();
-        a1.setName("api1");
-        a1.setUri("/users");
-        a1.setMethod("get");
-
-        Api a2 = new Api();
-        a2.setName("api2");
-        a2.setUri("/users");
-        a2.setMethod("post");
-        existingApis.add(a2);
-        MultiKeyMap<String, Api> collect = existingApis.stream()
-                .collect(Collector.of(MultiKeyMap::new,
-                        (map, api) -> map.put(api.getUri(), api.getMethod(), api),
-                        (map1, map2) -> {
-                            map1.putAll(map2);
-                            return map1;
-                        },
-                        Function.identity()
-                ));
-        System.out.println(collect);
     }
 
     private List<Api> extractServiceApis(JSONObject openAPI,
@@ -249,7 +184,7 @@ public class ApiSyncCmdExe {
         }
         // 建立名字和id的映射关系
         Map<String, Long> categoriesMappings = apiCategories.stream()
-                .collect(Collectors.toMap(ApiCategory::getName, BaseEntity::getId));
+                .collect(Collectors.toMap(ApiCategory::getName, AggregateRoot::getId));
         List<Api> apis = new ArrayList<>();
         paths.forEach((uri, value) -> {
             JSONObject pathItem = (JSONObject) value;
@@ -270,22 +205,14 @@ public class ApiSyncCmdExe {
         JSONObject methodInfo = (JSONObject) operation.getValue();
         String summary = MapUtils.getString(methodInfo, "summary", uri);
         JSONArray tags = methodInfo.getJSONArray("tags");
-        String tag = String.valueOf(tags.get(0));
-        Api api = new Api();
-        api.setName(summary);
-        api.setApplicationId(application.getId());
-        api.setCategoryId(MapUtils.getLong(categoriesMappings, tag, 0L));
-        api.setHasPathVariable(false);
-        api.setUri("/" + serviceInstance.getServiceId() + uri);
-        api.setMethod(method.toUpperCase());
-        api.setAuthType(ApiAuthType.NEED_AUTHENTICATION_AND_AUTHORIZATION.getValue());
-        api.setStatus(ApiStatusEnums.ENABLED.getValue());
-        return api;
-    }
-
-    private Application getApplication(ApiSyncCmd cmd) {
-        Long applicationId = cmd.getApplicationId();
-        return applicationGateway.queryById(applicationId);
+        String tag = String.valueOf(tags.getFirst());
+        Long applicationId = application.getId();
+        return new Api(summary,
+                applicationId,
+                MapUtils.getLong(categoriesMappings, tag, 0L),
+                "/" + serviceInstance.getServiceId() + uri,
+                method.toUpperCase(),
+                ApiAuthType.AUTHENTICATION_AUTHORIZATION);
     }
 
     private ServiceInstance getServiceInstance(Application application) {
@@ -293,7 +220,7 @@ public class ApiSyncCmdExe {
         try {
             List<ServiceInstance> instances = nacosServiceDiscovery.getInstances(application.getCode());
             Assert.notEmpty(instances, () -> ExceptionFactory.sysException("服务不在线,无法获取Api信息"));
-            serviceInstance = instances.get(0);
+            serviceInstance = instances.getFirst();
         } catch (NacosException e) {
             log.error("读取服务实例失败", e);
             throw ExceptionFactory.sysException("获取服务实例失败");
@@ -307,8 +234,8 @@ public class ApiSyncCmdExe {
                 .GET()
                 .uri(URI.create(serviceInstance.getUri() + "/v3/api-docs"))
                 .build();
-        try {
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        try (HttpClient httpClient = HttpClient.newHttpClient()) {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return JSON.parseObject(response.body());
         } catch (Exception e) {
             log.error("请求服务失败", e);

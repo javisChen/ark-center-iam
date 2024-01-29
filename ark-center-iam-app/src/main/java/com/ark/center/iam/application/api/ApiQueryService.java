@@ -1,5 +1,6 @@
 package com.ark.center.iam.application.api;
 
+import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.client.api.query.ApiQuery;
 import com.ark.center.iam.infra.api.gateway.db.ApiMapper;
@@ -17,4 +18,7 @@ public class ApiQueryService {
         return apiMapper.selectApiList(dto);
     }
 
+    public ApiDetailDTO queryById(Long id) {
+        return null;
+    }
 }
