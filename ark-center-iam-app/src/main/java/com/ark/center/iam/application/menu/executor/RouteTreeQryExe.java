@@ -1,4 +1,4 @@
-package com.ark.center.iam.application.route.executor;
+package com.ark.center.iam.application.menu.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;

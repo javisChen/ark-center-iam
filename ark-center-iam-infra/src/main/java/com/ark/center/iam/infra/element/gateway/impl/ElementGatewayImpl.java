@@ -21,7 +21,7 @@ public class ElementGatewayImpl extends ServiceImpl<ElementMapper, Element> impl
     @Override
     public void deleteByRouteId(Long routeId) {
         LambdaUpdateWrapper<Element> wrapper = new LambdaUpdateWrapper<Element>()
-                .eq(Element::getRouteId, routeId)
+                .eq(Element::getMenuId, routeId)
                 .set(Element::getIsDeleted, DeletedEnums.YET.getCode());
         update(wrapper);
     }
@@ -29,7 +29,7 @@ public class ElementGatewayImpl extends ServiceImpl<ElementMapper, Element> impl
     @Override
     public List<Element> selectElementsByRouteId(Long routeId) {
         return lambdaQuery()
-                .eq(Element::getRouteId, routeId)
+                .eq(Element::getMenuId, routeId)
                 .eq(Element::getIsDeleted, DeletedEnums.NOT.getCode())
                 .list();
     }

@@ -1,4 +1,4 @@
-package com.ark.center.iam.application.route.executor;
+package com.ark.center.iam.application.menu.executor;
 
 import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.client.menu.command.MenuCommand;
@@ -6,10 +6,10 @@ import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.service.ElementService;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.service.PermissionService;
-import com.ark.center.iam.domain.route.Menu;
-import com.ark.center.iam.domain.route.common.RouteConst;
-import com.ark.center.iam.domain.route.gateway.MenuRepository;
-import com.ark.center.iam.domain.route.service.RouteCheckService;
+import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.menu.common.MenuConst;
+import com.ark.center.iam.domain.menu.repository.MenuRepository;
+import com.ark.center.iam.domain.menu.service.RouteCheckService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.route.assembler.MenuAssembler;
 import com.ark.component.exception.ExceptionFactory;
@@ -21,7 +21,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class RouteCreateCmdExe {
+public class MenuCreateCmdExe {
 
     private final RouteCheckService routeCheckService;
 
@@ -41,8 +41,8 @@ public class RouteCreateCmdExe {
         Menu menu = menuAssembler.toDomain(cmd);
 
         Menu parentMenu = null;
-        if (menu.isFirstLevel()) {
-            menu.setLevel(RouteConst.FIRST_LEVEL);
+        if (menu.isRoot()) {
+            menu.setLevel(MenuConst.FIRST_LEVEL);
         } else {
             parentMenu = menuRepository.selectBaseByRouteId(menu.getPid());
             if (parentMenu == null) {
@@ -70,15 +70,16 @@ public class RouteCreateCmdExe {
                 .map(item -> elementAssembler.toElementDO(item, routeId))
                 .toList();
         elementService.saveBatchElements(elementList);
+
     }
 
     private void updateLevelPathAfterSave(Menu menu, Menu parentMenu) {
-        Long routeId = menu.getId();
-        String levelPath = menu.isFirstLevel()
-                ? routeId + StrUtil.DOT
-                : parentMenu.getLevelPath() + routeId + StrUtil.DOT;
+        Long menuId = menu.getId();
+        String levelPath = menu.isRoot()
+                ? menuId + StrUtil.DOT
+                : parentMenu.getLevelPath() + menuId + StrUtil.DOT;
         Menu entity = new Menu();
-        entity.setId(routeId);
+        entity.setId(menuId);
         entity.setLevelPath(levelPath);
         menuRepository.updateByRouteId(entity);
     }

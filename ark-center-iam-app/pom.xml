@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>com.ark.ddd</groupId>
-            <artifactId>ark-component-ddd-application</artifactId>
+            <artifactId>ark-component-ddd-app</artifactId>
         </dependency>
 
         <dependency>

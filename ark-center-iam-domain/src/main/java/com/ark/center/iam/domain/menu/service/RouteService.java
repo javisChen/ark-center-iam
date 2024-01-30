@@ -1,7 +1,7 @@
-package com.ark.center.iam.domain.route.service;
+package com.ark.center.iam.domain.menu.service;
 
-import com.ark.center.iam.domain.route.Menu;
-import com.ark.center.iam.domain.route.gateway.MenuRepository;
+import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

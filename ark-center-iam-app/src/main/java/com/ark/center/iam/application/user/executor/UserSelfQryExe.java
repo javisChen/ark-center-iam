@@ -3,7 +3,7 @@ package com.ark.center.iam.application.user.executor;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.permission.Permission;
-import com.ark.center.iam.domain.route.gateway.MenuRepository;
+import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.domain.user.service.UserPermissionService;
 import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.component.cache.core.CacheHelper;

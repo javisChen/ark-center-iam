@@ -1,6 +1,6 @@
-package com.ark.center.iam.domain.route.gateway;
+package com.ark.center.iam.domain.menu.repository;
 
-import com.ark.center.iam.domain.route.Menu;
+import com.ark.center.iam.domain.menu.Menu;
 import com.ark.component.ddd.domain.repository.BaseRepository;
 
 import java.util.List;
@@ -27,5 +27,11 @@ public interface MenuRepository extends BaseRepository<Menu, Long> {
 
     void logicDeleteBatchByIds(List<Long> ids);
 
-    Menu byId(Long menuId);
+    boolean existsByName(Long excludeId, String name);
+
+    boolean existsByCode(Long excludeId, String code);
+
+    boolean existsByName(String name);
+
+    boolean existsByCode(String code);
 }

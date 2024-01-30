@@ -1,4 +1,4 @@
-package com.ark.center.iam.application.route.executor;
+package com.ark.center.iam.application.menu.executor;
 
 import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.domain.element.Element;

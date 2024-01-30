@@ -10,7 +10,7 @@ import lombok.Getter;
 
 @EqualsAndHashCode(callSuper = true)
 @Getter
-public class Application extends AggregateRoot {
+public class App extends AggregateRoot {
 
     /**
      * 应用名称
@@ -38,7 +38,7 @@ public class Application extends AggregateRoot {
     @TableField
     private final ApplicationType type;
 
-    public Application(String name, String code, ApplicationType type) {
+    public App(String name, String code, ApplicationType type) {
         this.name = name;
         this.code = code;
         this.type = type;

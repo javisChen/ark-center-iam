@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ApplicationFactory {
 
-    private final ApplicationChecker applicationChecker;
+    private final AppChecker appChecker;
 
-    public Application create(String name, String code, Integer type) {
+    public App create(String name, String code, Integer type) {
 
-        applicationChecker.ensureNameNotExists(name);
+        appChecker.ensureNameNotExists(name);
 
-        applicationChecker.ensureCodeNotExists(code);
+        appChecker.ensureCodeNotExists(code);
 
-        return new Application(name, code, ApplicationType.from(type));
+        return new App(name, code, ApplicationType.from(type));
 
     }
 

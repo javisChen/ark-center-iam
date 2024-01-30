@@ -1,6 +1,6 @@
 package com.ark.center.iam.client.menu.command;
 
-import com.ark.component.validator.ValidateGroup;
+import com.ark.component.ddd.app.Command;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,10 +11,10 @@ import java.util.List;
 
 @Data
 @Schema(description = "路由创建命令")
-public class MenuCommand {
+public class MenuCommand implements Command {
 
-    @NotNull(message = "id 不能为空", groups = ValidateGroup.Update.class)
-    @Schema(description = "路由名称")
+    @NotNull(message = "id 不能为空")
+    @Schema(description = "id")
     private Long id;
 
     @NotBlank(message = "name 不能为空")

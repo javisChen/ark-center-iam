@@ -1,7 +1,7 @@
-package com.ark.center.iam.application.route;
+package com.ark.center.iam.application.menu;
 
-import com.ark.center.iam.application.route.executor.RouteDetailsQryExe;
-import com.ark.center.iam.application.route.executor.RouteTreeQryExe;
+import com.ark.center.iam.application.menu.executor.RouteDetailsQryExe;
+import com.ark.center.iam.application.menu.executor.RouteTreeQryExe;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;

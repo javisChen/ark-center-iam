@@ -1,8 +1,8 @@
-package com.ark.center.iam.application.route.executor;
+package com.ark.center.iam.application.menu.executor;
 
 import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
-import com.ark.center.iam.domain.route.Menu;
-import com.ark.center.iam.domain.route.gateway.MenuRepository;
+import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

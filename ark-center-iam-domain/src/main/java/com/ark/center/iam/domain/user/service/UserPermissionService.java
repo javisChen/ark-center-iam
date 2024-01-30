@@ -2,7 +2,7 @@ package com.ark.center.iam.domain.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.application.gateway.ApplicationRepository;
+import com.ark.center.iam.domain.application.gateway.AppRepository;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
@@ -35,7 +35,7 @@ public class UserPermissionService {
 
     private final UserGroupGateway userGroupGateway;
 
-    private final ApplicationRepository applicationRepository;
+    private final AppRepository appRepository;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     public List<Permission> queryUserPermissions(Long userId, PermissionType permissionType) {

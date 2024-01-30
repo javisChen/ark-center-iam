@@ -1,6 +1,6 @@
-package com.ark.center.iam.domain.route.service;
+package com.ark.center.iam.domain.menu.service;
 
-import com.ark.center.iam.domain.route.Menu;
+import com.ark.center.iam.domain.menu.Menu;
 import com.ark.component.orm.mybatis.service.CheckService;
 import org.springframework.stereotype.Service;
 

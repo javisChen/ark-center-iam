@@ -1,11 +1,12 @@
 package com.ark.center.iam.domain.element;
 
+import com.ark.component.ddd.domain.AggregateRoot;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.lang.annotation.ElementType;
 
 /**
  * <p>
@@ -20,13 +21,11 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_element")
 public class Element extends AggregateRoot {
 
-    
-
     /**
-     * 所属菜单id，关联iam_route.id
+     * 所属菜单id，关联iam_menu.id
      */
-    @TableField("route_id")
-    private Long routeId;
+    @TableField("menu_id")
+    private Long menuId;
 
     /**
      * 元素名称
@@ -38,10 +37,9 @@ public class Element extends AggregateRoot {
      * 元素类型 1-按钮；2-层；
      */
     @TableField("type")
-    private Integer type;
+    private ElementType type;
 
     @TableField(value = "is_deleted")
-    @TableLogic
     private Long isDeleted;
 
 }

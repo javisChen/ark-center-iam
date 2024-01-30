@@ -1,11 +1,11 @@
 package com.ark.center.iam.application.application;
 
-import cn.hutool.core.lang.Assert;
 import com.ark.center.iam.client.application.command.ApplicationCreateCommand;
 import com.ark.center.iam.client.application.command.ApplicationUpdateCommand;
-import com.ark.center.iam.domain.application.*;
-import com.ark.center.iam.domain.application.gateway.ApplicationRepository;
-import com.ark.component.exception.ExceptionFactory;
+import com.ark.center.iam.domain.application.App;
+import com.ark.center.iam.domain.application.ApplicationDomainService;
+import com.ark.center.iam.domain.application.ApplicationFactory;
+import com.ark.center.iam.domain.application.gateway.AppRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,28 +14,27 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ApplicationCommandHandler {
 
-    private final ApplicationRepository applicationRepository;
+    private final AppRepository appRepository;
     private final ApplicationDomainService applicationDomainService;
+    private final ApplicationFactory applicationFactory;
 
     @Transactional(rollbackFor = Throwable.class)
-    public void handleCreate(ApplicationCreateCommand dto) {
+    public void handleCreate(ApplicationCreateCommand command) {
 
-        Application application = applicationDomainService.create(dto.getName(), dto.getCode(), dto.getType());
+        App app = applicationFactory.create(command.getName(), command.getCode(), command.getType());
 
-        applicationRepository.persist(application);
+        appRepository.persist(app);
 
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void handleUpdate(ApplicationUpdateCommand dto) {
+    public void handleUpdate(ApplicationUpdateCommand command) {
         
-        Application application = applicationRepository.byId(dto.getId());
+        App app = appRepository.byId(command.getId());
         
-        Assert.notNull(application, ExceptionFactory.userExceptionSupplier("应用不存在"));
+        applicationDomainService.update(app, command.getName());
 
-        applicationDomainService.update(application, dto.getName());
-
-        applicationRepository.persist(application);
+        appRepository.persist(app);
 
     }
 

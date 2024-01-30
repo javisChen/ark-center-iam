@@ -1,8 +1,8 @@
 
 package com.ark.center.iam.adapter.route.http.controller;
 
-import com.ark.center.iam.application.route.MenuCommandService;
-import com.ark.center.iam.application.route.MenuQueryService;
+import com.ark.center.iam.application.menu.MenuCommandHandler;
+import com.ark.center.iam.application.menu.MenuQueryService;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.command.MenuModifyParentCommand;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MenuController extends BaseController {
 
-    private final MenuCommandService menuCommandService;
+    private final MenuCommandHandler menuCommandHandler;
     private final MenuQueryService menuQueryService;
 
     @PostMapping("/menus")
@@ -48,21 +48,21 @@ public class MenuController extends BaseController {
     @PostMapping("/menus")
     @Operation(summary = "创建路由")
     public ServerResponse create(@RequestBody @Validated MenuCommand dto) {
-        menuCommandService.saveRoute(dto);
+        menuCommandHandler.create(dto);
         return ServerResponse.ok();
     }
 
     @PutMapping("/menus")
     @Operation(summary = "更新路由")
     public ServerResponse update(@RequestBody @Validated MenuCommand dto) {
-        menuCommandService.updateRoute(dto);
+        menuCommandHandler.updateRoute(dto);
         return ServerResponse.ok();
     }
 
     @PutMapping("/menus/parent")
     @Operation(summary = "移动路由层级")
     public ServerResponse move(@RequestBody @Validated MenuModifyParentCommand dto) {
-        menuCommandService.modifyParent(dto);
+        menuCommandHandler.modifyParent(dto);
         return ServerResponse.ok();
     }
 
@@ -82,7 +82,7 @@ public class MenuController extends BaseController {
     @Operation(summary = "更新路由状态")
     public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
                                        @RequestBody MenuCommand dto) {
-        menuCommandService.updateRouteStatus(dto);
+        menuCommandHandler.updateRouteStatus(dto);
         return ServerResponse.ok();
     }
 
@@ -94,7 +94,7 @@ public class MenuController extends BaseController {
             }
     )
     public ServerResponse deleteMenu(Long id) {
-        menuCommandService.deleteRouteById(id);
+        menuCommandHandler.deleteRouteById(id);
         return ServerResponse.ok();
     }
 

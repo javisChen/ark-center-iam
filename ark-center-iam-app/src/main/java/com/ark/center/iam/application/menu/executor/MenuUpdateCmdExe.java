@@ -1,15 +1,15 @@
-package com.ark.center.iam.application.route.executor;
+package com.ark.center.iam.application.menu.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.element.service.ElementService;
-import com.ark.center.iam.domain.route.Menu;
-import com.ark.center.iam.domain.route.common.RouteConst;
-import com.ark.center.iam.domain.route.gateway.MenuRepository;
-import com.ark.center.iam.domain.route.service.RouteCheckService;
-import com.ark.center.iam.domain.route.service.RouteService;
+import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.menu.common.MenuConst;
+import com.ark.center.iam.domain.menu.repository.MenuRepository;
+import com.ark.center.iam.domain.menu.service.RouteCheckService;
+import com.ark.center.iam.domain.menu.service.RouteService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.route.assembler.MenuAssembler;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class RouteUpdateCmdExe {
+public class MenuUpdateCmdExe {
 
     private final RouteCheckService routeCheckService;
     private final RouteService routeService;
@@ -71,7 +71,7 @@ public class RouteUpdateCmdExe {
         }
         elementService.saveBatchElements(elements.stream().map(item -> {
             Element elementDO = elementAssembler.toElementDO(item, routeId);
-            elementDO.setRouteId(routeId);
+            elementDO.setMenuId(routeId);
             return elementDO;
         }).toList());
     }
@@ -95,7 +95,7 @@ public class RouteUpdateCmdExe {
         // 如果pid不一致的话才做更新
         if (!oldPid.equals(toRouteId)) {
 
-            Menu parentMenu = toRouteId.equals(RouteConst.DEFAULT_PID) ? defaultParentRoute() : menuRepository.selectBaseByRouteId(toRouteId);
+            Menu parentMenu = toRouteId.equals(MenuConst.DEFAULT_PID) ? defaultParentRoute() : menuRepository.selectBaseByRouteId(toRouteId);
             updateRouteLevel(menu, parentMenu);
 
             List<Menu> children = getChildrenRouteByLevelPath(menu.getLevelPath());
@@ -145,7 +145,7 @@ public class RouteUpdateCmdExe {
         newMenu.setPid(parentMenu.getId());
         String routeLevelPath = menu.getLevelPath();
         String parentRouteLevelPath = parentMenu.getLevelPath();
-        String levelPath = menu.isFirstLevel() ? (parentRouteLevelPath + routeLevelPath)
+        String levelPath = menu.isRoot() ? (parentRouteLevelPath + routeLevelPath)
                 : createNewLevelPath(menu.getId(), routeLevelPath, parentRouteLevelPath);
         newMenu.setLevelPath(levelPath);
         newMenu.setLevel(parentMenu.getLevel() + 1);

@@ -13,4 +13,8 @@ public enum DomainEventTypes {
     API_CHANGED,
 
     API_DELETED,
+
+    MENU_CREATED,
+
+    MENU_DELETED,
 }

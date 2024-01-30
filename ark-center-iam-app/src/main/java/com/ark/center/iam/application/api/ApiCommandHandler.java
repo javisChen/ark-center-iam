@@ -78,7 +78,5 @@ public class ApiCommandHandler {
 
         apiSyncCmdExe.execute(cmd);
 
-//        eventPublisher.publishEvent(new ApiCreatedEvent(this));
-
     }
 }

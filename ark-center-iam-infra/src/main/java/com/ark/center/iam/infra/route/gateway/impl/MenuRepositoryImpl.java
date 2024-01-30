@@ -1,19 +1,15 @@
 package com.ark.center.iam.infra.route.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
-import com.ark.center.iam.domain.route.Menu;
-import com.ark.center.iam.domain.route.gateway.MenuRepository;
+import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.infra.route.assembler.MenuAssembler;
-import com.ark.center.iam.infra.route.gateway.db.MenuMapper;
+import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
-import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -27,8 +23,6 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
 
     private final MenuAssembler menuAssembler;
 
-    private final MenuMapper menuMapper;
-
     @Override
     public List<UserRouteDTO> selectByRouteIds(List<Long> routeIds) {
         if (CollectionUtil.isEmpty(routeIds)) {
@@ -41,10 +35,6 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
         return menuAssembler.toRouteDTO(menus);
     }
 
-    @Override
-    public List<RouteDetailsDTO> selectSubRoutes() {
-        return baseMapper.selectSubRoutes();
-    }
 
     @Override
     public Menu selectBaseByRouteId(Long id) {
@@ -81,11 +71,6 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
     }
 
     @Override
-    public RouteDetailsDTO selectDetailsByRouteId(Long id) {
-        return baseMapper.selectDetails(id);
-    }
-
-    @Override
     public void updateStatusById(Integer status, Long id) {
 
     }
@@ -100,14 +85,35 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
     @Override
     public void logicDeleteBatchByIds(List<Long> ids) {
         lambdaUpdate()
-                .in(BaseEntity::getId, ids)
+                .in(AggregateRoot::getId, ids)
                 .set(Menu::getIsDeleted, DeletedEnums.NOT.getCode())
                 .update();
     }
 
     @Override
-    public Menu byId(Long menuId) {
-        return menuMapper.selectById(menuId);
+    public boolean existsByName(Long excludeId, String name) {
+        return lambdaQuery()
+                .ne(excludeId != null, AggregateRoot::getId, excludeId)
+                .eq(Menu::getName, name)
+                .exists();
+    }
+
+    @Override
+    public boolean existsByCode(Long excludeId, String code) {
+        return lambdaQuery()
+                .ne(excludeId != null, AggregateRoot::getId, excludeId)
+                .eq(Menu::getCode, code)
+                .exists();
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        return existsByName(null, name);
+    }
+
+    @Override
+    public boolean existsByCode(String code) {
+        return existsByCode(null, code);
     }
 
 }

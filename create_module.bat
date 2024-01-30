@@ -25,5 +25,5 @@ mkdir "%project%-infra\src\main\java\%package%\infra\%module%\gateway\db\xml"
 mkdir "%project%-infra\src\main\java\%package%\infra\%module%\gateway\impl"
 mkdir "%project%-infra\src\main\java\%package%\infra\%module%\assembler"
 
-mkdir "%project%-app\src\main\java\%package%\application\%module%"
-mkdir "%project%-app\src\main\java\%package%\application\%module%\executor"
+mkdir "%project%-app\src\main\java\%package%\app\%module%"
+mkdir "%project%-app\src\main\java\%package%\app\%module%\executor"
