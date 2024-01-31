@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.menu.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.model.menu.command.MenuCommand;
+import com.ark.center.iam.model.menu.command.MenuCreateCommand;
 import com.ark.center.iam.domain.menu.vo.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.element.service.ElementService;
@@ -12,6 +12,7 @@ import com.ark.center.iam.domain.menu.service.RouteCheckService;
 import com.ark.center.iam.domain.menu.service.RouteService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.route.assembler.MenuAssembler;
+import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,13 @@ public class MenuUpdateCmdExe {
     private final ElementService elementService;
     private final ElementAssembler elementAssembler;
 
-    public void execute(MenuCommand dto) {
+    public void execute(MenuUpdateCommand dto) {
+
+        Menu parentMenu = command.getPid() > 0 ? menuRepository.byId(command.getPid()) : null;
+
+        Menu menuDomain = menuAssembler.toDomain(command);
+
+        Menu menu = menuFactory.create(menuDomain, parentMenu);
         Long routeId = dto.getId();
 
         // 基础校验
@@ -55,7 +62,7 @@ public class MenuUpdateCmdExe {
 
     }
 
-    private void updateBase(MenuCommand dto) {
+    private void updateBase(MenuCreateCommand dto) {
         Menu menu = menuAssembler.toDomain(dto);
         menuRepository.updateByRouteId(menu);
     }
@@ -64,8 +71,8 @@ public class MenuUpdateCmdExe {
         elementGateway.deleteByRouteId(routeId);
     }
 
-    private void saveElements(MenuCommand cmd, Long routeId) {
-        List<MenuCommand.Element> elements = cmd.getElements();
+    private void saveElements(MenuCreateCommand cmd, Long routeId) {
+        List<MenuCreateCommand.Element> elements = cmd.getElements();
         if (CollectionUtils.isEmpty(elements)) {
             return;
         }
@@ -158,7 +165,7 @@ public class MenuUpdateCmdExe {
     }
 
 
-    private void baseCheck(MenuCommand dto) {
+    private void baseCheck(MenuCreateCommand dto) {
         routeCheckService.ensureNameNotExists(dto.getName(), dto.getId());
         routeCheckService.ensureCodeNotExists(dto.getCode(), dto.getId());
     }

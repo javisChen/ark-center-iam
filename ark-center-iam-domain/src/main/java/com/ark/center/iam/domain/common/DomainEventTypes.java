@@ -16,5 +16,7 @@ public enum DomainEventTypes {
 
     MENU_CREATED,
 
+    MENU_CHANGED,
+
     MENU_DELETED,
 }

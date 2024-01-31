@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.element.assembler;
 
-import com.ark.center.iam.model.menu.command.MenuCommand;
+import com.ark.center.iam.model.menu.command.MenuCreateCommand;
 import com.ark.center.iam.model.element.dto.ElementBaseDTO;
 import com.ark.center.iam.domain.menu.vo.Element;
 import org.mapstruct.Mapper;
@@ -17,7 +17,7 @@ public interface ElementAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    Element toElementDO(MenuCommand.Element element, Long routeId);
+    Element toElementDO(MenuCreateCommand.Element element, Long routeId);
 
     List<ElementBaseDTO> toElementDTO(List<Element> elements);
     ElementBaseDTO toElementDTO(Element elements);

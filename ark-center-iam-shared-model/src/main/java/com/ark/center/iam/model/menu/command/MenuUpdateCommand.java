@@ -11,8 +11,7 @@ import java.util.List;
 
 @Data
 @Schema(description = "路由创建命令")
-public class MenuCommand implements Command {
-
+public class MenuUpdateCommand implements Command {
     @NotNull(message = "id 不能为空")
     @Schema(description = "id")
     private Long id;

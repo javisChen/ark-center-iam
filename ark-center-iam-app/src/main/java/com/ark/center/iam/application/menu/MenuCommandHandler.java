@@ -5,11 +5,13 @@ import com.ark.center.iam.application.menu.executor.RouteDeleteCmdExe;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.MenuFactory;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
+import com.ark.center.iam.domain.menu.service.MenuDomainService;
 import com.ark.center.iam.domain.menu.service.RouteCheckService;
 import com.ark.center.iam.domain.menu.service.RouteService;
 import com.ark.center.iam.infra.route.assembler.MenuAssembler;
-import com.ark.center.iam.model.menu.command.MenuCommand;
+import com.ark.center.iam.model.menu.command.MenuCreateCommand;
 import com.ark.center.iam.model.menu.command.MenuModifyParentCommand;
+import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +27,10 @@ public class MenuCommandHandler {
     private final RouteService routeService;
     private final MenuAssembler menuAssembler;
     private final MenuFactory menuFactory;
+    private final MenuDomainService menuDomainService;
 
     @Transactional(rollbackFor = Throwable.class)
-    public void create(MenuCommand command) {
+    public void create(MenuCreateCommand command) {
 
         Menu parentMenu = command.getPid() > 0 ? menuRepository.byId(command.getPid()) : null;
 
@@ -40,8 +43,18 @@ public class MenuCommandHandler {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void update(MenuCommand dto) {
-        menuUpdateCmdExe.execute(dto);
+    public void update(MenuUpdateCommand command) {
+
+        Menu parentMenu = command.getPid() > 0 ? menuRepository.byId(command.getPid()) : null;
+
+        Menu willUpdateMenu = menuAssembler.toDomain(command);
+
+        Menu menu = menuRepository.byId(command.getId());
+
+        menuDomainService.update(menu, willUpdateMenu, parentMenu);
+
+        menuRepository.persist(menu);
+
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -58,7 +71,7 @@ public class MenuCommandHandler {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void updateRouteStatus(MenuCommand dto) {
+    public void updateRouteStatus(MenuCreateCommand dto) {
         routeService.updateRouteStatus(dto.getId(), dto.getStatus());
     }
 

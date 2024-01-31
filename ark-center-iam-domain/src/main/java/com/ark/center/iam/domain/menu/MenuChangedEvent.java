@@ -5,12 +5,12 @@ import com.ark.component.ddd.domain.event.DomainEvent;
 import lombok.Getter;
 
 @Getter
-public class MenuCreatedEvent extends DomainEvent {
+public class MenuChangedEvent extends DomainEvent {
 
     private final Long menuId;
 
-    public MenuCreatedEvent(Object source, Long menuId) {
-        super(source, DomainEventTypes.MENU_CHANGED.name());
+    public MenuChangedEvent(Object source, Long menuId) {
+        super(source, DomainEventTypes.MENU_CREATED.name());
         this.menuId = menuId;
     }
 

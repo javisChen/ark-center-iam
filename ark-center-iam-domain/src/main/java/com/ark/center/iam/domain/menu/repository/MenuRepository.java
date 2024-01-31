@@ -1,6 +1,7 @@
 package com.ark.center.iam.domain.menu.repository;
 
 import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.model.user.dto.UserRouteDTO;
 import com.ark.component.ddd.domain.repository.BaseRepository;
 
 import java.util.List;
@@ -10,8 +11,6 @@ public interface MenuRepository extends BaseRepository<Menu, Long> {
     List<UserRouteDTO> selectByRouteIds(List<Long> routeIds);
 
     Menu selectBaseByRouteId(Long id);
-
-    void insert(Menu menu);
 
     void updateByRouteId(Menu entity);
 

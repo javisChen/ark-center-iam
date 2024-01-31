@@ -1,7 +1,9 @@
 package com.ark.center.iam.infra.route.assembler;
 
-import com.ark.center.iam.model.menu.command.MenuCommand;
+import com.ark.center.iam.domain.menu.vo.Element;
+import com.ark.center.iam.model.menu.command.MenuCreateCommand;
 import com.ark.center.iam.model.menu.command.MenuModifyParentCommand;
+import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
 import com.ark.center.iam.model.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.vo.MenuType;
@@ -24,7 +26,7 @@ public interface MenuAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    default Menu toDomain(MenuCommand command) {
+    default Menu toDomain(MenuCreateCommand command) {
         return Menu.builder()
         		.name(command.getName())
         		.applicationId(command.getApplicationId())
@@ -37,8 +39,11 @@ public interface MenuAssembler {
         		.path(command.getPath())
         		.icon(command.getIcon())
         		.status(EnableDisableStatus.from(command.getStatus()))
+                .elements(toElement(command.getElements()))
         		.build();
     }
+
+    List<Element> toElement(List<MenuCreateCommand.Element> elements);
 
     @Mapping(target = "type", ignore = true)
     @Mapping(target = "status", ignore = true)
@@ -58,4 +63,10 @@ public interface MenuAssembler {
     @Mapping(target = "code", ignore = true)
     @Mapping(target = "applicationId", ignore = true)
     Menu toDomain(MenuModifyParentCommand command);
+
+    @Mapping(target = "levelPath", ignore = true)
+    @Mapping(target = "level", ignore = true)
+    @Mapping(target = "isDeleted", ignore = true)
+    @Mapping(target = "children", ignore = true)
+    Menu toDomain(MenuUpdateCommand command);
 }

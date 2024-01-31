@@ -42,8 +42,8 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
     }
 
     @Override
-    public void insert(Menu menu) {
-        save(menu);
+    public void persist(Menu menu) {
+        Long id = menu.getId();
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_menu")
+@Builder
 public class Menu extends AggregateRoot {
 
     /**
@@ -128,11 +130,42 @@ public class Menu extends AggregateRoot {
         this.path = path;
         this.icon = icon;
         this.elements = elements;
-        setupLevel(parent);
+        setLevel(parent);
         raiseEvent(new MenuCreatedEvent(this, getId()));
     }
 
-    private void setupLevel(Menu parent) {
+    public Menu(Menu menu, Menu parentMenu) {
+        this.name = menu.getName();
+        this.applicationId = menu.getApplicationId();
+        this.code = menu.getCode();
+        this.component = menu.getComponent();
+        this.type = menu.getType();
+        this.hideChildren = menu.getHideChildren();
+        this.pid = menu.getPid();
+        this.sequence = menu.getSequence();
+        this.path = menu.getPath();
+        this.icon = menu.getIcon();
+        this.elements = menu.getElements();
+        setLevel(parentMenu);
+        raiseEvent(new MenuCreatedEvent(this, getId()));
+    }
+
+    public void updateInfo(Menu menu, Menu parentMenu) {
+        this.name = menu.getName();
+        this.applicationId = menu.getApplicationId();
+        this.code = menu.getCode();
+        this.component = menu.getComponent();
+        this.type = menu.getType();
+        this.hideChildren = menu.getHideChildren();
+        this.pid = menu.getPid();
+        this.sequence = menu.getSequence();
+        this.path = menu.getPath();
+        this.icon = menu.getIcon();
+        this.elements = menu.getElements();
+        raiseEvent(new MenuChangedEvent(this, getId()));
+    }
+
+    private void setLevel(Menu parent) {
         this.level = isRoot() ? MenuConst.FIRST_LEVEL : parent.getLevel() + 1;
         this.levelPath = level == 1
                 ? getId() + StrUtil.DOT
@@ -148,25 +181,28 @@ public class Menu extends AggregateRoot {
                || MenuConst.FIRST_LEVEL.equals(this.level);
     }
 
-    /**
-     * 变更父级菜单
-     */
-    public void changeParent(Menu parent) {
-        this.pid = parent.getId();
-        updateLevelPath(parent);
-    }
-
     private void updateLevelPath(Menu parent) {
         this.levelPath = isRoot()
                 ? getId() + StrUtil.DOT
                 : parent.getLevelPath() + this.getId() + StrUtil.DOT;
     }
 
-    public void init(Menu parent) {
-        updateLevelPath(parent);
+    public void updateChildrenStatus(EnableDisableStatus status) {
+        this.children.forEach(child -> {
+            child.status = status;
+            child.updateChildrenStatus(status);
+        });
     }
 
-    public void addElements(List<Element> elements) {
-        this.elements = elements;
+    /**
+     * 改变层级以及所有下级菜单的层级
+     *
+     * @param parentMenu 父级菜单
+     */
+    public void changeHierarchy(Menu parentMenu) {
+        setLevel(parentMenu);
+        for (Menu child : this.children) {
+            child.changeHierarchy(this);
+        }
     }
 }

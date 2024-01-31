@@ -4,8 +4,9 @@ package com.ark.center.iam.adapter.route.http.controller;
 import com.ark.center.iam.application.menu.MenuCommandHandler;
 import com.ark.center.iam.application.menu.MenuQueryService;
 import com.ark.center.iam.model.element.dto.ElementBaseDTO;
-import com.ark.center.iam.model.menu.command.MenuCommand;
+import com.ark.center.iam.model.menu.command.MenuCreateCommand;
 import com.ark.center.iam.model.menu.command.MenuModifyParentCommand;
+import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
 import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.model.menu.query.MenuQuery;
 import com.ark.component.dto.MultiResponse;
@@ -47,15 +48,15 @@ public class MenuController extends BaseController {
 
     @PostMapping("/menus")
     @Operation(summary = "创建路由")
-    public ServerResponse create(@RequestBody @Validated MenuCommand dto) {
-        menuCommandHandler.create(dto);
+    public ServerResponse create(@RequestBody @Validated MenuCreateCommand command) {
+        menuCommandHandler.create(command);
         return ServerResponse.ok();
     }
 
     @PutMapping("/menus")
     @Operation(summary = "更新路由")
-    public ServerResponse update(@RequestBody @Validated MenuCommand dto) {
-        menuCommandHandler.update(dto);
+    public ServerResponse update(@RequestBody @Validated MenuUpdateCommand command) {
+        menuCommandHandler.update(command);
         return ServerResponse.ok();
     }
 
@@ -81,7 +82,7 @@ public class MenuController extends BaseController {
     @PutMapping("/menus/status")
     @Operation(summary = "更新路由状态")
     public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
-                                       @RequestBody MenuCommand dto) {
+                                       @RequestBody MenuCreateCommand dto) {
         menuCommandHandler.updateRouteStatus(dto);
         return ServerResponse.ok();
     }
