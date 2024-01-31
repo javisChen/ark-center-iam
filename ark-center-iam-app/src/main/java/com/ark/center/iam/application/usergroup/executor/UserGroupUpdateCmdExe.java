@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.usergroup.executor;
 
-import com.ark.center.iam.client.usergroup.command.UserGroupCmd;
+import com.ark.center.iam.model.usergroup.command.UserGroupCmd;
 import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
 import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;

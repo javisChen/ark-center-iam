@@ -3,9 +3,9 @@ package com.ark.center.iam.adapter.apicategory.http;
 
 import com.ark.center.iam.application.apicategory.ApiCategoryCommandHandler;
 import com.ark.center.iam.application.apicategory.ApiCategoryQueryService;
-import com.ark.center.iam.client.apicategory.command.ApiCategoryCreateCommand;
-import com.ark.center.iam.client.apicategory.command.ApiCategoryUpdateCommand;
-import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
+import com.ark.center.iam.model.apicategory.command.ApiCategoryCreateCommand;
+import com.ark.center.iam.model.apicategory.command.ApiCategoryUpdateCommand;
+import com.ark.center.iam.model.api.dto.ApiCategoryBaseDTO;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.validator.ValidateGroup;

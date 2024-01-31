@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.menu.executor;
 
-import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
-import com.ark.center.iam.domain.element.Element;
+import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.domain.menu.vo.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.route.gateway.db.MenuMapper;

@@ -1,12 +1,10 @@
 package com.ark.center.iam.adapter.user.inner;
 
 import com.ark.center.iam.application.user.UserAppService;
-import com.ark.center.iam.client.user.UserPermissionQryApi;
-import com.ark.center.iam.client.user.UserQryApi;
-import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
-import com.ark.center.iam.client.user.dto.UserInnerDTO;
-import com.ark.center.iam.client.user.query.UserPermissionQry;
-import com.ark.center.iam.client.user.query.UserQry;
+import com.ark.center.iam.model.user.dto.UserApiPermissionDTO;
+import com.ark.center.iam.model.user.dto.UserInnerDTO;
+import com.ark.center.iam.model.user.query.UserPermissionQry;
+import com.ark.center.iam.model.user.query.UserQry;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.logger.annotation.CatchAndLog;

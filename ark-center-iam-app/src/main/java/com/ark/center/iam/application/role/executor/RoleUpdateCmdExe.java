@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.role.executor;
 
-import com.ark.center.iam.client.role.command.RoleCmd;
+import com.ark.center.iam.model.role.command.RoleCmd;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.role.service.RoleCheckService;

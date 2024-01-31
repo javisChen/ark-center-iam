@@ -1,10 +1,10 @@
 package com.ark.center.iam.application.user.executor;
 
-import com.ark.center.iam.client.user.dto.UserBaseDTO;
-import com.ark.center.iam.client.user.dto.UserDetailsDTO;
-import com.ark.center.iam.client.user.dto.UserPageDTO;
-import com.ark.center.iam.client.user.query.UserPageQry;
-import com.ark.center.iam.client.user.query.UserQry;
+import com.ark.center.iam.model.user.dto.UserBaseDTO;
+import com.ark.center.iam.model.user.dto.UserDetailsDTO;
+import com.ark.center.iam.model.user.dto.UserPageDTO;
+import com.ark.center.iam.model.user.query.UserPageQry;
+import com.ark.center.iam.model.user.query.UserQry;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.center.iam.domain.user.User;

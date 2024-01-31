@@ -1,15 +1,15 @@
 package com.ark.center.iam.application.menu;
 
-import com.ark.center.iam.application.menu.executor.*;
-import com.ark.center.iam.client.menu.command.MenuCommand;
-import com.ark.center.iam.client.menu.command.MenuModifyParentCommand;
+import com.ark.center.iam.application.menu.executor.MenuUpdateCmdExe;
+import com.ark.center.iam.application.menu.executor.RouteDeleteCmdExe;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.MenuFactory;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.domain.menu.service.RouteCheckService;
 import com.ark.center.iam.domain.menu.service.RouteService;
-import com.ark.center.iam.domain.menu.vo.MenuType;
 import com.ark.center.iam.infra.route.assembler.MenuAssembler;
+import com.ark.center.iam.model.menu.command.MenuCommand;
+import com.ark.center.iam.model.menu.command.MenuModifyParentCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MenuCommandHandler {
 
-    private final MenuCreateCmdExe menuCreateCmdExe;
     private final MenuUpdateCmdExe menuUpdateCmdExe;
     private final RouteDeleteCmdExe routeDeleteCmdExe;
     private final RouteCheckService routeCheckService;
@@ -30,28 +29,18 @@ public class MenuCommandHandler {
     @Transactional(rollbackFor = Throwable.class)
     public void create(MenuCommand command) {
 
-        Menu parentMenu = null;
-        if (command.getPid() > 0) {
-            parentMenu = menuRepository.byId(command.getPid());
-        }
+        Menu parentMenu = command.getPid() > 0 ? menuRepository.byId(command.getPid()) : null;
 
-        Menu menu = menuFactory.create(command.getName(),
-                command.getApplicationId(),
-                command.getCode(),
-                command.getComponent(),
-                MenuType.from(command.getType()),
-                command.getHideChildren(),
-                command.getPid(),
-                command.getSequence(),
-                command.getPath(),
-                command.getIcon(),
-                parentMenu);
+        Menu menuDomain = menuAssembler.toDomain(command);
+
+        Menu menu = menuFactory.create(menuDomain, parentMenu);
 
         menuRepository.persist(menu);
+
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void updateRoute(MenuCommand dto) {
+    public void update(MenuCommand dto) {
         menuUpdateCmdExe.execute(dto);
     }
 

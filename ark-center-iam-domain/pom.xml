@@ -18,6 +18,12 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.ark.center</groupId>
+            <artifactId>ark-center-iam-shared-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.ark.ddd</groupId>
             <artifactId>ark-component-ddd-domain</artifactId>
         </dependency>

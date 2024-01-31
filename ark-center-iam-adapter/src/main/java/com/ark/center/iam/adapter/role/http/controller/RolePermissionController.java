@@ -1,10 +1,10 @@
 package com.ark.center.iam.adapter.role.http.controller;
 
 import com.ark.center.iam.application.role.RolePermissionAppService;
-import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.role.command.RoleApiPermissionGrantCmd;
-import com.ark.center.iam.client.role.command.RoleApplicationApiPermissionUpdateCmd;
-import com.ark.center.iam.client.role.command.RoleRoutePermissionGrantCmd;
+import com.ark.center.iam.model.permission.vo.PermissionDTO;
+import com.ark.center.iam.model.role.command.RoleApiPermissionGrantCmd;
+import com.ark.center.iam.model.role.command.RoleApplicationApiPermissionUpdateCmd;
+import com.ark.center.iam.model.role.command.RoleRoutePermissionGrantCmd;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.web.base.BaseController;

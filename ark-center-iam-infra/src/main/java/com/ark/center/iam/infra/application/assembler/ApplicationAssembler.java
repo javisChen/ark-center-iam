@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.application.assembler;
 
-import com.ark.center.iam.client.application.command.ApplicationCreateCommand;
-import com.ark.center.iam.client.application.query.dto.ApplicationDTO;
+import com.ark.center.iam.model.application.command.ApplicationCreateCommand;
+import com.ark.center.iam.model.application.query.dto.ApplicationDTO;
 import com.ark.center.iam.domain.application.App;
 import com.ark.center.iam.infra.application.gateway.db.ApplicationDO;
 import org.mapstruct.Mapper;

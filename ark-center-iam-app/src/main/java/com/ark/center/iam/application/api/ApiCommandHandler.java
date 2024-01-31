@@ -1,10 +1,10 @@
 package com.ark.center.iam.application.api;
 
 import com.ark.center.iam.application.api.executor.ApiSyncCmdExe;
-import com.ark.center.iam.client.api.command.ApiCreateCommand;
-import com.ark.center.iam.client.api.command.ApiStatusUpdateCommand;
-import com.ark.center.iam.client.api.command.ApiSyncCmd;
-import com.ark.center.iam.client.api.command.ApiUpdateCommand;
+import com.ark.center.iam.model.api.command.ApiCreateCommand;
+import com.ark.center.iam.model.api.command.ApiStatusUpdateCommand;
+import com.ark.center.iam.model.api.command.ApiSyncCmd;
+import com.ark.center.iam.model.api.command.ApiUpdateCommand;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.ApiRepository;
 import com.ark.center.iam.domain.api.event.ApiChangedEvent;

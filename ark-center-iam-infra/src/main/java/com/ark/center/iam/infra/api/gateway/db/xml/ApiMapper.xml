@@ -25,7 +25,7 @@
         application_id,
         name, method, status, uri
     </sql>
-    <select id="selectApiList" resultType="com.ark.center.iam.client.api.dto.ApiDetailsDTO">
+    <select id="selectApiList" resultType="com.ark.center.iam.model.api.dto.ApiDetailsDTO">
         select a.*,
         p.id as permissionId
         from iam_api a

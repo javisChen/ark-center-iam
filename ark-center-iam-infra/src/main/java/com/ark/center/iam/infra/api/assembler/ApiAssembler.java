@@ -1,8 +1,8 @@
 package com.ark.center.iam.infra.api.assembler;
 
-import com.ark.center.iam.client.api.command.ApiUpdateCommand;
-import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
+import com.ark.center.iam.model.api.command.ApiUpdateCommand;
+import com.ark.center.iam.model.api.dto.ApiDetailDTO;
+import com.ark.center.iam.model.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.domain.api.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;

@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.permission.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.permission.vo.PermissionDTO;
+import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionStatusEnums;

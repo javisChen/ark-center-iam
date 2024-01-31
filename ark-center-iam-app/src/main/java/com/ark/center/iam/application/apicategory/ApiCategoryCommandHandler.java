@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.apicategory;
 
-import com.ark.center.iam.client.apicategory.command.ApiCategoryCreateCommand;
-import com.ark.center.iam.client.apicategory.command.ApiCategoryUpdateCommand;
+import com.ark.center.iam.model.apicategory.command.ApiCategoryCreateCommand;
+import com.ark.center.iam.model.apicategory.command.ApiCategoryUpdateCommand;
 import com.ark.center.iam.domain.apicategory.ApiCategory;
 import com.ark.center.iam.domain.apicategory.ApiCategoryDomainService;
 import com.ark.center.iam.domain.apicategory.ApiCategoryRepository;

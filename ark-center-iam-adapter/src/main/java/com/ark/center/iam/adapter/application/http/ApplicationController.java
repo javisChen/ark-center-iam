@@ -2,10 +2,10 @@ package com.ark.center.iam.adapter.application.http;
 
 import com.ark.center.iam.application.application.ApplicationQueryService;
 import com.ark.center.iam.application.application.ApplicationCommandHandler;
-import com.ark.center.iam.client.application.command.ApplicationCreateCommand;
-import com.ark.center.iam.client.application.command.ApplicationUpdateCommand;
-import com.ark.center.iam.client.application.query.dto.ApplicationDTO;
-import com.ark.center.iam.client.application.query.ApplicationQuery;
+import com.ark.center.iam.model.application.command.ApplicationCreateCommand;
+import com.ark.center.iam.model.application.command.ApplicationUpdateCommand;
+import com.ark.center.iam.model.application.query.dto.ApplicationDTO;
+import com.ark.center.iam.model.application.query.ApplicationQuery;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.web.base.BaseController;

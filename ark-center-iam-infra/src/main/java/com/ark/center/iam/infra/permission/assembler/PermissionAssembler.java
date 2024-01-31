@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.permission.assembler;
 
-import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
+import com.ark.center.iam.model.permission.vo.PermissionDTO;
+import com.ark.center.iam.model.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.permission.Permission;
 import org.mapstruct.Mapper;

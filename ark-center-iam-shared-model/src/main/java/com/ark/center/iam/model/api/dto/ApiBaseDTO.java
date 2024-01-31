@@ -1,0 +1,29 @@
+package com.ark.center.iam.model.api.dto;
+
+import lombok.Data;
+
+/**
+ * @title:
+ * @desc:
+ * @author: Javis
+ */
+@Data
+public class ApiBaseDTO  {
+
+    private Long id;
+
+    private String name;
+
+    private String uri;
+
+    private String method;
+
+    private Integer authType;
+
+    private Integer status;
+
+    /**
+     * url是否包含路径参数，例： /user/{userId}/api/{apiId} 0-不包含 1-包含
+     */
+    private Boolean hasPathVariable;
+}

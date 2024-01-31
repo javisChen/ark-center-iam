@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.application;
 
-import com.ark.center.iam.client.application.command.ApplicationCreateCommand;
-import com.ark.center.iam.client.application.command.ApplicationUpdateCommand;
+import com.ark.center.iam.model.application.command.ApplicationCreateCommand;
+import com.ark.center.iam.model.application.command.ApplicationUpdateCommand;
 import com.ark.center.iam.domain.application.App;
 import com.ark.center.iam.domain.application.ApplicationDomainService;
 import com.ark.center.iam.domain.application.ApplicationFactory;

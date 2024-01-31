@@ -2,9 +2,9 @@ package com.ark.center.iam.adapter.role.http.controller;
 
 
 import com.ark.center.iam.application.role.RoleAppService;
-import com.ark.center.iam.client.role.command.RoleCmd;
-import com.ark.center.iam.client.role.dto.RoleBaseDTO;
-import com.ark.center.iam.client.role.query.RoleQry;
+import com.ark.center.iam.model.role.command.RoleCmd;
+import com.ark.center.iam.model.role.dto.RoleBaseDTO;
+import com.ark.center.iam.model.role.query.RoleQry;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;

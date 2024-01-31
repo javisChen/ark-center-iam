@@ -2,8 +2,8 @@ package com.ark.center.iam.infra.usergroup.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
-import com.ark.center.iam.client.usergroup.query.UserGroupQry;
+import com.ark.center.iam.model.usergroup.dto.UserGroupBaseDTO;
+import com.ark.center.iam.model.usergroup.query.UserGroupQry;
 import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.ark.center.iam.domain.usergroup.enums.UserGroupInheritType;
 import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;

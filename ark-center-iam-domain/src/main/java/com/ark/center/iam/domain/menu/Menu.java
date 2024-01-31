@@ -1,14 +1,13 @@
 package com.ark.center.iam.domain.menu;
 
 import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.menu.common.MenuConst;
+import com.ark.center.iam.domain.menu.vo.Element;
 import com.ark.center.iam.domain.menu.vo.MenuType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -17,7 +16,6 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_menu")
-@Builder
 public class Menu extends AggregateRoot {
 
     /**
@@ -104,6 +102,9 @@ public class Menu extends AggregateRoot {
     @TableField(exist = false)
     private List<Element> elements;
 
+    @TableField(exist = false)
+    private List<Menu> children;
+
     public Menu(String name,
                 Long applicationId,
                 String code,
@@ -113,7 +114,9 @@ public class Menu extends AggregateRoot {
                 Long pid,
                 Integer sequence,
                 String path,
-                String icon, Menu parent) {
+                String icon,
+                List<Element> elements,
+                Menu parent) {
         this.name = name;
         this.applicationId = applicationId;
         this.code = code;
@@ -124,13 +127,14 @@ public class Menu extends AggregateRoot {
         this.sequence = sequence;
         this.path = path;
         this.icon = icon;
+        this.elements = elements;
         setupLevel(parent);
         raiseEvent(new MenuCreatedEvent(this, getId()));
     }
 
     private void setupLevel(Menu parent) {
         this.level = isRoot() ? MenuConst.FIRST_LEVEL : parent.getLevel() + 1;
-        this.levelPath = isRoot()
+        this.levelPath = level == 1
                 ? getId() + StrUtil.DOT
                 : parent.getLevelPath() + this.getId() + StrUtil.DOT;
 
@@ -160,5 +164,9 @@ public class Menu extends AggregateRoot {
 
     public void init(Menu parent) {
         updateLevelPath(parent);
+    }
+
+    public void addElements(List<Element> elements) {
+        this.elements = elements;
     }
 }

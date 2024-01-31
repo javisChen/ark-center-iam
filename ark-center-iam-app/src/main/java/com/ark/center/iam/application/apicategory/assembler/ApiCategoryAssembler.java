@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.apicategory.assembler;
 
-import com.ark.center.iam.client.apicategory.command.ApiCategoryCreateCommand;
-import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
+import com.ark.center.iam.model.apicategory.command.ApiCategoryCreateCommand;
+import com.ark.center.iam.model.api.dto.ApiCategoryBaseDTO;
 import com.ark.center.iam.domain.apicategory.ApiCategory;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

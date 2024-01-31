@@ -2,8 +2,8 @@ package com.ark.center.iam.infra.role.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.client.role.dto.RoleBaseDTO;
-import com.ark.center.iam.client.role.query.RoleQry;
+import com.ark.center.iam.model.role.dto.RoleBaseDTO;
+import com.ark.center.iam.model.role.query.RoleQry;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;

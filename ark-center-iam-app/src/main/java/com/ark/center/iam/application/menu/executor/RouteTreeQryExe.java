@@ -1,8 +1,8 @@
 package com.ark.center.iam.application.menu.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.menu.query.MenuQuery;
+import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.model.menu.query.MenuQuery;
 import com.ark.center.iam.infra.route.gateway.db.MenuMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;

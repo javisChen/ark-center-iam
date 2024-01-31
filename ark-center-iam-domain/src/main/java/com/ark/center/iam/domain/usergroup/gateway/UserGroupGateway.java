@@ -1,7 +1,7 @@
 package com.ark.center.iam.domain.usergroup.gateway;
 
-import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
-import com.ark.center.iam.client.usergroup.query.UserGroupQry;
+import com.ark.center.iam.model.usergroup.dto.UserGroupBaseDTO;
+import com.ark.center.iam.model.usergroup.query.UserGroupQry;
 import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

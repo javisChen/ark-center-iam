@@ -1,10 +1,10 @@
 package com.ark.center.iam.adapter.user.http;
 
 import com.ark.center.iam.application.user.UserAppService;
-import com.ark.center.iam.client.user.command.UserCmd;
-import com.ark.center.iam.client.user.dto.UserDetailsDTO;
-import com.ark.center.iam.client.user.dto.UserPageDTO;
-import com.ark.center.iam.client.user.query.UserPageQry;
+import com.ark.center.iam.model.user.command.UserCmd;
+import com.ark.center.iam.model.user.dto.UserDetailsDTO;
+import com.ark.center.iam.model.user.dto.UserPageDTO;
+import com.ark.center.iam.model.user.query.UserPageQry;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;

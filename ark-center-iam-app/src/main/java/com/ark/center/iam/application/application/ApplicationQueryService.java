@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.application;
 
-import com.ark.center.iam.client.application.query.dto.ApplicationDTO;
-import com.ark.center.iam.client.application.query.ApplicationQuery;
+import com.ark.center.iam.model.application.query.dto.ApplicationDTO;
+import com.ark.center.iam.model.application.query.ApplicationQuery;
 import com.ark.center.iam.infra.application.assembler.ApplicationConverter;
 import com.ark.center.iam.infra.application.gateway.db.ApplicationDO;
 import com.ark.center.iam.infra.application.gateway.db.ApplicationMapper;

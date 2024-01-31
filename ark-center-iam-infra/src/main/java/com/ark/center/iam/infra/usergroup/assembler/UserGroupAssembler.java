@@ -1,9 +1,9 @@
 package com.ark.center.iam.infra.usergroup.assembler;//package com.ark.center.iam.infra.usergroup.assembler;
 
-import com.ark.center.iam.client.usergroup.command.UserGroupCmd;
-import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
-import com.ark.center.iam.client.usergroup.dto.UserGroupDetailDTO;
-import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
+import com.ark.center.iam.model.usergroup.command.UserGroupCmd;
+import com.ark.center.iam.model.usergroup.dto.UserGroupBaseDTO;
+import com.ark.center.iam.model.usergroup.dto.UserGroupDetailDTO;
+import com.ark.center.iam.model.usergroup.dto.UserGroupListTreeDTO;
 import com.ark.center.iam.domain.usergroup.UserGroup;
 import org.mapstruct.Mapper;
 

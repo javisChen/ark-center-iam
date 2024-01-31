@@ -1,8 +1,8 @@
 package com.ark.center.iam.adapter.user.http;
 
 import com.ark.center.iam.application.user.UserSelfAppService;
-import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.user.dto.UserRouteDTO;
+import com.ark.center.iam.model.permission.vo.PermissionDTO;
+import com.ark.center.iam.model.user.dto.UserRouteDTO;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.security.base.user.LoginUser;

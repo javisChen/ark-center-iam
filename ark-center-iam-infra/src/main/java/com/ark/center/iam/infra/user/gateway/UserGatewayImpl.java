@@ -1,8 +1,8 @@
 package com.ark.center.iam.infra.user.gateway;
 
 import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.client.user.query.UserPageQry;
-import com.ark.center.iam.client.user.dto.UserPageDTO;
+import com.ark.center.iam.model.user.query.UserPageQry;
+import com.ark.center.iam.model.user.dto.UserPageDTO;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;

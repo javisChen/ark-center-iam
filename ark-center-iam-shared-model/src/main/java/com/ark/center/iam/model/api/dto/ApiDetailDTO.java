@@ -1,0 +1,17 @@
+package com.ark.center.iam.model.api.dto;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * @title:
+ * @desc:
+ * @author: Javis
+ */
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class ApiDetailDTO extends ApiBaseDTO {
+
+    private Long applicationId;
+    private Long categoryId;
+}

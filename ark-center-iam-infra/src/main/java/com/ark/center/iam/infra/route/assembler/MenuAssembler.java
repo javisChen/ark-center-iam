@@ -1,8 +1,8 @@
 package com.ark.center.iam.infra.route.assembler;
 
-import com.ark.center.iam.client.menu.command.MenuCommand;
-import com.ark.center.iam.client.menu.command.MenuModifyParentCommand;
-import com.ark.center.iam.client.user.dto.UserRouteDTO;
+import com.ark.center.iam.model.menu.command.MenuCommand;
+import com.ark.center.iam.model.menu.command.MenuModifyParentCommand;
+import com.ark.center.iam.model.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.vo.MenuType;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;

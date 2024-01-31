@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.route.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.user.dto.UserRouteDTO;
+import com.ark.center.iam.model.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.infra.route.assembler.MenuAssembler;

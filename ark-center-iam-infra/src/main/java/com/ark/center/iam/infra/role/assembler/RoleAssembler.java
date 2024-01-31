@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.role.assembler;
 
-import com.ark.center.iam.client.role.command.RoleCmd;
-import com.ark.center.iam.client.role.dto.RoleBaseDTO;
+import com.ark.center.iam.model.role.command.RoleCmd;
+import com.ark.center.iam.model.role.dto.RoleBaseDTO;
 import com.ark.center.iam.domain.role.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

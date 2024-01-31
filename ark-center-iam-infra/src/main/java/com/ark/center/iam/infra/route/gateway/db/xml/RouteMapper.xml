@@ -43,7 +43,7 @@
         modifier
     </sql>
 
-    <select id="selectDetailsPages" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
+    <select id="selectDetailsPages" resultType="com.ark.center.iam.model.menu.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -72,7 +72,7 @@
         ORDER BY r.`sequence`
     </select>
 
-    <select id="selectSubRoutes" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
+    <select id="selectSubRoutes" resultType="com.ark.center.iam.model.menu.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -86,7 +86,7 @@
         AND p.type = 'FRONT_ROUTE'
     </select>
 
-    <select id="selectDetails" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
+    <select id="selectDetails" resultType="com.ark.center.iam.model.menu.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,

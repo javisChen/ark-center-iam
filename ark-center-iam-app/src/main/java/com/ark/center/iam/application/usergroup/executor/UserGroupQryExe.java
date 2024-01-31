@@ -1,8 +1,8 @@
 package com.ark.center.iam.application.usergroup.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
-import com.ark.center.iam.client.usergroup.query.UserGroupQry;
+import com.ark.center.iam.model.usergroup.dto.UserGroupListTreeDTO;
+import com.ark.center.iam.model.usergroup.query.UserGroupQry;
 import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
 import com.ark.center.iam.infra.user.assembler.UserAssembler;

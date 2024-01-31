@@ -76,6 +76,7 @@ Command('CreateMenu')[
 Command('UpdateMenu')[
     更新菜单
     ---
+    状态更新时把下级菜单状态也一并更新
 ]
 
 Command('DeleteMenu')[
@@ -210,6 +211,18 @@ Aggregate('Permission')[
     ---
     权限资源类型
     资源id
+]
+
+
+Aggregate('Menu')[
+    菜单
+    ---
+    菜单名称
+    菜单编码
+    组件
+    Icon
+    
+    
 ]
 
 

@@ -3,11 +3,11 @@ package com.ark.center.iam.adapter.route.http.controller;
 
 import com.ark.center.iam.application.menu.MenuCommandHandler;
 import com.ark.center.iam.application.menu.MenuQueryService;
-import com.ark.center.iam.client.element.dto.ElementBaseDTO;
-import com.ark.center.iam.client.menu.command.MenuCommand;
-import com.ark.center.iam.client.menu.command.MenuModifyParentCommand;
-import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.menu.query.MenuQuery;
+import com.ark.center.iam.model.element.dto.ElementBaseDTO;
+import com.ark.center.iam.model.menu.command.MenuCommand;
+import com.ark.center.iam.model.menu.command.MenuModifyParentCommand;
+import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.model.menu.query.MenuQuery;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
@@ -55,7 +55,7 @@ public class MenuController extends BaseController {
     @PutMapping("/menus")
     @Operation(summary = "更新路由")
     public ServerResponse update(@RequestBody @Validated MenuCommand dto) {
-        menuCommandHandler.updateRoute(dto);
+        menuCommandHandler.update(dto);
         return ServerResponse.ok();
     }
 

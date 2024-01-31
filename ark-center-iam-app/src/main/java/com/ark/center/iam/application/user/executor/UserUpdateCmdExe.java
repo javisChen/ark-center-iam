@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.user.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.user.command.UserCmd;
+import com.ark.center.iam.model.user.command.UserCmd;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;

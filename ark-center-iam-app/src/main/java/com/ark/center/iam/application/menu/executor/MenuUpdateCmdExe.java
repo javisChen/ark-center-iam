@@ -1,8 +1,8 @@
 package com.ark.center.iam.application.menu.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.menu.command.MenuCommand;
-import com.ark.center.iam.domain.element.Element;
+import com.ark.center.iam.model.menu.command.MenuCommand;
+import com.ark.center.iam.domain.menu.vo.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.element.service.ElementService;
 import com.ark.center.iam.domain.menu.Menu;

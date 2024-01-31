@@ -1,6 +1,6 @@
 package com.ark.center.iam.domain.element.gateway;
 
-import com.ark.center.iam.domain.element.Element;
+import com.ark.center.iam.domain.menu.vo.Element;
 
 import java.util.List;
 

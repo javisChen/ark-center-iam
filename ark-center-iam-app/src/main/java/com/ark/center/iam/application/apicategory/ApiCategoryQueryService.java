@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.apicategory;
 
 import com.ark.center.iam.application.apicategory.assembler.ApiCategoryAssembler;
-import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
+import com.ark.center.iam.model.api.dto.ApiCategoryBaseDTO;
 import com.ark.center.iam.domain.apicategory.ApiCategory;
 import com.ark.center.iam.infra.api.gateway.db.ApiCategoryMapper;
 import com.ark.component.web.common.DeletedEnums;

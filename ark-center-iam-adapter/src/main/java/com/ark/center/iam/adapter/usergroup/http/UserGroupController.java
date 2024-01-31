@@ -1,12 +1,12 @@
 package com.ark.center.iam.adapter.usergroup.http;
 
 import com.ark.center.iam.application.usergroup.UserGroupAppService;
-import com.ark.center.iam.client.usergroup.command.UserGroupCmd;
-import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
-import com.ark.center.iam.client.usergroup.dto.UserGroupDetailDTO;
-import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
-import com.ark.center.iam.client.usergroup.dto.UserGroupTreeDTO;
-import com.ark.center.iam.client.usergroup.query.UserGroupQry;
+import com.ark.center.iam.model.usergroup.command.UserGroupCmd;
+import com.ark.center.iam.model.usergroup.dto.UserGroupBaseDTO;
+import com.ark.center.iam.model.usergroup.dto.UserGroupDetailDTO;
+import com.ark.center.iam.model.usergroup.dto.UserGroupListTreeDTO;
+import com.ark.center.iam.model.usergroup.dto.UserGroupTreeDTO;
+import com.ark.center.iam.model.usergroup.query.UserGroupQry;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
