@@ -1,10 +1,10 @@
 package com.ark.center.iam.application.application;
 
-import com.ark.center.iam.model.application.query.dto.ApplicationDTO;
+import com.ark.center.iam.model.application.query.dto.AppDTO;
 import com.ark.center.iam.model.application.query.ApplicationQuery;
-import com.ark.center.iam.infra.application.assembler.ApplicationConverter;
-import com.ark.center.iam.infra.application.gateway.db.ApplicationDO;
-import com.ark.center.iam.infra.application.gateway.db.ApplicationMapper;
+import com.ark.center.iam.infra.app.converter.AppAppConverter;
+import com.ark.center.iam.infra.app.repository.db.AppDO;
+import com.ark.center.iam.infra.app.repository.db.AppMapper;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -19,18 +19,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ApplicationQueryService {
 
-    private final ApplicationMapper applicationMapper;
+    private final AppMapper appMapper;
 
-    private final ApplicationConverter applicationConverter;
+    private final AppAppConverter appAppConverter;
 
-    public Collection<ApplicationDTO> queryAll(ApplicationQuery dto) {
-        LambdaQueryWrapper<ApplicationDO> qw =
-                Wrappers.lambdaQuery(ApplicationDO.class)
-                        .like(StringUtils.isNotBlank(dto.getName()), ApplicationDO::getName, dto.getName())
-                        .eq(ApplicationDO::getIsDeleted, DeletedEnums.NOT.getCode());
-        return applicationMapper.selectList(qw)
+    public Collection<AppDTO> queryAll(ApplicationQuery dto) {
+        LambdaQueryWrapper<AppDO> qw =
+                Wrappers.lambdaQuery(AppDO.class)
+                        .like(StringUtils.isNotBlank(dto.getName()), AppDO::getName, dto.getName())
+                        .eq(AppDO::getIsDeleted, DeletedEnums.NOT.getCode());
+        return appMapper.selectList(qw)
                 .stream()
-                .map(applicationConverter::toDTO)
+                .map(appAppConverter::convert)
                 .collect(Collectors.toList());
     }
 }

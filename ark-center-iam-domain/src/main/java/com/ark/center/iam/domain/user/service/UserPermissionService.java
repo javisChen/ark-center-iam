@@ -2,7 +2,7 @@ package com.ark.center.iam.domain.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.application.gateway.AppRepository;
+import com.ark.center.iam.domain.app.gateway.AppRepository;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionGateway;

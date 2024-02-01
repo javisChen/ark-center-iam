@@ -32,7 +32,7 @@ include('eventstorming/Element/Aggregate')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Aggregate
+' loads the Item which embeds the menuElement Aggregate
 include('eventstorming/Element/Aggregate')
 
 Aggregate('Aggregate') [
@@ -56,7 +56,7 @@ An aggregate expresses domain aspects that can be treated as a single unit.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Aggregate
+' loads the Item which embeds the menuElement Aggregate
 include('eventstorming/Element/Aggregate')
 
 Aggregate('Aggregate') [

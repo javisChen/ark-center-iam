@@ -20,7 +20,7 @@ public class ApiCategoryCommandHandler {
 
         ApiCategory apiCategory = apiCategoryDomainService.create(command.getName(), command.getApplicationId());
 
-        apiCategoryRepository.persist(apiCategory);
+        apiCategoryRepository.saveAndPublishEvents(apiCategory);
     }
 
     public void update(ApiCategoryUpdateCommand command) {
@@ -29,11 +29,14 @@ public class ApiCategoryCommandHandler {
 
         apiCategoryDomainService.update(apiCategory, command.getApplicationId(), command.getName());
 
-        apiCategoryRepository.persist(apiCategory);
+        apiCategoryRepository.saveAndPublishEvents(apiCategory);
     }
 
     public void delete(Long id) {
-        apiCategoryRepository.deleteById(id);
+
+        ApiCategory apiCategory = apiCategoryRepository.byId(id);
+
+        apiCategoryRepository.deleteAndPublishEvents(apiCategory);
     }
 
 }

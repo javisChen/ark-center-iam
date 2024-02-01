@@ -2,7 +2,7 @@ package com.ark.center.iam.application.menu.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.model.menu.command.MenuCreateCommand;
-import com.ark.center.iam.domain.menu.vo.Element;
+import com.ark.center.iam.domain.menu.vo.MenuElement;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.element.service.ElementService;
 import com.ark.center.iam.domain.menu.Menu;
@@ -11,7 +11,7 @@ import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.domain.menu.service.RouteCheckService;
 import com.ark.center.iam.domain.menu.service.RouteService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.route.assembler.MenuAssembler;
+import com.ark.center.iam.infra.menu.converter.MenuDomainConverter;
 import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +27,7 @@ public class MenuUpdateCmdExe {
 
     private final RouteCheckService routeCheckService;
     private final RouteService routeService;
-    private final MenuAssembler menuAssembler;
+    private final MenuDomainConverter menuDomainConverter;
     private final MenuRepository menuRepository;
     private final ElementGateway elementGateway;
     private final ElementService elementService;
@@ -37,7 +37,7 @@ public class MenuUpdateCmdExe {
 
         Menu parentMenu = command.getPid() > 0 ? menuRepository.byId(command.getPid()) : null;
 
-        Menu menuDomain = menuAssembler.toDomain(command);
+        Menu menuDomain = menuDomainConverter.toDomain(command);
 
         Menu menu = menuFactory.create(menuDomain, parentMenu);
         Long routeId = dto.getId();
@@ -63,7 +63,7 @@ public class MenuUpdateCmdExe {
     }
 
     private void updateBase(MenuCreateCommand dto) {
-        Menu menu = menuAssembler.toDomain(dto);
+        Menu menu = menuDomainConverter.toDomain(dto);
         menuRepository.updateByRouteId(menu);
     }
 
@@ -77,9 +77,9 @@ public class MenuUpdateCmdExe {
             return;
         }
         elementService.saveBatchElements(elements.stream().map(item -> {
-            Element elementDO = elementAssembler.toElementDO(item, routeId);
-            elementDO.setMenuId(routeId);
-            return elementDO;
+            MenuElement menuElementDO = elementAssembler.toElementDO(item, routeId);
+            menuElementDO.setMenuId(routeId);
+            return menuElementDO;
         }).toList());
     }
 

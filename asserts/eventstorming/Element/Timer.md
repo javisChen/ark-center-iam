@@ -32,7 +32,7 @@ include('eventstorming/Element/Timer')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Timer
+' loads the Item which embeds the menuElement Timer
 include('eventstorming/Element/Timer')
 
 Timer('Timer') [
@@ -56,7 +56,7 @@ A timer represents a significant moment or period.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Timer
+' loads the Item which embeds the menuElement Timer
 include('eventstorming/Element/Timer')
 
 Timer('Timer') [

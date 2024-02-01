@@ -14,8 +14,8 @@ import com.ark.center.iam.domain.api.vo.ApiAuthType;
 import com.ark.center.iam.domain.apicategory.ApiCategory;
 import com.ark.center.iam.domain.apicategory.ApiCategoryDomainService;
 import com.ark.center.iam.domain.apicategory.ApiCategoryRepository;
-import com.ark.center.iam.domain.application.App;
-import com.ark.center.iam.domain.application.gateway.AppRepository;
+import com.ark.center.iam.domain.app.App;
+import com.ark.center.iam.domain.app.gateway.AppRepository;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.exception.ExceptionFactory;
 import com.google.common.collect.Lists;
@@ -143,11 +143,11 @@ public class ApiSyncCmdExe {
 
         for (Api api : insertApis) {
             api.onCreate();
-            apiRepository.persist(api);
+            apiRepository.saveAndPublishEvents(api);
         }
 
         for (Api api : updateApis) {
-            apiRepository.persist(api);
+            apiRepository.saveAndPublishEvents(api);
         }
 
     }

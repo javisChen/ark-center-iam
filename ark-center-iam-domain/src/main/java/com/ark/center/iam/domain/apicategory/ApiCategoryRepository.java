@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ApiCategoryRepository extends BaseRepository<ApiCategory, Long> {
 
-    boolean save(ApiCategory apiCategory);
+    void saveAndPublishEvents(ApiCategory apiCategory);
 
     boolean exists(String name, Long applicationId);
 

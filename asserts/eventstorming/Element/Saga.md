@@ -32,7 +32,7 @@ include('eventstorming/Element/Saga')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Saga
+' loads the Item which embeds the menuElement Saga
 include('eventstorming/Element/Saga')
 
 Saga('Saga') [
@@ -56,7 +56,7 @@ A saga is a long-lived business transaction.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Saga
+' loads the Item which embeds the menuElement Saga
 include('eventstorming/Element/Saga')
 
 Saga('Saga') [

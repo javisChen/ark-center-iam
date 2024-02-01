@@ -1,0 +1,61 @@
+package com.ark.center.iam.infra.api.repository;
+
+import com.ark.center.iam.domain.api.Api;
+import com.ark.center.iam.domain.api.ApiRepository;
+import com.ark.center.iam.infra.api.converter.ApiDomainConverter;
+import com.ark.center.iam.infra.api.repository.db.ApiDAO;
+import com.ark.center.iam.infra.api.repository.db.ApiDO;
+import com.ark.component.ddd.infrastructure.BaseDBRepository;
+import com.ark.component.orm.mybatis.base.BaseEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+@RequiredArgsConstructor
+public class ApiDBRepositoryImpl extends BaseDBRepository<Api, Long> implements ApiRepository {
+
+    private final ApiDAO dao;
+    private final ApiDomainConverter domainConverter;
+
+    @Override
+    public boolean existsByAppIdAndMethodAndUrl(Long excludeId, Long applicationId, String method, String url) {
+        return dao.lambdaQuery()
+                .ne(excludeId != null, BaseEntity::getId, excludeId)
+                .eq(ApiDO::getUri, url)
+                .eq(ApiDO::getMethod, method)
+                .eq(ApiDO::getApplicationId, applicationId)
+                .exists();
+    }
+
+    @Override
+    public List<Api> byAppId(Long applicationId) {
+        List<ApiDO> doList = dao.lambdaQuery()
+                .eq(ApiDO::getApplicationId, applicationId)
+                .list();
+        return domainConverter.convert(doList);
+    }
+
+    @Override
+    public Api byId(Long id) {
+        ApiDO apiDO = dao.getById(id);
+        return domainConverter.convert(apiDO);
+    }
+
+    @Override
+    protected void save(Api api) {
+        ApiDO apiDO = domainConverter.convert(api);
+        dao.saveOrUpdate(apiDO);
+    }
+
+    @Override
+    protected void delete(Api it) {
+        dao.removeById(it.getId());
+    }
+
+    @Override
+    protected void delete(List<Long> ids) {
+        dao.removeByIds(ids);
+    }
+}

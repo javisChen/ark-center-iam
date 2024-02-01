@@ -32,7 +32,7 @@ include('eventstorming/Element/Service')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Service
+' loads the Item which embeds the menuElement Service
 include('eventstorming/Element/Service')
 
 Service('Service') [
@@ -56,7 +56,7 @@ A service implements domain operations which cannot belong to an aggregate.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Service
+' loads the Item which embeds the menuElement Service
 include('eventstorming/Element/Service')
 
 Service('Service') [

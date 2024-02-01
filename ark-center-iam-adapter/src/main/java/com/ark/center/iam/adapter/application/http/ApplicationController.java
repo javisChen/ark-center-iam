@@ -4,7 +4,7 @@ import com.ark.center.iam.application.application.ApplicationQueryService;
 import com.ark.center.iam.application.application.ApplicationCommandHandler;
 import com.ark.center.iam.model.application.command.ApplicationCreateCommand;
 import com.ark.center.iam.model.application.command.ApplicationUpdateCommand;
-import com.ark.center.iam.model.application.query.dto.ApplicationDTO;
+import com.ark.center.iam.model.application.query.dto.AppDTO;
 import com.ark.center.iam.model.application.query.ApplicationQuery;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
@@ -26,7 +26,7 @@ public class ApplicationController extends BaseController {
 
     @GetMapping("/v1/applications")
     @Operation(summary = "查询应用列表")
-    public MultiResponse<ApplicationDTO> queryAll(@RequestBody ApplicationQuery query) {
+    public MultiResponse<AppDTO> queryAll(@RequestBody ApplicationQuery query) {
         return MultiResponse.ok(applicationQueryService.queryAll(query));
     }
 

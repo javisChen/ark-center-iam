@@ -32,7 +32,7 @@ include('eventstorming/Element/System')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element System
+' loads the Item which embeds the menuElement System
 include('eventstorming/Element/System')
 
 System('System') [
@@ -56,7 +56,7 @@ A third-party service provider such as a payment gateway or shipping company.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element System
+' loads the Item which embeds the menuElement System
 include('eventstorming/Element/System')
 
 System('System') [

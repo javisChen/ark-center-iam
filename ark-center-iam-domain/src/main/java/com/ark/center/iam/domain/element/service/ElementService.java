@@ -1,7 +1,7 @@
 package com.ark.center.iam.domain.element.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.domain.menu.vo.Element;
+import com.ark.center.iam.domain.menu.vo.MenuElement;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
@@ -20,11 +20,11 @@ public class ElementService {
     private final ElementGateway elementGateway;
     private final PermissionGateway permissionGateway;
 
-    public void saveBatchElements(List<Element> elements) {
-        if (CollectionUtil.isNotEmpty(elements)) {
-            for (Element element : elements) {
-                elementGateway.insert(element);
-                permissionGateway.insertPermission(element.getId(), PermissionType.PAGE_ELEMENT);
+    public void saveBatchElements(List<MenuElement> menuElements) {
+        if (CollectionUtil.isNotEmpty(menuElements)) {
+            for (MenuElement menuElement : menuElements) {
+                elementGateway.insert(menuElement);
+                permissionGateway.insertPermission(menuElement.getId(), PermissionType.PAGE_ELEMENT);
             }
         }
     }

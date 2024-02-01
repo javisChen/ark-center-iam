@@ -32,7 +32,7 @@ include('eventstorming/Element/IntegrationEvent')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element IntegrationEvent
+' loads the Item which embeds the menuElement IntegrationEvent
 include('eventstorming/Element/IntegrationEvent')
 
 IntegrationEvent('IntegrationEvent') [
@@ -56,7 +56,7 @@ An integration event notifies to other systems something happened.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element IntegrationEvent
+' loads the Item which embeds the menuElement IntegrationEvent
 include('eventstorming/Element/IntegrationEvent')
 
 IntegrationEvent('IntegrationEvent') [

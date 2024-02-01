@@ -13,13 +13,11 @@ import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
-import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -81,9 +79,8 @@ public class MenuController extends BaseController {
 
     @PutMapping("/menus/status")
     @Operation(summary = "更新路由状态")
-    public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
-                                       @RequestBody MenuCreateCommand dto) {
-        menuCommandHandler.updateRouteStatus(dto);
+    public ServerResponse changeStatus(@RequestBody MenuUpdateCommand command) {
+        menuCommandHandler.changeStatus(command);
         return ServerResponse.ok();
     }
 
@@ -95,7 +92,7 @@ public class MenuController extends BaseController {
             }
     )
     public ServerResponse deleteMenu(Long id) {
-        menuCommandHandler.deleteRouteById(id);
+        menuCommandHandler.delete(id);
         return ServerResponse.ok();
     }
 

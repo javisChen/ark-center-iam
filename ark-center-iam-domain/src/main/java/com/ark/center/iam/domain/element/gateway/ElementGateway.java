@@ -1,13 +1,13 @@
 package com.ark.center.iam.domain.element.gateway;
 
-import com.ark.center.iam.domain.menu.vo.Element;
+import com.ark.center.iam.domain.menu.vo.MenuElement;
 
 import java.util.List;
 
 public interface ElementGateway {
-    void insert(Element element);
+    void insert(MenuElement menuElement);
 
     void deleteByRouteId(Long routeId);
 
-    List<Element> selectElementsByRouteId(Long routeId);
+    List<MenuElement> selectElementsByRouteId(Long routeId);
 }

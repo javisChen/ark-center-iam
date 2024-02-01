@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.application.event.listener;
 
-import com.ark.center.iam.domain.application.event.ApplicationChangedEvent;
-import com.ark.center.iam.domain.application.event.ApplicationCreatedEvent;
+import com.ark.center.iam.domain.app.event.ApplicationChangedEvent;
+import com.ark.center.iam.domain.app.event.ApplicationCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.event.EventListener;

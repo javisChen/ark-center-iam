@@ -17,7 +17,7 @@ public class RouteDeleteCmdExe {
     private final PermissionGateway permissionGateway;
 
     public void execute(Long id) {
-        Menu menu = menuRepository.selectBaseByRouteId(id);
+        Menu menu = menuRepository.byId(id);
 
         List<Long> ids = querySubRoutes(menu).stream().map(Menu::getId).collect(Collectors.toList());
 

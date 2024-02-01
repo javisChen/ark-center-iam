@@ -17,13 +17,13 @@ public class MenuDomainService {
 
         check(willUpdateMenu);
 
-        menu.updateInfo(willUpdateMenu, parentMenu);
+        menu.updateInfo(willUpdateMenu);
 
-        if (!menu.getPid().equals(parentMenu.getId())) {
+        if (parentMenu != null && !parentMenu.getId().equals(menu.getPid())) {
             menu.changeHierarchy(parentMenu);
         }
 
-        menu.updateChildrenStatus(willUpdateMenu.getStatus());
+        menu.changeChildrenStatus(willUpdateMenu.getStatus());
 
     }
 

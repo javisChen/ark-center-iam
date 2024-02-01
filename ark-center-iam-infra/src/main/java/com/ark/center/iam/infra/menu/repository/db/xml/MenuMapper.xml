@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ark.center.iam.infra.menu.repository.db.MenuMapper">
+
+    <select id="selectDetailsPages" resultType="com.ark.center.iam.model.menu.dto.RouteDetailsDTO">
+        SELECT
+        r.*,
+        a.name as applicationName,
+        p.code as permissionCode,
+        p.id as permissionId
+        FROM iam_menu r
+        inner join iam_permission p on p.resource_id = r.id
+        inner join iam_application a on a.id = r.application_id
+        <where>
+            <if test="params.name != null and params.name != ''">
+                AND r.name LIKE CONCAT('%', #{params.name}, '%')
+            </if>
+            <if test="params.applicationId != null">
+                AND r.application_id = #{params.applicationId}
+            </if>
+            <if test="params.pid != null">
+                AND r.pid = #{params.pid}
+            </if>
+            <if test="params.status != null">
+                AND r.status = #{params.status}
+            </if>
+        </where>
+        AND p.type = 'FRONT_ROUTE'
+        AND r.pid = 0
+        AND r.is_deleted = 0
+        ORDER BY r.`sequence`
+    </select>
+
+    <select id="selectSubRoutes" resultType="com.ark.center.iam.model.menu.dto.RouteDetailsDTO">
+        SELECT
+        r.*,
+        a.name as applicationName,
+        p.code as permissionCode,
+        p.id as permissionId
+        FROM iam_menu r
+        inner join iam_permission p on p.resource_id = r.id
+        inner join iam_application a on a.id = r.application_id
+        AND r.pid != 0
+        AND r.is_deleted = 0
+        AND p.type = 'FRONT_ROUTE'
+    </select>
+
+    <select id="selectDetails" resultType="com.ark.center.iam.model.menu.dto.RouteDetailsDTO">
+        SELECT
+        r.*,
+        a.name as applicationName,
+        p.code as permissionCode,
+        p.id as permissionId,
+        rp.name as parentRouteName
+        FROM iam_menu r
+        inner join iam_permission p on p.resource_id = r.id
+        inner join iam_application a on a.id = r.application_id
+        left join iam_menu rp on rp.id = r.pid
+        where r.is_deleted = 0 and r.id = #{id} 
+    </select>
+
+</mapper>

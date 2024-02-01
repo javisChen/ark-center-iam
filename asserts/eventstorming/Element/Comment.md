@@ -32,7 +32,7 @@ include('eventstorming/Element/Comment')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Comment
+' loads the Item which embeds the menuElement Comment
 include('eventstorming/Element/Comment')
 
 Comment('Comment') [
@@ -56,7 +56,7 @@ A comment is used to provide additional information.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Comment
+' loads the Item which embeds the menuElement Comment
 include('eventstorming/Element/Comment')
 
 Comment('Comment') [

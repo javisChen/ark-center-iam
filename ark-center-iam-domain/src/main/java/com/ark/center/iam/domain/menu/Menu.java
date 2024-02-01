@@ -2,109 +2,89 @@ package com.ark.center.iam.domain.menu;
 
 import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.domain.menu.common.MenuConst;
-import com.ark.center.iam.domain.menu.vo.Element;
+import com.ark.center.iam.domain.menu.vo.MenuElement;
 import com.ark.center.iam.domain.menu.vo.MenuType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-@TableName("iam_menu")
 @Builder
 public class Menu extends AggregateRoot {
 
     /**
      * 菜单名称
      */
-    @TableField("name")
     private String name;
 
     /**
      * 应用id
      */
-    @TableField("application_id")
     private Long applicationId;
 
     /**
      * 唯一键
      */
-    @TableField("code")
     private String code;
 
     /**
      * 组件名
      */
-    @TableField("component")
     private String component;
 
     /**
      * 路由类型 1：菜单路由 2：页面路由 3:页面隐藏路由
      */
-    @TableField("type")
     private MenuType type;
 
     /**
      * 是否隐藏子路由 0-否 1-是
      */
-    @TableField("hide_children")
     private Boolean hideChildren;
 
     /**
      * 父级菜单id
      */
-    @TableField("pid")
     private Long pid;
 
     /**
      * 菜单层级路径，例如：0.1.2 代表该菜单是三级菜单，上级菜单的id是1,再上级的菜单id是0
      */
-    @TableField("level_path")
     private String levelPath;
 
     /**
      * 菜单层级
      */
-    @TableField("level")
     private Integer level;
 
     /**
      * 排序序号
      */
-    @TableField("sequence")
     private Integer sequence;
 
     /**
      * 路径
      */
-    @TableField("path")
     private String path;
 
     /**
      * 图标
      */
-    @TableField("icon")
     private String icon;
 
     /**
      * 状态 1-已启用；2-已禁用；
      */
-    @TableField("status")
     private EnableDisableStatus status;
 
-    @TableField(value = "is_deleted")
-    private Long isDeleted;
+    private List<MenuElement> menuElements;
 
-    @TableField(exist = false)
-    private List<Element> elements;
-
-    @TableField(exist = false)
     private List<Menu> children;
 
     public Menu(String name,
@@ -117,7 +97,7 @@ public class Menu extends AggregateRoot {
                 Integer sequence,
                 String path,
                 String icon,
-                List<Element> elements,
+                List<MenuElement> menuElements,
                 Menu parent) {
         this.name = name;
         this.applicationId = applicationId;
@@ -129,7 +109,7 @@ public class Menu extends AggregateRoot {
         this.sequence = sequence;
         this.path = path;
         this.icon = icon;
-        this.elements = elements;
+        this.menuElements = menuElements;
         setLevel(parent);
         raiseEvent(new MenuCreatedEvent(this, getId()));
     }
@@ -145,12 +125,12 @@ public class Menu extends AggregateRoot {
         this.sequence = menu.getSequence();
         this.path = menu.getPath();
         this.icon = menu.getIcon();
-        this.elements = menu.getElements();
+        this.menuElements = menu.getMenuElements();
         setLevel(parentMenu);
         raiseEvent(new MenuCreatedEvent(this, getId()));
     }
 
-    public void updateInfo(Menu menu, Menu parentMenu) {
+    public void updateInfo(Menu menu) {
         this.name = menu.getName();
         this.applicationId = menu.getApplicationId();
         this.code = menu.getCode();
@@ -161,15 +141,25 @@ public class Menu extends AggregateRoot {
         this.sequence = menu.getSequence();
         this.path = menu.getPath();
         this.icon = menu.getIcon();
-        this.elements = menu.getElements();
+        this.menuElements = menu.getMenuElements();
+        this.status = menu.getStatus();
         raiseEvent(new MenuChangedEvent(this, getId()));
     }
 
     private void setLevel(Menu parent) {
         this.level = isRoot() ? MenuConst.FIRST_LEVEL : parent.getLevel() + 1;
-        this.levelPath = level == 1
-                ? getId() + StrUtil.DOT
-                : parent.getLevelPath() + this.getId() + StrUtil.DOT;
+        // 假设当前menuId是188：
+        // 如果是一级路由：188.
+        // 如果是子级路由，parentId是288：288.188.
+        String levelPath;
+        if (level == 1) {
+            levelPath = getId() + StrUtil.DOT;
+        } else {
+            levelPath = parent.getLevelPath() + this.getId() + StrUtil.DOT;
+            String partOfOldParent = StringUtils.substringBefore(levelPath, String.valueOf(menu));
+            return StringUtils.replace(oldRouteLevelPath, partOfOldParent, newParentRouteLevelPath);
+        }
+        this.levelPath = levelPath;
 
     }
 
@@ -181,16 +171,13 @@ public class Menu extends AggregateRoot {
                || MenuConst.FIRST_LEVEL.equals(this.level);
     }
 
-    private void updateLevelPath(Menu parent) {
-        this.levelPath = isRoot()
-                ? getId() + StrUtil.DOT
-                : parent.getLevelPath() + this.getId() + StrUtil.DOT;
-    }
-
-    public void updateChildrenStatus(EnableDisableStatus status) {
+    /**
+     * 同步更新子菜单的状态
+     */
+    public void changeChildrenStatus(EnableDisableStatus status) {
         this.children.forEach(child -> {
             child.status = status;
-            child.updateChildrenStatus(status);
+            child.changeChildrenStatus(status);
         });
     }
 
@@ -204,5 +191,18 @@ public class Menu extends AggregateRoot {
         for (Menu child : this.children) {
             child.changeHierarchy(this);
         }
+    }
+
+    public void changeStatus(EnableDisableStatus status) {
+        this.status = status;
+        raiseEvent(new MenuChangedEvent(this, getId()));
+    }
+
+    public void emptyChildren() {
+        this.children = List.of();
+    }
+
+    public void onDelete() {
+        raiseEvent(new MenuDeletedEvent(this, getId()));
     }
 }

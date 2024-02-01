@@ -205,6 +205,28 @@ Aggregate('App')[
     应用名称
 ]
 
+Aggregate('ApiCategory')[
+    Api分类
+    --fields--
+    应用id
+    名称
+]
+
+
+Aggregate('Api')[
+    Api
+    --fields--
+    Api名称
+    应用id
+    分类id
+    Uri
+    HttpMethod
+    认证授权类型
+    是否包含路径参数
+    状态
+]
+
+
 
 Aggregate('Permission')[
     权限
@@ -221,8 +243,7 @@ Aggregate('Menu')[
     菜单编码
     组件
     Icon
-    
-    
+
 ]
 
 
@@ -245,30 +266,46 @@ admin --> UpdateUser
 admin --> EnableUser
 admin --> DisableUser
 
+' Api分类
+admin --> CreateApiCategory
+admin --> UpdateApiCategory
+admin --> DeleteApiCategory
+
+CreateApiCategory --> ApiCategory
+UpdateApiCategory --> ApiCategory
+DeleteApiCategory --> ApiCategory
+
+ApiCategory --> APICategoryCreated
+ApiCategory --> APICategoryDeleted
+
+' Api
+admin --> CreateApi
+admin --> UpdateApi
+admin --> DeleteApi
+
+CreateApi --> Api
+UpdateApi --> Api
+DeleteApi --> Api
+
+Api --> APICreated
+Api --> APIChanged
+Api --> APIDeleted
+
+' 菜单
+
+
 CreateUser --> UserCreated
 UpdateUser --> UserChanged
 EnableUser --> UserEnabled
 DisableUser --> UserDisabled
 
-admin --> APICategoryCreated
-admin --> APICategoryDeleted
-
 admin --> CreateMenu
 admin --> UpdateMenu
 admin --> DeleteMenu
-admin --> CreateApi
-admin --> UpdateApi
-admin --> DeleteApi
-admin --> CreateApiCategory
-admin --> UpdateApiCategory
-admin --> DeleteApiCategory
 
 CreateMenu --> MenuCreated
 UpdateMenu --> MenuChanged
 DeleteMenu --> MenuDeleted
-CreateApi --> APICreated
-UpdateApi --> APIChanged
-DeleteApi --> APIDeleted
 
 APICreated --> CreatePermission
 MenuCreated --> CreatePermission

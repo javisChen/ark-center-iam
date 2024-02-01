@@ -32,7 +32,7 @@ include('eventstorming/Element/FacadeCommand')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element FacadeCommand
+' loads the Item which embeds the menuElement FacadeCommand
 include('eventstorming/Element/FacadeCommand')
 
 FacadeCommand('FacadeCommand') [
@@ -56,7 +56,7 @@ A facade command is a public command masking the underlying complexity.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element FacadeCommand
+' loads the Item which embeds the menuElement FacadeCommand
 include('eventstorming/Element/FacadeCommand')
 
 FacadeCommand('FacadeCommand') [

@@ -3,7 +3,7 @@ package com.ark.center.iam.application.apicategory;
 import com.ark.center.iam.application.apicategory.assembler.ApiCategoryAssembler;
 import com.ark.center.iam.model.api.dto.ApiCategoryBaseDTO;
 import com.ark.center.iam.domain.apicategory.ApiCategory;
-import com.ark.center.iam.infra.api.gateway.db.ApiCategoryMapper;
+import com.ark.center.iam.infra.apicategory.repository.db.ApiCategoryMapper;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

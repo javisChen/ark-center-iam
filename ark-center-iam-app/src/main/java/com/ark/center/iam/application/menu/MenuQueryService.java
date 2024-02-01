@@ -5,7 +5,7 @@ import com.ark.center.iam.application.menu.executor.RouteTreeQryExe;
 import com.ark.center.iam.model.element.dto.ElementBaseDTO;
 import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.model.menu.query.MenuQuery;
-import com.ark.center.iam.domain.menu.vo.Element;
+import com.ark.center.iam.domain.menu.vo.MenuElement;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -37,7 +37,7 @@ public class MenuQueryService {
     }
 
     public List<ElementBaseDTO> queryRouteElementsById(Long routeId) {
-        List<Element> elements = elementGateway.selectElementsByRouteId(routeId);
-        return elements.stream().map(elementAssembler::toElementDTO).collect(Collectors.toList());
+        List<MenuElement> menuElements = elementGateway.selectElementsByRouteId(routeId);
+        return menuElements.stream().map(elementAssembler::toElementDTO).collect(Collectors.toList());
     }
 }

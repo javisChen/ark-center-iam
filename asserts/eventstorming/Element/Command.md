@@ -32,7 +32,7 @@ include('eventstorming/Element/Command')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Command
+' loads the Item which embeds the menuElement Command
 include('eventstorming/Element/Command')
 
 Command('Command') [
@@ -56,7 +56,7 @@ A command is an intent to mutate the state of the system.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Command
+' loads the Item which embeds the menuElement Command
 include('eventstorming/Element/Command')
 
 Command('Command') [

@@ -32,7 +32,7 @@ include('eventstorming/Element/Result')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Result
+' loads the Item which embeds the menuElement Result
 include('eventstorming/Element/Result')
 
 Result('Result') [
@@ -56,7 +56,7 @@ A result provides a feedback about an already processed message.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Result
+' loads the Item which embeds the menuElement Result
 include('eventstorming/Element/Result')
 
 Result('Result') [

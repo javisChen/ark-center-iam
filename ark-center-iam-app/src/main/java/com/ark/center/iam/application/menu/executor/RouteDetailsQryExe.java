@@ -1,10 +1,10 @@
 package com.ark.center.iam.application.menu.executor;
 
 import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
-import com.ark.center.iam.domain.menu.vo.Element;
+import com.ark.center.iam.domain.menu.vo.MenuElement;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.route.gateway.db.MenuMapper;
+import com.ark.center.iam.infra.menu.repository.db.MenuMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +20,8 @@ public class RouteDetailsQryExe {
 
     public RouteDetailsDTO execute(Long id) {
         RouteDetailsDTO routeDetailsDTO = menuMapper.selectDetails(id);
-        List<Element> elements = elementGateway.selectElementsByRouteId(id);
-        routeDetailsDTO.setElements(elementAssembler.toElementDTO(elements));
+        List<MenuElement> menuElements = elementGateway.selectElementsByRouteId(id);
+        routeDetailsDTO.setElements(elementAssembler.toElementDTO(menuElements));
         return routeDetailsDTO;
     }
 }

@@ -2,10 +2,10 @@ package com.ark.center.iam.application.application;
 
 import com.ark.center.iam.model.application.command.ApplicationCreateCommand;
 import com.ark.center.iam.model.application.command.ApplicationUpdateCommand;
-import com.ark.center.iam.domain.application.App;
-import com.ark.center.iam.domain.application.ApplicationDomainService;
-import com.ark.center.iam.domain.application.ApplicationFactory;
-import com.ark.center.iam.domain.application.gateway.AppRepository;
+import com.ark.center.iam.domain.app.App;
+import com.ark.center.iam.domain.app.ApplicationDomainService;
+import com.ark.center.iam.domain.app.ApplicationFactory;
+import com.ark.center.iam.domain.app.gateway.AppRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ public class ApplicationCommandHandler {
 
         App app = applicationFactory.create(command.getName(), command.getCode(), command.getType());
 
-        appRepository.persist(app);
+        appRepository.saveAndPublishEvents(app);
 
     }
 
@@ -34,7 +34,7 @@ public class ApplicationCommandHandler {
         
         applicationDomainService.update(app, command.getName());
 
-        appRepository.persist(app);
+        appRepository.saveAndPublishEvents(app);
 
     }
 

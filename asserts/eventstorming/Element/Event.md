@@ -32,7 +32,7 @@ include('eventstorming/Element/Event')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Event
+' loads the Item which embeds the menuElement Event
 include('eventstorming/Element/Event')
 
 Event('Event') [
@@ -56,7 +56,7 @@ An event notifies something happened.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the element Event
+' loads the Item which embeds the menuElement Event
 include('eventstorming/Element/Event')
 
 Event('Event') [
