@@ -1,16 +1,17 @@
-package com.ark.center.iam.infra.permission.gateway.impl;
+package com.ark.center.iam.infra.permission.repository.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.ark.center.iam.infra.permission.repository.db.PermissionDAO;
 import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionStatusEnums;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
-import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
-import com.ark.center.iam.infra.permission.gateway.db.PermissionMapper;
-import com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRel;
-import com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRelMapper;
+import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
+import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
+import com.ark.center.iam.infra.permission.repository.db.PermissionMapper;
+import com.ark.center.iam.infra.permission.repository.db.PermissionRoleRel;
+import com.ark.center.iam.infra.permission.repository.db.PermissionRoleRelMapper;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -26,11 +27,12 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class PermissionGatewayImpl implements PermissionGateway {
+public class PermissionRepositoryImpl implements PermissionRepository {
 
     private final PermissionRoleRelMapper permissionRoleRelMapper;
-    private final PermissionAssembler permissionAssembler;
+    private final PermissionDomainConverter permissionDomainConverter;
     private final PermissionMapper permissionMapper;
+    private final PermissionDAO permissionDAO;
 
     @Override
     public List<Permission> selectByType(PermissionType permissionType) {
@@ -88,6 +90,15 @@ public class PermissionGatewayImpl implements PermissionGateway {
     }
 
     @Override
+    public List<Permission> byResourceIdsAndType(List<Long> resourcesIds, PermissionType type) {
+        List<Permission> permissions = permissionDAO.lambdaQuery()
+                .in(Permission::getResourceId, resourcesIds)
+                .eq(Permission::getType, type.getName())
+                .list();
+        return permissionDomainConverter.toDomain(permissions);
+    }
+
+    @Override
     public void insertBatchRolePermissionRelations(Long roleId, List<Long> permissionIds) {
         if (CollectionUtil.isNotEmpty(permissionIds)) {
             permissionRoleRelMapper.batchInsert(roleId, permissionIds);
@@ -97,7 +108,7 @@ public class PermissionGatewayImpl implements PermissionGateway {
     @Override
     public List<PermissionDTO> selectRolePermissions(Long applicationId, Long roleId, String permissionType) {
         List<Permission> permissions = this.permissionMapper.selectByRoleIdAndType(applicationId, roleId, permissionType);
-        return permissions.stream().map(permissionAssembler::toPermissionDTO).collect(Collectors.toList());
+        return permissions.stream().map(permissionDomainConverter::toPermissionDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -144,4 +155,10 @@ public class PermissionGatewayImpl implements PermissionGateway {
                 .toList();
     }
 
+    @Override
+    public void deleteAll(List<Permission> permissions) {
+        permissionDAO.lambdaUpdate()
+                .in(AggregateRoot::getId, permissions.stream().map(AggregateRoot::getId).toList())
+                .remove();
+    }
 }

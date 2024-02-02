@@ -1,5 +1,6 @@
 package com.ark.center.iam.infra.menu.repository.db;
 
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,15 @@ import java.util.List;
 public class MenuElementDAO extends ServiceImpl<MenuElementMapper, MenuElementDO> {
 
     public List<MenuElementDO> selectByMenuId(Long menuId) {
-        return lambdaQuery().eq(MenuElementDO::getMenuId, menuId).list();
+        return lambdaQuery()
+                .select(
+                        BaseEntity::getId,
+                        MenuElementDO::getMenuId,
+                        MenuElementDO::getName,
+                        MenuElementDO::getType)
+                .eq(MenuElementDO::getMenuId, menuId)
+                .orderByDesc(BaseEntity::getCreateTime)
+                .list();
     }
 
     public void deleteByMenuId(Long menuId) {

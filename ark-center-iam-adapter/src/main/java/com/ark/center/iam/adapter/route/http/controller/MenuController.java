@@ -5,7 +5,7 @@ import com.ark.center.iam.application.menu.MenuCommandHandler;
 import com.ark.center.iam.application.menu.MenuQueryService;
 import com.ark.center.iam.model.element.dto.ElementBaseDTO;
 import com.ark.center.iam.model.menu.command.MenuCreateCommand;
-import com.ark.center.iam.model.menu.command.MenuModifyParentCommand;
+import com.ark.center.iam.model.menu.command.MenuHierarchyChangeCommand;
 import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
 import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.model.menu.query.MenuQuery;
@@ -58,10 +58,10 @@ public class MenuController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @PutMapping("/menus/parent")
-    @Operation(summary = "移动路由层级")
-    public ServerResponse move(@RequestBody @Validated MenuModifyParentCommand dto) {
-        menuCommandHandler.modifyParent(dto);
+    @PutMapping("/menus/hierarchy")
+    @Operation(summary = "修改菜单的层级")
+    public ServerResponse changeHierarchy(@RequestBody @Validated MenuHierarchyChangeCommand dto) {
+        menuCommandHandler.changeHierarchy(dto);
         return ServerResponse.ok();
     }
 
@@ -105,7 +105,7 @@ public class MenuController extends BaseController {
             }
     )
     public MultiResponse<ElementBaseDTO> queryMenuElements(Long id) {
-        return MultiResponse.ok(menuQueryService.queryRouteElementsById(id));
+        return MultiResponse.ok(menuQueryService.queryMenuElements(id));
     }
 
 }

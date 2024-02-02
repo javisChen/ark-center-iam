@@ -3,6 +3,9 @@ package com.ark.center.iam.domain.role.gateway;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
+import com.ark.center.iam.model.role.dto.RoleBaseDTO;
+import com.ark.center.iam.model.role.query.RoleQry;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 

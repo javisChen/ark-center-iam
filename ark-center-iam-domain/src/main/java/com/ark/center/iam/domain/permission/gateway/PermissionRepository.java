@@ -5,10 +5,11 @@ import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
+import com.ark.component.ddd.domain.repository.BaseRepository;
 
 import java.util.List;
 
-public interface PermissionGateway {
+public interface PermissionRepository extends BaseRepository<Permission, Long> {
 
     List<Permission> selectByType(PermissionType permissionType);
 
@@ -33,5 +34,9 @@ public interface PermissionGateway {
     void deleteRolePermission(Long applicationId, Long roleId, PermissionType permissionType);
 
     void deleteRolePermissionByIds(Long applicationId, Long roleId, List<Long> toRemoveApiPermissionIds);
+
+    List<Permission> byResourceIdsAndType(List<Long> resourcesIds, PermissionType type);
+
+
 
 }

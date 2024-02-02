@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@Schema(description = "路由层级变更命令")
-public class MenuModifyParentCommand {
+@Schema(description = "修改菜单层级命令")
+public class MenuHierarchyChangeCommand {
 
 
     @NotNull(message = "id 不能为空")

@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.menu.repository.db;
 
-import com.ark.component.ddd.domain.AggregateRoot;
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_menu_element")
-public class MenuElementDO extends AggregateRoot {
+public class MenuElementDO extends BaseEntity {
 
     /**
      * 所属菜单id，关联iam_menu.id

@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.permission.gateway.db;
+package com.ark.center.iam.infra.permission.repository.db;
 
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.permission.Permission;
@@ -15,7 +15,7 @@ import java.util.List;
  * @author
  * @since 2020-11-09
  */
-public interface PermissionMapper extends BaseMapper<Permission> {
+public interface PermissionMapper extends BaseMapper<PermissionDO> {
 
     List<Permission> selectByRoleIdsAndType(@Param("roleIds") List<Long> roleIds,
                                             @Param("type") String type);

@@ -11,7 +11,7 @@ import com.ark.center.iam.model.role.command.RoleRoutePermissionGrantCmd;
 import com.ark.center.iam.model.role.dto.RoleBaseDTO;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.application.role.event.RolePermissionChangedEvent;
-import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
+import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -34,7 +34,7 @@ public class RolePermissionAppService {
     private final ApplicationEventPublisher eventPublisher;
     private final ApplicationContext applicationContext;
 
-    private final PermissionGateway permissionGateway;
+    private final PermissionRepository permissionRepository;
 
 
     @Transactional(rollbackFor = Throwable.class)
@@ -43,12 +43,12 @@ public class RolePermissionAppService {
         Long applicationId = cmd.getApplicationId();
         List<Long> toRemoveIds = CollectionUtil.newArrayList(cmd.getToRemoveRoutePermissionIds());
         toRemoveIds.addAll(cmd.getToRemoveElementPermissionIds());
-        permissionGateway.deleteRolePermissionByIds(applicationId, roleId, toRemoveIds);
+        permissionRepository.deleteRolePermissionByIds(applicationId, roleId, toRemoveIds);
 
 
         List<Long> toAddIds = CollectionUtil.newArrayList(cmd.getToAddRoutePermissionIds());
         toAddIds.addAll(cmd.getToAddElementPermissionIds());
-        permissionGateway.insertBatchRolePermissionRelations(roleId, toAddIds);
+        permissionRepository.insertBatchRolePermissionRelations(roleId, toAddIds);
 
         RoleBaseDTO roleBaseDTO = roleGateway.selectById(roleId);
         String roleName = roleBaseDTO.getName();
@@ -56,7 +56,7 @@ public class RolePermissionAppService {
     }
 
     public List<PermissionDTO> queryRoleRoutesPermissions(Long roleId, Long applicationId) {
-        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.MENU.getName());
+        return permissionRepository.selectRolePermissions(applicationId, roleId, PermissionType.MENU.getName());
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -65,10 +65,10 @@ public class RolePermissionAppService {
         Long applicationId = dto.getApplicationId();
 
         List<Long> toRemoveApiPermissionIds = dto.getToRemoveApiPermissionIds();
-        permissionGateway.deleteRolePermissionByIds(applicationId, roleId, toRemoveApiPermissionIds);
+        permissionRepository.deleteRolePermissionByIds(applicationId, roleId, toRemoveApiPermissionIds);
 
         List<Long> toAddApiPermissionIds = dto.getToAddApiPermissionIds();
-        permissionGateway.insertBatchRolePermissionRelations(roleId, toAddApiPermissionIds);
+        permissionRepository.insertBatchRolePermissionRelations(roleId, toAddApiPermissionIds);
 
         RoleBaseDTO roleBaseDTO = roleGateway.selectById(roleId);
         String roleName = roleBaseDTO.getName();
@@ -77,10 +77,10 @@ public class RolePermissionAppService {
     }
 
     public List<PermissionDTO> queryRoleApiPermissions(Long roleId, Long applicationId) {
-        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.SER_API.getName());
+        return permissionRepository.selectRolePermissions(applicationId, roleId, PermissionType.SER_API.getName());
     }
 
     public List<PermissionDTO> queryRoleElementPermissions(Long roleId, Long applicationId) {
-        return permissionGateway.selectRolePermissions(applicationId, roleId, PermissionType.PAGE_ELEMENT.getName());
+        return permissionRepository.selectRolePermissions(applicationId, roleId, PermissionType.MENU_ELEMENT.getName());
     }
 }

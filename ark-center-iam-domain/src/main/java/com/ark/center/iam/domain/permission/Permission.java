@@ -6,8 +6,9 @@ import com.ark.component.ddd.domain.AggregateRoot;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -18,11 +19,11 @@ import org.apache.commons.lang3.StringUtils;
  * @author
  * @since 2020-11-09
  */
-@Data
+@Getter
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_permission")
+@Builder
 public class Permission extends AggregateRoot {
-
 
     @TableField("application_id")
     private Long applicationId;

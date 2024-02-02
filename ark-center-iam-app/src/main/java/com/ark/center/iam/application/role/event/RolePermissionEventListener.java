@@ -8,7 +8,7 @@ import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.ApiRepository;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
+import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
@@ -38,7 +38,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
     private final RoleGateway roleGateway;
     private final UserGateway userGateway;
     private final ApiRepository apiRepository;
-    private final PermissionGateway permissionGateway;
+    private final PermissionRepository permissionRepository;
     private final MessageTemplate messageTemplate;
     private final CacheService cacheService;
 
@@ -96,7 +96,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
 
     private List<Api> queryRoleApis(@NotNull RolePermissionChangedEvent event) {
         Long roleId = event.getRoleId();
-        List<Permission> permissions = permissionGateway.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API);
+        List<Permission> permissions = permissionRepository.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API);
         if (CollectionUtil.isNotEmpty(permissions)) {
             List<Long> permissionIds = permissions.stream().map(Permission::getResourceId).toList();
             return apiRepository.byIds(permissionIds);

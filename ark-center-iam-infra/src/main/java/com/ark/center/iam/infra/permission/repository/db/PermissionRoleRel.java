@@ -1,9 +1,8 @@
-package com.ark.center.iam.infra.permission.gateway.db;
+package com.ark.center.iam.infra.permission.repository.db;
 
 
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

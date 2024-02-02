@@ -1,21 +1,12 @@
 package com.ark.center.iam.domain.usergroup;
 
-
+import com.ark.component.ddd.domain.AggregateRoot;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 用户组表
- * </p>
- *
- * @author
- * @since 2020-11-09
- */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_user_group")

@@ -5,7 +5,7 @@ import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.app.gateway.AppRepository;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
+import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 public class UserPermissionService {
 
-    private final PermissionGateway permissionGateway;
+    private final PermissionRepository permissionRepository;
 
     private final RoleGateway roleGateway;
 
@@ -44,10 +44,10 @@ public class UserPermissionService {
         List<Permission> permissions;
         // 超管直接赋予所有权限
         if (isSuperAdmin(userCode)) {
-            permissions = permissionGateway.selectByType(permissionType);
+            permissions = permissionRepository.selectByType(permissionType);
         } else {
             List<Long> roleIds = queryUserRoles(userId);
-            permissions = permissionGateway.selectByTypeAndRoleIds(roleIds, permissionType);
+            permissions = permissionRepository.selectByTypeAndRoleIds(roleIds, permissionType);
         }
         return permissions;
     }
@@ -88,7 +88,7 @@ public class UserPermissionService {
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();
         }
-        return permissionGateway.selectApiPermissionsByRoleIds(roleIds);
+        return permissionRepository.selectApiPermissionsByRoleIds(roleIds);
     }
 
     public List<ApiPermissionVO> getUserApiPermissions(Long userId) {

@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.permission.gateway.db;
+package com.ark.center.iam.infra.permission.repository.db;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

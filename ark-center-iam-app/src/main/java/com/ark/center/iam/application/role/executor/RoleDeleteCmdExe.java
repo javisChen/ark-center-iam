@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.role.executor;
 
-import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
+import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ public class RoleDeleteCmdExe {
     private final RoleGateway roleGateway;
     private final UserGroupGateway userGroupGateway;
 
-    private final PermissionGateway permissionGateway;
+    private final PermissionRepository permissionRepository;
 
     public void execute(Long id) {
 
@@ -28,7 +28,7 @@ public class RoleDeleteCmdExe {
     }
 
     private void removePermissionRoleRelByRoleId(Long roleId) {
-        permissionGateway.deletePermissionAndRoleRelationsByRoleId(roleId);
+        permissionRepository.deletePermissionAndRoleRelationsByRoleId(roleId);
     }
 
     private void removeUserGroupRoleRelByRoleId(Long roleId) {

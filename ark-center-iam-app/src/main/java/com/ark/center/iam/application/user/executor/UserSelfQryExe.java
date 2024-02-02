@@ -5,7 +5,7 @@ import com.ark.center.iam.model.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.domain.user.service.UserPermissionService;
-import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
+import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
 import com.ark.component.cache.core.CacheHelper;
 import com.ark.component.context.core.ServiceContext;
 import com.ark.component.security.base.user.LoginUser;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.ark.center.iam.domain.permission.enums.PermissionType.MENU;
-import static com.ark.center.iam.domain.permission.enums.PermissionType.PAGE_ELEMENT;
+import static com.ark.center.iam.domain.permission.enums.PermissionType.MENU_ELEMENT;
 import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_ELEMS;
 import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_ROUTES;
 
@@ -28,17 +28,17 @@ public class UserSelfQryExe {
 
     private final MenuRepository menuRepository;
 
-    private final PermissionAssembler permissionAssembler;
+    private final PermissionDomainConverter permissionDomainConverter;
 
     public List<PermissionDTO> queryUserSelfElements() {
         LoginUser user = ServiceContext.getCurrentUser();
         Long userId = user.getUserId();
         String cacheKey = String.format(CACHE_KEY_USER_ELEMS, userId);
         return CacheHelper.execute(cacheKey, key -> {
-            List<Permission> permissions = userPermissionService.queryUserPermissions(user.getUserId(), PAGE_ELEMENT);
+            List<Permission> permissions = userPermissionService.queryUserPermissions(user.getUserId(), MENU_ELEMENT);
             return permissions.stream()
                     .filter(Objects::nonNull)
-                    .map(permissionAssembler::toPermissionDTO)
+                    .map(permissionDomainConverter::toPermissionDTO)
                     .toList();
         });
     }

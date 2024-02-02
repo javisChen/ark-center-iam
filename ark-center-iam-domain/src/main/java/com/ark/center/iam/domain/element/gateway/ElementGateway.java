@@ -7,7 +7,5 @@ import java.util.List;
 public interface ElementGateway {
     void insert(MenuElement menuElement);
 
-    void deleteByRouteId(Long routeId);
-
     List<MenuElement> selectElementsByRouteId(Long routeId);
 }

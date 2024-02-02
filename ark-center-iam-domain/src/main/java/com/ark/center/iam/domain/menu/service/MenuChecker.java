@@ -14,21 +14,21 @@ public class MenuChecker {
 
     public void ensureNameNotExists(String name) {
         Assert.isFalse(menuRepository.existsByName(name),
-                ExceptionFactory.userExceptionSupplier("菜单名称已存在"));
+                ExceptionFactory.userExceptionSupplier("菜单名称已被使用"));
     }
 
     public void ensureCodeNotExists(String code) {
         Assert.isFalse(menuRepository.existsByCode(code),
-                ExceptionFactory.userExceptionSupplier("菜单编码已存在"));
+                ExceptionFactory.userExceptionSupplier("菜单编码已被使用"));
     }
 
     public void ensureNameNotExists(Long menuId, String name) {
         Assert.isFalse(menuRepository.existsByName(menuId, name),
-                ExceptionFactory.userExceptionSupplier("菜单名称已存在"));
+                ExceptionFactory.userExceptionSupplier("菜单名称已被使用"));
     }
 
     public void ensureCodeNotExists(Long menuId, String code) {
         Assert.isFalse(menuRepository.existsByCode(menuId, code),
-                ExceptionFactory.userExceptionSupplier("菜单编码已存在"));
+                ExceptionFactory.userExceptionSupplier("菜单编码已被使用"));
     }
 }

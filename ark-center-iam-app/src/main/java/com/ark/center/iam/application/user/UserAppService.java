@@ -18,7 +18,7 @@ import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.domain.user.service.UserPermissionService;
 import com.ark.center.iam.domain.user.support.UserConst;
 import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
-import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
+import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ public class UserAppService {
 
     private final UserPermissionService userPermissionService;
 
-    private final PermissionAssembler permissionAssembler;
+    private final PermissionDomainConverter permissionDomainConverter;
 
 
     public Page<UserPageDTO> pageQuery(UserPageQry qry) {
@@ -97,6 +97,6 @@ public class UserAppService {
 
     public List<UserApiPermissionDTO> getApiPermissions(Long userId) {
         List<ApiPermissionVO> userApiPermissions = userPermissionService.getUserApiPermissions(userId);
-        return permissionAssembler.toUserApiPermissionDTO(userApiPermissions);
+        return permissionDomainConverter.toUserApiPermissionDTO(userApiPermissions);
     }
 }

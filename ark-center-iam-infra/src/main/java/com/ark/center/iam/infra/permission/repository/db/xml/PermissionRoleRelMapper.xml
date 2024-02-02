@@ -3,7 +3,7 @@
 <mapper namespace="com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRelMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRel">
+    <resultMap id="BaseResultMap" type="com.ark.center.iam.infra.permission.repository.db.PermissionRoleRel">
         <result column="id" property="id"/>
         <result column="gmt_create" property="createTime"/>
         <result column="gmt_modified" property="updateTime"/>
@@ -54,7 +54,7 @@
     </select>
 
     <select id="selectByRoleIdAndType"
-            resultType="com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRel">
+            resultType="com.ark.center.iam.infra.permission.repository.db.PermissionRoleRel">
 
         select uprr.id
         from iam_permission up
@@ -65,7 +65,7 @@
 
     </select>
     <select id="selectByPermissionIdAndRoleId"
-            resultType="com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRel">
+            resultType="com.ark.center.iam.infra.permission.repository.db.PermissionRoleRel">
 
         select uprr.id
         from iam_permission up

@@ -2,9 +2,8 @@ package com.ark.center.iam.infra.menu.converter;
 
 import com.ark.center.iam.domain.menu.vo.MenuElement;
 import com.ark.center.iam.infra.menu.repository.db.MenuDO;
-import com.ark.center.iam.infra.menu.repository.db.MenuElementDO;
 import com.ark.center.iam.model.menu.command.MenuCreateCommand;
-import com.ark.center.iam.model.menu.command.MenuModifyParentCommand;
+import com.ark.center.iam.model.menu.command.MenuHierarchyChangeCommand;
 import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
 import com.ark.center.iam.model.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.menu.Menu;
@@ -47,31 +46,6 @@ public interface MenuDomainConverter {
     }
 
     List<MenuElement> toElement(List<MenuCreateCommand.Element> elements);
-
-    @Mapping(target = "type", ignore = true)
-    @Mapping(target = "status", ignore = true)
-    @Mapping(target = "sequence", ignore = true)
-    @Mapping(target = "path", ignore = true)
-    @Mapping(target = "name", ignore = true)
-    @Mapping(target = "modifier", ignore = true)
-    @Mapping(target = "levelPath", ignore = true)
-    @Mapping(target = "level", ignore = true)
-    @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "icon", ignore = true)
-    @Mapping(target = "hideChildren", ignore = true)
-    @Mapping(target = "updateTime", ignore = true)
-    @Mapping(target = "createTime", ignore = true)
-    @Mapping(target = "creator", ignore = true)
-    @Mapping(target = "component", ignore = true)
-    @Mapping(target = "code", ignore = true)
-    @Mapping(target = "applicationId", ignore = true)
-    Menu toDomain(MenuModifyParentCommand command);
-
-    @Mapping(target = "levelPath", ignore = true)
-    @Mapping(target = "level", ignore = true)
-    @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "children", ignore = true)
-    Menu toDomain(MenuUpdateCommand command);
 
     List<Menu> convert(List<MenuDO> menus);
 

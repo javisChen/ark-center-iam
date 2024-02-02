@@ -9,8 +9,9 @@ import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -93,57 +94,57 @@ public class Menu extends AggregateRoot {
                 String component,
                 MenuType type,
                 Boolean hideChildren,
-                Long pid,
                 Integer sequence,
                 String path,
                 String icon,
                 List<MenuElement> menuElements,
                 Menu parent) {
+        setBasicInfo(name, applicationId, code, component, type, hideChildren, sequence, path, icon, menuElements, parent);
+        this.children = List.of();
+        setLevel(parent);
+        raiseEvent(new MenuCreatedEvent(this, getId()));
+    }
+
+    public void update(String name,
+                       Long applicationId,
+                       String code,
+                       String component,
+                       MenuType type,
+                       Boolean hideChildren,
+                       Integer sequence,
+                       String path,
+                       String icon,
+                       EnableDisableStatus status,
+                       List<MenuElement> menuElements,
+                       Menu parent) {
+        setBasicInfo(name, applicationId, code, component, type, hideChildren, sequence, path, icon, menuElements, parent);
+        updateStatus(status);
+        changeHierarchy(parent);
+        raiseEvent(new MenuChangedEvent(this, getId()));
+    }
+
+    private void setBasicInfo(String name,
+                              Long applicationId,
+                              String code,
+                              String component,
+                              MenuType type,
+                              Boolean hideChildren,
+                              Integer sequence,
+                              String path,
+                              String icon,
+                              List<MenuElement> menuElements,
+                              Menu parent) {
         this.name = name;
         this.applicationId = applicationId;
         this.code = code;
         this.component = component;
         this.type = type;
         this.hideChildren = hideChildren;
-        this.pid = pid;
+        this.pid = parent.getId();
         this.sequence = sequence;
         this.path = path;
         this.icon = icon;
         this.menuElements = menuElements;
-        setLevel(parent);
-        raiseEvent(new MenuCreatedEvent(this, getId()));
-    }
-
-    public Menu(Menu menu, Menu parentMenu) {
-        this.name = menu.getName();
-        this.applicationId = menu.getApplicationId();
-        this.code = menu.getCode();
-        this.component = menu.getComponent();
-        this.type = menu.getType();
-        this.hideChildren = menu.getHideChildren();
-        this.pid = menu.getPid();
-        this.sequence = menu.getSequence();
-        this.path = menu.getPath();
-        this.icon = menu.getIcon();
-        this.menuElements = menu.getMenuElements();
-        setLevel(parentMenu);
-        raiseEvent(new MenuCreatedEvent(this, getId()));
-    }
-
-    public void updateInfo(Menu menu) {
-        this.name = menu.getName();
-        this.applicationId = menu.getApplicationId();
-        this.code = menu.getCode();
-        this.component = menu.getComponent();
-        this.type = menu.getType();
-        this.hideChildren = menu.getHideChildren();
-        this.pid = menu.getPid();
-        this.sequence = menu.getSequence();
-        this.path = menu.getPath();
-        this.icon = menu.getIcon();
-        this.menuElements = menu.getMenuElements();
-        this.status = menu.getStatus();
-        raiseEvent(new MenuChangedEvent(this, getId()));
     }
 
     private void setLevel(Menu parent) {
@@ -156,8 +157,6 @@ public class Menu extends AggregateRoot {
             levelPath = getId() + StrUtil.DOT;
         } else {
             levelPath = parent.getLevelPath() + this.getId() + StrUtil.DOT;
-            String partOfOldParent = StringUtils.substringBefore(levelPath, String.valueOf(menu));
-            return StringUtils.replace(oldRouteLevelPath, partOfOldParent, newParentRouteLevelPath);
         }
         this.levelPath = levelPath;
 
@@ -172,12 +171,12 @@ public class Menu extends AggregateRoot {
     }
 
     /**
-     * 同步更新子菜单的状态
+     * 递归更新子菜单的状态
      */
-    public void changeChildrenStatus(EnableDisableStatus status) {
+    public void updateChildrenStatus(EnableDisableStatus status) {
         this.children.forEach(child -> {
-            child.status = status;
-            child.changeChildrenStatus(status);
+            child.updateStatus(status);
+            child.updateChildrenStatus(status);
         });
     }
 
@@ -187,22 +186,68 @@ public class Menu extends AggregateRoot {
      * @param parentMenu 父级菜单
      */
     public void changeHierarchy(Menu parentMenu) {
+        if (parentMenu == null || parentMenu.getId().equals(this.pid)) {
+            return;
+        }
         setLevel(parentMenu);
         for (Menu child : this.children) {
             child.changeHierarchy(this);
         }
     }
 
-    public void changeStatus(EnableDisableStatus status) {
+    /**
+     * 改变当前菜单状态同时要把子菜单状态一并修改
+     */
+    public void updateStatus(EnableDisableStatus status) {
         this.status = status;
+        this.updateChildrenStatus(status);
         raiseEvent(new MenuChangedEvent(this, getId()));
     }
 
+    /**
+     * 清除所有子菜单
+     */
     public void emptyChildren() {
         this.children = List.of();
     }
 
     public void onDelete() {
-        raiseEvent(new MenuDeletedEvent(this, getId()));
+        raiseEvent(new MenuDeletedEvent(this, getAllIds(), getAllElementIds()));
     }
+
+    public List<Long> getAllIds() {
+        List<Long> allIds = new ArrayList<>();
+        collectIds(this, allIds);
+        return allIds;
+    }
+
+    public void collectIds(Menu menu, List<Long> allIds) {
+        allIds.add(menu.getId());
+        List<Menu> children = menu.getChildren();
+        if (CollectionUtils.isEmpty(children)) {
+            return;
+        }
+        children.forEach(childMenu -> collectIds(childMenu, allIds));
+    }
+
+    public List<Long> getAllElementIds() {
+        List<Long> allIds = new ArrayList<>();
+        collectElementIds(this, allIds);
+        return allIds;
+    }
+
+    public void collectElementIds(Menu menu, List<Long> allIds) {
+        List<MenuElement> elements = menu.getMenuElements();
+        if (CollectionUtils.isNotEmpty(elements)) {
+            allIds.addAll(elements.stream().map(AggregateRoot::getId).toList());
+        }
+        List<Menu> children = menu.getChildren();
+        if (CollectionUtils.isEmpty(children)) {
+            return;
+        }
+        children.forEach(childMenu -> collectElementIds(childMenu, allIds));
+    }
+
+
+
 }
