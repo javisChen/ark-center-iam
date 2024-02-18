@@ -1,8 +1,6 @@
 package com.ark.center.iam.domain.menu.vo;
 
-import com.ark.component.ddd.domain.AggregateRoot;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 
@@ -16,13 +14,9 @@ import lombok.Getter;
  */
 @Getter
 @Builder
-@EqualsAndHashCode(callSuper = true)
-public class MenuElement extends AggregateRoot {
+public class MenuElement {
 
-    /**
-     * 所属菜单id，关联iam_menu.id
-     */
-    private Long menuId;
+    private Long id;
 
     /**
      * 元素名称

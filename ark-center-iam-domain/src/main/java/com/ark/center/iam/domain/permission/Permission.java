@@ -3,9 +3,8 @@ package com.ark.center.iam.domain.permission;
 
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.component.ddd.domain.AggregateRoot;
+import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
-@TableName("iam_permission")
 @Builder
 public class Permission extends AggregateRoot {
 
@@ -50,18 +48,19 @@ public class Permission extends AggregateRoot {
      * 状态 1-已启用；2-已禁用；
      */
     @TableField("status")
-    private Integer status;
-
-    @TableField(value = "is_deleted")
-    @TableLogic
-    private Long isDeleted;
+    private EnableDisableStatus status;
 
 
-    public Permission(PermissionType type, Long applicationId, Long resourceId) {
+    private Permission(PermissionType type, Long applicationId, Long resourceId) {
         this.applicationId = applicationId;
         this.type = type;
         this.resourceId = resourceId;
         this.code = generatePermissionCode(type.getTag(), resourceId);
+        this.status = EnableDisableStatus.ENABLED;
+    }
+
+    public static Permission of(PermissionType type, Long applicationId, Long resourceId) {
+        return new Permission(type, applicationId, resourceId);
     }
 
     /**

@@ -44,18 +44,18 @@ public class ApiDBRepositoryImpl extends BaseDBRepository<Api, Long> implements 
     }
 
     @Override
-    protected void save(Api api) {
+    public void save(Api api) {
         ApiDO apiDO = domainConverter.convert(api);
         dao.saveOrUpdate(apiDO);
     }
 
     @Override
-    protected void delete(Api it) {
-        dao.removeById(it.getId());
+    public void delete(Api ar) {
+        dao.removeById(ar.getId());
     }
 
     @Override
-    protected void delete(List<Long> ids) {
+    public void delete(List<Long> ids) {
         dao.removeByIds(ids);
     }
 }

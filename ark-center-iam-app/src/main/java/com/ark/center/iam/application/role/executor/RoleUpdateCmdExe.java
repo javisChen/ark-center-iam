@@ -1,10 +1,10 @@
 package com.ark.center.iam.application.role.executor;
 
-import com.ark.center.iam.model.role.command.RoleCmd;
+import com.ark.center.iam.model.role.command.RoleCreateCommand;
 import com.ark.center.iam.domain.role.Role;
-import com.ark.center.iam.domain.role.gateway.RoleGateway;
-import com.ark.center.iam.domain.role.service.RoleCheckService;
-import com.ark.center.iam.infra.role.assembler.RoleAssembler;
+import com.ark.center.iam.domain.role.repository.RoleRepository;
+import com.ark.center.iam.domain.role.service.RoleChecker;
+import com.ark.center.iam.infra.role.converter.RoleDomainConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,25 +12,25 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RoleUpdateCmdExe {
 
-    private final RoleAssembler roleAssembler;
-    private final RoleGateway roleGateway;
-    private final RoleCheckService roleCheckService;
+    private final RoleDomainConverter roleDomainConverter;
+    private final RoleRepository roleRepository;
+    private final RoleChecker roleChecker;
 
-    public void execute(RoleCmd cmd) {
+    public void execute(RoleCreateCommand cmd) {
 
         baseCheck(cmd);
 
-        Role role = roleAssembler.toRoleDO(cmd);
+        Role role = roleDomainConverter.toRoleDO(cmd);
 
-        roleGateway.updateByRoleId(role);
+        roleRepository.updateByRoleId(role);
 
     }
 
-    private void baseCheck(RoleCmd cmd) {
+    private void baseCheck(RoleCreateCommand cmd) {
 
-        roleCheckService.ensureNameNotExists(cmd.getName(), cmd.getId());
+        roleChecker.ensureNameNotExists(cmd.getName(), cmd.getId());
 
-        roleCheckService.ensureCodeNotExists(cmd.getCode(), cmd.getId());
+        roleChecker.ensureCodeNotExists(cmd.getCode(), cmd.getId());
 
     }
 

@@ -1,6 +1,6 @@
 package com.ark.center.iam.domain.role.service;
 
-import com.ark.center.iam.domain.role.gateway.RoleGateway;
+import com.ark.center.iam.domain.role.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleAssignService {
 
-    private final RoleGateway roleGateway;
+    private final RoleRepository roleRepository;
 
     /**
      * 用户角色授权
@@ -22,7 +22,7 @@ public class RoleAssignService {
      * @param roleIds 角色id集合
      */
     public void assignUserRoles(Long userId, List<Long> roleIds) {
-        roleGateway.insertUserRolesRelations(userId, roleIds);
+        roleRepository.insertUserRolesRelations(userId, roleIds);
     }
 
     /**
@@ -31,6 +31,6 @@ public class RoleAssignService {
      * @param userId 用户id
      */
     public void clearUserRoles(Long userId) {
-        roleGateway.deleteUserRoleRelationsByUserId(userId);
+        roleRepository.deleteUserRoleRelationsByUserId(userId);
     }
 }

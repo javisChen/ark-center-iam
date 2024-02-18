@@ -6,11 +6,11 @@ import com.ark.center.iam.domain.app.gateway.AppRepository;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
-import com.ark.center.iam.domain.role.gateway.RoleGateway;
+import com.ark.center.iam.domain.role.repository.RoleRepository;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.domain.user.support.UserConst;
-import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
+import com.ark.center.iam.domain.usergroup.repository.UserGroupRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,11 +29,11 @@ public class UserPermissionService {
 
     private final PermissionRepository permissionRepository;
 
-    private final RoleGateway roleGateway;
+    private final RoleRepository roleRepository;
 
     private final UserGateway userGateway;
 
-    private final UserGroupGateway userGroupGateway;
+    private final UserGroupRepository userGroupRepository;
 
     private final AppRepository appRepository;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -61,10 +61,10 @@ public class UserPermissionService {
      */
     private List<Long> queryUserRoles(Long userId) {
         // 用户自身拥有的角色
-        List<Long> roleIds = roleGateway.selectRoleIdsByUserId(userId);
+        List<Long> roleIds = roleRepository.selectRoleIdsByUserId(userId);
         // 用户所归属的用户组所拥有的角色
-        List<Long> userGroupIds = userGroupGateway.selectUserGroupIdsByUserId(userId, true);
-        List<Long> userGroupsRoleIds = roleGateway.selectRoleIdsByUserGroupIds(userGroupIds);
+        List<Long> userGroupIds = userGroupRepository.selectUserGroupIdsByUserId(userId, true);
+        List<Long> userGroupsRoleIds = roleRepository.selectRoleIdsByUserGroupIds(userGroupIds);
         roleIds.addAll(userGroupsRoleIds);
         return roleIds.stream().distinct().toList();
     }

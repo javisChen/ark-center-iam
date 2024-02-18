@@ -1,7 +1,7 @@
 package com.ark.center.iam.domain.menu;
 
-import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.domain.menu.common.MenuConst;
+import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
+import com.ark.center.iam.domain.common.hierarchy.Parent;
 import com.ark.center.iam.domain.menu.vo.MenuElement;
 import com.ark.center.iam.domain.menu.vo.MenuType;
 import com.ark.component.ddd.domain.AggregateRoot;
@@ -55,14 +55,9 @@ public class Menu extends AggregateRoot {
     private Long pid;
 
     /**
-     * 菜单层级路径，例如：0.1.2 代表该菜单是三级菜单，上级菜单的id是1,再上级的菜单id是0
+     * 层级
      */
-    private String levelPath;
-
-    /**
-     * 菜单层级
-     */
-    private Integer level;
+    private Hierarchy hierarchy;
 
     /**
      * 排序序号
@@ -101,7 +96,7 @@ public class Menu extends AggregateRoot {
                 Menu parent) {
         setBasicInfo(name, applicationId, code, component, type, hideChildren, sequence, path, icon, menuElements, parent);
         this.children = List.of();
-        setLevel(parent);
+        setHierarchy(parent);
         raiseEvent(new MenuCreatedEvent(this, getId()));
     }
 
@@ -140,34 +135,20 @@ public class Menu extends AggregateRoot {
         this.component = component;
         this.type = type;
         this.hideChildren = hideChildren;
-        this.pid = parent.getId();
+        this.pid = parent == null ? 0L : parent.getId();
         this.sequence = sequence;
         this.path = path;
         this.icon = icon;
         this.menuElements = menuElements;
     }
 
-    private void setLevel(Menu parent) {
-        this.level = isRoot() ? MenuConst.FIRST_LEVEL : parent.getLevel() + 1;
-        // 假设当前menuId是188：
-        // 如果是一级路由：188.
-        // 如果是子级路由，parentId是288：288.188.
-        String levelPath;
-        if (level == 1) {
-            levelPath = getId() + StrUtil.DOT;
+    private void setHierarchy(Menu parent) {
+        if (parent == null) {
+            this.hierarchy = new Hierarchy(getId());
         } else {
-            levelPath = parent.getLevelPath() + this.getId() + StrUtil.DOT;
+            Hierarchy parentHierarchy = parent.getHierarchy();
+            this.hierarchy = new Hierarchy(getId(), new Parent(parent.getId(), parentHierarchy.getLevel(), parentHierarchy.getPath()));
         }
-        this.levelPath = levelPath;
-
-    }
-
-    /**
-     * 是否根菜单
-     */
-    public boolean isRoot() {
-        return MenuConst.DEFAULT_PID.equals(this.pid)
-               || MenuConst.FIRST_LEVEL.equals(this.level);
     }
 
     /**
@@ -189,7 +170,7 @@ public class Menu extends AggregateRoot {
         if (parentMenu == null || parentMenu.getId().equals(this.pid)) {
             return;
         }
-        setLevel(parentMenu);
+        setHierarchy(parentMenu);
         for (Menu child : this.children) {
             child.changeHierarchy(this);
         }
@@ -239,7 +220,7 @@ public class Menu extends AggregateRoot {
     public void collectElementIds(Menu menu, List<Long> allIds) {
         List<MenuElement> elements = menu.getMenuElements();
         if (CollectionUtils.isNotEmpty(elements)) {
-            allIds.addAll(elements.stream().map(AggregateRoot::getId).toList());
+            allIds.addAll(elements.stream().map(MenuElement::getId).toList());
         }
         List<Menu> children = menu.getChildren();
         if (CollectionUtils.isEmpty(children)) {
@@ -247,7 +228,5 @@ public class Menu extends AggregateRoot {
         }
         children.forEach(childMenu -> collectElementIds(childMenu, allIds));
     }
-
-
 
 }

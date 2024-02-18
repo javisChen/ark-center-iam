@@ -1,16 +1,12 @@
 package com.ark.center.iam.infra.menu.converter;
 
-import com.ark.center.iam.domain.menu.vo.MenuElement;
-import com.ark.center.iam.infra.menu.repository.db.MenuDO;
-import com.ark.center.iam.model.menu.command.MenuCreateCommand;
-import com.ark.center.iam.model.menu.command.MenuHierarchyChangeCommand;
-import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
-import com.ark.center.iam.model.user.dto.UserRouteDTO;
+import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
 import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.menu.vo.MenuElement;
 import com.ark.center.iam.domain.menu.vo.MenuType;
+import com.ark.center.iam.infra.menu.repository.db.MenuDO;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;
@@ -19,37 +15,9 @@ import java.util.List;
         uses = MenuElementDomainConverter.class)
 public interface MenuDomainConverter {
 
-    List<UserRouteDTO> convert(List<Menu> menu);
+    List<Menu> toDomain(List<MenuDO> menus);
 
-    @Mapping(target = "modifier", ignore = true)
-    @Mapping(target = "levelPath", ignore = true)
-    @Mapping(target = "level", ignore = true)
-    @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "updateTime", ignore = true)
-    @Mapping(target = "createTime", ignore = true)
-    @Mapping(target = "creator", ignore = true)
-    default Menu toDomain(MenuCreateCommand command) {
-        return Menu.builder()
-        		.name(command.getName())
-        		.applicationId(command.getApplicationId())
-        		.code(command.getCode())
-        		.component(command.getComponent())
-        		.type(MenuType.from(command.getType()))
-        		.hideChildren(command.getHideChildren())
-        		.pid(command.getPid())
-        		.sequence(command.getSequence())
-        		.path(command.getPath())
-        		.icon(command.getIcon())
-        		.status(EnableDisableStatus.from(command.getStatus()))
-                .menuElements(toElement(command.getElements()))
-        		.build();
-    }
-
-    List<MenuElement> toElement(List<MenuCreateCommand.Element> elements);
-
-    List<Menu> convert(List<MenuDO> menus);
-
-    default Menu convert(MenuDO menuDO, List<MenuElement> elements, List<MenuDO> children) {
+    default Menu toDomain(MenuDO menuDO, List<MenuElement> elements, List<MenuDO> children) {
         return Menu.builder()
         		.name(menuDO.getName())
         		.applicationId(menuDO.getApplicationId())
@@ -58,18 +26,20 @@ public interface MenuDomainConverter {
         		.type(MenuType.from(menuDO.getType()))
         		.hideChildren(menuDO.getHideChildren())
         		.pid(menuDO.getPid())
-        		.levelPath(menuDO.getLevelPath())
-        		.level(menuDO.getLevel())
+                .hierarchy(Hierarchy.builder()
+                        .level(menuDO.getLevel())
+                        .path(menuDO.getLevelPath())
+                        .build())
         		.sequence(menuDO.getSequence())
         		.path(menuDO.getPath())
         		.icon(menuDO.getIcon())
         		.status(EnableDisableStatus.from(menuDO.getStatus()))
         		.menuElements(elements)
-        		.children(convert(children))
+        		.children(toDomain(children))
         		.build();
     }
 
-    default MenuDO convert(Menu menu) {
+    default MenuDO fromDomain(Menu menu) {
         MenuDO menuDO = new MenuDO();
         menuDO.setName(menu.getName());
         menuDO.setApplicationId(menu.getApplicationId());
@@ -78,8 +48,8 @@ public interface MenuDomainConverter {
         menuDO.setType(menu.getType().getValue());
         menuDO.setHideChildren(menu.getHideChildren());
         menuDO.setPid(menu.getPid());
-        menuDO.setLevelPath(menu.getLevelPath());
-        menuDO.setLevel(menu.getLevel());
+        menuDO.setLevelPath(menu.getHierarchy().getPath());
+        menuDO.setLevel(menu.getHierarchy().getLevel());
         menuDO.setSequence(menu.getSequence());
         menuDO.setPath(menu.getPath());
         menuDO.setIcon(menu.getIcon());

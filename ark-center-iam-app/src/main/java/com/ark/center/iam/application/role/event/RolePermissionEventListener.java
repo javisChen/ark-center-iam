@@ -9,7 +9,7 @@ import com.ark.center.iam.domain.api.ApiRepository;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
-import com.ark.center.iam.domain.role.gateway.RoleGateway;
+import com.ark.center.iam.domain.role.repository.RoleRepository;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.infra.user.common.UserCacheKey;
@@ -35,7 +35,7 @@ import java.util.List;
 @Component
 public class RolePermissionEventListener implements ApplicationListener<RolePermissionChangedEvent> {
 
-    private final RoleGateway roleGateway;
+    private final RoleRepository roleRepository;
     private final UserGateway userGateway;
     private final ApiRepository apiRepository;
     private final PermissionRepository permissionRepository;
@@ -86,7 +86,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
 
     private void cache(Long roleId, List<Api> apis) {
         try {
-            roleGateway.saveRoleApiPermissionCache(roleId, apis);
+            roleRepository.saveRoleApiPermissionCache(roleId, apis);
             log.info("角色权限发生变更: 缓存写入成功");
         } catch (Exception e) {
             log.error("角色权限发生变更: 缓存写入失败", e);

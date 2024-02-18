@@ -51,18 +51,18 @@ public class AppDBRepository extends BaseDBRepository<App, Long> implements AppR
     }
 
     @Override
-    protected void save(App app) {
+    public void save(App app) {
         AppDO appDO = domainConverter.toDomain(app);
         dao.saveOrUpdate(appDO);
     }
 
     @Override
-    protected void delete(App app) {
-        dao.removeById(app.getId());
+    public void delete(App ar) {
+        dao.removeById(ar.getId());
     }
 
     @Override
-    protected void delete(List<Long> ids) {
+    public void delete(List<Long> ids) {
         dao.removeByIds(ids);
     }
 

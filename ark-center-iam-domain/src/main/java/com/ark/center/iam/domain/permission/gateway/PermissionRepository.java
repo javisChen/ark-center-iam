@@ -15,8 +15,6 @@ public interface PermissionRepository extends BaseRepository<Permission, Long> {
 
     List<Permission> selectByTypeAndRoleIds(List<Long> roleIds, PermissionType permissionType);
 
-    void save(Permission permission);
-
     void deletePermissionAndRoleRelationsByRoleId(Long roleId);
 
     void insertBatchRolePermissionRelations(Long roleId, List<Long> permissionIds);

@@ -58,18 +58,18 @@ public class ApiCategoryDBRepository extends BaseDBRepository<ApiCategory, Long>
     }
 
     @Override
-    protected void save(ApiCategory apiCategory) {
+    public void save(ApiCategory apiCategory) {
         ApiCategoryDO entity = domainConverter.convert(apiCategory);
         dao.saveOrUpdate(entity);
     }
 
     @Override
-    protected void delete(ApiCategory apiCategory) {
-        dao.removeById(apiCategory.getId());
+    public void delete(ApiCategory ar) {
+        dao.removeById(ar.getId());
     }
 
     @Override
-    protected void delete(List<Long> ids) {
+    public void delete(List<Long> ids) {
         dao.removeByIds(ids);
     }
 }

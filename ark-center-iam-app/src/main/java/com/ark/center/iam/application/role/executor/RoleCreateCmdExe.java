@@ -1,11 +1,11 @@
 package com.ark.center.iam.application.role.executor;
 
 import cn.hutool.core.util.IdUtil;
-import com.ark.center.iam.model.role.command.RoleCmd;
+import com.ark.center.iam.model.role.command.RoleCreateCommand;
 import com.ark.center.iam.domain.role.Role;
-import com.ark.center.iam.domain.role.gateway.RoleGateway;
-import com.ark.center.iam.domain.role.service.RoleCheckService;
-import com.ark.center.iam.infra.role.assembler.RoleAssembler;
+import com.ark.center.iam.domain.role.repository.RoleRepository;
+import com.ark.center.iam.domain.role.service.RoleChecker;
+import com.ark.center.iam.infra.role.converter.RoleDomainConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RoleCreateCmdExe {
 
-    private final RoleGateway roleGateway;
+    private final RoleRepository roleRepository;
 
-    private final RoleAssembler roleAssembler;
+    private final RoleDomainConverter roleDomainConverter;
 
-    private final RoleCheckService roleCheckService;
+    private final RoleChecker roleChecker;
 
-    public void execute(RoleCmd cmd) {
+    public void execute(RoleCreateCommand cmd) {
 
         baseCheck(cmd);
 
@@ -31,7 +31,7 @@ public class RoleCreateCmdExe {
         save(cmd);
     }
 
-    private void initRole(RoleCmd cmd) {
+    private void initRole(RoleCreateCommand cmd) {
         if (StringUtils.isBlank(cmd.getCode())) {
             cmd.setCode(generateRoleCode());
         }
@@ -41,23 +41,23 @@ public class RoleCreateCmdExe {
         String code;
         do {
             code = IdUtil.fastSimpleUUID();
-        } while (roleGateway.countByCode(code) > 0);
+        } while (roleRepository.countByCode(code) > 0);
         return code;
     }
 
-    private void save(RoleCmd cmd) {
+    private void save(RoleCreateCommand cmd) {
 
-        Role role = roleAssembler.toRoleDO(cmd);
+        Role role = roleDomainConverter.toRoleDO(cmd);
 
-        roleGateway.insert(role);
+        roleRepository.insert(role);
 
     }
 
-    private void baseCheck(RoleCmd cmd) {
+    private void baseCheck(RoleCreateCommand cmd) {
 
-        roleCheckService.ensureNameNotExists(cmd.getName(), cmd.getId());
+        roleChecker.ensureNameNotExists(cmd.getName(), cmd.getId());
 
-        roleCheckService.ensureCodeNotExists(cmd.getCode(), cmd.getId());
+        roleChecker.ensureCodeNotExists(cmd.getCode(), cmd.getId());
 
     }
 }

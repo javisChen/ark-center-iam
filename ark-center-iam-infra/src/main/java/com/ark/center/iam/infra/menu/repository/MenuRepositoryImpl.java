@@ -49,9 +49,7 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
     protected void save(Menu menu) {
         Long menuId = menu.getId();
 
-        // 更新菜单基本信息
-        MenuDO menuDO = menuDomainConverter.convert(menu);
-
+        MenuDO menuDO = menuDomainConverter.fromDomain(menu);
         menuDAO.saveOrUpdate(menuDO);
 
         // 先清除菜单元素再重新保存
@@ -64,14 +62,14 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
     }
 
     @Override
-    protected void delete(Menu it) {
-        menuDAO.removeById(it.getId());
+    public void delete(Menu ar) {
+        menuDAO.removeById(ar.getId());
 
-        menuElementDAO.deleteByMenuId(it.getId());
+        menuElementDAO.deleteByMenuId(ar.getId());
     }
 
     @Override
-    protected void delete(List<Long> ids) {
+    public void delete(List<Long> ids) {
     }
 
     @Override
@@ -83,7 +81,7 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
 
         List<MenuDO> children = menuDAO.selectChildMenus(menuId);
 
-        return menuDomainConverter.convert(menuDO, menuElements, children);
+        return menuDomainConverter.toDomain(menuDO, menuElements, children);
     }
 
     @Override

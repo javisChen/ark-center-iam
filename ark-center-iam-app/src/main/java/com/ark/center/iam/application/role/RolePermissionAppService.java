@@ -12,7 +12,7 @@ import com.ark.center.iam.model.role.dto.RoleBaseDTO;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.application.role.event.RolePermissionChangedEvent;
 import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
-import com.ark.center.iam.domain.role.gateway.RoleGateway;
+import com.ark.center.iam.domain.role.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
@@ -29,7 +29,7 @@ public class RolePermissionAppService {
     private final RoleCreateCmdExe roleCreateCmdExe;
     private final RoleUpdateCmdExe roleUpdateCmdExe;
     private final RoleDeleteCmdExe roleDeleteCmdExe;
-    private final RoleGateway roleGateway;
+    private final RoleRepository roleRepository;
 
     private final ApplicationEventPublisher eventPublisher;
     private final ApplicationContext applicationContext;
@@ -50,7 +50,7 @@ public class RolePermissionAppService {
         toAddIds.addAll(cmd.getToAddElementPermissionIds());
         permissionRepository.insertBatchRolePermissionRelations(roleId, toAddIds);
 
-        RoleBaseDTO roleBaseDTO = roleGateway.selectById(roleId);
+        RoleBaseDTO roleBaseDTO = roleRepository.selectById(roleId);
         String roleName = roleBaseDTO.getName();
         eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, PermissionType.MENU));
     }
@@ -70,7 +70,7 @@ public class RolePermissionAppService {
         List<Long> toAddApiPermissionIds = dto.getToAddApiPermissionIds();
         permissionRepository.insertBatchRolePermissionRelations(roleId, toAddApiPermissionIds);
 
-        RoleBaseDTO roleBaseDTO = roleGateway.selectById(roleId);
+        RoleBaseDTO roleBaseDTO = roleRepository.selectById(roleId);
         String roleName = roleBaseDTO.getName();
         eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, PermissionType.SER_API));
 

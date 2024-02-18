@@ -10,9 +10,10 @@ import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
 import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
 import com.ark.center.iam.infra.permission.repository.db.PermissionMapper;
-import com.ark.center.iam.infra.permission.repository.db.PermissionRoleRel;
-import com.ark.center.iam.infra.permission.repository.db.PermissionRoleRelMapper;
+import com.ark.center.iam.infra.relation.db.PermissionRoleRel;
+import com.ark.center.iam.infra.relation.db.PermissionRoleRelMapper;
 import com.ark.component.ddd.domain.AggregateRoot;
+import com.ark.component.ddd.infrastructure.BaseDBRepository;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class PermissionRepositoryImpl implements PermissionRepository {
+public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long> implements PermissionRepository {
 
     private final PermissionRoleRelMapper permissionRoleRelMapper;
     private final PermissionDomainConverter permissionDomainConverter;
@@ -36,11 +37,10 @@ public class PermissionRepositoryImpl implements PermissionRepository {
 
     @Override
     public List<Permission> selectByType(PermissionType permissionType) {
-        return permissionMapper.selectList(
-                        new LambdaQueryWrapper<>(Permission.class)
-                                .eq(Permission::getType, permissionType.getName())
-                                .eq(Permission::getStatus, PermissionStatusEnums.ENABLED.getValue())
-                );
+        return permissionDAO.lambdaQuery()
+                .eq(Permission::getType, permissionType.getName())
+                .eq(Permission::getStatus, PermissionStatusEnums.ENABLED.getValue())
+                .list();
     }
 
     @Override
@@ -48,13 +48,17 @@ public class PermissionRepositoryImpl implements PermissionRepository {
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();
         }
-        return permissionMapper.selectByRoleIdsAndType(roleIds, permissionType.getName());
+        return permissionDAO.getBaseMapper().selectByRoleIdsAndType(roleIds, permissionType.getName());
     }
 
     @Override
     public void save(Permission permission) {
+        permissionDAO.saveOrUpdate(permission);
+    }
 
-        permissionMapper.insert(permission);
+    @Override
+    public void delete(Permission permission) {
+
     }
 
     @Override
@@ -111,15 +115,15 @@ public class PermissionRepositoryImpl implements PermissionRepository {
         return permissions.stream().map(permissionDomainConverter::toPermissionDTO).collect(Collectors.toList());
     }
 
-    @Override
-    public void insertPermission(Long resourceId, PermissionType permissionType) {
-        Permission permission = new Permission();
-        permission.setType(permissionType.getName());
-        permission.setResourceId(resourceId);
-        permission.setStatus(PermissionStatusEnums.ENABLED.getValue());
-        permission.setCode(generatePermissionCode(permissionType.getTag(), resourceId));
-        permissionMapper.insert(permission);
-    }
+//    @Override
+//    public void insertPermission(Long resourceId, PermissionType permissionType) {
+//        Permission permission = new Permission();
+//        permission.setType(permissionType.getName());
+//        permission.setResourceId(resourceId);
+//        permission.setStatus(PermissionStatusEnums.ENABLED.getValue());
+//        permission.setCode(generatePermissionCode(permissionType.getTag(), resourceId));
+//        permissionMapper.insert(permission);
+//    }
 
     /**
      * 生成权限编码
@@ -131,10 +135,8 @@ public class PermissionRepositoryImpl implements PermissionRepository {
 
     @Override
     public void deleteByResourceIds(List<Long> resourceIds) {
-        permissionMapper.delete(
-                new LambdaUpdateWrapper<>(Permission.class)
-                        .in(Permission::getResourceId, resourceIds)
-        );
+        permissionDAO.lambdaUpdate()
+                .in(Permission::getResourceId, resourceIds);
     }
 
     @Override
@@ -144,12 +146,10 @@ public class PermissionRepositoryImpl implements PermissionRepository {
 
     @Override
     public List<Long> selectResourceIdsByIds(List<Long> permissionIds) {
-        return permissionMapper.selectList(
-                        new LambdaQueryWrapper<>(Permission.class)
-                                .select(Permission::getResourceId)
-                                .in(AggregateRoot::getId, permissionIds)
-                                .eq(Permission::getIsDeleted, 0)
-                )
+        return permissionDAO.lambdaQuery()
+                .select(Permission::getResourceId)
+                .in(AggregateRoot::getId, permissionIds)
+                .list()
                 .stream()
                 .map(Permission::getResourceId)
                 .toList();
@@ -160,5 +160,10 @@ public class PermissionRepositoryImpl implements PermissionRepository {
         permissionDAO.lambdaUpdate()
                 .in(AggregateRoot::getId, permissions.stream().map(AggregateRoot::getId).toList())
                 .remove();
+    }
+
+    @Override
+    public Permission byId(Long id) {
+        return null;
     }
 }

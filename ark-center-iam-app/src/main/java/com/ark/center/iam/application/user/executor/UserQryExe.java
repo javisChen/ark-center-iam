@@ -5,11 +5,11 @@ import com.ark.center.iam.model.user.dto.UserDetailsDTO;
 import com.ark.center.iam.model.user.dto.UserPageDTO;
 import com.ark.center.iam.model.user.query.UserPageQry;
 import com.ark.center.iam.model.user.query.UserQry;
-import com.ark.center.iam.domain.role.gateway.RoleGateway;
+import com.ark.center.iam.domain.role.repository.RoleRepository;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
-import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
+import com.ark.center.iam.domain.usergroup.repository.UserGroupRepository;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 public class UserQryExe {
 
     private final UserGateway userGateway;
-    private final RoleGateway roleGateway;
-    private final UserGroupGateway userGroupGateway;
+    private final RoleRepository roleRepository;
+    private final UserGroupRepository userGroupRepository;
     private final UserBeanConverter userBeanConverter;
 
     public Page<UserPageDTO> pageQuery(UserPageQry qry) {
@@ -56,13 +56,13 @@ public class UserQryExe {
     }
 
     private Map<Long, List<UserGroupVO>> collectUserGroups(List<Long> userIds) {
-        List<UserGroupVO> userGroups = userGroupGateway.selectUserGroupsByUserIds(userIds);
+        List<UserGroupVO> userGroups = userGroupRepository.selectUserGroupsByUserIds(userIds);
         return userGroups.stream()
                 .collect(Collectors.groupingBy(UserGroupVO::getUserId));
     }
 
     private Map<Long, List<UserRoleVO>> collectUserRoles(List<Long> userIds) {
-        List<UserRoleVO> userRoles = roleGateway.selectRolesByUserIds(userIds);
+        List<UserRoleVO> userRoles = roleRepository.selectRolesByUserIds(userIds);
         return userRoles.stream()
                 .collect(Collectors.groupingBy(UserRoleVO::getUserId));
     }
@@ -70,8 +70,8 @@ public class UserQryExe {
     public UserDetailsDTO queryUserDetails(Long userId) {
         User user = userGateway.selectByUserId(userId);
         UserDetailsDTO userDetailsDTO = userBeanConverter.toUserDetailsDTO(user);
-        userDetailsDTO.setRoleIds(roleGateway.selectRoleIdsByUserId(userId));
-        userDetailsDTO.setUserGroupIds(userGroupGateway.selectUserGroupIdsByUserId(userId));
+        userDetailsDTO.setRoleIds(roleRepository.selectRoleIdsByUserId(userId));
+        userDetailsDTO.setUserGroupIds(userGroupRepository.selectUserGroupIdsByUserId(userId));
         return userDetailsDTO;
     }
 

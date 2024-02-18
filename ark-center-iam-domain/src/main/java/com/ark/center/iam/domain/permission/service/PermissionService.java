@@ -15,7 +15,7 @@ public class PermissionService {
     private final PermissionRepository permissionRepository;
 
     public void addPermission(Long resourceId, PermissionType permissionType) {
-        Permission permission = new Permission();
+        Permission permission = Permission.of();
         permission.setType(permissionType.getName());
         permission.setCode(generatePermissionCode(permissionType.getTag(), resourceId));
         permission.setResourceId(resourceId);

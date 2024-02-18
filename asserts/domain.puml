@@ -196,7 +196,6 @@ DomainEvent('PermissionResourceDeleted')[
     权限资源已删除
 ]
 
-
 Aggregate('App')[
     应用
     ---
@@ -229,7 +228,7 @@ Aggregate('Api')[
 
 
 Aggregate('Permission')[
-    权限
+    资源权限
     ---
     权限资源类型
     资源id
@@ -266,6 +265,33 @@ admin --> UpdateUser
 admin --> EnableUser
 admin --> DisableUser
 
+' 用户组
+
+Command('CreateUserGroup')[
+    创建用户组
+    ---
+]
+
+Command('UpdateUserGroup')[
+    更新用户组
+    ---
+]
+
+Aggregate('UserGroup')[
+    用户组
+    ---
+    名称
+    上级用户组
+    类型
+]
+
+admin --> CreateUserGroup
+admin --> UpdateUserGroup
+CreateUserGroup --> UserGroup
+UpdateUserGroup --> UserGroup
+UserGroup --> UserGroupCreated
+
+
 ' Api分类
 admin --> CreateApiCategory
 admin --> UpdateApiCategory
@@ -291,8 +317,10 @@ Api --> APICreated
 Api --> APIChanged
 Api --> APIDeleted
 
-' 菜单
+APICreated --> CreatePermission
+APIDeleted --> DeletePermission
 
+' 菜单
 
 CreateUser --> UserCreated
 UpdateUser --> UserChanged
@@ -303,14 +331,17 @@ admin --> CreateMenu
 admin --> UpdateMenu
 admin --> DeleteMenu
 
-CreateMenu --> MenuCreated
-UpdateMenu --> MenuChanged
-DeleteMenu --> MenuDeleted
+CreateMenu --> Menu
+UpdateMenu --> Menu
+DeleteMenu --> Menu
 
-APICreated --> CreatePermission
+Menu --> MenuCreated
+Menu --> MenuChanged
+Menu --> MenuDeleted
+
 MenuCreated --> CreatePermission
 MenuDeleted --> DeletePermission
-APIDeleted --> DeletePermission
+
 CreatePermission --> Permission
 DeletePermission --> Permission
 

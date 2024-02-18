@@ -15,7 +15,6 @@ public interface MenuElementDomainConverter {
 
     default MenuElement toDomain(MenuElementDO element) {
         return MenuElement.builder()
-        		.menuId(element.getMenuId())
         		.name(element.getName())
         		.type(ElementType.from(element.getType()))
         		.build();
@@ -26,7 +25,6 @@ public interface MenuElementDomainConverter {
 
     default MenuElementDO fromDomain(MenuElement menuElement) {
         MenuElementDO menuElementDO = new MenuElementDO();
-        menuElementDO.setMenuId(menuElement.getMenuId());
         menuElementDO.setName(menuElement.getName());
         menuElementDO.setType(menuElement.getType().getValue());
         return menuElementDO;

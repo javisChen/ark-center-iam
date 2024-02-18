@@ -1,4 +1,7 @@
 package com.ark.center.iam.application.menu.executor;
+import ?;
+import T;
+import ?;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
@@ -19,7 +22,7 @@ public class RouteTreeQryExe {
     public Page<RouteDetailsDTO> execute(MenuQuery dto) {
         Page<RouteDetailsDTO> pageResult = getFirstLevelRoutesByPage(dto);
         List<RouteDetailsDTO> firstLevelRoutes = pageResult.getRecords();
-        List<RouteDetailsDTO> childrenLevelRoutes = getChildrenRoutes(firstLevelRoutes);
+        List<RouteDetailsDTO> childrenLevelRoutes = getChildrenRoutes();
         recursionRoutes(firstLevelRoutes, childrenLevelRoutes);
         return pageResult;
     }
@@ -28,7 +31,7 @@ public class RouteTreeQryExe {
         return menuMapper.selectDetailsPages(new Page<>(query.getCurrent(), query.getSize()), query);
     }
     
-    private List<RouteDetailsDTO> getChildrenRoutes(List<RouteDetailsDTO> firstLevelRoutes) {
+    private List<RouteDetailsDTO> getChildrenRoutes() {
         return menuMapper.selectSubRoutes();
     }
 

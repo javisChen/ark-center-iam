@@ -1,50 +1,54 @@
 package com.ark.center.iam.application.usergroup.executor;
 
-import cn.hutool.core.collection.CollectionUtil;
+import com.ark.center.iam.infra.usergroup.converter.UserGroupAppConverter;
+import com.ark.center.iam.infra.usergroup.repository.db.UserGroupDAO;
+import com.ark.center.iam.infra.usergroup.repository.db.UserGroupDO;
 import com.ark.center.iam.model.usergroup.dto.UserGroupListTreeDTO;
-import com.ark.center.iam.model.usergroup.query.UserGroupQry;
-import com.ark.center.iam.domain.usergroup.UserGroup;
-import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
-import com.ark.center.iam.infra.user.assembler.UserAssembler;
+import com.ark.center.iam.model.usergroup.query.UserGroupQuery;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class UserGroupQryExe {
 
-    private final UserGroupGateway userGroupGateway;
-    private final UserAssembler userAssembler;
-    public Page<UserGroupListTreeDTO> execute(UserGroupQry qry) {
-        qry.setPid(0L);
-        Page<UserGroup> pageResult = userGroupGateway.selectPages(qry);
-        List<UserGroup> levelOneUserGroups = pageResult.getRecords();
-        List<UserGroup> anotherUserGroups = userGroupGateway.selectListWithoutRoot();
-        List<UserGroupListTreeDTO> vos = recursionUserGroups(levelOneUserGroups, anotherUserGroups);
-        Page<UserGroupListTreeDTO> pageVo = new Page<>(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal());
+    private final UserGroupDAO userGroupDAO;
+    private final UserGroupAppConverter userGroupAppConverter;
+    public Page<UserGroupListTreeDTO> execute(UserGroupQuery query) {
+        query.setPid(0L);
+        Page<UserGroupDO> page = userGroupDAO.selectPages(query);
+        List<UserGroupDO> records = page.getRecords();
+        if (CollectionUtils.isEmpty(records)) {
+            return new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        }
+        List<UserGroupDO> childGroups = userGroupDAO.selectChildGroups();
+        List<UserGroupListTreeDTO> vos = mergeGroups(records, childGroups);
+        Page<UserGroupListTreeDTO> pageVo = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         pageVo.setRecords(vos);
         return pageVo;
     }
 
-    private List<UserGroupListTreeDTO> recursionUserGroups(List<UserGroup> levelOneUserGroups, List<UserGroup> anotherUserGroups) {
-        List<UserGroupListTreeDTO> vos = CollectionUtil.newArrayList();
-        for (UserGroup item : levelOneUserGroups) {
-            UserGroupListTreeDTO dto = userAssembler.toUserGroupListTreeDTO(item);
-            findChildren(dto, anotherUserGroups);
-            vos.add(dto);
+    private List<UserGroupListTreeDTO> mergeGroups(List<UserGroupDO> rootUserGroups, List<UserGroupDO> childUserGroups) {
+        List<UserGroupListTreeDTO> dtoList = new ArrayList<>();
+        for (UserGroupDO rootGroup : rootUserGroups) {
+            UserGroupListTreeDTO dto = userGroupAppConverter.toUserGroupListTreeDTO(rootGroup);
+            findChildren(dto, childUserGroups);
+            dtoList.add(dto);
         }
-        return vos;
+        return dtoList;
     }
 
-    private void findChildren(UserGroupListTreeDTO parent, List<UserGroup> list) {
-        for (UserGroup route : list) {
-            if (parent.getId().equals(route.getPid())) {
-                UserGroupListTreeDTO item = userAssembler.toUserGroupListTreeDTO(route);
-                parent.getChildren().add(item);
-                findChildren(item, list);
+    private void findChildren(UserGroupListTreeDTO parent, List<UserGroupDO> list) {
+        for (UserGroupDO group : list) {
+            if (parent.getId().equals(group.getPid())) {
+                UserGroupListTreeDTO current = userGroupAppConverter.toUserGroupListTreeDTO(group);
+                parent.getChildren().add(current);
+                findChildren(current, list);
             }
         }
     }
