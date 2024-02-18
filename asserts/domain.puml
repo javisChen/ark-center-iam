@@ -68,22 +68,6 @@ Command('DeleteApi')[
     ---
 ]
 
-Command('CreateMenu')[
-    创建菜单
-    ---
-]
-
-Command('UpdateMenu')[
-    更新菜单
-    ---
-    状态更新时把下级菜单状态也一并更新
-]
-
-Command('DeleteMenu')[
-    删除菜单
-    ---
-]
-
 Command('CreateApiCategory')[
     创建Api分类
     ---
@@ -155,17 +139,6 @@ DomainEvent('RolePermissionChanged')[
     角色权限发生变更
 ]
 
-DomainEvent('MenuCreated')[
-    菜单已创建
-]
-
-DomainEvent('MenuChanged')[
-    菜单已修改
-]
-
-DomainEvent('MenuDeleted')[
-    菜单已删除
-]
 
 DomainEvent('APICreated')[
     接口已创建
@@ -233,18 +206,6 @@ Aggregate('Permission')[
     权限资源类型
     资源id
 ]
-
-
-Aggregate('Menu')[
-    菜单
-    ---
-    菜单名称
-    菜单编码
-    组件
-    Icon
-
-]
-
 
 ' 应用
 
@@ -321,6 +282,44 @@ APICreated --> CreatePermission
 APIDeleted --> DeletePermission
 
 ' 菜单
+
+Command('CreateMenu')[
+    创建菜单
+    ---
+]
+
+Command('UpdateMenu')[
+    更新菜单
+    ---
+    状态更新时把下级菜单状态也一并更新
+]
+
+Command('DeleteMenu')[
+    删除菜单
+    ---
+]
+
+Aggregate('Menu')[
+    菜单
+    ---
+    菜单名称
+    菜单编码
+    组件
+    Icon
+
+]
+
+DomainEvent('MenuCreated')[
+    菜单已创建
+]
+
+DomainEvent('MenuChanged')[
+    菜单已修改
+]
+
+DomainEvent('MenuDeleted')[
+    菜单已删除
+]
 
 CreateUser --> UserCreated
 UpdateUser --> UserChanged
