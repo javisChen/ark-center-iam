@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_permission_role_rel")
-public class PermissionRoleRel extends AggregateRoot {
+public class PermissionRoleRelDO extends AggregateRoot {
 
     /**
      * 权限id，关联iam_permission.id

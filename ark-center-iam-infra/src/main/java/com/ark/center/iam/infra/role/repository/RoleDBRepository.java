@@ -14,9 +14,6 @@ import com.ark.center.iam.infra.role.converter.RoleDomainConverter;
 import com.ark.center.iam.infra.role.repository.cache.RoleCacheKey;
 import com.ark.component.cache.CacheService;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
-import com.ark.component.web.common.DeletedEnums;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +37,7 @@ public class RoleDBRepository extends BaseDBRepository<Role, Long> implements Ro
 
     @Override
     public void insertUserRolesRelations(Long userId, List<Long> roleIds) {
-        userRoleRelDAO.batchInsert(userId, roleIds);
+        userRoleRelDAO.batchSave(userId, roleIds);
     }
 
     @Override
@@ -118,30 +115,6 @@ public class RoleDBRepository extends BaseDBRepository<Role, Long> implements Ro
     }
 
     @Override
-    public void logicDelete(Long id) {
-        LambdaUpdateWrapper<Role> qw = new LambdaUpdateWrapper<>();
-        qw.eq(Role::getId, id);
-        qw.eq(Role::getIsDeleted, DeletedEnums.NOT.getCode());
-        qw.set(Role::getIsDeleted, id);
-        update(qw);
-    }
-
-    @Override
-    public void deleteUserRoleRelationsByRoleId(Long roleId) {
-        LambdaQueryWrapper<UserRoleRelDO> eq = new LambdaQueryWrapper<UserRoleRelDO>()
-                .eq(UserRoleRelDO::getRoleId, roleId);
-        userRoleRelMapper.delete(eq);
-    }
-
-    @Override
-    public void updateStatusById(Long id, Integer status) {
-        lambdaUpdate()
-                .eq(Role::getStatus, id)
-                .set(Role::getStatus, status)
-                .update();
-    }
-
-    @Override
     public void saveRoleApiPermissionCache(Long roleId, List<Api> apis) {
         String key = String.format(RoleCacheKey.ROLE_API_PERM_KEY, roleId);
         cacheService.del(key);
@@ -177,8 +150,19 @@ public class RoleDBRepository extends BaseDBRepository<Role, Long> implements Ro
                 .remove();
 
         userGroupRoleRelDAO.lambdaUpdate()
-                .eq(UserGroupRoleRel::getRoleId, id)
+                .eq(UserGroupRoleRelDO::getRoleId, id)
                 .remove();
 
+    }
+
+    @Override
+    public Role byId(Long id) {
+        RoleDO roleDO = roleDAO.getById(id);
+        return roleDomainConverter.toDomain(roleDO);
+    }
+
+    @Override
+    public List<Role> byIds(List<Long> longs) {
+        return super.byIds(longs);
     }
 }

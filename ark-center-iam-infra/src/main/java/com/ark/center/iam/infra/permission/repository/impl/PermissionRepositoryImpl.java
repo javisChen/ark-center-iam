@@ -10,12 +10,11 @@ import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
 import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
 import com.ark.center.iam.infra.permission.repository.db.PermissionMapper;
-import com.ark.center.iam.infra.relation.db.PermissionRoleRel;
+import com.ark.center.iam.infra.relation.db.PermissionRoleRelDO;
 import com.ark.center.iam.infra.relation.db.PermissionRoleRelMapper;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
 import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -63,18 +62,18 @@ public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long>
 
     @Override
     public void deletePermissionAndRoleRelationsByRoleId(Long roleId) {
-        LambdaUpdateWrapper<PermissionRoleRel> qw = new LambdaUpdateWrapper<>();
-        qw.eq(PermissionRoleRel::getRoleId, roleId);
+        LambdaUpdateWrapper<PermissionRoleRelDO> qw = new LambdaUpdateWrapper<>();
+        qw.eq(PermissionRoleRelDO::getRoleId, roleId);
         permissionRoleRelMapper.delete(qw);
     }
 
     @Override
     public void deleteRolePermission(Long applicationId, Long roleId, PermissionType permissionType) {
         // 先把关联表id查出来然后排序，再根据id去删除，避免死锁
-        List<PermissionRoleRel> permissionRoleRelList = permissionRoleRelMapper
+        List<PermissionRoleRelDO> permissionRoleRelDOList = permissionRoleRelMapper
                 .selectByRoleIdAndType(applicationId, roleId, permissionType.getName());
-        if (CollectionUtils.isNotEmpty(permissionRoleRelList)) {
-            List<Long> ids = permissionRoleRelList.stream().map(AggregateRoot::getId).sorted().toList();
+        if (CollectionUtils.isNotEmpty(permissionRoleRelDOList)) {
+            List<Long> ids = permissionRoleRelDOList.stream().map(AggregateRoot::getId).sorted().toList();
             permissionRoleRelMapper.deleteBatchIds(ids);
         }
     }
@@ -85,10 +84,10 @@ public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long>
             return;
         }
         // 先把关联表id查出来然后排序，再根据id去删除，避免死锁
-        List<PermissionRoleRel> permissionRoleRelList = permissionRoleRelMapper
+        List<PermissionRoleRelDO> permissionRoleRelDOList = permissionRoleRelMapper
                 .selectByPermissionIdAndRoleId(applicationId, roleId, toRemoveApiPermissionIds);
-        if (CollectionUtils.isNotEmpty(permissionRoleRelList)) {
-            List<Long> ids = permissionRoleRelList.stream().map(BaseEntity::getId).sorted().toList();
+        if (CollectionUtils.isNotEmpty(permissionRoleRelDOList)) {
+            List<Long> ids = permissionRoleRelDOList.stream().map(BaseEntity::getId).sorted().toList();
             permissionRoleRelMapper.deleteBatchIds(ids);
         }
     }

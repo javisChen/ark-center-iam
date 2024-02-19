@@ -5,17 +5,14 @@ import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.ark.center.iam.domain.usergroup.vo.InheritType;
 import com.ark.center.iam.domain.usergroup.repository.UserGroupRepository;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
-import com.ark.center.iam.infra.relation.db.UserGroupRoleRel;
+import com.ark.center.iam.infra.relation.db.UserGroupRoleRelDO;
 import com.ark.center.iam.infra.relation.db.UserGroupRoleRelMapper;
-import com.ark.center.iam.infra.relation.db.UserGroupUserRel;
 import com.ark.center.iam.infra.relation.db.UserGroupUserRelMapper;
 import com.ark.center.iam.infra.usergroup.converter.UserGroupDomainConverter;
 import com.ark.center.iam.infra.usergroup.repository.db.*;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
 import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -37,18 +34,6 @@ public class UserGroupRepositoryImpl extends BaseDBRepository<UserGroup, Long> i
     private final UserGroupDAO userGroupDAO;
 
     @Override
-    public List<Long> selectUserGroupIdsByUserId(Long userId) {
-        LambdaQueryWrapper<UserGroupUserRel> eq = Wrappers.lambdaQuery(UserGroupUserRel.class)
-                .select(UserGroupUserRel::getUserId, UserGroupUserRel::getUserGroupId)
-                .eq(UserGroupUserRel::getUserId, userId);
-        return userGroupUserRelMapper
-                .selectList(eq)
-                .stream()
-                .map(UserGroupUserRel::getUserGroupId)
-                .toList();
-    }
-
-    @Override
     public List<Long> selectUserGroupIdsByUserId(Long userId, boolean includeParent) {
         List<UserGroup> userGroups = baseMapper.selectUserGroupsByUserId(userId);
         if (CollectionUtil.isEmpty(userGroups)) {
@@ -67,8 +52,8 @@ public class UserGroupRepositoryImpl extends BaseDBRepository<UserGroup, Long> i
 
     @Override
     public void deleteUserGroupAndRoleRelationsByUserGroupId(Long userGroupId) {
-        LambdaUpdateWrapper<UserGroupRoleRel> qw = new LambdaUpdateWrapper<>();
-        qw.eq(UserGroupRoleRel::getUserGroupId, userGroupId);
+        LambdaUpdateWrapper<UserGroupRoleRelDO> qw = new LambdaUpdateWrapper<>();
+        qw.eq(UserGroupRoleRelDO::getUserGroupId, userGroupId);
         userGroupRoleRelMapper.delete(qw);
     }
 

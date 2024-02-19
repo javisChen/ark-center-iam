@@ -1,12 +1,12 @@
 package com.ark.center.iam.application.user.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.model.user.command.UserCmd;
+import com.ark.center.iam.model.user.command.UserCreateCommand;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.User;
-import com.ark.center.iam.domain.user.gateway.UserGateway;
+import com.ark.center.iam.domain.user.repository.UserRepository;
 import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
-import com.ark.center.iam.infra.user.converter.UserBeanConverter;
+import com.ark.center.iam.infra.user.converter.UserDomainConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,36 +18,36 @@ import java.util.List;
 @Slf4j
 public class UserUpdateCmdExe {
 
-    private final UserBeanConverter beanConverter;
+    private final UserDomainConverter beanConverter;
 
-    private final UserGateway userGateway;
+    private final UserRepository userRepository;
 
     private final RoleAssignService roleAssignService;
 
     private final UserGroupAssignService userGroupAssignService;
 
 
-    public void execute(UserCmd userCmd) {
-        log.info("[User]: Begin Modify User, User = {}", userCmd);
-        User user = beanConverter.toUserDO(userCmd);
+    public void execute(UserCreateCommand userCreateCommand) {
+        log.info("[User]: Begin Modify User, User = {}", userCreateCommand);
+        User user = beanConverter.toUserDO(userCreateCommand);
 
         // 持久化用户
         persistUser(user);
 
         // 持久化后一些操作
-        postPersistUser(user, userCmd);
+        postPersistUser(user, userCreateCommand);
 
         // todo 发布事件
     }
 
-    private void postPersistUser(User user, UserCmd userCmd) {
+    private void postPersistUser(User user, UserCreateCommand userCreateCommand) {
         Long userId = user.getId();
 
         // 分配角色
-        assignRoles(userId, userCmd.getRoleIds());
+        assignRoles(userId, userCreateCommand.getRoleIds());
 
         // 分配用户组
-        assignUserGroups(userId, userCmd.getUserGroupIds());
+        assignUserGroups(userId, userCreateCommand.getUserGroupIds());
     }
 
     private void assignUserGroups(Long userId, List<Long> userGroupIds) {
@@ -71,7 +71,7 @@ public class UserUpdateCmdExe {
         toUpdateUser.setId(user.getId());
         toUpdateUser.setUsername(user.getUsername());
         toUpdateUser.setStatus(user.getStatus());
-        userGateway.updateByUserId(toUpdateUser);
+        userRepository.updateByUserId(toUpdateUser);
     }
 
 }

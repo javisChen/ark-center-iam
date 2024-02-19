@@ -1,22 +1,21 @@
 package com.ark.center.iam.model.user.command;
 
 
-import com.ark.component.validator.ValidateGroup;
+import com.ark.component.ddd.app.Command;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import org.hibernate.validator.constraints.Range;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.List;
 
 @Data
-@Schema(description = "用户模型")
-public class UserCmd {
+@Schema(description = "用户更新命令")
+public class UserUpdateCommand implements Command {
 
-    @NotNull(groups = ValidateGroup.Update.class, message = "id 不能为空")
+    @NotNull(message = "id 不能为空")
     @Schema(description = "用户id")
     private Long id;
 
@@ -24,7 +23,7 @@ public class UserCmd {
     @Schema(description = "用户名")
     private String username;
 
-    @NotBlank(message = "mobile 不能为空", groups = ValidateGroup.Add.class)
+    @NotBlank(message = "mobile 不能为空")
     @Size(min = 11, max = 11, message = "手机号不合法")
     @Schema(description = "用户手机号")
     private String mobile;

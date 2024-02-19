@@ -13,9 +13,9 @@ import java.util.List;
  * @author
  * @since 2020-11-09
  */
-public interface UserGroupUserRelMapper extends BaseMapper<UserGroupUserRel> {
+public interface UserGroupUserRelMapper extends BaseMapper<UserGroupUserRelDO> {
 
-    int insertBatch(@Param("list") List<UserGroupUserRel> list);
+    int insertBatch(@Param("list") List<UserGroupUserRelDO> list);
 
     int deleteByUserIdsAndUserGroupId(@Param("userGroupId") Long userGroupId, @Param("userIds") List<Long> userIds);
 

@@ -1,6 +1,5 @@
 package com.ark.center.iam.infra.menu.repository;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.domain.menu.vo.MenuElement;
@@ -11,15 +10,12 @@ import com.ark.center.iam.infra.menu.repository.db.MenuDAO;
 import com.ark.center.iam.infra.menu.repository.db.MenuDO;
 import com.ark.center.iam.infra.menu.repository.db.MenuElementDAO;
 import com.ark.center.iam.infra.menu.repository.db.MenuElementDO;
-import com.ark.center.iam.model.user.dto.UserRouteDTO;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
 import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -31,18 +27,6 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
     private final MenuAppConverter appConverter;
     private final MenuDAO menuDAO;
     private final MenuElementDAO menuElementDAO;
-
-    @Override
-    public List<UserRouteDTO> selectByRouteIds(List<Long> routeIds) {
-        if (CollectionUtil.isEmpty(routeIds)) {
-            return Collections.emptyList();
-        }
-        List<MenuDO> menus = menuDAO.lambdaQuery()
-                .in(MenuDO::getId, routeIds)
-                .orderByAsc(Lists.newArrayList(MenuDO::getLevel, MenuDO::getSequence))
-                .list();
-        return appConverter.convert(menus);
-    }
 
 
     @Override

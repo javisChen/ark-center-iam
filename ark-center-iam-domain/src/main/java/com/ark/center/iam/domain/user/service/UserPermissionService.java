@@ -2,13 +2,12 @@ package com.ark.center.iam.domain.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.app.gateway.AppRepository;
 import com.ark.center.iam.domain.permission.Permission;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
 import com.ark.center.iam.domain.role.repository.RoleRepository;
 import com.ark.center.iam.domain.user.User;
-import com.ark.center.iam.domain.user.gateway.UserGateway;
+import com.ark.center.iam.domain.user.repository.UserRepository;
 import com.ark.center.iam.domain.user.support.UserConst;
 import com.ark.center.iam.domain.usergroup.repository.UserGroupRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,15 +30,14 @@ public class UserPermissionService {
 
     private final RoleRepository roleRepository;
 
-    private final UserGateway userGateway;
+    private final UserRepository userRepository;
 
     private final UserGroupRepository userGroupRepository;
 
-    private final AppRepository appRepository;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     public List<Permission> queryUserPermissions(Long userId, PermissionType permissionType) {
-        User user = userGateway.selectByUserId(userId);
+        User user = userRepository.selectByUserId(userId);
         String userCode = user.getCode();
         List<Permission> permissions;
         // 超管直接赋予所有权限
@@ -70,7 +68,7 @@ public class UserPermissionService {
     }
 
     public boolean checkHasApiPermission(Long userId, String url, String method) {
-        User user = userGateway.selectByUserId(userId);
+        User user = userRepository.selectByUserId(userId);
         // 超管账号直接通过
         if (isSuperAdmin(user.getCode())) {
             return true;

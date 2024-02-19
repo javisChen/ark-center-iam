@@ -1,11 +1,11 @@
 package com.ark.center.iam.application.user.executor;
 
+import com.ark.center.iam.domain.permission.Permission;
+import com.ark.center.iam.domain.user.service.UserPermissionService;
+import com.ark.center.iam.infra.menu.repository.db.MenuDAO;
+import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
 import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.ark.center.iam.model.user.dto.UserRouteDTO;
-import com.ark.center.iam.domain.permission.Permission;
-import com.ark.center.iam.domain.menu.repository.MenuRepository;
-import com.ark.center.iam.domain.user.service.UserPermissionService;
-import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
 import com.ark.component.cache.core.CacheHelper;
 import com.ark.component.context.core.ServiceContext;
 import com.ark.component.security.base.user.LoginUser;
@@ -26,7 +26,7 @@ public class UserSelfQryExe {
 
     private final UserPermissionService userPermissionService;
 
-    private final MenuRepository menuRepository;
+    private final MenuDAO menuDAO;
 
     private final PermissionDomainConverter permissionDomainConverter;
 
@@ -49,11 +49,11 @@ public class UserSelfQryExe {
         String cacheKey = String.format(CACHE_KEY_USER_ROUTES, userId);
         return CacheHelper.execute(cacheKey, key -> {
             List<Permission> permissions = userPermissionService.queryUserPermissions(userId, MENU);
-            List<Long> routeIds = permissions.stream()
+            List<Long> menuIds = permissions.stream()
                     .filter(Objects::nonNull)
                     .map(Permission::getResourceId)
                     .toList();
-            return menuRepository.selectByRouteIds(routeIds);
+            return menuDAO.selectByIds(menuIds);
         });
     }
 }

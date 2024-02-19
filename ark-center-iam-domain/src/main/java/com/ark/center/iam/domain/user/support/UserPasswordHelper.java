@@ -1,6 +1,6 @@
 package com.ark.center.iam.domain.user.support;
 
-public interface IUserPasswordHelper {
+public interface UserPasswordHelper {
 
     String enhancePassword(String password);
 

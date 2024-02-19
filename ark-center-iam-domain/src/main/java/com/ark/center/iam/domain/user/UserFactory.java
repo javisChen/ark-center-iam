@@ -1,17 +1,12 @@
-package com.ark.center.iam.application.user.executor;
+package com.ark.center.iam.domain.user;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import com.ark.center.iam.domain.user.UserFactory;
-import com.ark.center.iam.model.user.command.UserCreateCommand;
-import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.repository.UserRepository;
 import com.ark.center.iam.domain.user.support.UserPasswordHelper;
-import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
-import com.ark.center.iam.infra.user.converter.UserDomainConverter;
-import com.ark.center.iam.domain.user.User;
+import com.ark.center.iam.model.user.command.UserCreateCommand;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,52 +14,37 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class UserCreateCmdExe {
-
-    private final UserDomainConverter beanConverter;
+public class UserFactory {
 
     private final UserRepository userRepository;
 
-    private final RoleAssignService roleAssignService;
-    // private final UserGroupAssignService userGroupAssignService;
-
     private final UserPasswordHelper userPasswordHelper;
-    private final UserFactory userFactory;
 
+    public User create(String username, String mobile, String password, List<Long> roleIds, List<Long> userGroupIds) {
+        validityCheck(mobile);
 
-    public Long execute(UserCreateCommand command) {
-        log.info("[User]: Begin Create User, User = {}", command);
-
-        String username = command.getUsername();
-        String mobile = command.getMobile();
-        String password = command.getPassword();
-        List<Long> roleIds = command.getRoleIds();
-        List<Long> userGroupIds = command.getUserGroupIds();
-
-        User user = userFactory.create(username, mobile, password, roleIds, userGroupIds);
-
-        userRepository.saveAndPublishEvents(user);
-
-        return user.getId();
-
-    }
-
-    private void validityCheck(User user) {
-
-        // 检查用户手机号
-        checkUserMobile(user);
-    }
-
-    private void initUser(User user) {
-        // 生成用户编码
-        user.setCode(generateUserCode());
+        // 初始化一些用户信息
+        String code = generateUserCode();
 
         // 用户密码=bcrypt(前端md5(md5(password)) + salt)
-        user.setPassword(userPasswordHelper.enhancePassword(DigestUtil.md5Hex(user.getPassword())));
+        password = userPasswordHelper.enhancePassword(DigestUtil.md5Hex(password));
 
+//         持久化后一些操作
+//        postPersistUser(user, userCreateCommand);
+
+        return new User(username, mobile, code, password, roleIds, userGroupIds);
+    }
+
+
+    private void validityCheck(String mobile) {
+
+        // 检查用户手机号
+        checkUserMobile(mobile);
     }
 
     private String generateUserCode() {
@@ -97,8 +77,8 @@ public class UserCreateCmdExe {
         assignUserGroups(userId, createCmd.getUserGroupIds());
     }
 
-    private void checkUserMobile(User user) {
-        long count = userRepository.countUserByMobile(user.getMobile());
+    private void checkUserMobile(String mobile) {
+        long count = userRepository.countUserByMobile(mobile);
         Assert.isTrue(count == 0, () -> ExceptionFactory.userException("手机号码已存在"));
     }
 

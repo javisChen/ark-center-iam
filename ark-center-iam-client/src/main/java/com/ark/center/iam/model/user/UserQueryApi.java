@@ -1,7 +1,7 @@
 package com.ark.center.iam.model.user;
 
 import com.ark.center.iam.model.user.dto.UserInnerDTO;
-import com.ark.center.iam.model.user.query.UserQry;
+import com.ark.center.iam.model.user.query.UserQuery;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.microservice.rpc.exception.FeignCommonErrorDecoder;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(
         name = "${ark.center.iam.service.name:iam}",
-        path = "/v1/inner/users",
+        path = "/v1/users",
         url = "${ark.center.iam.service.uri:}",
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
-@Schema(description = "用户管理-内部调用接口")
-public interface UserQryApi {
+@Schema(description = "用户查询服务接口")
+public interface UserQueryApi {
 
-    @GetMapping
-    @Operation(summary = "用户管理（内部调用） - 查询单个用户")
-    SingleResponse<UserInnerDTO> getUser(@SpringQueryMap UserQry userQry);
+    @GetMapping("/info")
+    @Operation(summary = "查询用户信息（只包含基础信息）")
+    SingleResponse<UserInnerDTO> queryBasicInfo(@SpringQueryMap UserQuery userQuery);
 
 
 }

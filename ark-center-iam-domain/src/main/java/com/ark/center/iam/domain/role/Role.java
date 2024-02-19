@@ -3,11 +3,13 @@ package com.ark.center.iam.domain.role;
 
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Builder
 public class Role extends AggregateRoot {
 
     /**
@@ -24,7 +26,6 @@ public class Role extends AggregateRoot {
      * 状态 1-已启用；2-已禁用；
      */
     private EnableDisableStatus status;
-
 
     public Role(String name, String code) {
         this.name = name;

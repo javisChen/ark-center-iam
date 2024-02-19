@@ -4,7 +4,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultUserPasswordHelper implements IUserPasswordHelper {
+public class DefaultUserPasswordHelper implements UserPasswordHelper {
 
     @Override
     public String enhancePassword(String password) {

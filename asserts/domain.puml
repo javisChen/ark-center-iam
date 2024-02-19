@@ -13,6 +13,43 @@ Command('DeletePermission')[
     ---
 ]
 
+DomainEvent('UserJoinedGroup')[
+    用户已加入用户组
+]
+
+DomainEvent('UserLeftGroup')[
+    用户已离开用户组
+]
+
+DomainEvent('RoleCreated')[
+    角色已创建
+]
+
+DomainEvent('RoleDeleted')[
+    角色已删除
+]
+
+DomainEvent('RolePermissionChanged')[
+    角色权限发生变更
+]
+
+DomainEvent('PermissionResourceCreated')[
+    权限资源已创建
+]
+
+DomainEvent('PermissionResourceDeleted')[
+    权限资源已删除
+]
+
+Aggregate('Permission')[
+    资源权限
+    ---
+    权限资源类型
+    资源id
+]
+
+' 应用
+
 Command('CreateApp')[
     创建应用
     ---
@@ -32,6 +69,35 @@ Command('DeleteApp')[
     ---
 ]
 
+DomainEvent('AppCreated')[
+    应用已创建
+]
+
+DomainEvent('AppChanged')[
+    应用已被修改
+]
+
+Aggregate('App')[
+    应用
+    ---
+    code 应用编码
+    ---
+    应用名称
+]
+
+admin --> CreateApp
+admin --> UpdateApp
+admin --> DeleteApp
+
+CreateApp --> App
+UpdateApp --> App
+DeleteApp --> App
+
+App --> AppCreated
+App --> AppChanged
+
+' 用户
+
 Command('UpdateUser')[
     修改用户
     ---
@@ -39,7 +105,8 @@ Command('UpdateUser')[
 
 Command('CreateUser')[
     新建用户
-    ---
+    --rules--
+    用户名/手机号/邮箱要保证唯一
 ]
 
 Command('EnableUser')[
@@ -50,45 +117,6 @@ Command('EnableUser')[
 Command('DisableUser')[
     禁用用户
     ---
-]
-
-
-Command('CreateApi')[
-    创建Api
-    ---
-]
-
-Command('UpdateApi')[
-    更新Api
-    ---
-]
-
-Command('DeleteApi')[
-    删除Api
-    ---
-]
-
-Command('CreateApiCategory')[
-    创建Api分类
-    ---
-]
-
-Command('UpdateApiCategory')[
-    更新Api分类
-    ---
-]
-
-Command('DeleteApiCategory')[
-    删除Api分类
-    ---
-]
-
-DomainEvent('AppCreated')[
-    应用已创建
-]
-
-DomainEvent('AppChanged')[
-    应用已被修改
 ]
 
 DomainEvent('UserCreated')[
@@ -111,120 +139,30 @@ DomainEvent('UserDeleted')[
     用户已删除
 ]
 
-DomainEvent('UserJoinedGroup')[
-    用户已加入用户组
-]
-
-DomainEvent('UserLeftGroup')[
-    用户已离开用户组
-]
-
-DomainEvent('UserGroupCreated')[
-    用户组已创建
-]
-
-DomainEvent('UserGroupDeleted')[
-    用户组已删除
-]
-
-DomainEvent('RoleCreated')[
-    角色已创建
-]
-
-DomainEvent('RoleDeleted')[
-    角色已删除
-]
-
-DomainEvent('RolePermissionChanged')[
-    角色权限发生变更
-]
-
-
-DomainEvent('APICreated')[
-    接口已创建
-]
-
-DomainEvent('APIChanged')[
-    接口已修改
-]
-
-DomainEvent('APIDeleted')[
-    接口已删除
-]
-
-DomainEvent('APICategoryCreated')[
-    接口分类已创建
-]
-
-DomainEvent('APICategoryDeleted')[
-    接口分类已删除
-]
-
-
-DomainEvent('PermissionResourceCreated')[
-    权限资源已创建
-]
-
-DomainEvent('PermissionResourceDeleted')[
-    权限资源已删除
-]
-
-Aggregate('App')[
-    应用
+Aggregate('User')[
+    用户
     ---
-    code 应用编码
-    ---
-    应用名称
+    用户名
+    手机号
+    邮箱
+    密码
 ]
-
-Aggregate('ApiCategory')[
-    Api分类
-    --fields--
-    应用id
-    名称
-]
-
-
-Aggregate('Api')[
-    Api
-    --fields--
-    Api名称
-    应用id
-    分类id
-    Uri
-    HttpMethod
-    认证授权类型
-    是否包含路径参数
-    状态
-]
-
-
-
-Aggregate('Permission')[
-    资源权限
-    ---
-    权限资源类型
-    资源id
-]
-
-' 应用
-
-admin --> CreateApp
-admin --> UpdateApp
-admin --> DeleteApp
-
-CreateApp --> App
-UpdateApp --> App
-
-App --> AppCreated
-App --> AppChanged
-
-' 用户
 
 admin --> CreateUser
 admin --> UpdateUser
 admin --> EnableUser
 admin --> DisableUser
+
+CreateUser --> User
+UpdateUser --> User
+EnableUser --> User
+DisableUser --> User
+
+User --> UserCreated
+User --> UserChanged
+User --> UserEnabled
+User --> UserDisabled
+
 
 ' 用户组
 
@@ -236,6 +174,14 @@ Command('CreateUserGroup')[
 Command('UpdateUserGroup')[
     更新用户组
     ---
+]
+
+DomainEvent('UserGroupCreated')[
+    用户组已创建
+]
+
+DomainEvent('UserGroupDeleted')[
+    用户组已删除
 ]
 
 Aggregate('UserGroup')[
@@ -254,6 +200,37 @@ UserGroup --> UserGroupCreated
 
 
 ' Api分类
+
+Command('CreateApiCategory')[
+    创建Api分类
+    ---
+]
+
+Command('UpdateApiCategory')[
+    更新Api分类
+    ---
+]
+
+Command('DeleteApiCategory')[
+    删除Api分类
+    ---
+]
+
+DomainEvent('APICategoryCreated')[
+    接口分类已创建
+]
+
+DomainEvent('APICategoryDeleted')[
+    接口分类已删除
+]
+
+Aggregate('ApiCategory')[
+    Api分类
+    --fields--
+    应用id
+    名称
+]
+
 admin --> CreateApiCategory
 admin --> UpdateApiCategory
 admin --> DeleteApiCategory
@@ -266,6 +243,49 @@ ApiCategory --> APICategoryCreated
 ApiCategory --> APICategoryDeleted
 
 ' Api
+
+
+Command('CreateApi')[
+    创建Api
+    ---
+]
+
+Command('UpdateApi')[
+    更新Api
+    ---
+]
+
+Command('DeleteApi')[
+    删除Api
+    ---
+]
+
+DomainEvent('APICreated')[
+    接口已创建
+]
+
+DomainEvent('APIChanged')[
+    接口已修改
+]
+
+DomainEvent('APIDeleted')[
+    接口已删除
+]
+
+Aggregate('Api')[
+    Api
+    --fields--
+    Api名称
+    应用id
+    分类id
+    Uri
+    HttpMethod
+    认证授权类型
+    是否包含路径参数
+    状态
+]
+
+
 admin --> CreateApi
 admin --> UpdateApi
 admin --> DeleteApi
@@ -320,11 +340,6 @@ DomainEvent('MenuChanged')[
 DomainEvent('MenuDeleted')[
     菜单已删除
 ]
-
-CreateUser --> UserCreated
-UpdateUser --> UserChanged
-EnableUser --> UserEnabled
-DisableUser --> UserDisabled
 
 admin --> CreateMenu
 admin --> UpdateMenu

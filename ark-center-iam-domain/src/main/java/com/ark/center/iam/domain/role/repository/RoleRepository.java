@@ -35,12 +35,6 @@ public interface RoleRepository extends BaseRepository<Role, Long> {
 
     RoleBaseDTO selectById(Long id);
 
-    void logicDelete(Long id);
-
-    void deleteUserRoleRelationsByRoleId(Long roleId);
-
-    void updateStatusById(Long id, Integer status);
-
     /**
      * 缓存角色权限
      */

@@ -1,57 +1,64 @@
 package com.ark.center.iam.domain.user;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.ark.component.ddd.domain.AggregateRoot;
+import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 用户表
- * </p>
- *
- * @author
- * @since 2020-11-09
- */
+import java.util.List;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("iam_user")
 public class User extends AggregateRoot {
 
     /**
      * 用户名称
      */
-    @TableField("username")
     private String username;
 
     /**
      * 手机号码
      */
-    @TableField("mobile")
     private String mobile;
 
     /**
      * 用户编码
      */
-    @TableField("code")
     private String code;
 
     /**
      * 用户密码
      */
-    @TableField("password")
     private String password;
+
+    /**
+     * 用户所属的部门
+     */
+    private List<Long> userGroupIds;
+
+    /**
+     * 用户所拥有的角色
+     */
+    private List<Long> roleIds;
 
     /**
      * 状态 1-已启用；2-已禁用；
      */
-    @TableField("status")
-    private Integer status;
+    private EnableDisableStatus status;
 
-    @TableField(value = "is_deleted")
-    @TableLogic
-    private Long isDeleted;
+
+    public User(String username,
+                String mobile,
+                String code,
+                String password,
+                List<Long> roleIds,
+                List<Long> userGroupIds) {
+        this.username = username;
+        this.mobile = mobile;
+        this.code = code;
+        this.password = password;
+        this.roleIds = roleIds;
+        this.userGroupIds = userGroupIds;
+    }
 
 }

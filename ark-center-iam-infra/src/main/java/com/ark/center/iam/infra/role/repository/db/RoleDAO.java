@@ -1,6 +1,8 @@
 package com.ark.center.iam.infra.role.repository.db;
 
 import cn.hutool.core.util.StrUtil;
+import com.ark.center.iam.infra.relation.db.UserRoleRelDAO;
+import com.ark.center.iam.infra.relation.db.UserRoleRelDO;
 import com.ark.center.iam.infra.role.converter.RoleAppConverter;
 import com.ark.center.iam.model.role.dto.RoleBaseDTO;
 import com.ark.center.iam.model.role.query.RoleQuery;
@@ -17,6 +19,7 @@ import java.util.List;
 public class RoleDAO extends ServiceImpl<RoleMapper, RoleDO> {
 
     private final RoleAppConverter roleAppConverter;
+    private final UserRoleRelDAO userRoleRelDAO;
 
     public IPage<RoleBaseDTO> queryPages(RoleQuery query) {
         return lambdaQuery()
@@ -34,5 +37,15 @@ public class RoleDAO extends ServiceImpl<RoleMapper, RoleDO> {
 
     public RoleDO queryById(Long id) {
         return getById(id);
+    }
+
+    public List<Long> selectRoleIdsByUserId(Long userId) {
+        return userRoleRelDAO.lambdaQuery()
+                .select(UserRoleRelDO::getUserId, UserRoleRelDO::getRoleId)
+                .eq(UserRoleRelDO::getUserId, userId)
+                .list()
+                .stream()
+                .map(UserRoleRelDO::getRoleId)
+                .toList();
     }
 }

@@ -38,7 +38,7 @@
     </select>
 
     <select id="selectByRoleIdAndType"
-            resultType="com.ark.center.iam.infra.relation.db.PermissionRoleRel">
+            resultType="com.ark.center.iam.infra.relation.db.PermissionRoleRelDO">
 
         select uprr.id
         from iam_permission up
@@ -49,7 +49,7 @@
 
     </select>
     <select id="selectByPermissionIdAndRoleId"
-            resultType="com.ark.center.iam.infra.relation.db.PermissionRoleRel">
+            resultType="com.ark.center.iam.infra.relation.db.PermissionRoleRelDO">
 
         select uprr.id
         from iam_permission up

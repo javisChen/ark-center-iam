@@ -9,13 +9,6 @@ import java.util.List;
 public interface UserGroupRepository extends BaseRepository<UserGroup, Long> {
 
     /**
-     * 查询用户所在的用户组（只获取用户直属的用户组）
-     *
-     * @param userId 用户id
-     */
-    List<Long> selectUserGroupIdsByUserId(Long userId);
-
-    /**
      * 查询用户所在的用户组
      *
      * @param userId        用户id

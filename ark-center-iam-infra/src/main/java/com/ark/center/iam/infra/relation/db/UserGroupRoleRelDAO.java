@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserGroupRoleRelDAO extends ServiceImpl<UserGroupRoleRelMapper, UserGroupRoleRel> {
+public class UserGroupRoleRelDAO extends ServiceImpl<UserGroupRoleRelMapper, UserGroupRoleRelDO> {
 
 
 }

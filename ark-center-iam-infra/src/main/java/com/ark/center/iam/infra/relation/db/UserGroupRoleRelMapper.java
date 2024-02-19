@@ -13,7 +13,7 @@ import java.util.List;
  * @author
  * @since 2020-11-09
  */
-public interface UserGroupRoleRelMapper extends BaseMapper<UserGroupRoleRel> {
+public interface UserGroupRoleRelMapper extends BaseMapper<UserGroupRoleRelDO> {
 
     int deleteByRoleIdsAndUserGroupId(@Param("userGroupId") Long userGroupId,
                                       @Param("roleIds") List<Long> roleIds);

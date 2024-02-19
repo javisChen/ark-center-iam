@@ -21,12 +21,12 @@ import java.util.List;
 @Tag(name = "登录用户相关接口", description = "登录用户接口")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/users/self")
 public class UserSelfController extends BaseController {
 
     private final UserSelfAppService userSelfAppService;
 
-    @GetMapping("/user/self")
+    @GetMapping("")
     @Operation(summary = "查询登录用户基本信息")
     public SingleResponse<LoginUser> queryUserSelf() {
         return SingleResponse.ok(userSelfAppService.queryUserSelf());
@@ -35,7 +35,7 @@ public class UserSelfController extends BaseController {
     /**
      * 获取用户菜单权限
      */
-    @GetMapping("/user/self/routes")
+    @GetMapping("/menus")
     @Operation(summary = "查询登录用户的菜单权限")
     public MultiResponse<UserRouteDTO> queryUserSelfRoutes() {
         List<UserRouteDTO> selfRoutes = userSelfAppService.queryUserSelfRoutes();
@@ -45,7 +45,7 @@ public class UserSelfController extends BaseController {
     /**
      * 获取用户页面元素权限
      */
-    @GetMapping("/user/self/elements")
+    @GetMapping("/elements")
     @Operation(summary = "查询登录用户的元素权限")
     public MultiResponse<PermissionDTO> queryUserSelfElements() {
         List<PermissionDTO> selfElements = userSelfAppService.queryUserSelfElements();

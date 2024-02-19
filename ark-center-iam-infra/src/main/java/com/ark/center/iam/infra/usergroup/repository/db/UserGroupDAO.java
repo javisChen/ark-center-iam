@@ -1,9 +1,13 @@
 package com.ark.center.iam.infra.usergroup.repository.db;
 
 import cn.hutool.core.util.StrUtil;
+import com.ark.center.iam.infra.relation.db.UserGroupRoleRelDAO;
+import com.ark.center.iam.infra.relation.db.UserGroupUserRelDAO;
+import com.ark.center.iam.infra.relation.db.UserGroupUserRelDO;
 import com.ark.center.iam.model.usergroup.query.UserGroupQuery;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +15,11 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserGroupDAO extends ServiceImpl<UserGroupMapper, UserGroupDO> {
+
+    private final UserGroupRoleRelDAO userGroupRoleRelDAO;
+    private final UserGroupUserRelDAO userGroupUserRelDAO;
 
     public Page<UserGroupDO> selectPages(UserGroupQuery query) {
         return lambdaQuery()
@@ -34,5 +42,16 @@ public class UserGroupDAO extends ServiceImpl<UserGroupMapper, UserGroupDO> {
                 .orderByAsc(UserGroupDO::getLevel).list()
                 .stream().toList();
 
+    }
+
+    public List<Long> selectUserGroupIdsByUserId(Long userId) {
+        return userGroupUserRelDAO
+                .lambdaQuery()
+                .select(UserGroupUserRelDO::getUserId, UserGroupUserRelDO::getUserGroupId)
+                .eq(UserGroupUserRelDO::getUserId, userId)
+                .list()
+                .stream()
+                .map(UserGroupUserRelDO::getUserGroupId)
+                .toList();
     }
 }

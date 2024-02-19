@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.user.gateway.db;
+package com.ark.center.iam.infra.user.repository.db;
 
 import com.ark.center.iam.domain.user.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author
  * @since 2020-11-09
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<UserDO> {
 
     List<User> selectByRoleId(@Param("roleId") Long roleId);
 }

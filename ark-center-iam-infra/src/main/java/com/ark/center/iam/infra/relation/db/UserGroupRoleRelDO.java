@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 用户组与用户关联表
+ * 用户组与角色关联表
  * </p>
  *
  * @author
@@ -17,22 +17,21 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("iam_user_group_user_rel")
-public class UserGroupUserRel extends BaseEntity {
+@TableName("iam_user_group_role_rel")
+public class UserGroupRoleRelDO extends BaseEntity {
 
-    
 
     /**
-     * 用户组名称，关联iam_user_group.id
+     * 用户组id，关联iam_user_group.id
      */
     @TableField("user_group_id")
     private Long userGroupId;
 
     /**
-     * 用户id，关联iam_user_id
+     * 角色id，关联iam_role.id
      */
-    @TableField("user_id")
-    private Long userId;
+    @TableField("role_id")
+    private Long roleId;
 
 
 }

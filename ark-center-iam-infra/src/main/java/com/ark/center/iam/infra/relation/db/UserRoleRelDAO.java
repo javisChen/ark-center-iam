@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public class UserRoleRelDAO extends ServiceImpl<UserRoleRelMapper, UserRoleRelDO> {
 
-    public void batchInsert(Long userId, List<Long> roleIds) {
+    public void batchSave(Long userId, List<Long> roleIds) {
         baseMapper.batchInsert(userId, roleIds);
     }
 
