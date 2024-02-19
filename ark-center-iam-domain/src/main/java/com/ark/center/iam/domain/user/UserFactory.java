@@ -1,20 +1,16 @@
 package com.ark.center.iam.domain.user;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.ark.center.iam.domain.user.repository.UserRepository;
 import com.ark.center.iam.domain.user.support.UserPasswordHelper;
-import com.ark.center.iam.model.user.command.UserCreateCommand;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
 @Component
 @RequiredArgsConstructor
@@ -60,38 +56,8 @@ public class UserFactory {
         return userRepository.countUserByCode(code) > 0;
     }
 
-    /**
-     * 持久化用户后的操作
-     *
-     * @param user   用户
-     * @param createCmd 创建用户请求
-     */
-    private void postPersistUser(User user, UserCreateCommand createCmd) {
-
-        Long userId = user.getId();
-
-        // 分配角色
-        assignRoles(userId, createCmd.getRoleIds());
-
-        // 分配用户组
-        assignUserGroups(userId, createCmd.getUserGroupIds());
-    }
-
     private void checkUserMobile(String mobile) {
-        long count = userRepository.countUserByMobile(mobile);
-        Assert.isTrue(count == 0, () -> ExceptionFactory.userException("手机号码已存在"));
-    }
-
-    private void assignUserGroups(Long userId, List<Long> userGroupIds) {
-        if (CollectionUtil.isNotEmpty(userGroupIds)) {
-            userGroupAssignService.assignUserGroupsToUser(userId, userGroupIds);
-        }
-    }
-
-    private void assignRoles(Long userId, List<Long> roleIds) {
-        if (CollectionUtil.isNotEmpty(roleIds)) {
-            roleAssignService.assignUserRoles(userId, roleIds);
-        }
+        Assert.isTrue(userRepository.existsByMobile(mobile), () -> ExceptionFactory.userException("手机号码已存在"));
     }
 
 }

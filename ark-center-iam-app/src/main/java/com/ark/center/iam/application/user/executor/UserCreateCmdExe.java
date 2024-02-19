@@ -9,7 +9,6 @@ import com.ark.center.iam.model.user.command.UserCreateCommand;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.repository.UserRepository;
 import com.ark.center.iam.domain.user.support.UserPasswordHelper;
-import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.user.converter.UserDomainConverter;
 import com.ark.center.iam.domain.user.User;
 import com.ark.component.exception.ExceptionFactory;
@@ -98,7 +97,7 @@ public class UserCreateCmdExe {
     }
 
     private void checkUserMobile(User user) {
-        long count = userRepository.countUserByMobile(user.getMobile());
+        long count = userRepository.existsByMobile(user.getMobile());
         Assert.isTrue(count == 0, () -> ExceptionFactory.userException("手机号码已存在"));
     }
 

@@ -36,8 +36,8 @@ public class UserController extends BaseController implements UserQueryApi {
 
     @PutMapping("/update")
     @Operation(summary = "编辑用户")
-    public ServerResponse updateUser(@RequestBody UserUpdateCommand userCreateCommand) {
-        userCommandHandler.updateUser(userCreateCommand);
+    public ServerResponse updateUser(@RequestBody UserUpdateCommand command) {
+        userCommandHandler.updateUser(command);
         return ServerResponse.ok();
     }
     @GetMapping("/pages")

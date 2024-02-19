@@ -12,4 +12,13 @@ public class UserRoleRelDAO extends ServiceImpl<UserRoleRelMapper, UserRoleRelDO
         baseMapper.batchInsert(userId, roleIds);
     }
 
+    public List<Long> selectIdsByUserId(Long userId) {
+        return lambdaQuery()
+                .select(UserRoleRelDO::getRoleId)
+                .eq(UserRoleRelDO::getUserId, userId)
+                .list()
+                .stream()
+                .map(UserRoleRelDO::getRoleId)
+                .toList();
+    }
 }

@@ -20,4 +20,14 @@ public class UserGroupUserRelDAO extends ServiceImpl<UserGroupUserRelMapper, Use
         );
 
     }
+
+    public List<Long> selectIdsByUserId(Long userId) {
+        return lambdaQuery()
+                .select(UserGroupUserRelDO::getUserGroupId)
+                .eq(UserGroupUserRelDO::getUserId, userId)
+                .list()
+                .stream()
+                .map(UserGroupUserRelDO::getUserGroupId)
+                .toList();
+    }
 }

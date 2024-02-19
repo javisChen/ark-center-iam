@@ -10,9 +10,9 @@ public interface UserRepository extends BaseRepository<User, Long> {
 
     Long countUserByCode(String code);
 
-    Long countUserByMobile(String mobile);
+    boolean existsByMobile(Long id, String mobile);
 
-    boolean updateByUserId(User user);
+    boolean existsByMobile(String mobile);
 
     User selectByUserId(Long userId);
 

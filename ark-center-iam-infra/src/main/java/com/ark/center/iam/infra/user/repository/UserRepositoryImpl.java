@@ -12,6 +12,7 @@ import com.ark.center.iam.infra.user.converter.UserDomainConverter;
 import com.ark.center.iam.infra.user.repository.db.UserDAO;
 import com.ark.center.iam.infra.user.repository.db.UserDO;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import lombok.RequiredArgsConstructor;
@@ -37,15 +38,16 @@ public class UserRepositoryImpl extends BaseDBRepository<User, Long> implements 
     }
 
     @Override
-    public Long countUserByMobile(String mobile) {
+    public boolean existsByMobile(Long id, String mobile) {
         return userDAO.lambdaQuery()
+                .ne(id != null, BaseEntity::getId, id)
                 .eq(UserDO::getMobile, mobile)
-                .count();
+                .exists();
     }
 
     @Override
-    public boolean updateByUserId(User user) {
-        return updateById(user);
+    public boolean existsByMobile(String mobile) {
+        return existsByMobile(null, mobile);
     }
 
     @Override
@@ -96,5 +98,33 @@ public class UserRepositoryImpl extends BaseDBRepository<User, Long> implements 
 
         }
 
+    }
+
+    @Override
+    public void delete(User user) {
+        UserDO userDO = domainConverter.fromDomain(user);
+
+        Long userId = userDO.getId();
+
+        userDAO.lambdaUpdate()
+                .set(UserDO::getIsDeleted, 1)
+                .eq(BaseEntity::getId, userId);
+
+        userRoleRelDAO.lambdaUpdate()
+                .eq(UserRoleRelDO::getUserId, userId)
+                .remove();
+
+        userGroupUserRelDAO.lambdaUpdate()
+                .eq(UserGroupUserRelDO::getUserId, userId)
+                .remove();
+
+    }
+
+    @Override
+    public User byId(Long id) {
+        UserDO userDO = userDAO.getById(id);
+        List<Long> roleIds = userRoleRelDAO.selectIdsByUserId(id);
+        List<Long> userGroupIds = userGroupUserRelDAO.selectIdsByUserId(id);
+        return domainConverter.toDomain(userDO, roleIds, userGroupIds);
     }
 }
