@@ -57,11 +57,6 @@ public class UserGroupRepositoryImpl extends BaseDBRepository<UserGroup, Long> i
         userGroupRoleRelMapper.delete(qw);
     }
 
-//    @Override
-//    public void insert(UserGroup userGroup) {
-//        save(userGroup);
-//    }
-
     @Override
     public void insertUserGroupAndRolesRelations(Long userGroupId, List<Long> roleIds) {
         userGroupRoleRelMapper.insertBatch(userGroupId, roleIds);

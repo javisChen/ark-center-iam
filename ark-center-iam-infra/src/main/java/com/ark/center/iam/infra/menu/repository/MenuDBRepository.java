@@ -3,7 +3,6 @@ package com.ark.center.iam.infra.menu.repository;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.domain.menu.vo.MenuElement;
-import com.ark.center.iam.infra.menu.converter.MenuAppConverter;
 import com.ark.center.iam.infra.menu.converter.MenuDomainConverter;
 import com.ark.center.iam.infra.menu.converter.MenuElementDomainConverter;
 import com.ark.center.iam.infra.menu.repository.db.MenuDAO;
@@ -20,17 +19,16 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements MenuRepository {
+public class MenuDBRepository extends BaseDBRepository<Menu, Long> implements MenuRepository {
 
     private final MenuDomainConverter menuDomainConverter;
     private final MenuElementDomainConverter elementDomainConverter;
-    private final MenuAppConverter appConverter;
     private final MenuDAO menuDAO;
     private final MenuElementDAO menuElementDAO;
 
 
     @Override
-    protected void save(Menu menu) {
+    public void save(Menu menu) {
         Long menuId = menu.getId();
 
         MenuDO menuDO = menuDomainConverter.fromDomain(menu);
@@ -50,10 +48,6 @@ public class MenuRepositoryImpl extends BaseDBRepository<Menu, Long> implements 
         menuDAO.removeById(ar.getId());
 
         menuElementDAO.deleteByMenuId(ar.getId());
-    }
-
-    @Override
-    public void delete(List<Long> ids) {
     }
 
     @Override

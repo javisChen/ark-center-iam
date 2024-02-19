@@ -63,4 +63,10 @@ public class User extends AggregateRoot {
         this.userGroupIds = userGroupIds;
     }
 
+//    public void update(String username, String mobile, List<Long> roleIds, List<Long> userGroupIds) {
+//        this.username = username;
+//        this.mobile = mobile;
+//        this.roleIds = roleIds;
+//        this.userGroupIds = userGroupIds;
+//    }
 }

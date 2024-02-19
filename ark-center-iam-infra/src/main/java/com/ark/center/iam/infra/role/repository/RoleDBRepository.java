@@ -1,34 +1,26 @@
 package com.ark.center.iam.infra.role.repository;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.infra.relation.db.*;
 import com.ark.center.iam.infra.role.repository.db.*;
-import com.ark.center.iam.model.role.dto.RoleBaseDTO;
-import com.ark.center.iam.model.role.query.RoleQuery;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.repository.RoleRepository;
-import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.center.iam.infra.role.converter.RoleDomainConverter;
 import com.ark.center.iam.infra.role.repository.cache.RoleCacheKey;
 import com.ark.component.cache.CacheService;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
 public class RoleDBRepository extends BaseDBRepository<Role, Long> implements RoleRepository {
 
-    private final UserRoleRelMapper userRoleRelMapper;
     private final UserRoleRelDAO userRoleRelDAO;
     private final UserGroupRoleRelDAO userGroupRoleRelDAO;
     private final RoleDAO roleDAO;
@@ -67,51 +59,10 @@ public class RoleDBRepository extends BaseDBRepository<Role, Long> implements Ro
     }
 
     @Override
-    public List<UserRoleVO> selectRolesByUserIds(List<Long> userIds) {
-        return baseMapper.selectRolesByUserIds(userIds);
-    }
-
-    @Override
-    public IPage<RoleBaseDTO> selectPages(RoleQuery params) {
-        return lambdaQuery()
-                .like(StrUtil.isNotBlank(params.getName()), Role::getName, params.getName())
-                .page(new Page<>(params.getCurrent(), params.getSize()))
-                .convert(roleDomainConverter::toRoleBaseDTO);
-    }
-
-    @Override
-    public List<RoleBaseDTO> selectList() {
-        return this.list().stream().map(roleDomainConverter::toRoleBaseDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public void insert(Role role) {
-        save(role);
-    }
-
-    @Override
-    public long countByName(String name) {
-        return lambdaQuery()
-                .eq(Role::getName, name)
-                .count();
-    }
-
-    @Override
     public long countByCode(String code) {
-        return lambdaQuery()
-                .eq(Role::getCode, code)
+        return roleDAO.lambdaQuery()
+                .eq(RoleDO::getCode, code)
                 .count();
-    }
-
-    @Override
-    public void updateByRoleId(Role role) {
-        updateById(role);
-    }
-
-    @Override
-    public RoleBaseDTO selectById(Long id) {
-        Role role = getById(id);
-        return roleDomainConverter.toRoleBaseDTO(role);
     }
 
     @Override

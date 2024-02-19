@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.ark.center.iam.domain.user.repository.UserRepository;
-import com.ark.center.iam.domain.user.support.UserPasswordHelper;
+import com.ark.center.iam.domain.user.service.UserPasswordHelper;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

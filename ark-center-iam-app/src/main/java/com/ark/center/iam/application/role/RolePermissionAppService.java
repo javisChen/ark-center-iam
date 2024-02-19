@@ -2,19 +2,15 @@ package com.ark.center.iam.application.role;
 
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.application.role.executor.RoleCreateCmdExe;
-import com.ark.center.iam.application.role.executor.RoleDeleteCmdExe;
-import com.ark.center.iam.application.role.executor.RoleUpdateCmdExe;
+import com.ark.center.iam.application.role.event.RolePermissionChangedEvent;
+import com.ark.center.iam.domain.permission.enums.PermissionType;
+import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
+import com.ark.center.iam.infra.role.repository.db.RoleDAO;
+import com.ark.center.iam.infra.role.repository.db.RoleDO;
 import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.ark.center.iam.model.role.command.RoleApiPermissionGrantCmd;
 import com.ark.center.iam.model.role.command.RoleRoutePermissionGrantCmd;
-import com.ark.center.iam.model.role.dto.RoleBaseDTO;
-import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.application.role.event.RolePermissionChangedEvent;
-import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
-import com.ark.center.iam.domain.role.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RolePermissionAppService {
 
-    private final RoleCreateCmdExe roleCreateCmdExe;
-    private final RoleUpdateCmdExe roleUpdateCmdExe;
-    private final RoleDeleteCmdExe roleDeleteCmdExe;
-    private final RoleRepository roleRepository;
+    private final RoleDAO roleDAO;
 
     private final ApplicationEventPublisher eventPublisher;
-    private final ApplicationContext applicationContext;
 
     private final PermissionRepository permissionRepository;
 
@@ -50,7 +42,7 @@ public class RolePermissionAppService {
         toAddIds.addAll(cmd.getToAddElementPermissionIds());
         permissionRepository.insertBatchRolePermissionRelations(roleId, toAddIds);
 
-        RoleBaseDTO roleBaseDTO = roleRepository.selectById(roleId);
+        RoleDO roleBaseDTO = roleDAO.getById(roleId);
         String roleName = roleBaseDTO.getName();
         eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, PermissionType.MENU));
     }
@@ -70,8 +62,8 @@ public class RolePermissionAppService {
         List<Long> toAddApiPermissionIds = dto.getToAddApiPermissionIds();
         permissionRepository.insertBatchRolePermissionRelations(roleId, toAddApiPermissionIds);
 
-        RoleBaseDTO roleBaseDTO = roleRepository.selectById(roleId);
-        String roleName = roleBaseDTO.getName();
+        RoleDO roleDO = roleDAO.getById(roleId);
+        String roleName = roleDO.getName();
         eventPublisher.publishEvent(new RolePermissionChangedEvent(this, roleId, roleName, PermissionType.SER_API));
 
     }

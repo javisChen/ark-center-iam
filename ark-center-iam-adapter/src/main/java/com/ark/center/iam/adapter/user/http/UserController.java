@@ -31,7 +31,8 @@ public class UserController extends BaseController implements UserQueryApi {
     @PostMapping("/create")
     @Operation(summary = "创建用户")
     public ServerResponse createUser(@RequestBody UserCreateCommand command) {
-        return SingleResponse.ok(userCommandHandler.createUser(command));
+        Long userId = userCommandHandler.createUser(command);
+        return SingleResponse.ok(userId);
     }
 
     @PutMapping("/update")

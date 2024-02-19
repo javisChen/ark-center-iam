@@ -1,6 +1,8 @@
-package com.ark.center.iam.domain.user.support;
+package com.ark.center.iam.infra.user.password;
 
 import cn.hutool.crypto.digest.DigestUtil;
+import com.ark.center.iam.domain.user.service.UserPasswordHelper;
+import com.ark.center.iam.domain.user.support.SecurityConstants;
 import org.springframework.stereotype.Component;
 
 @Component

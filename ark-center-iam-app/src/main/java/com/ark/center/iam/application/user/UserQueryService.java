@@ -1,10 +1,8 @@
 package com.ark.center.iam.application.user;
 
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.role.repository.RoleRepository;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.center.iam.domain.user.service.UserPermissionService;
-import com.ark.center.iam.domain.usergroup.repository.UserGroupRepository;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
 import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
 import com.ark.center.iam.infra.role.repository.db.RoleDAO;
@@ -30,16 +28,11 @@ import java.util.stream.Collectors;
 public class UserQueryService {
 
     private final UserAppConverter userAppConverter;
-
     private final UserPermissionService userPermissionService;
-
     private final PermissionDomainConverter permissionDomainConverter;
-
     private final UserDAO userDAO;
     private final RoleDAO roleDAO;
     private final UserGroupDAO userGroupDAO;
-    private final RoleRepository roleRepository;
-    private final UserGroupRepository userGroupRepository;
 
     public IPage<UserPageDTO> queryPages(UserPageQuery qry) {
         IPage<UserPageDTO> userPageDTOPage = userDAO.selectUsers(qry);
@@ -65,13 +58,13 @@ public class UserQueryService {
     }
 
     private Map<Long, List<UserGroupVO>> collectUserGroups(List<Long> userIds) {
-        List<UserGroupVO> userGroups = userGroupRepository.selectUserGroupsByUserIds(userIds);
+        List<UserGroupVO> userGroups = userGroupDAO.getBaseMapper().selectUserGroupsByUserIds(userIds);
         return userGroups.stream()
                 .collect(Collectors.groupingBy(UserGroupVO::getUserId));
     }
 
     private Map<Long, List<UserRoleVO>> collectUserRoles(List<Long> userIds) {
-        List<UserRoleVO> userRoles = roleRepository.selectRolesByUserIds(userIds);
+        List<UserRoleVO> userRoles = roleDAO.getBaseMapper().selectRolesByUserIds(userIds);
         return userRoles.stream()
                 .collect(Collectors.groupingBy(UserRoleVO::getUserId));
     }

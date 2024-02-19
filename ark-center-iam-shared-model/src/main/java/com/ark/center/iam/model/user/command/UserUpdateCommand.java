@@ -28,10 +28,6 @@ public class UserUpdateCommand implements Command {
     @Schema(description = "用户手机号")
     private String mobile;
 
-    @NotBlank(message = "password 不能为空")
-    @Schema(description = "用户密码")
-    private String password;
-
     @NotNull(message = "status 不能为空")
     @Range(min = 1, max = 2)
     @Schema(description = "用户状态", allowableValues = {"1-启用", "2-禁用"})
