@@ -4,14 +4,17 @@ import com.ark.center.iam.domain.app.event.ApplicationChangedEvent;
 import com.ark.center.iam.domain.app.event.ApplicationCreatedEvent;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
-//@NoArgsConstructor
 @Builder
+@AllArgsConstructor(access = PRIVATE)
 public class App extends AggregateRoot {
 
     /**
@@ -41,7 +44,7 @@ public class App extends AggregateRoot {
         this.code = code;
         this.type = type;
         this.status = EnableDisableStatus.ENABLED;
-        raiseEvent(new ApplicationCreatedEvent(this.getId()));
+        raiseEvent(new ApplicationCreatedEvent(this, this.getId()));
     }
 
     public void rename(String name) {

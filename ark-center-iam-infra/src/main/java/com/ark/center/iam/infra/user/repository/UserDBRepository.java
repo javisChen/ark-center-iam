@@ -7,14 +7,11 @@ import com.ark.center.iam.infra.relation.db.UserGroupUserRelDAO;
 import com.ark.center.iam.infra.relation.db.UserGroupUserRelDO;
 import com.ark.center.iam.infra.relation.db.UserRoleRelDAO;
 import com.ark.center.iam.infra.relation.db.UserRoleRelDO;
-import com.ark.center.iam.infra.user.converter.UserAppConverter;
 import com.ark.center.iam.infra.user.converter.UserDomainConverter;
 import com.ark.center.iam.infra.user.repository.db.UserDAO;
 import com.ark.center.iam.infra.user.repository.db.UserDO;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
 import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.ark.component.web.common.DeletedEnums;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -22,10 +19,9 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepositoryImpl extends BaseDBRepository<User, Long> implements UserRepository {
+public class UserDBRepository extends BaseDBRepository<User, Long> implements UserRepository {
 
     private final UserDomainConverter domainConverter;
-    private final UserAppConverter appConverter;
     private final UserDAO userDAO;
     private final UserRoleRelDAO userRoleRelDAO;
     private final UserGroupUserRelDAO userGroupUserRelDAO;
@@ -48,25 +44,6 @@ public class UserRepositoryImpl extends BaseDBRepository<User, Long> implements 
     @Override
     public boolean existsByMobile(String mobile) {
         return existsByMobile(null, mobile);
-    }
-
-    @Override
-    public User selectByUserId(Long userId) {
-        return getById(userId);
-    }
-
-    @Override
-    public void logicDeleteByUserId(Long userId) {
-        LambdaUpdateWrapper<User> qw = new LambdaUpdateWrapper<>();
-        qw.eq(User::getId, userId);
-        qw.eq(User::getIsDeleted, DeletedEnums.NOT.getCode());
-        qw.set(User::getIsDeleted, userId);
-        this.update(qw);
-    }
-
-    @Override
-    public List<User> selectByRoleId(Long roleId) {
-        return baseMapper.selectByRoleId(roleId);
     }
 
     @Override

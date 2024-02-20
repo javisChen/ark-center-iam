@@ -2,6 +2,7 @@ package com.ark.center.iam.infra.usergroup.repository.db;
 
 import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.infra.relation.db.UserGroupRoleRelDAO;
+import com.ark.center.iam.infra.relation.db.UserGroupRoleRelDO;
 import com.ark.center.iam.infra.relation.db.UserGroupUserRelDAO;
 import com.ark.center.iam.infra.relation.db.UserGroupUserRelDO;
 import com.ark.center.iam.model.usergroup.query.UserGroupQuery;
@@ -53,5 +54,27 @@ public class UserGroupDAO extends ServiceImpl<UserGroupMapper, UserGroupDO> {
                 .stream()
                 .map(UserGroupUserRelDO::getUserGroupId)
                 .toList();
+    }
+
+    public List<Long> selectRoleIdsById(Long id) {
+        return userGroupRoleRelDAO
+                .lambdaQuery()
+                .select(UserGroupRoleRelDO::getRoleId, UserGroupRoleRelDO::getUserGroupId)
+                .eq(UserGroupRoleRelDO::getUserGroupId, id)
+                .list()
+                .stream()
+                .map(UserGroupRoleRelDO::getRoleId)
+                .toList();
+    }
+
+    public void deleteRoleRelations(Long userGroupId) {
+        userGroupRoleRelDAO
+                .lambdaUpdate()
+                .eq(UserGroupRoleRelDO::getUserGroupId, userGroupId)
+                .remove();
+    }
+
+    public void saveRoleRelations(Long groupId, List<Long> roleIds) {
+        userGroupRoleRelDAO.getBaseMapper().insertBatch(groupId, roleIds);
     }
 }

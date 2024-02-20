@@ -13,7 +13,7 @@ public enum MenuType implements BaseEnum {
     PAGE(2, "页面路由"),
     PAGE_HIDDEN(3, "页面隐藏路由");
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
     public static MenuType from(int value) {

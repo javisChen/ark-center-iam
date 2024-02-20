@@ -1,5 +1,7 @@
 package com.ark.center.iam.domain.menu.vo;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,6 +16,7 @@ import lombok.Getter;
  */
 @Getter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MenuElement {
 
     private Long id;

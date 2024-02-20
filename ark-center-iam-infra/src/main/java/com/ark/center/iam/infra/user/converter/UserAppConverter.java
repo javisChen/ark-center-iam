@@ -1,9 +1,7 @@
 package com.ark.center.iam.infra.user.converter;
 
-import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.support.UserConst;
 import com.ark.center.iam.infra.user.repository.db.UserDO;
-import com.ark.center.iam.model.user.command.UserCreateCommand;
 import com.ark.center.iam.model.user.dto.UserDetailsDTO;
 import com.ark.center.iam.model.user.dto.UserInnerDTO;
 import com.ark.center.iam.model.user.dto.UserPageDTO;
@@ -46,7 +44,5 @@ public interface UserAppConverter {
         userInnerDTO.setStatus(user.getStatus());
         return userInnerDTO;
     }
-
-    User toUserDO(UserCreateCommand dto);
 
 }

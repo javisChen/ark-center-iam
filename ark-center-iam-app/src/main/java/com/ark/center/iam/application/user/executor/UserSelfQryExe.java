@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.user.executor;
 
-import com.ark.center.iam.domain.permission.Permission;
+import com.ark.center.iam.domain.permission.ResourcePermission;
 import com.ark.center.iam.domain.user.service.UserPermissionService;
 import com.ark.center.iam.infra.menu.repository.db.MenuDAO;
 import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 
-import static com.ark.center.iam.domain.permission.enums.PermissionType.MENU;
-import static com.ark.center.iam.domain.permission.enums.PermissionType.MENU_ELEMENT;
+import static com.ark.center.iam.domain.permission.vo.PermissionType.MENU;
+import static com.ark.center.iam.domain.permission.vo.PermissionType.MENU_ELEMENT;
 import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_ELEMS;
 import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_ROUTES;
 
@@ -35,8 +35,8 @@ public class UserSelfQryExe {
         Long userId = user.getUserId();
         String cacheKey = String.format(CACHE_KEY_USER_ELEMS, userId);
         return CacheHelper.execute(cacheKey, key -> {
-            List<Permission> permissions = userPermissionService.queryUserPermissions(user.getUserId(), MENU_ELEMENT);
-            return permissions.stream()
+            List<ResourcePermission> resourcePermissions = userPermissionService.queryUserPermissions(user.getUserId(), MENU_ELEMENT);
+            return resourcePermissions.stream()
                     .filter(Objects::nonNull)
                     .map(permissionDomainConverter::toPermissionDTO)
                     .toList();
@@ -48,10 +48,10 @@ public class UserSelfQryExe {
         Long userId = user.getUserId();
         String cacheKey = String.format(CACHE_KEY_USER_ROUTES, userId);
         return CacheHelper.execute(cacheKey, key -> {
-            List<Permission> permissions = userPermissionService.queryUserPermissions(userId, MENU);
-            List<Long> menuIds = permissions.stream()
+            List<ResourcePermission> resourcePermissions = userPermissionService.queryUserPermissions(userId, MENU);
+            List<Long> menuIds = resourcePermissions.stream()
                     .filter(Objects::nonNull)
-                    .map(Permission::getResourceId)
+                    .map(ResourcePermission::getResourceId)
                     .toList();
             return menuDAO.selectByIds(menuIds);
         });

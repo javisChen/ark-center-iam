@@ -1,7 +1,6 @@
 package com.ark.center.iam.infra.usergroup.repository.db;
 
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
-import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,7 +18,7 @@ public interface UserGroupMapper extends BaseMapper<UserGroupDO> {
 
     List<Long> selectUserGroupIdsByUserId(@Param("userId") Long userId);
 
-    List<UserGroup> selectUserGroupsByUserId(@Param("userId") Long userId);
+    List<UserGroupDO> selectByUserId(@Param("userId") Long userId);
 
-    List<UserGroupVO> selectUserGroupsByUserIds(@Param("userIds") List<Long> userIds);
+    List<UserGroupVO> selectByUserIds(@Param("userIds") List<Long> userIds);
 }

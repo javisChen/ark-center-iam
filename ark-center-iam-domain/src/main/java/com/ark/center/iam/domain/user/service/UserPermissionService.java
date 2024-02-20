@@ -2,9 +2,9 @@ package com.ark.center.iam.domain.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.permission.Permission;
-import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
+import com.ark.center.iam.domain.permission.ResourcePermission;
+import com.ark.center.iam.domain.permission.vo.PermissionType;
+import com.ark.center.iam.domain.permission.repository.ResourcePermissionRepository;
 import com.ark.center.iam.domain.role.repository.RoleRepository;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.repository.UserRepository;
@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 public class UserPermissionService {
 
-    private final PermissionRepository permissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
 
     private final RoleRepository roleRepository;
 
@@ -36,18 +36,18 @@ public class UserPermissionService {
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
-    public List<Permission> queryUserPermissions(Long userId, PermissionType permissionType) {
-        User user = userRepository.selectByUserId(userId);
+    public List<ResourcePermission> queryUserPermissions(Long userId, PermissionType permissionType) {
+        User user = userRepository.byIdOrThrowError(userId, "用户不存在");
         String userCode = user.getCode();
-        List<Permission> permissions;
+        List<ResourcePermission> resourcePermissions;
         // 超管直接赋予所有权限
         if (isSuperAdmin(userCode)) {
-            permissions = permissionRepository.selectByType(permissionType);
+            resourcePermissions = resourcePermissionRepository.selectByType(permissionType);
         } else {
             List<Long> roleIds = queryUserRoles(userId);
-            permissions = permissionRepository.selectByTypeAndRoleIds(roleIds, permissionType);
+            resourcePermissions = resourcePermissionRepository.selectByTypeAndRoleIds(roleIds, permissionType);
         }
-        return permissions;
+        return resourcePermissions;
     }
 
     public boolean isSuperAdmin(String userCode) {
@@ -68,7 +68,7 @@ public class UserPermissionService {
     }
 
     public boolean checkHasApiPermission(Long userId, String url, String method) {
-        User user = userRepository.selectByUserId(userId);
+        User user = userRepository.byIdOrThrowError(userId, "用户不存在");
         // 超管账号直接通过
         if (isSuperAdmin(user.getCode())) {
             return true;
@@ -86,7 +86,7 @@ public class UserPermissionService {
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();
         }
-        return permissionRepository.selectApiPermissionsByRoleIds(roleIds);
+        return resourcePermissionRepository.selectApiPermissionsByRoleIds(roleIds);
     }
 
     public List<ApiPermissionVO> getUserApiPermissions(Long userId) {

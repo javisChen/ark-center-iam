@@ -7,9 +7,9 @@ import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.MenuCreatedEvent;
 import com.ark.center.iam.domain.menu.MenuDeletedEvent;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
-import com.ark.center.iam.domain.permission.Permission;
-import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
+import com.ark.center.iam.domain.permission.ResourcePermission;
+import com.ark.center.iam.domain.permission.vo.PermissionType;
+import com.ark.center.iam.domain.permission.repository.ResourcePermissionRepository;
 import com.ark.center.iam.domain.role.event.RoleDeletedEvent;
 import com.ark.center.iam.infra.menu.repository.db.MenuElementDAO;
 import com.ark.center.iam.infra.menu.repository.db.MenuElementDO;
@@ -28,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PermissionEventListener {
 
-    private final PermissionRepository permissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
     private final ApiRepository apiRepository;
     private final MenuRepository menuRepository;
     private final MenuElementDAO menuElementDAO;
@@ -39,7 +39,7 @@ public class PermissionEventListener {
 
         Api api = apiRepository.byId(event.getApiId());
 
-        permissionRepository.saveAndPublishEvents(Permission.of(PermissionType.SER_API, api.getApplicationId(), event.getApiId()));
+        resourcePermissionRepository.saveAndPublishEvents(ResourcePermission.of(PermissionType.SER_API, api.getApplicationId(), event.getApiId()));
     }
 
     @EventListener
@@ -52,11 +52,11 @@ public class PermissionEventListener {
 
         List<MenuElementDO> menuElementDOS = menuElementDAO.selectByMenuId(menu.getId());
 
-        permissionRepository.saveAndPublishEvents(Permission.of(PermissionType.MENU, applicationId, event.getMenuId()));
+        resourcePermissionRepository.saveAndPublishEvents(ResourcePermission.of(PermissionType.MENU, applicationId, event.getMenuId()));
 
         menuElementDOS.stream()
-                .map(menuElementDO -> Permission.of(PermissionType.MENU_ELEMENT, applicationId, menuElementDO.getId()))
-                .forEach(permissionRepository::saveAndPublishEvents);
+                .map(menuElementDO -> ResourcePermission.of(PermissionType.MENU_ELEMENT, applicationId, menuElementDO.getId()))
+                .forEach(resourcePermissionRepository::saveAndPublishEvents);
 
     }
 
@@ -64,13 +64,13 @@ public class PermissionEventListener {
     public void onApplicationEvent(@NotNull MenuDeletedEvent event) {
         log.info("menus [{}] were deleted", event.getElementIds());
 
-        List<Permission> menuPermissions = permissionRepository.byResourceIdsAndType(event.getElementIds(), PermissionType.MENU_ELEMENT);
+        List<ResourcePermission> menuResourcePermissions = resourcePermissionRepository.byResourceIdsAndType(event.getElementIds(), PermissionType.MENU_ELEMENT);
 
-        List<Permission> elementPermissions = permissionRepository.byResourceIdsAndType(event.getMenuIds(), PermissionType.MENU);
+        List<ResourcePermission> elementResourcePermissions = resourcePermissionRepository.byResourceIdsAndType(event.getMenuIds(), PermissionType.MENU);
 
-        ArrayList<Permission> permissions = Lists.newArrayList(menuPermissions);
-        permissions.addAll(elementPermissions);
-        permissionRepository.deleteAll(permissions);
+        ArrayList<ResourcePermission> resourcePermissions = Lists.newArrayList(menuResourcePermissions);
+        resourcePermissions.addAll(elementResourcePermissions);
+        resourcePermissionRepository.deleteAll(resourcePermissions);
 
     }
 
@@ -78,13 +78,13 @@ public class PermissionEventListener {
     public void onApplicationEvent(@NotNull RoleDeletedEvent event) {
         log.info("role [{}] was deleted", event.getRoleId());
 
-        List<Permission> menuPermissions = permissionRepository.byResourceIdsAndType(event.getElementIds(), PermissionType.MENU_ELEMENT);
-
-        List<Permission> elementPermissions = permissionRepository.byResourceIdsAndType(event.getMenuIds(), PermissionType.MENU);
-
-        ArrayList<Permission> permissions = Lists.newArrayList(menuPermissions);
-        permissions.addAll(elementPermissions);
-        permissionRepository.deleteAll(permissions);
+//        List<ResourcePermission> menuResourcePermissions = resourcePermissionRepository.byResourceIdsAndType(event.getElementIds(), PermissionType.MENU_ELEMENT);
+//
+//        List<ResourcePermission> elementResourcePermissions = resourcePermissionRepository.byResourceIdsAndType(event.getMenuIds(), PermissionType.MENU);
+//
+//        ArrayList<ResourcePermission> resourcePermissions = Lists.newArrayList(menuResourcePermissions);
+//        resourcePermissions.addAll(elementResourcePermissions);
+//        resourcePermissionRepository.deleteAll(resourcePermissions);
 
     }
 

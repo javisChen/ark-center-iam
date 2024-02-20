@@ -248,13 +248,13 @@ INSERT INTO `his_config_info` (`id`, `nid`, `data_id`, `group_id`, `app_name`, `
 INSERT INTO `his_config_info` (`id`, `nid`, `data_id`, `group_id`, `app_name`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `op_type`, `tenant_id`, `encrypted_data_key`) VALUES (88,5,'product.yml','DEFAULT_GROUP','','server:\n  port: 8083\n  servlet:\n    context-path: \nspring:\n  app:\n    name: commodity\n  datasource:\n    url: jdbc:p6spy:mysql://mysql:3306/commodity?useSSL=false&useUnicode=true&characterEncoding=UTF-8&tinyInt1isBit=false&serverTimezone=Asia/Shanghai&serverTimezone=UTC&allowPublicKeyRetrieval=True\n    username: root\n    password: root\n    name: defaultDataSource\n    driver-class-name: com.p6spy.engine.spy.P6SpyDriver\n  data:\n    elasticsearch:\n      repositories:\n        enabled: true\n  elasticsearch:\n    uris: http://es-01:9200\n    username: elastic\nknife4j:\n  enable: true\n  production: false','f6d9525f052d29ab5e5d5ea06c6a5a72','2024-01-16 06:08:46','2024-01-16 14:08:46','nacos','192.168.65.1','U','aaff0c75-80b1-4c85-ad3f-c625501368ba','');
 
 --
--- Table structure for table `permissions`
+-- Table structure for table `resourcePermissions`
 --
 
-DROP TABLE IF EXISTS `permissions`;
+DROP TABLE IF EXISTS `resourcePermissions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `permissions` (
+CREATE TABLE `resourcePermissions` (
   `role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `resource` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `action` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -263,7 +263,7 @@ CREATE TABLE `permissions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `permissions`
+-- Dumping data for table `resourcePermissions`
 --
 
 

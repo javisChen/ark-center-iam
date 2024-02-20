@@ -58,7 +58,7 @@ public class UserQueryService {
     }
 
     private Map<Long, List<UserGroupVO>> collectUserGroups(List<Long> userIds) {
-        List<UserGroupVO> userGroups = userGroupDAO.getBaseMapper().selectUserGroupsByUserIds(userIds);
+        List<UserGroupVO> userGroups = userGroupDAO.getBaseMapper().selectByUserIds(userIds);
         return userGroups.stream()
                 .collect(Collectors.groupingBy(UserGroupVO::getUserId));
     }

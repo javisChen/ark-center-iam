@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserDAO extends ServiceImpl<UserMapper, UserDO> {
@@ -41,5 +43,9 @@ public class UserDAO extends ServiceImpl<UserMapper, UserDO> {
         return lambdaQuery
                 .last("limit 1")
                 .one();
+    }
+
+    public List<UserDO> selectByRoleId(Long roleId) {
+        return baseMapper.selectByRoleId(roleId);
     }
 }

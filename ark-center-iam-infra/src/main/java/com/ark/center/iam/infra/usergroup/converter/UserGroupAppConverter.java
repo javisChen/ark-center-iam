@@ -15,7 +15,19 @@ public interface UserGroupAppConverter {
 
     List<UserGroupBaseDTO> toBaseDTO(List<UserGroupDO> userGroup);
 
-    UserGroupDetailDTO toUserGroupDetailsDTO(UserGroup userGroup);
+    default UserGroupDetailDTO toUserGroupDetailsDTO(UserGroup userGroup) {
+        UserGroupDetailDTO userGroupDetailDTO = new UserGroupDetailDTO();
+        userGroupDetailDTO.setRoleIds(userGroup.getRoleIds());
+        userGroupDetailDTO.setId(userGroup.getId());
+        userGroupDetailDTO.setPid(userGroup.getPid());
+        userGroupDetailDTO.setName(userGroup.getName());
+        userGroupDetailDTO.setStatus(userGroup.getStatus().getValue());
+        userGroupDetailDTO.setLevel(userGroup.getHierarchy().getLevel());
+        userGroupDetailDTO.setLevelPath(userGroup.getHierarchy().getPath());
+        userGroupDetailDTO.setInheritType(userGroup.getInheritType().getValue());
+        userGroupDetailDTO.setType(userGroup.getType().getValue());
+        return userGroupDetailDTO;
+    }
 
     default UserGroupListTreeDTO toUserGroupListTreeDTO(UserGroupDO item) {
         UserGroupListTreeDTO userGroupListTreeDTO = new UserGroupListTreeDTO();

@@ -1,7 +1,6 @@
 package com.ark.center.iam.domain.usergroup.repository;
 
 import com.ark.center.iam.domain.usergroup.UserGroup;
-import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
 import com.ark.component.ddd.domain.repository.BaseRepository;
 
 import java.util.List;
@@ -16,13 +15,6 @@ public interface UserGroupRepository extends BaseRepository<UserGroup, Long> {
      */
     List<Long> selectUserGroupIdsByUserId(Long userId, boolean includeParent);
 
-    List<UserGroupVO> selectUserGroupsByUserIds(List<Long> userIds);
-
-    void deleteUserGroupAndRoleRelationsByUserGroupId(Long roleId);
-
-//    void insert(UserGroup userGroup);
-
-    void insertUserGroupAndRolesRelations(Long userGroupId, List<Long> roleIds);
 
     boolean existsByName(Long id, String name);
 }

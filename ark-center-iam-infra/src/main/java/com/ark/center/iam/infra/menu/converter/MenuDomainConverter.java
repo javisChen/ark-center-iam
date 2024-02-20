@@ -15,7 +15,7 @@ import java.util.List;
         uses = MenuElementDomainConverter.class)
 public interface MenuDomainConverter {
 
-    List<Menu> toDomain(List<MenuDO> menus);
+//    List<Menu> toDomain(List<MenuDO> menus);
 
     default Menu toDomain(MenuDO menuDO, List<MenuElement> elements, List<MenuDO> children) {
         return Menu.builder()
@@ -35,7 +35,7 @@ public interface MenuDomainConverter {
         		.icon(menuDO.getIcon())
         		.status(EnableDisableStatus.from(menuDO.getStatus()))
         		.menuElements(elements)
-        		.children(toDomain(children))
+        		// .children(toDomain(children))
         		.build();
     }
 

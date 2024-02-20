@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ark.center.iam.infra.permission.gateway.db.PermissionMapper">
+<mapper namespace="com.ark.center.iam.infra.resourcePermission.gateway.db.PermissionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.permission.Permission">
+    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.resourcePermission.ResourcePermission">
         <result column="id" property="id"/>
         <result column="gmt_create" property="createTime"/>
         <result column="gmt_modified" property="updateTime"/>
@@ -21,7 +21,7 @@
         type, code, status, resource_id
     </sql>
 
-    <select id="selectByRoleIdsAndType" resultType="com.ark.center.iam.domain.permission.Permission">
+    <select id="selectByRoleIdsAndType" resultType="com.ark.center.iam.domain.resourcePermission.ResourcePermission">
         select p.id,
         p.type,
         p.code,
@@ -35,7 +35,7 @@
         </foreach>
     </select>
 
-    <select id="selectByRoleIdAndType" resultType="com.ark.center.iam.domain.permission.Permission">
+    <select id="selectByRoleIdAndType" resultType="com.ark.center.iam.domain.resourcePermission.ResourcePermission">
         select up.id,
                code
         from iam_permission up

@@ -12,7 +12,7 @@ public enum UserType implements BaseEnum {
     C(1, "C端用户"),
     B(2, "B端用户");
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
     public static UserType from(int value) {

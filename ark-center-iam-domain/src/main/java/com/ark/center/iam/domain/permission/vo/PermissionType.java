@@ -1,4 +1,4 @@
-package com.ark.center.iam.domain.permission.enums;
+package com.ark.center.iam.domain.permission.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -13,7 +13,7 @@ public enum ApiAuthType implements BaseEnum {
     AUTHENTICATION(2, "只需认证无需授权"),
     AUTHENTICATION_AUTHORIZATION(3, "需要认证和授权");
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
     public static ApiAuthType from(int value) {

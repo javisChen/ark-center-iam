@@ -1,9 +1,12 @@
 package com.ark.center.iam.domain.apicategory;
 
 import com.ark.component.ddd.domain.AggregateRoot;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import static lombok.AccessLevel.PRIVATE;
 
 /**
  * <p>

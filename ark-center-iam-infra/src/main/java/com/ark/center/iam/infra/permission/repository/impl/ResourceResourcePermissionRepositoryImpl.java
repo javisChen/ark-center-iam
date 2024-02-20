@@ -1,20 +1,19 @@
 package com.ark.center.iam.infra.permission.repository.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.infra.permission.repository.db.PermissionDAO;
-import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.permission.Permission;
-import com.ark.center.iam.domain.permission.enums.PermissionStatusEnums;
-import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
+import com.ark.center.iam.domain.permission.ResourcePermission;
+import com.ark.center.iam.domain.permission.repository.ResourcePermissionRepository;
+import com.ark.center.iam.domain.permission.vo.PermissionType;
 import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
+import com.ark.center.iam.infra.permission.repository.db.PermissionDAO;
 import com.ark.center.iam.infra.permission.repository.db.PermissionMapper;
 import com.ark.center.iam.infra.relation.db.PermissionRoleRelDO;
 import com.ark.center.iam.infra.relation.db.PermissionRoleRelMapper;
+import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.ark.component.ddd.domain.AggregateRoot;
+import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
-import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long> implements PermissionRepository {
+public class ResourceResourcePermissionRepositoryImpl extends BaseDBRepository<ResourcePermission, Long> implements ResourcePermissionRepository {
 
     private final PermissionRoleRelMapper permissionRoleRelMapper;
     private final PermissionDomainConverter permissionDomainConverter;
@@ -35,15 +34,15 @@ public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long>
     private final PermissionDAO permissionDAO;
 
     @Override
-    public List<Permission> selectByType(PermissionType permissionType) {
+    public List<ResourcePermission> selectByType(PermissionType permissionType) {
         return permissionDAO.lambdaQuery()
-                .eq(Permission::getType, permissionType.getName())
-                .eq(Permission::getStatus, PermissionStatusEnums.ENABLED.getValue())
+                .eq(ResourcePermission::getType, permissionType.getName())
+                .eq(ResourcePermission::getStatus, EnableDisableStatus.ENABLED.getValue())
                 .list();
     }
 
     @Override
-    public List<Permission> selectByTypeAndRoleIds(List<Long> roleIds, PermissionType permissionType) {
+    public List<ResourcePermission> selectByTypeAndRoleIds(List<Long> roleIds, PermissionType permissionType) {
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();
         }
@@ -51,12 +50,12 @@ public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long>
     }
 
     @Override
-    public void save(Permission permission) {
-        permissionDAO.saveOrUpdate(permission);
+    public void save(ResourcePermission resourcePermission) {
+        permissionDAO.saveOrUpdate(resourcePermission);
     }
 
     @Override
-    public void delete(Permission permission) {
+    public void delete(ResourcePermission resourcePermission) {
 
     }
 
@@ -87,18 +86,18 @@ public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long>
         List<PermissionRoleRelDO> permissionRoleRelDOList = permissionRoleRelMapper
                 .selectByPermissionIdAndRoleId(applicationId, roleId, toRemoveApiPermissionIds);
         if (CollectionUtils.isNotEmpty(permissionRoleRelDOList)) {
-            List<Long> ids = permissionRoleRelDOList.stream().map(BaseEntity::getId).sorted().toList();
+            List<Long> ids = permissionRoleRelDOList.stream().map(AggregateRoot::getId).sorted().toList();
             permissionRoleRelMapper.deleteBatchIds(ids);
         }
     }
 
     @Override
-    public List<Permission> byResourceIdsAndType(List<Long> resourcesIds, PermissionType type) {
-        List<Permission> permissions = permissionDAO.lambdaQuery()
-                .in(Permission::getResourceId, resourcesIds)
-                .eq(Permission::getType, type.getName())
+    public List<ResourcePermission> byResourceIdsAndType(List<Long> resourcesIds, PermissionType type) {
+        List<ResourcePermission> resourcePermissions = permissionDAO.lambdaQuery()
+                .in(ResourcePermission::getResourceId, resourcesIds)
+                .eq(ResourcePermission::getType, type.getName())
                 .list();
-        return permissionDomainConverter.toDomain(permissions);
+        return permissionDomainConverter.toDomain(resourcePermissions);
     }
 
     @Override
@@ -110,8 +109,13 @@ public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long>
 
     @Override
     public List<PermissionDTO> selectRolePermissions(Long applicationId, Long roleId, String permissionType) {
-        List<Permission> permissions = this.permissionMapper.selectByRoleIdAndType(applicationId, roleId, permissionType);
-        return permissions.stream().map(permissionDomainConverter::toPermissionDTO).collect(Collectors.toList());
+        List<ResourcePermission> resourcePermissions = this.permissionMapper.selectByRoleIdAndType(applicationId, roleId, permissionType);
+        return resourcePermissions.stream().map(permissionDomainConverter::toPermissionDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public void insertPermission(Long id, PermissionType permissionType) {
+
     }
 
 //    @Override
@@ -135,7 +139,7 @@ public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long>
     @Override
     public void deleteByResourceIds(List<Long> resourceIds) {
         permissionDAO.lambdaUpdate()
-                .in(Permission::getResourceId, resourceIds);
+                .in(ResourcePermission::getResourceId, resourceIds);
     }
 
     @Override
@@ -146,23 +150,23 @@ public class PermissionRepositoryImpl extends BaseDBRepository<Permission, Long>
     @Override
     public List<Long> selectResourceIdsByIds(List<Long> permissionIds) {
         return permissionDAO.lambdaQuery()
-                .select(Permission::getResourceId)
+                .select(ResourcePermission::getResourceId)
                 .in(AggregateRoot::getId, permissionIds)
                 .list()
                 .stream()
-                .map(Permission::getResourceId)
+                .map(ResourcePermission::getResourceId)
                 .toList();
     }
 
     @Override
-    public void deleteAll(List<Permission> permissions) {
+    public void deleteAll(List<ResourcePermission> resourcePermissions) {
         permissionDAO.lambdaUpdate()
-                .in(AggregateRoot::getId, permissions.stream().map(AggregateRoot::getId).toList())
+                .in(AggregateRoot::getId, resourcePermissions.stream().map(AggregateRoot::getId).toList())
                 .remove();
     }
 
     @Override
-    public Permission byId(Long id) {
+    public ResourcePermission byId(Long id) {
         return null;
     }
 }

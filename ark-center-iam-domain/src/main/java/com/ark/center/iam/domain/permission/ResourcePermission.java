@@ -1,14 +1,17 @@
 package com.ark.center.iam.domain.permission;
 
 
-import com.ark.center.iam.domain.permission.enums.PermissionType;
+import com.ark.center.iam.domain.permission.vo.PermissionType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+
+import static lombok.AccessLevel.PRIVATE;
 
 /**
  * <p>
@@ -21,7 +24,8 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @Builder
-public class Permission extends AggregateRoot {
+@AllArgsConstructor(access = PRIVATE)
+public class ResourcePermission extends AggregateRoot {
 
     @TableField("application_id")
     private Long applicationId;
@@ -51,7 +55,7 @@ public class Permission extends AggregateRoot {
     private EnableDisableStatus status;
 
 
-    private Permission(PermissionType type, Long applicationId, Long resourceId) {
+    private ResourcePermission(PermissionType type, Long applicationId, Long resourceId) {
         this.applicationId = applicationId;
         this.type = type;
         this.resourceId = resourceId;
@@ -59,8 +63,8 @@ public class Permission extends AggregateRoot {
         this.status = EnableDisableStatus.ENABLED;
     }
 
-    public static Permission of(PermissionType type, Long applicationId, Long resourceId) {
-        return new Permission(type, applicationId, resourceId);
+    public static ResourcePermission of(PermissionType type, Long applicationId, Long resourceId) {
+        return new ResourcePermission(type, applicationId, resourceId);
     }
 
     /**

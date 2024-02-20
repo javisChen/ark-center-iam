@@ -10,8 +10,8 @@ public class ApplicationCreatedEvent extends DomainEvent {
 
     private final Long appId;
 
-    public ApplicationCreatedEvent(Long appId) {
-        super(DomainEventTypes.APPLICATION_CREATED.name());
+    public ApplicationCreatedEvent(Object source, Long appId) {
+        super(source, DomainEventTypes.APPLICATION_CREATED.name());
         this.appId = appId;
     }
 }

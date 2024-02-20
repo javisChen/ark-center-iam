@@ -3,13 +3,17 @@ package com.ark.center.iam.domain.role;
 
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder
+@AllArgsConstructor(access = PRIVATE)
 public class Role extends AggregateRoot {
 
     /**

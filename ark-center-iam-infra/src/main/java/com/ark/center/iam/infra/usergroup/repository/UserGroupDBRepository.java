@@ -2,17 +2,14 @@ package com.ark.center.iam.infra.usergroup.repository;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.usergroup.UserGroup;
-import com.ark.center.iam.domain.usergroup.vo.InheritType;
 import com.ark.center.iam.domain.usergroup.repository.UserGroupRepository;
-import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
-import com.ark.center.iam.infra.relation.db.UserGroupRoleRelDO;
+import com.ark.center.iam.domain.usergroup.vo.InheritType;
 import com.ark.center.iam.infra.relation.db.UserGroupRoleRelMapper;
-import com.ark.center.iam.infra.relation.db.UserGroupUserRelMapper;
 import com.ark.center.iam.infra.usergroup.converter.UserGroupDomainConverter;
-import com.ark.center.iam.infra.usergroup.repository.db.*;
+import com.ark.center.iam.infra.usergroup.repository.db.UserGroupDAO;
+import com.ark.center.iam.infra.usergroup.repository.db.UserGroupDO;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
 import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -26,16 +23,15 @@ import java.util.stream.Stream;
 
 @Repository
 @RequiredArgsConstructor
-public class UserGroupRepositoryImpl extends BaseDBRepository<UserGroup, Long> implements UserGroupRepository {
+public class UserGroupDBRepository extends BaseDBRepository<UserGroup, Long> implements UserGroupRepository {
 
-    private final UserGroupUserRelMapper userGroupUserRelMapper;
     private final UserGroupRoleRelMapper userGroupRoleRelMapper;
     private final UserGroupDomainConverter userGroupDomainConverter;
     private final UserGroupDAO userGroupDAO;
 
     @Override
     public List<Long> selectUserGroupIdsByUserId(Long userId, boolean includeParent) {
-        List<UserGroup> userGroups = baseMapper.selectUserGroupsByUserId(userId);
+        List<UserGroupDO> userGroups = userGroupDAO.getBaseMapper().selectByUserId(userId);
         if (CollectionUtil.isEmpty(userGroups)) {
             return Collections.emptyList();
         }
@@ -45,22 +41,6 @@ public class UserGroupRepositoryImpl extends BaseDBRepository<UserGroup, Long> i
         return Lists.newArrayList(collectParentUserGroupIds(userGroups));
     }
 
-    @Override
-    public List<UserGroupVO> selectUserGroupsByUserIds(List<Long> userIds) {
-        return baseMapper.selectUserGroupsByUserIds(userIds);
-    }
-
-    @Override
-    public void deleteUserGroupAndRoleRelationsByUserGroupId(Long userGroupId) {
-        LambdaUpdateWrapper<UserGroupRoleRelDO> qw = new LambdaUpdateWrapper<>();
-        qw.eq(UserGroupRoleRelDO::getUserGroupId, userGroupId);
-        userGroupRoleRelMapper.delete(qw);
-    }
-
-    @Override
-    public void insertUserGroupAndRolesRelations(Long userGroupId, List<Long> roleIds) {
-        userGroupRoleRelMapper.insertBatch(userGroupId, roleIds);
-    }
 
     private List<UserGroupDO> selectSubUserGroups(String levelPath) {
         return userGroupDAO.lambdaQuery()
@@ -79,7 +59,7 @@ public class UserGroupRepositoryImpl extends BaseDBRepository<UserGroup, Long> i
     /**
      * 收集继承的父级用户组
      */
-    public Set<Long> collectParentUserGroupIds(List<UserGroup> userGroups) {
+    public Set<Long> collectParentUserGroupIds(List<UserGroupDO> userGroups) {
         return userGroups.stream()
                 .filter(item -> !item.getPid().equals(0L))
                 .flatMap(item -> {
@@ -98,16 +78,20 @@ public class UserGroupRepositoryImpl extends BaseDBRepository<UserGroup, Long> i
     }
 
     @Override
-    public UserGroup byId(Long aLong) {
-        return null;
+    public UserGroup byId(Long id) {
+        UserGroupDO groupDO = userGroupDAO.getById(id);
+        List<Long> roleIds = userGroupDAO.selectRoleIdsById(groupDO.getId());
+        return userGroupDomainConverter.toDomain(groupDO, roleIds);
     }
 
     @Override
-    protected void save(UserGroup userGroup) {
+    public void save(UserGroup userGroup) {
         UserGroupDO userGroupDO = userGroupDomainConverter.fromDomain(userGroup);
         List<Long> roleIds = userGroup.getRoleIds();
-        deleteUserGroupAndRoleRelationsByUserGroupId(userGroupDO.getId());
-        insertUserGroupAndRolesRelations(userGroup.getId(), roleIds);
+
+        Long groupId = userGroupDO.getId();
+        userGroupDAO.deleteRoleRelations(groupId);
+        userGroupDAO.saveRoleRelations(groupId, roleIds);
     }
 
     @Override

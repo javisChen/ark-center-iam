@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_permission")
-@Builder
 public class PermissionDO extends BaseEntity {
 
     @TableField("application_id")

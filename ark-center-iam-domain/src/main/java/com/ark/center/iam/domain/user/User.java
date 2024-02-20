@@ -2,15 +2,19 @@ package com.ark.center.iam.domain.user;
 
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Builder
+@AllArgsConstructor(access = PRIVATE)
 public class User extends AggregateRoot {
 
     /**

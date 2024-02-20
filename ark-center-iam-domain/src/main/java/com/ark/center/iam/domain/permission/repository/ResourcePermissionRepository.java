@@ -1,19 +1,19 @@
-package com.ark.center.iam.domain.permission.gateway;
+package com.ark.center.iam.domain.permission.repository;
 
 
+import com.ark.center.iam.domain.permission.ResourcePermission;
 import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.permission.Permission;
-import com.ark.center.iam.domain.permission.enums.PermissionType;
+import com.ark.center.iam.domain.permission.vo.PermissionType;
 import com.ark.component.ddd.domain.repository.BaseRepository;
 
 import java.util.List;
 
-public interface PermissionRepository extends BaseRepository<Permission, Long> {
+public interface ResourcePermissionRepository extends BaseRepository<ResourcePermission, Long> {
 
-    List<Permission> selectByType(PermissionType permissionType);
+    List<ResourcePermission> selectByType(PermissionType permissionType);
 
-    List<Permission> selectByTypeAndRoleIds(List<Long> roleIds, PermissionType permissionType);
+    List<ResourcePermission> selectByTypeAndRoleIds(List<Long> roleIds, PermissionType permissionType);
 
     void deletePermissionAndRoleRelationsByRoleId(Long roleId);
 
@@ -33,7 +33,7 @@ public interface PermissionRepository extends BaseRepository<Permission, Long> {
 
     void deleteRolePermissionByIds(Long applicationId, Long roleId, List<Long> toRemoveApiPermissionIds);
 
-    List<Permission> byResourceIdsAndType(List<Long> resourcesIds, PermissionType type);
+    List<ResourcePermission> byResourceIdsAndType(List<Long> resourcesIds, PermissionType type);
 
 
 

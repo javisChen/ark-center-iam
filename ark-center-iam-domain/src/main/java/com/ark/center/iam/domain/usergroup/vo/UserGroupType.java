@@ -20,4 +20,9 @@ public enum UserGroupType implements BaseEnum {
     public static UserGroupType from(Integer type) {
         return EnumUtils.getByValue(values(), type);
     }
+
+    @Override
+    public Integer getValue() {
+        return this.value;
+    }
 }

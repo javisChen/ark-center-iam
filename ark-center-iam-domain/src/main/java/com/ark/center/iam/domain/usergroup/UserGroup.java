@@ -6,15 +6,16 @@ import com.ark.center.iam.domain.usergroup.vo.InheritType;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
+
+import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @Builder
+@AllArgsConstructor(access = PRIVATE)
 public class UserGroup extends AggregateRoot {
 
     /**
@@ -67,7 +68,7 @@ public class UserGroup extends AggregateRoot {
             this.hierarchy = new Hierarchy(getId());
         } else {
             Hierarchy parentHierarchy = parent.getHierarchy();
-            this.hierarchy = new Hierarchy(getId(), new Parent(parent.getId(), parentHierarchy.getLevel(), parentHierarchy.getPath()));
+            this.hierarchy = new Hierarchy(getId(), Parent.of(parent.getId(), parentHierarchy.getLevel(), parentHierarchy.getPath()));
         }
     }
 

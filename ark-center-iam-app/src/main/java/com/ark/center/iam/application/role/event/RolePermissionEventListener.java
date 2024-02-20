@@ -1,18 +1,18 @@
 package com.ark.center.iam.application.role.event;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.ark.center.iam.domain.api.Api;
+import com.ark.center.iam.domain.api.ApiRepository;
+import com.ark.center.iam.domain.permission.ResourcePermission;
+import com.ark.center.iam.domain.permission.vo.PermissionType;
+import com.ark.center.iam.domain.permission.repository.ResourcePermissionRepository;
+import com.ark.center.iam.domain.role.repository.RoleRepository;
+import com.ark.center.iam.infra.user.common.UserCacheKey;
+import com.ark.center.iam.infra.user.repository.db.UserDAO;
+import com.ark.center.iam.infra.user.repository.db.UserDO;
 import com.ark.center.iam.model.user.common.UserMqInfo;
 import com.ark.center.iam.model.user.dto.UserApiPermissionChangedDTO;
 import com.ark.center.iam.model.user.dto.UserApiPermissionDTO;
-import com.ark.center.iam.domain.api.Api;
-import com.ark.center.iam.domain.api.ApiRepository;
-import com.ark.center.iam.domain.permission.Permission;
-import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.gateway.PermissionRepository;
-import com.ark.center.iam.domain.role.repository.RoleRepository;
-import com.ark.center.iam.domain.user.User;
-import com.ark.center.iam.domain.user.repository.UserRepository;
-import com.ark.center.iam.infra.user.common.UserCacheKey;
 import com.ark.component.cache.CacheService;
 import com.ark.component.mq.MsgBody;
 import com.ark.component.mq.integration.MessageTemplate;
@@ -36,9 +36,9 @@ import java.util.List;
 public class RolePermissionEventListener implements ApplicationListener<RolePermissionChangedEvent> {
 
     private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
+    private final UserDAO userDAO;
     private final ApiRepository apiRepository;
-    private final PermissionRepository permissionRepository;
+    private final ResourcePermissionRepository resourcePermissionRepository;
     private final MessageTemplate messageTemplate;
     private final CacheService cacheService;
 
@@ -50,9 +50,9 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         // 写入缓存
         cache(roleId, apis);
         // 查询所有绑定该角色用户
-        List<User> users = userRepository.selectByRoleId(roleId);
+        List<UserDO> users = userDAO.selectByRoleId(roleId);
         // todo 暂时不考虑性能和并发修改问题，后续优化
-        for (User user : users) {
+        for (UserDO user : users) {
             // 发布权限变更消息
             publishPermissionChangedEvents(user, apis);
             // 清除用户维度的缓存数据
@@ -60,7 +60,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         }
     }
 
-    private void invalidateUserCache(User user, RolePermissionChangedEvent event) {
+    private void invalidateUserCache(UserDO user, RolePermissionChangedEvent event) {
         Long userId = user.getId();
         if (event.getPermissionType().equals(PermissionType.MENU)) {
             // 清除用户页面元素缓存
@@ -70,7 +70,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         }
     }
 
-    private void publishPermissionChangedEvents(User user, List<Api> apis) {
+    private void publishPermissionChangedEvents(UserDO user, List<Api> apis) {
             UserApiPermissionChangedDTO dto = new UserApiPermissionChangedDTO();
             dto.setUserId(user.getId());
             dto.setApiPermissions(apis.stream()
@@ -96,9 +96,9 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
 
     private List<Api> queryRoleApis(@NotNull RolePermissionChangedEvent event) {
         Long roleId = event.getRoleId();
-        List<Permission> permissions = permissionRepository.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API);
-        if (CollectionUtil.isNotEmpty(permissions)) {
-            List<Long> permissionIds = permissions.stream().map(Permission::getResourceId).toList();
+        List<ResourcePermission> resourcePermissions = resourcePermissionRepository.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API);
+        if (CollectionUtil.isNotEmpty(resourcePermissions)) {
+            List<Long> permissionIds = resourcePermissions.stream().map(ResourcePermission::getResourceId).toList();
             return apiRepository.byIds(permissionIds);
         }
         return Collections.emptyList();

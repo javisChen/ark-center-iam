@@ -13,7 +13,7 @@ public enum ElementType implements BaseEnum {
     PAGE(2, "DIV")
     ;
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
     public static ElementType from(int value) {
