@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.ark.center.iam.domain.usergroup.repository.UserGroupRepository;
 import com.ark.center.iam.domain.usergroup.vo.InheritType;
-import com.ark.center.iam.infra.relation.db.UserGroupRoleRelMapper;
 import com.ark.center.iam.infra.usergroup.converter.UserGroupDomainConverter;
 import com.ark.center.iam.infra.usergroup.repository.db.UserGroupDAO;
 import com.ark.center.iam.infra.usergroup.repository.db.UserGroupDO;
@@ -25,7 +24,6 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class UserGroupDBRepository extends BaseDBRepository<UserGroup, Long> implements UserGroupRepository {
 
-    private final UserGroupRoleRelMapper userGroupRoleRelMapper;
     private final UserGroupDomainConverter userGroupDomainConverter;
     private final UserGroupDAO userGroupDAO;
 

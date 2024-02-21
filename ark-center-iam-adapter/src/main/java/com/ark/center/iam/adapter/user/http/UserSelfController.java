@@ -1,6 +1,6 @@
 package com.ark.center.iam.adapter.user.http;
 
-import com.ark.center.iam.application.user.UserSelfAppService;
+import com.ark.center.iam.application.user.UserSelfQueryService;
 import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.ark.center.iam.model.user.dto.UserRouteDTO;
 import com.ark.component.dto.MultiResponse;
@@ -24,12 +24,12 @@ import java.util.List;
 @RequestMapping("/v1/users/self")
 public class UserSelfController extends BaseController {
 
-    private final UserSelfAppService userSelfAppService;
+    private final UserSelfQueryService userSelfQueryService;
 
     @GetMapping("")
     @Operation(summary = "查询登录用户基本信息")
     public SingleResponse<LoginUser> queryUserSelf() {
-        return SingleResponse.ok(userSelfAppService.queryUserSelf());
+        return SingleResponse.ok(userSelfQueryService.queryUserSelf());
     }
 
     /**
@@ -38,7 +38,7 @@ public class UserSelfController extends BaseController {
     @GetMapping("/menus")
     @Operation(summary = "查询登录用户的菜单权限")
     public MultiResponse<UserRouteDTO> queryUserSelfRoutes() {
-        List<UserRouteDTO> selfRoutes = userSelfAppService.queryUserSelfRoutes();
+        List<UserRouteDTO> selfRoutes = userSelfQueryService.queryUserSelfRoutes();
         return MultiResponse.ok(selfRoutes);
     }
 
@@ -48,7 +48,7 @@ public class UserSelfController extends BaseController {
     @GetMapping("/elements")
     @Operation(summary = "查询登录用户的元素权限")
     public MultiResponse<PermissionDTO> queryUserSelfElements() {
-        List<PermissionDTO> selfElements = userSelfAppService.queryUserSelfElements();
+        List<PermissionDTO> selfElements = userSelfQueryService.queryUserSelfElements();
         return MultiResponse.ok(selfElements);
     }
 

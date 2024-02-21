@@ -1,6 +1,12 @@
 package com.ark.center.iam.infra.user.repository.db;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
+import com.ark.center.iam.domain.permission.ResourcePermission;
+import com.ark.center.iam.domain.permission.vo.PermissionType;
+import com.ark.center.iam.domain.user.User;
+import com.ark.center.iam.domain.user.support.UserConst;
 import com.ark.center.iam.infra.user.converter.UserAppConverter;
 import com.ark.center.iam.model.user.dto.UserPageDTO;
 import com.ark.center.iam.model.user.query.UserPageQuery;
@@ -14,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -48,4 +55,5 @@ public class UserDAO extends ServiceImpl<UserMapper, UserDO> {
     public List<UserDO> selectByRoleId(Long roleId) {
         return baseMapper.selectByRoleId(roleId);
     }
+
 }

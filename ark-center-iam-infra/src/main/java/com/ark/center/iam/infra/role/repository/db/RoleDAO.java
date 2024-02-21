@@ -11,7 +11,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -39,7 +41,7 @@ public class RoleDAO extends ServiceImpl<RoleMapper, RoleDO> {
         return getById(id);
     }
 
-    public List<Long> selectRoleIdsByUserId(Long userId) {
+    public List<Long> selectIdsByUserId(Long userId) {
         return userRoleRelDAO.lambdaQuery()
                 .select(UserRoleRelDO::getUserId, UserRoleRelDO::getRoleId)
                 .eq(UserRoleRelDO::getUserId, userId)
@@ -47,5 +49,12 @@ public class RoleDAO extends ServiceImpl<RoleMapper, RoleDO> {
                 .stream()
                 .map(UserRoleRelDO::getRoleId)
                 .toList();
+    }
+
+    public List<Long> selectRoleIdsByUserGroupIds(List<Long> userGroupIds) {
+        if (CollectionUtils.isEmpty(userGroupIds)) {
+            return Collections.emptyList();
+        }
+        return userRoleRelDAO.getBaseMapper().selectRoleIdsByUserGroupIds(userGroupIds);
     }
 }

@@ -4,8 +4,6 @@ import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.UserFactory;
 import com.ark.center.iam.domain.user.repository.UserRepository;
 import com.ark.center.iam.domain.user.service.UserDomainService;
-import com.ark.center.iam.domain.user.service.UserPermissionService;
-import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
 import com.ark.center.iam.model.user.command.UserCreateCommand;
 import com.ark.center.iam.model.user.command.UserUpdateCommand;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +20,6 @@ public class UserCommandHandler {
 
 
     private final UserRepository userRepository;
-
-    private final UserPermissionService userPermissionService;
-
-    private final PermissionDomainConverter permissionDomainConverter;
 
     private final UserFactory userFactory;
 

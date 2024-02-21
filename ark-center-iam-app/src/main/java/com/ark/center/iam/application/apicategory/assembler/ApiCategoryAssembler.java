@@ -1,10 +1,8 @@
 package com.ark.center.iam.application.apicategory.assembler;
 
-import com.ark.center.iam.model.apicategory.command.ApiCategoryCreateCommand;
+import com.ark.center.iam.infra.apicategory.repository.db.ApiCategoryDO;
 import com.ark.center.iam.model.api.dto.ApiCategoryBaseDTO;
-import com.ark.center.iam.domain.apicategory.ApiCategory;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;
@@ -12,14 +10,8 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ApiCategoryAssembler {
 
-    ApiCategoryBaseDTO toApiCategoryDTO(ApiCategory apiCategory);
+    ApiCategoryBaseDTO toApiCategoryDTO(ApiCategoryDO apiCategory);
 
-    List<ApiCategoryBaseDTO> toApiCategoryDTO(List<ApiCategory> apiCategories);
+    List<ApiCategoryBaseDTO> toApiCategoryDTO(List<ApiCategoryDO> apiCategories);
 
-    @Mapping(target = "modifier", ignore = true)
-    @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "updateTime", ignore = true)
-    @Mapping(target = "createTime", ignore = true)
-    @Mapping(target = "creator", ignore = true)
-    ApiCategory toApiCategoryDO(ApiCategoryCreateCommand cmd);
 }

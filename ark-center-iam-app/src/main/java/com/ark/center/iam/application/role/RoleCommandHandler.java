@@ -1,7 +1,6 @@
 package com.ark.center.iam.application.role;
 
 
-import com.ark.center.iam.application.role.executor.RoleDeleteCmdExe;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.RoleDomainService;
 import com.ark.center.iam.domain.role.RoleFactory;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RoleCommandHandler {
 
-    private final RoleDeleteCmdExe roleDeleteCmdExe;
     private final RoleFactory roleFactory;
     private final RoleRepository roleRepository;
     private final RoleDomainService roleDomainService;

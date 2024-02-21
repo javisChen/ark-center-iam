@@ -1,18 +1,25 @@
 package com.ark.center.iam.infra.usergroup.repository.db;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ark.center.iam.domain.usergroup.vo.InheritType;
 import com.ark.center.iam.infra.relation.db.UserGroupRoleRelDAO;
 import com.ark.center.iam.infra.relation.db.UserGroupRoleRelDO;
-import com.ark.center.iam.infra.relation.db.UserGroupUserRelDAO;
-import com.ark.center.iam.infra.relation.db.UserGroupUserRelDO;
 import com.ark.center.iam.model.usergroup.query.UserGroupQuery;
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -20,7 +27,6 @@ import java.util.List;
 public class UserGroupDAO extends ServiceImpl<UserGroupMapper, UserGroupDO> {
 
     private final UserGroupRoleRelDAO userGroupRoleRelDAO;
-    private final UserGroupUserRelDAO userGroupUserRelDAO;
 
     public Page<UserGroupDO> selectPages(UserGroupQuery query) {
         return lambdaQuery()
@@ -45,15 +51,36 @@ public class UserGroupDAO extends ServiceImpl<UserGroupMapper, UserGroupDO> {
 
     }
 
-    public List<Long> selectUserGroupIdsByUserId(Long userId) {
-        return userGroupUserRelDAO
-                .lambdaQuery()
-                .select(UserGroupUserRelDO::getUserId, UserGroupUserRelDO::getUserGroupId)
-                .eq(UserGroupUserRelDO::getUserId, userId)
-                .list()
-                .stream()
-                .map(UserGroupUserRelDO::getUserGroupId)
-                .toList();
+    public List<Long> selectUserGroupIdsByUserId(Long userId, boolean includeParent) {
+        List<UserGroupDO> userGroups = baseMapper.selectByUserId(userId);
+        if (CollectionUtil.isEmpty(userGroups)) {
+            return Collections.emptyList();
+        }
+        if (!includeParent) {
+            return userGroups.stream().map(BaseEntity::getId).toList();
+        }
+        return Lists.newArrayList(collectParentUserGroupIds(userGroups));
+    }
+
+    /**
+     * 收集继承的父级用户组
+     */
+    public Set<Long> collectParentUserGroupIds(List<UserGroupDO> userGroups) {
+        return userGroups.stream()
+                .filter(item -> !item.getPid().equals(0L))
+                .flatMap(item -> {
+                    if (Objects.equals(item.getInheritType(), InheritType.INHERIT_PARENT.getValue())) {
+                        return Stream.of(item.getId(), item.getPid());
+                    } else if (Objects.equals(item.getInheritType(), InheritType.INHERIT_ALL.getValue())) {
+                        return Stream.of(item.getLevelPath().split("\\."))
+                                .map(Long::valueOf)
+                                .distinct();
+                    } else {
+                        return Stream.empty();
+                    }
+                })
+                .collect(Collectors.toSet());
+
     }
 
     public List<Long> selectRoleIdsById(Long id) {

@@ -1,12 +1,10 @@
 package com.ark.center.iam.application.apicategory;
 
 import com.ark.center.iam.application.apicategory.assembler.ApiCategoryAssembler;
-import com.ark.center.iam.model.api.dto.ApiCategoryBaseDTO;
-import com.ark.center.iam.domain.apicategory.ApiCategory;
+import com.ark.center.iam.infra.apicategory.repository.db.ApiCategoryDAO;
+import com.ark.center.iam.infra.apicategory.repository.db.ApiCategoryDO;
 import com.ark.center.iam.infra.apicategory.repository.db.ApiCategoryMapper;
-import com.ark.component.web.common.DeletedEnums;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ark.center.iam.model.api.dto.ApiCategoryBaseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +15,14 @@ import java.util.List;
 public class ApiCategoryQueryService {
 
     private final ApiCategoryMapper apiCategoryMapper;
+    private final ApiCategoryDAO apiCategoryDAO;
 
     private final ApiCategoryAssembler apiCategoryAssembler;
 
     public List<ApiCategoryBaseDTO> queryAll(Long applicationId) {
-        LambdaQueryWrapper<ApiCategory> qw = Wrappers.lambdaQuery(ApiCategory.class)
-                .eq(ApiCategory::getIsDeleted, DeletedEnums.NOT.getCode())
-                .eq(ApiCategory::getApplicationId, applicationId);
-        return apiCategoryMapper.selectList(qw)
+        return apiCategoryDAO.lambdaQuery()
+                .eq(ApiCategoryDO::getApplicationId, applicationId)
+                .list()
                 .stream()
                 .map(apiCategoryAssembler::toApiCategoryDTO)
                 .toList();

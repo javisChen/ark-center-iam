@@ -39,4 +39,5 @@ public class MenuElement {
     public static MenuElement of(String name, ElementType type) {
         return new MenuElement(name, type);
     }
+
 }

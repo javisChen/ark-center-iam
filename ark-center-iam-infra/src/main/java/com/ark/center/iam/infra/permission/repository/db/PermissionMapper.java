@@ -1,7 +1,6 @@
 package com.ark.center.iam.infra.permission.repository.db;
 
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.permission.ResourcePermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,10 +16,10 @@ import java.util.List;
  */
 public interface PermissionMapper extends BaseMapper<PermissionDO> {
 
-    List<ResourcePermission> selectByRoleIdsAndType(@Param("roleIds") List<Long> roleIds,
+    List<PermissionDO> selectByRoleIdsAndType(@Param("roleIds") List<Long> roleIds,
                                                     @Param("type") String type);
 
-    List<ResourcePermission> selectByRoleIdAndType(@Param("applicationId") Long applicationId,
+    List<PermissionDO> selectByRoleIdAndType(@Param("applicationId") Long applicationId,
                                                    @Param("roleId") Long roleId,
                                                    @Param("type") String type);
 

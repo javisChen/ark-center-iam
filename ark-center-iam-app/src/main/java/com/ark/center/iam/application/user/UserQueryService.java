@@ -2,9 +2,9 @@ package com.ark.center.iam.application.user;
 
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
-import com.ark.center.iam.domain.user.service.UserPermissionService;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
-import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
+import com.ark.center.iam.infra.permission.converter.PermissionAppConverter;
+import com.ark.center.iam.infra.permission.repository.db.PermissionDAO;
 import com.ark.center.iam.infra.role.repository.db.RoleDAO;
 import com.ark.center.iam.infra.user.converter.UserAppConverter;
 import com.ark.center.iam.infra.user.repository.db.UserDAO;
@@ -28,9 +28,9 @@ import java.util.stream.Collectors;
 public class UserQueryService {
 
     private final UserAppConverter userAppConverter;
-    private final UserPermissionService userPermissionService;
-    private final PermissionDomainConverter permissionDomainConverter;
+    private final PermissionAppConverter appConverter;
     private final UserDAO userDAO;
+    private final PermissionDAO permissionDAO;
     private final RoleDAO roleDAO;
     private final UserGroupDAO userGroupDAO;
 
@@ -72,8 +72,8 @@ public class UserQueryService {
     public UserDetailsDTO queryDetails(Long userId) {
         UserDO user = userDAO.getById(userId);
         UserDetailsDTO userDetailsDTO = userAppConverter.toUserDetailsDTO(user);
-        userDetailsDTO.setRoleIds(roleDAO.selectRoleIdsByUserId(userId));
-        userDetailsDTO.setUserGroupIds(userGroupDAO.selectUserGroupIdsByUserId(userId));
+        userDetailsDTO.setRoleIds(roleDAO.selectIdsByUserId(userId));
+        userDetailsDTO.setUserGroupIds(userGroupDAO.selectUserGroupIdsByUserId(userId, true));
         return userDetailsDTO;
     }
 
@@ -89,11 +89,11 @@ public class UserQueryService {
         Long userId = userPermissionQuery.getUserId();
         String requestUri = userPermissionQuery.getRequestUri();
         String method = userPermissionQuery.getMethod();
-        return userPermissionService.checkHasApiPermission(userId, requestUri, method);
+        return permissionDAO.checkHasApiPermission(userId, requestUri, method);
     }
 
     public List<UserApiPermissionDTO> queryApiPermissions(Long userId) {
-        List<ApiPermissionVO> userApiPermissions = userPermissionService.getUserApiPermissions(userId);
-        return permissionDomainConverter.toUserApiPermissionDTO(userApiPermissions);
+        List<ApiPermissionVO> userApiPermissions = permissionDAO.getUserApiPermissions(userId);
+        return appConverter.toUserApiPermissionDTO(userApiPermissions);
     }
 }

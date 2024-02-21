@@ -3,10 +3,10 @@ package com.ark.center.iam.application.role.event;
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.ApiRepository;
-import com.ark.center.iam.domain.permission.ResourcePermission;
 import com.ark.center.iam.domain.permission.vo.PermissionType;
-import com.ark.center.iam.domain.permission.repository.ResourcePermissionRepository;
 import com.ark.center.iam.domain.role.repository.RoleRepository;
+import com.ark.center.iam.infra.permission.repository.db.PermissionDAO;
+import com.ark.center.iam.infra.permission.repository.db.PermissionDO;
 import com.ark.center.iam.infra.user.common.UserCacheKey;
 import com.ark.center.iam.infra.user.repository.db.UserDAO;
 import com.ark.center.iam.infra.user.repository.db.UserDO;
@@ -38,7 +38,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
     private final RoleRepository roleRepository;
     private final UserDAO userDAO;
     private final ApiRepository apiRepository;
-    private final ResourcePermissionRepository resourcePermissionRepository;
+    private final PermissionDAO permissionDAO;
     private final MessageTemplate messageTemplate;
     private final CacheService cacheService;
 
@@ -96,9 +96,9 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
 
     private List<Api> queryRoleApis(@NotNull RolePermissionChangedEvent event) {
         Long roleId = event.getRoleId();
-        List<ResourcePermission> resourcePermissions = resourcePermissionRepository.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API);
+        List<PermissionDO> resourcePermissions = permissionDAO.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API);
         if (CollectionUtil.isNotEmpty(resourcePermissions)) {
-            List<Long> permissionIds = resourcePermissions.stream().map(ResourcePermission::getResourceId).toList();
+            List<Long> permissionIds = resourcePermissions.stream().map(PermissionDO::getResourceId).toList();
             return apiRepository.byIds(permissionIds);
         }
         return Collections.emptyList();
