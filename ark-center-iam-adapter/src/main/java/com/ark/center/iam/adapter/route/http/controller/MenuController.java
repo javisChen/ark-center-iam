@@ -31,7 +31,7 @@ public class MenuController extends BaseController {
     private final MenuCommandHandler menuCommandHandler;
     private final MenuQueryService menuQueryService;
 
-    @PostMapping("/menus")
+    @GetMapping("/menus")
     @Operation(summary = "路由树形分页查询")
     public SingleResponse<PageResponse<RouteDetailsDTO>> page(@RequestBody MenuQuery dto) {
         Page<RouteDetailsDTO> routeListTreeVOPage = menuQueryService.queryPage(dto);

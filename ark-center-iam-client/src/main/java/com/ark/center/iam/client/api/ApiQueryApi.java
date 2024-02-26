@@ -1,4 +1,4 @@
-package com.ark.center.iam.model.api;
+package com.ark.center.iam.client.api;
 
 import com.ark.center.iam.model.api.dto.ApiDetailDTO;
 import com.ark.center.iam.model.api.dto.ApiDetailsDTO;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
-@Schema(description = "Api查询服务")
+@Schema(description = "API-查询")
 public interface ApiQueryApi {
 
     @GetMapping("/all")

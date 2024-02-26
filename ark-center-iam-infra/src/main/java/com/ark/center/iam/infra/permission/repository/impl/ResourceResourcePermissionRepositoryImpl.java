@@ -50,7 +50,7 @@ public class ResourceResourcePermissionRepositoryImpl extends BaseDBRepository<R
         List<PermissionRoleRelDO> permissionRoleRelDOList = permissionRoleRelMapper
                 .selectByPermissionIdAndRoleId(applicationId, roleId, toRemoveApiPermissionIds);
         if (CollectionUtils.isNotEmpty(permissionRoleRelDOList)) {
-            List<Long> ids = permissionRoleRelDOList.stream().map(AggregateRoot::getId).sorted().toList();
+            List<Long> ids = permissionRoleRelDOList.stream().map(AggregateRoot::getId).sorted().collect(Collectors.toList());
             permissionRoleRelMapper.deleteBatchIds(ids);
         }
     }

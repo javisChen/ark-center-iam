@@ -47,12 +47,12 @@ public class AppDBRepository extends BaseDBRepository<App, Long> implements AppR
     @Override
     public App byId(Long id) {
         AppDO appDO = dao.getById(id);
-        return domainConverter.fromDomain(appDO);
+        return domainConverter.toDomain(appDO);
     }
 
     @Override
     public void save(App app) {
-        AppDO appDO = domainConverter.toDomain(app);
+        AppDO appDO = domainConverter.fromDomain(app);
         dao.saveOrUpdate(appDO);
     }
 

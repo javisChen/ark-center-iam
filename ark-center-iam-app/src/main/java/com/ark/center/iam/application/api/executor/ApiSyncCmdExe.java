@@ -83,8 +83,7 @@ public class ApiSyncCmdExe {
                 .map(ApiCategory::getName)
                 .collect(Collectors.toSet());
         List<String> newCategories = tags.stream()
-                .filter(tag -> !existsCategoryNames.contains(tag))
-                .toList();
+                .filter(tag -> !existsCategoryNames.contains(tag)).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(newCategories)) {
             return existsCategories;
         }
@@ -93,7 +92,7 @@ public class ApiSyncCmdExe {
         return newCategories
                 .stream()
                 .distinct()
-                .map(tag -> apiCategoryDomainService.create(tag, app.getId())).toList();
+                .map(tag -> apiCategoryDomainService.create(tag, app.getId())).collect(Collectors.toList());
     }
 
     /**

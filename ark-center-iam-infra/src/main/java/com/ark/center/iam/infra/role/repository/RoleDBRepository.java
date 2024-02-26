@@ -1,13 +1,17 @@
 package com.ark.center.iam.infra.role.repository;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.infra.relation.db.*;
-import com.ark.center.iam.infra.role.repository.db.*;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.role.Role;
 import com.ark.center.iam.domain.role.repository.RoleRepository;
+import com.ark.center.iam.infra.relation.db.UserGroupRoleRelDAO;
+import com.ark.center.iam.infra.relation.db.UserGroupRoleRelDO;
+import com.ark.center.iam.infra.relation.db.UserRoleRelDAO;
+import com.ark.center.iam.infra.relation.db.UserRoleRelDO;
 import com.ark.center.iam.infra.role.converter.RoleDomainConverter;
 import com.ark.center.iam.infra.role.repository.cache.RoleCacheKey;
+import com.ark.center.iam.infra.role.repository.db.RoleDAO;
+import com.ark.center.iam.infra.role.repository.db.RoleDO;
 import com.ark.component.cache.CacheService;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -47,7 +52,7 @@ public class RoleDBRepository extends BaseDBRepository<Role, Long> implements Ro
                 .list()
                 .stream()
                 .map(UserRoleRelDO::getRoleId)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -71,7 +76,7 @@ public class RoleDBRepository extends BaseDBRepository<Role, Long> implements Ro
         cacheService.del(key);
 
         if (CollectionUtil.isNotEmpty(apis)) {
-            List<String> elements = apis.stream().map(item -> item.getUri() + ":" + item.getMethod()).toList();
+            List<String> elements = apis.stream().map(item -> item.getUri() + ":" + item.getMethod()).collect(Collectors.toList());
             cacheService.sAdd(key, elements.toArray());
         }
     }

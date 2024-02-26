@@ -1,4 +1,4 @@
-package com.ark.center.iam.model.api;
+package com.ark.center.iam.client.api;
 
 import com.ark.center.iam.model.api.command.ApiCreateCommand;
 import com.ark.center.iam.model.api.command.ApiStatusUpdateCommand;
@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.*;
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
-@Schema(description = "API-命令接口")
+@Schema(description = "API-命令")
 public interface ApiCommandApi {
-
 
     @Operation(summary = "新建Api")
     @PostMapping

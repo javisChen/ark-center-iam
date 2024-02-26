@@ -26,7 +26,7 @@ public class ApplicationController extends BaseController {
 
     @GetMapping("/v1/applications")
     @Operation(summary = "查询应用列表")
-    public MultiResponse<AppDTO> queryAll(@RequestBody ApplicationQuery query) {
+    public MultiResponse<AppDTO> queryAll(ApplicationQuery query) {
         return MultiResponse.ok(applicationQueryService.queryAll(query));
     }
 

@@ -7,6 +7,7 @@ import com.ark.center.iam.domain.usergroup.vo.UserGroupType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-@Builder
+@SuperBuilder
 @AllArgsConstructor(access = PRIVATE)
 public class UserGroup extends AggregateRoot {
 

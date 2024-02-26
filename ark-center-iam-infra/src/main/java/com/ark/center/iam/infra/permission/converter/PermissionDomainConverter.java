@@ -23,6 +23,7 @@ public interface PermissionDomainConverter {
 
     default ResourcePermission toDomain(PermissionDO permissionDO) {
         return ResourcePermission.builder()
+                .id(permissionDO.getId())
         		.applicationId(permissionDO.getApplicationId())
         		.type(PermissionType.from(permissionDO.getType()))
         		.code(permissionDO.getCode())

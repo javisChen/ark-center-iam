@@ -1,7 +1,7 @@
 package com.ark.center.iam.adapter.user.http;
 
 import com.ark.center.iam.application.user.UserQueryService;
-import com.ark.center.iam.model.user.UserPermissionQueryApi;
+import com.ark.center.iam.client.user.UserPermissionQueryApi;
 import com.ark.center.iam.model.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.model.user.query.UserPermissionQuery;
 import com.ark.component.dto.MultiResponse;

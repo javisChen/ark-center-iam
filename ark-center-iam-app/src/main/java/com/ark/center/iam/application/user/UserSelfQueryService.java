@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.ark.center.iam.domain.permission.vo.PermissionType.MENU;
 import static com.ark.center.iam.domain.permission.vo.PermissionType.MENU_ELEMENT;
@@ -43,7 +44,7 @@ public class UserSelfQueryService {
             List<Long> menuIds = resourcePermissions.stream()
                     .filter(Objects::nonNull)
                     .map(PermissionDO::getResourceId)
-                    .toList();
+                    .collect(Collectors.toList());
             return menuDAO.selectByIds(menuIds);
         });
     }
@@ -58,7 +59,7 @@ public class UserSelfQueryService {
             return resourcePermissions.stream()
                     .filter(Objects::nonNull)
                     .map(appConverter::toPermissionDTO)
-                    .toList();
+                    .collect(Collectors.toList());
         });
     }
 

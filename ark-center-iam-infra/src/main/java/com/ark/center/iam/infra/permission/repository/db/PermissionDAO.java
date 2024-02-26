@@ -15,6 +15,7 @@ import org.springframework.util.AntPathMatcher;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -67,7 +68,7 @@ public class PermissionDAO extends ServiceImpl<PermissionMapper, PermissionDO> {
         List<Long> userGroupIds = userGroupDAO.selectUserGroupIdsByUserId(userId, true);
         List<Long> userGroupsRoleIds = roleDAO.selectRoleIdsByUserGroupIds(userGroupIds);
         roleIds.addAll(userGroupsRoleIds);
-        return roleIds.stream().distinct().toList();
+        return roleIds.stream().distinct().collect(Collectors.toList());
     }
 
     public boolean checkHasApiPermission(Long userId, String url, String method) {

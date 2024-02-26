@@ -47,7 +47,7 @@ public class UserGroupDAO extends ServiceImpl<UserGroupMapper, UserGroupDO> {
         return lambdaQuery()
                 .orderByAsc(UserGroupDO::getCreateTime)
                 .orderByAsc(UserGroupDO::getLevel).list()
-                .stream().toList();
+                .stream().collect(Collectors.toList());
 
     }
 
@@ -57,7 +57,7 @@ public class UserGroupDAO extends ServiceImpl<UserGroupMapper, UserGroupDO> {
             return Collections.emptyList();
         }
         if (!includeParent) {
-            return userGroups.stream().map(BaseEntity::getId).toList();
+            return userGroups.stream().map(BaseEntity::getId).collect(Collectors.toList());
         }
         return Lists.newArrayList(collectParentUserGroupIds(userGroups));
     }
@@ -91,7 +91,7 @@ public class UserGroupDAO extends ServiceImpl<UserGroupMapper, UserGroupDO> {
                 .list()
                 .stream()
                 .map(UserGroupRoleRelDO::getRoleId)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public void deleteRoleRelations(Long userGroupId) {

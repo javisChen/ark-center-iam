@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 角色API权限变更事件监听器
@@ -98,7 +99,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         Long roleId = event.getRoleId();
         List<PermissionDO> resourcePermissions = permissionDAO.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API);
         if (CollectionUtil.isNotEmpty(resourcePermissions)) {
-            List<Long> permissionIds = resourcePermissions.stream().map(PermissionDO::getResourceId).toList();
+            List<Long> permissionIds = resourcePermissions.stream().map(PermissionDO::getResourceId).collect(Collectors.toList());
             return apiRepository.byIds(permissionIds);
         }
         return Collections.emptyList();

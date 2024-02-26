@@ -1,4 +1,4 @@
-package com.ark.center.iam.model.user;
+package com.ark.center.iam.client.user;
 
 import com.ark.center.iam.model.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.model.user.query.UserPermissionQuery;

@@ -34,7 +34,7 @@ public class UserGroupDBRepository extends BaseDBRepository<UserGroup, Long> imp
             return Collections.emptyList();
         }
         if (!includeParent) {
-            return userGroups.stream().map(BaseEntity::getId).toList();
+            return userGroups.stream().map(BaseEntity::getId).collect(Collectors.toList());
         }
         return Lists.newArrayList(collectParentUserGroupIds(userGroups));
     }

@@ -2,7 +2,7 @@ package com.ark.center.iam.adapter.user.http;
 
 import com.ark.center.iam.application.user.UserCommandHandler;
 import com.ark.center.iam.application.user.UserQueryService;
-import com.ark.center.iam.model.user.UserQueryApi;
+import com.ark.center.iam.client.user.UserQueryApi;
 import com.ark.center.iam.model.user.command.UserCreateCommand;
 import com.ark.center.iam.model.user.command.UserUpdateCommand;
 import com.ark.center.iam.model.user.dto.UserDetailsDTO;

@@ -31,6 +31,7 @@ public interface UserGroupDomainConverter {
 
     default UserGroup toDomain(UserGroupDO groupDO, List<Long> roleIds) {
         return UserGroup.builder()
+                .id(groupDO.getId())
         		.name(groupDO.getName())
         		.pid(groupDO.getPid())
         		.status(EnableDisableStatus.from(groupDO.getStatus()))

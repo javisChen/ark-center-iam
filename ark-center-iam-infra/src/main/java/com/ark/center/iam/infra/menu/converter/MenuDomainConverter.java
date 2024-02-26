@@ -19,6 +19,7 @@ public interface MenuDomainConverter {
 
     default Menu toDomain(MenuDO menuDO, List<MenuElement> elements, List<MenuDO> children) {
         return Menu.builder()
+                .id(menuDO.getId())
         		.name(menuDO.getName())
         		.applicationId(menuDO.getApplicationId())
         		.code(menuDO.getCode())

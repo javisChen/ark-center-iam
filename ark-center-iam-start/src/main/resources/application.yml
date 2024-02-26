@@ -46,7 +46,7 @@ spring:
       - nacos:common.yml
 mybatis-plus:
   mapper-locations:
-    - classpath:com/ark/center/iam/infra/*/gateway/db/xml/*.xml
+    - classpath:com/ark/center/iam/infra/*/repository/db/xml/*.xml
     - classpath:com/ark/center/iam/infra/relation/db/xml/*.xml
 
 management:

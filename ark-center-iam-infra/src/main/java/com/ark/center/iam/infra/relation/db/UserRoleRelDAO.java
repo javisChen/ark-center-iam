@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserRoleRelDAO extends ServiceImpl<UserRoleRelMapper, UserRoleRelDO> {
@@ -19,6 +20,6 @@ public class UserRoleRelDAO extends ServiceImpl<UserRoleRelMapper, UserRoleRelDO
                 .list()
                 .stream()
                 .map(UserRoleRelDO::getRoleId)
-                .toList();
+                .collect(Collectors.toList());
     }
 }

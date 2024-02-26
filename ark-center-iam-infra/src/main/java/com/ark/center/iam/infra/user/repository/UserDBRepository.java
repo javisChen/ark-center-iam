@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -57,7 +58,7 @@ public class UserDBRepository extends BaseDBRepository<User, Long> implements Us
         Long userId = userDO.getId();
 
         if (CollectionUtil.isNotEmpty(userGroupIds)) {
-            userGroupIds = userGroupIds.stream().sorted().toList();
+            userGroupIds = userGroupIds.stream().sorted().collect(Collectors.toList());
             userGroupUserRelDAO.lambdaUpdate()
                     .eq(UserGroupUserRelDO::getUserId, userId)
                     .in(UserGroupUserRelDO::getUserGroupId, userGroupIds)
@@ -66,7 +67,7 @@ public class UserDBRepository extends BaseDBRepository<User, Long> implements Us
         }
 
         if (CollectionUtil.isNotEmpty(roleIds)) {
-            roleIds = roleIds.stream().sorted().toList();
+            roleIds = roleIds.stream().sorted().collect(Collectors.toList());
             userRoleRelDAO.lambdaUpdate()
                     .eq(UserRoleRelDO::getUserId, userId)
                     .in(UserRoleRelDO::getRoleId, roleIds)

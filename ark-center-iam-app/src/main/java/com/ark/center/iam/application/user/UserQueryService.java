@@ -40,7 +40,7 @@ public class UserQueryService {
             return userPageDTOPage;
         }
         List<UserPageDTO> records = userPageDTOPage.getRecords();
-        List<Long> userIds = records.stream().map(UserBaseDTO::getId).toList();
+        List<Long> userIds = records.stream().map(UserBaseDTO::getId).collect(Collectors.toList());
         Map<Long, List<UserRoleVO>> userRolesHolder = collectUserRoles(userIds);
         Map<Long, List<UserGroupVO>> userGroupsHolder = collectUserGroups(userIds);
         for (UserPageDTO record : records) {

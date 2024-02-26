@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserGroupUserRelDAO extends ServiceImpl<UserGroupUserRelMapper, UserGroupUserRelDO> {
@@ -16,7 +17,7 @@ public class UserGroupUserRelDAO extends ServiceImpl<UserGroupUserRelMapper, Use
                     relDO.setUserGroupId(userGroupId);
                     relDO.setUserId(userId);
                     return relDO;
-                }).toList()
+                }).collect(Collectors.toList())
         );
 
     }
@@ -28,6 +29,6 @@ public class UserGroupUserRelDAO extends ServiceImpl<UserGroupUserRelMapper, Use
                 .list()
                 .stream()
                 .map(UserGroupUserRelDO::getUserGroupId)
-                .toList();
+                .collect(Collectors.toList());
     }
 }

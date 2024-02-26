@@ -1,12 +1,6 @@
 package com.ark.center.iam.infra.user.repository.db;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.permission.ResourcePermission;
-import com.ark.center.iam.domain.permission.vo.PermissionType;
-import com.ark.center.iam.domain.user.User;
-import com.ark.center.iam.domain.user.support.UserConst;
 import com.ark.center.iam.infra.user.converter.UserAppConverter;
 import com.ark.center.iam.model.user.dto.UserPageDTO;
 import com.ark.center.iam.model.user.query.UserPageQuery;
@@ -20,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -31,7 +24,11 @@ public class UserDAO extends ServiceImpl<UserMapper, UserDO> {
 
     public IPage<UserPageDTO> selectUsers(UserPageQuery query) {
         return lambdaQuery()
-                .select(BaseEntity::getId, UserDO::getMobile, UserDO::getUsername, UserDO::getStatus)
+                .select(BaseEntity::getId,
+                        UserDO::getMobile,
+                        UserDO::getUsername,
+                        UserDO::getStatus,
+                        UserDO::getCode)
                 .like(StrUtil.isNotBlank(query.getMobile()), UserDO::getMobile, query.getMobile())
                 .like(StrUtil.isNotBlank(query.getUsername()), UserDO::getUsername, query.getUsername())
                 .page(Page.of(query.getCurrent(), query.getSize()))
@@ -45,7 +42,7 @@ public class UserDAO extends ServiceImpl<UserMapper, UserDO> {
         if (StringUtils.isNotBlank(mobile)) {
             lambdaQuery.eq(UserDO::getMobile, mobile);
         } else if (StringUtils.isNotBlank(username)) {
-            lambdaQuery.eq(UserDO::getMobile, mobile);
+            lambdaQuery.eq(UserDO::getUsername, username);
         }
         return lambdaQuery
                 .last("limit 1")

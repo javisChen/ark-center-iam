@@ -10,8 +10,9 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface AppDomainConverter {
 
-    default App fromDomain(AppDO appDO) {
+    default App toDomain(AppDO appDO) {
         return App.builder()
+                .id(appDO.getId())
         		.name(appDO.getName())
         		.code(appDO.getCode())
         		.status(EnableDisableStatus.from(appDO.getStatus()))
@@ -19,7 +20,7 @@ public interface AppDomainConverter {
         		.build();
     }
 
-    default AppDO toDomain(App app) {
+    default AppDO fromDomain(App app) {
         AppDO appDO = new AppDO();
         appDO.setName(app.getName());
         appDO.setCode(app.getCode());

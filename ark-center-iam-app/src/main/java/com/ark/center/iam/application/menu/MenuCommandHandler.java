@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class MenuCommandHandler {
@@ -41,7 +43,8 @@ public class MenuCommandHandler {
                 command.getSequence(),
                 command.getPath(),
                 command.getIcon(),
-                command.getElements().stream().map(e -> MenuElement.of(e.getName(), ElementType.from(e.getType()))).toList(),
+                command.getElements().stream().map(e -> MenuElement.of(e.getName(), ElementType.from(e.getType())))
+                        .collect(Collectors.toList()),
                 parentMenu);
 
         menuRepository.saveAndPublishEvents(menu);
@@ -65,7 +68,8 @@ public class MenuCommandHandler {
                 command.getPath(),
                 EnableDisableStatus.from(command.getStatus()),
                 command.getIcon(),
-                command.getElements().stream().map(e -> MenuElement.of(e.getName(), ElementType.from(e.getType()))).toList(),
+                command.getElements().stream().map(e -> MenuElement.of(e.getName(), ElementType.from(e.getType())))
+                        .collect(Collectors.toList()),
                 parentMenu);
 
         menuRepository.saveAndPublishEvents(menu);

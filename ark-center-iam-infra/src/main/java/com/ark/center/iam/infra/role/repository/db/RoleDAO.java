@@ -15,6 +15,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class RoleDAO extends ServiceImpl<RoleMapper, RoleDO> {
         return lambdaQuery()
                 .list()
                 .stream().map(roleAppConverter::toRoleBaseDTO)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public RoleDO queryById(Long id) {
@@ -48,7 +49,7 @@ public class RoleDAO extends ServiceImpl<RoleMapper, RoleDO> {
                 .list()
                 .stream()
                 .map(UserRoleRelDO::getRoleId)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public List<Long> selectRoleIdsByUserGroupIds(List<Long> userGroupIds) {

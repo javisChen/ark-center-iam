@@ -54,7 +54,7 @@ public class RoleController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @GetMapping("")
+    @GetMapping("/details")
     @Operation(
             summary = "角色详情",
             description = "根据id查询角色详细信息",

@@ -6,9 +6,9 @@ import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.StringUtils;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -23,7 +23,7 @@ import static lombok.AccessLevel.PRIVATE;
  */
 @Getter
 @EqualsAndHashCode(callSuper = true)
-@Builder
+@SuperBuilder
 @AllArgsConstructor(access = PRIVATE)
 public class ResourcePermission extends AggregateRoot {
 

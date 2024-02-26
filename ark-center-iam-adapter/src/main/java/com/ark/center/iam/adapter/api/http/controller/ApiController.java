@@ -2,8 +2,8 @@ package com.ark.center.iam.adapter.api.http.controller;
 
 import com.ark.center.iam.application.api.ApiCommandHandler;
 import com.ark.center.iam.application.api.ApiQueryService;
-import com.ark.center.iam.model.api.ApiCommandApi;
-import com.ark.center.iam.model.api.ApiQueryApi;
+import com.ark.center.iam.client.api.ApiCommandApi;
+import com.ark.center.iam.client.api.ApiQueryApi;
 import com.ark.center.iam.model.api.command.ApiCreateCommand;
 import com.ark.center.iam.model.api.command.ApiStatusUpdateCommand;
 import com.ark.center.iam.model.api.command.ApiSyncCmd;

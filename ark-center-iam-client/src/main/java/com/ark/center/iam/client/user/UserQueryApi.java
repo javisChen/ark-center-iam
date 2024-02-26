@@ -1,4 +1,4 @@
-package com.ark.center.iam.model.user;
+package com.ark.center.iam.client.user;
 
 import com.ark.center.iam.model.user.dto.UserInnerDTO;
 import com.ark.center.iam.model.user.query.UserQuery;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
-@Schema(description = "用户查询服务接口")
+@Schema(description = "用户-查询")
 public interface UserQueryApi {
 
     @GetMapping("/info")
