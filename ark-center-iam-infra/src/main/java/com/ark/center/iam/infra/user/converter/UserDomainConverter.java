@@ -23,14 +23,19 @@ public interface UserDomainConverter {
     }
 
     default User toDomain(UserDO userDO, List<Long> roleIds, List<Long> userGroupIds) {
-        return User.builder()
-        		.username(userDO.getUsername())
-        		.mobile(userDO.getMobile())
-        		.code(userDO.getCode())
-        		.password(userDO.getPassword())
-        		.userGroupIds(userGroupIds)
-        		.roleIds(roleIds)
-        		.status(EnableDisableStatus.from(userDO.getStatus()))
-        		.build();
+        User user = new User();
+        user.setUsername(userDO.getUsername());
+        user.setMobile(userDO.getMobile());
+        user.setCode(userDO.getCode());
+        user.setPassword(userDO.getPassword());
+        user.setUserGroupIds(userGroupIds);
+        user.setRoleIds(roleIds);
+        user.setStatus(EnableDisableStatus.from(userDO.getStatus()));
+        user.setId(userDO.getId());
+        user.setCreateTime(userDO.getCreateTime());
+        user.setUpdateTime(userDO.getUpdateTime());
+        user.setCreator(userDO.getCreator());
+        user.setModifier(userDO.getModifier());
+        return user;
     }
 }

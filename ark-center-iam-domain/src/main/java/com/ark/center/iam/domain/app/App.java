@@ -1,20 +1,17 @@
 package com.ark.center.iam.domain.app;
 
+import cn.hutool.core.util.IdUtil;
 import com.ark.center.iam.domain.app.event.ApplicationChangedEvent;
 import com.ark.center.iam.domain.app.event.ApplicationCreatedEvent;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
-
-import static lombok.AccessLevel.PRIVATE;
+import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@SuperBuilder
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor
 public class App extends AggregateRoot {
 
     /**
@@ -40,6 +37,7 @@ public class App extends AggregateRoot {
     private ApplicationType type;
 
     public App(String name, String code, ApplicationType type) {
+        super(IdUtil.getSnowflakeNextId());
         this.name = name;
         this.code = code;
         this.type = type;

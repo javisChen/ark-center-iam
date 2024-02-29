@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ark.center.iam.infra.menu.repository.db.MenuMapper">
 
-    <select id="selectDetailsPages" resultType="com.ark.center.iam.model.menu.dto.RouteDetailsDTO">
+    <select id="selectDetailsPages" resultType="com.ark.center.iam.model.menu.dto.MenuDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -31,7 +31,7 @@
         ORDER BY r.`sequence`
     </select>
 
-    <select id="selectSubRoutes" resultType="com.ark.center.iam.model.menu.dto.RouteDetailsDTO">
+    <select id="selectSubRoutes" resultType="com.ark.center.iam.model.menu.dto.MenuDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -45,7 +45,7 @@
         AND p.type = 'FRONT_ROUTE'
     </select>
 
-    <select id="selectDetails" resultType="com.ark.center.iam.model.menu.dto.RouteDetailsDTO">
+    <select id="selectDetails" resultType="com.ark.center.iam.model.menu.dto.MenuDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,

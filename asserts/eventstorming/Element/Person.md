@@ -32,7 +32,7 @@ include('eventstorming/Element/Person')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement Person
+' loads the Item which embeds the element Person
 include('eventstorming/Element/Person')
 
 Person('Person', 'Person')
@@ -55,7 +55,7 @@ end note
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement Person
+' loads the Item which embeds the element Person
 include('eventstorming/Element/Person')
 
 Person('Person', 'Person')

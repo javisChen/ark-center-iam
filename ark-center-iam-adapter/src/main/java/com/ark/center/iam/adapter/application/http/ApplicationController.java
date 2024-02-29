@@ -17,27 +17,27 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "应用管理", description = "应用管理")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping
+@RequestMapping("/v1/applications")
 public class ApplicationController extends BaseController {
 
     private final ApplicationCommandHandler applicationCommandHandler;
 
     private final ApplicationQueryService applicationQueryService;
 
-    @GetMapping("/v1/applications")
-    @Operation(summary = "查询应用列表")
+    @GetMapping("")
+    @Operation(summary = "查询应用")
     public MultiResponse<AppDTO> queryAll(ApplicationQuery query) {
         return MultiResponse.ok(applicationQueryService.queryAll(query));
     }
 
-    @PostMapping("/v1/applications")
-    @Operation(summary = "创建应用")
+    @PostMapping("")
+    @Operation(summary = "新建应用")
     public ServerResponse createApplication(@RequestBody ApplicationCreateCommand command) {
         applicationCommandHandler.handleCreate(command);
         return ServerResponse.ok();
     }
 
-    @PutMapping("/v1/applications")
+    @PutMapping("")
     @Operation(summary = "更新应用")
     public ServerResponse updateApplication(@RequestBody ApplicationUpdateCommand command) {
         applicationCommandHandler.handleUpdate(command);

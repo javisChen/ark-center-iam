@@ -30,9 +30,6 @@ public class UserFactory {
         // 用户密码=bcrypt(前端md5(md5(password)) + salt)
         password = userPasswordHelper.enhancePassword(DigestUtil.md5Hex(password));
 
-//         持久化后一些操作
-//        postPersistUser(user, userCreateCommand);
-
         return new User(username, mobile, code, password, roleIds, userGroupIds);
     }
 
@@ -57,7 +54,7 @@ public class UserFactory {
     }
 
     private void checkUserMobile(String mobile) {
-        Assert.isTrue(userRepository.existsByMobile(mobile), () -> ExceptionFactory.userException("手机号码已存在"));
+        Assert.isFalse(userRepository.existsByMobile(mobile), () -> ExceptionFactory.userException("手机号码已存在"));
     }
 
 }

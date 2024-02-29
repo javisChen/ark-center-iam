@@ -56,9 +56,9 @@ The package provides 1 modules.
 
 The package provides 4 examples.
 
-## All menuElements
+## All elements
 
-![All menuElements](../eventstorming/all_elements.png)<br>
+![All elements](../eventstorming/all_elements.png)<br>
 [The source file.](../eventstorming/all_elements.puml)
 
 ## Book flow

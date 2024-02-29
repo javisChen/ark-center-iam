@@ -11,13 +11,17 @@ import org.mapstruct.MappingConstants;
 public interface AppDomainConverter {
 
     default App toDomain(AppDO appDO) {
-        return App.builder()
-                .id(appDO.getId())
-        		.name(appDO.getName())
-        		.code(appDO.getCode())
-        		.status(EnableDisableStatus.from(appDO.getStatus()))
-        		.type(ApplicationType.from(appDO.getType()))
-        		.build();
+        App app = new App();
+        app.setName(appDO.getName());
+        app.setCode(appDO.getCode());
+        app.setStatus(EnableDisableStatus.from(appDO.getStatus()));
+        app.setType(ApplicationType.from(appDO.getType()));
+        app.setId(appDO.getId());
+        app.setCreateTime(appDO.getCreateTime());
+        app.setUpdateTime(appDO.getUpdateTime());
+        app.setCreator(appDO.getCreator());
+        app.setModifier(appDO.getModifier());
+        return app;
     }
 
     default AppDO fromDomain(App app) {

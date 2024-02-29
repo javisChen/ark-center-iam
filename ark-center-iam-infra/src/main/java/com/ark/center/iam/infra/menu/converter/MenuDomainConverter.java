@@ -1,9 +1,9 @@
 package com.ark.center.iam.infra.menu.converter;
 
-import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
 import com.ark.center.iam.domain.menu.Menu;
-import com.ark.center.iam.domain.menu.vo.MenuElement;
+import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.menu.vo.MenuType;
+import com.ark.center.iam.infra.element.converter.MenuElementDomainConverter;
 import com.ark.center.iam.infra.menu.repository.db.MenuDO;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import org.mapstruct.Mapper;
@@ -15,29 +15,27 @@ import java.util.List;
         uses = MenuElementDomainConverter.class)
 public interface MenuDomainConverter {
 
-//    List<Menu> toDomain(List<MenuDO> menus);
-
-    default Menu toDomain(MenuDO menuDO, List<MenuElement> elements, List<MenuDO> children) {
-        return Menu.builder()
-                .id(menuDO.getId())
-        		.name(menuDO.getName())
-        		.applicationId(menuDO.getApplicationId())
-        		.code(menuDO.getCode())
-        		.component(menuDO.getComponent())
-        		.type(MenuType.from(menuDO.getType()))
-        		.hideChildren(menuDO.getHideChildren())
-        		.pid(menuDO.getPid())
-                .hierarchy(Hierarchy.builder()
-                        .level(menuDO.getLevel())
-                        .path(menuDO.getLevelPath())
-                        .build())
-        		.sequence(menuDO.getSequence())
-        		.path(menuDO.getPath())
-        		.icon(menuDO.getIcon())
-        		.status(EnableDisableStatus.from(menuDO.getStatus()))
-        		.menuElements(elements)
-        		// .children(toDomain(children))
-        		.build();
+    default Menu toDomain(MenuDO menuDO, List<Element> elements, List<MenuDO> children) {
+        Menu menu = new Menu();
+        menu.setName(menuDO.getName());
+        menu.setApplicationId(menuDO.getApplicationId());
+        menu.setCode(menuDO.getCode());
+        menu.setComponent(menuDO.getComponent());
+        menu.setType(MenuType.from(menuDO.getType()));
+        menu.setHideChildren(menuDO.getHideChildren());
+        menu.setPid(menuDO.getPid());
+        menu.setSequence(menuDO.getSequence());
+        menu.setPath(menuDO.getPath());
+        menu.setIcon(menuDO.getIcon());
+        menu.setStatus(EnableDisableStatus.from(menuDO.getStatus()));
+        // menu.setMenuElements(elements);
+        menu.setChildren(children);
+        menu.setId(menuDO.getId());
+        menu.setCreateTime(menuDO.getCreateTime());
+        menu.setUpdateTime(menuDO.getUpdateTime());
+        menu.setCreator(menuDO.getCreator());
+        menu.setModifier(menuDO.getModifier());
+        return menu;
     }
 
     default MenuDO fromDomain(Menu menu) {

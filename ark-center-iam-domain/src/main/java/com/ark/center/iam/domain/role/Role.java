@@ -1,6 +1,7 @@
 package com.ark.center.iam.domain.role;
 
 
+import cn.hutool.core.util.IdUtil;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class Role extends AggregateRoot {
     private EnableDisableStatus status;
 
     public Role(String name, String code) {
+        super(IdUtil.getSnowflakeNextId());
         this.name = name;
         this.code = code;
         this.status = EnableDisableStatus.ENABLED;

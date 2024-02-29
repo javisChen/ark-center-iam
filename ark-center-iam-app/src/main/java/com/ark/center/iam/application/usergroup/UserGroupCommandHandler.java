@@ -23,7 +23,7 @@ public class UserGroupCommandHandler {
     @Transactional(rollbackFor = Throwable.class)
     public void createUserGroup(UserGroupCreateCommand command) {
 
-        UserGroup parent = command.getPid() > 0 ? userGroupRepository.byIdOrThrowError(command.getPid(), "上级用户组不存在") : null;
+        UserGroup parent = queryParent(command.getPid());
 
         UserGroup userGroup = userGroupFactory.create(command.getName(),
                 InheritType.from(command.getInheritType()),
@@ -33,10 +33,14 @@ public class UserGroupCommandHandler {
         userGroupRepository.saveAndPublishEvents(userGroup);
     }
 
+    private UserGroup queryParent(Long pid) {
+        return pid != null && pid > 0 ? userGroupRepository.byIdOrThrowError(pid, "上级用户组不存在") : null;
+    }
+
     @Transactional(rollbackFor = Throwable.class)
     public void updateUserGroup(UserGroupUpdateCommand command) {
 
-        UserGroup parent = command.getPid() > 0 ? userGroupRepository.byIdOrThrowError(command.getPid(), "上级用户组不存在") : null;
+        UserGroup parent = queryParent(command.getPid());
 
         UserGroup userGroup = userGroupRepository.byIdOrThrowError(command.getId(), "用户组不存在");
 

@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -102,6 +103,8 @@ public class UserGroupDAO extends ServiceImpl<UserGroupMapper, UserGroupDO> {
     }
 
     public void saveRoleRelations(Long groupId, List<Long> roleIds) {
-        userGroupRoleRelDAO.getBaseMapper().insertBatch(groupId, roleIds);
+        if (CollectionUtils.isNotEmpty(roleIds)) {
+            userGroupRoleRelDAO.getBaseMapper().insertBatch(groupId, roleIds);
+        }
     }
 }

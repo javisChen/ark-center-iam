@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.relation.db;
 
 
-import com.ark.component.ddd.domain.AggregateRoot;
+import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_permission_role_rel")
-public class PermissionRoleRelDO extends AggregateRoot {
+public class PermissionRoleRelDO extends BaseEntity {
 
     /**
      * 权限id，关联iam_permission.id

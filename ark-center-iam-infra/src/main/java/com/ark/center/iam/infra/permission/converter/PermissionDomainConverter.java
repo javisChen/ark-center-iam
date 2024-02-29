@@ -22,14 +22,18 @@ public interface PermissionDomainConverter {
     List<ResourcePermission> toDomain(List<PermissionDO> permissionDOS);
 
     default ResourcePermission toDomain(PermissionDO permissionDO) {
-        return ResourcePermission.builder()
-                .id(permissionDO.getId())
-        		.applicationId(permissionDO.getApplicationId())
-        		.type(PermissionType.from(permissionDO.getType()))
-        		.code(permissionDO.getCode())
-        		.resourceId(permissionDO.getResourceId())
-        		.status(EnableDisableStatus.from(permissionDO.getStatus()))
-        		.build();
+        ResourcePermission resourcePermission = new ResourcePermission();
+        resourcePermission.setApplicationId(permissionDO.getApplicationId());
+        resourcePermission.setType(PermissionType.from(permissionDO.getType()));
+        resourcePermission.setCode(permissionDO.getCode());
+        resourcePermission.setResourceId(permissionDO.getResourceId());
+        resourcePermission.setStatus(EnableDisableStatus.from(permissionDO.getStatus()));
+        resourcePermission.setId(permissionDO.getId());
+        resourcePermission.setCreateTime(permissionDO.getCreateTime());
+        resourcePermission.setUpdateTime(permissionDO.getUpdateTime());
+        resourcePermission.setCreator(permissionDO.getCreator());
+        resourcePermission.setModifier(permissionDO.getModifier());
+        return resourcePermission;
     }
 
     default PermissionDO fromDomain(ResourcePermission resourcePermission) {

@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -16,7 +17,7 @@ public class UserGroupListTreeDTO extends UserGroupBaseDTO  {
 
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private List<UserGroupListTreeDTO> children;
+    private List<UserGroupListTreeDTO> children = new ArrayList<>();
     private List<String> roles;
 
 }

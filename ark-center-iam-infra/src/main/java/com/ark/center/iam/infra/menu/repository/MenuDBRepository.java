@@ -2,13 +2,13 @@ package com.ark.center.iam.infra.menu.repository;
 
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
-import com.ark.center.iam.domain.menu.vo.MenuElement;
+import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.infra.menu.converter.MenuDomainConverter;
-import com.ark.center.iam.infra.menu.converter.MenuElementDomainConverter;
+import com.ark.center.iam.infra.element.converter.MenuElementDomainConverter;
 import com.ark.center.iam.infra.menu.repository.db.MenuDAO;
 import com.ark.center.iam.infra.menu.repository.db.MenuDO;
-import com.ark.center.iam.infra.menu.repository.db.MenuElementDAO;
-import com.ark.center.iam.infra.menu.repository.db.MenuElementDO;
+import com.ark.center.iam.infra.element.repository.db.MenuElementDAO;
+import com.ark.center.iam.infra.element.repository.db.MenuElementDO;
 import com.ark.component.ddd.infrastructure.BaseDBRepository;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +36,8 @@ public class MenuDBRepository extends BaseDBRepository<Menu, Long> implements Me
 
         // 先清除菜单元素再重新保存
         menuElementDAO.deleteByMenuId(menuId);
-        if (CollectionUtils.isNotEmpty(menu.getMenuElements())) {
-            List<MenuElementDO> menuElements = elementDomainConverter.fromDomain(menu.getMenuElements());
+        if (CollectionUtils.isNotEmpty(menu.getElements())) {
+            List<MenuElementDO> menuElements = elementDomainConverter.fromDomain(menu.getElements());
             menuElementDAO.saveBatch(menuElements);
         }
 
@@ -55,11 +55,13 @@ public class MenuDBRepository extends BaseDBRepository<Menu, Long> implements Me
 
         MenuDO menuDO = menuDAO.getById(menuId);
 
-        List<MenuElement> menuElements = elementDomainConverter.toDomain(menuElementDAO.selectByMenuId(menuId));
+        List<Element> elements = elementDomainConverter.toDomain(menuElementDAO.selectByMenuId(menuId));
 
         List<MenuDO> children = menuDAO.selectChildMenus(menuId);
 
-        return menuDomainConverter.toDomain(menuDO, menuElements, children);
+        Menu menu = menuDomainConverter.toDomain(menuDO, elements, children);
+
+        return menu;
     }
 
     @Override

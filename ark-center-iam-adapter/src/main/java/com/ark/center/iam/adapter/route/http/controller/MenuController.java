@@ -7,7 +7,7 @@ import com.ark.center.iam.model.element.dto.ElementBaseDTO;
 import com.ark.center.iam.model.menu.command.MenuCreateCommand;
 import com.ark.center.iam.model.menu.command.MenuHierarchyChangeCommand;
 import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
-import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.model.menu.dto.MenuDetailsDTO;
 import com.ark.center.iam.model.menu.query.MenuQuery;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
@@ -33,14 +33,14 @@ public class MenuController extends BaseController {
 
     @GetMapping("/menus")
     @Operation(summary = "路由树形分页查询")
-    public SingleResponse<PageResponse<RouteDetailsDTO>> page(@RequestBody MenuQuery dto) {
-        Page<RouteDetailsDTO> routeListTreeVOPage = menuQueryService.queryPage(dto);
+    public SingleResponse<PageResponse<MenuDetailsDTO>> page(MenuQuery dto) {
+        Page<MenuDetailsDTO> routeListTreeVOPage = menuQueryService.queryPage(dto);
         return SingleResponse.ok(PageResponse.of(routeListTreeVOPage));
     }
 
     @PostMapping("/menus/all")
     @Operation(summary = "路由全量查询")
-    public MultiResponse<RouteDetailsDTO> queryAll(@RequestBody MenuQuery dto) {
+    public MultiResponse<MenuDetailsDTO> queryAll(@RequestBody MenuQuery dto) {
         return MultiResponse.ok(menuQueryService.queryAll(dto));
     }
 
@@ -72,8 +72,8 @@ public class MenuController extends BaseController {
                     @Parameter(name = "id", description = "路由id", required = true)
             }
     )
-    public SingleResponse<RouteDetailsDTO> queryDetails(Long id) {
-        RouteDetailsDTO dto = menuQueryService.queryDetails(id);
+    public SingleResponse<MenuDetailsDTO> queryDetails(Long id) {
+        MenuDetailsDTO dto = menuQueryService.queryDetails(id);
         return SingleResponse.ok(dto);
     }
 

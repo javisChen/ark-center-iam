@@ -1,17 +1,15 @@
 package com.ark.center.iam.domain.permission;
 
 
+import cn.hutool.core.util.IdUtil;
 import com.ark.center.iam.domain.permission.vo.PermissionType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.experimental.SuperBuilder;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-
-import static lombok.AccessLevel.PRIVATE;
 
 /**
  * <p>
@@ -21,10 +19,9 @@ import static lombok.AccessLevel.PRIVATE;
  * @author
  * @since 2020-11-09
  */
-@Getter
+@Data
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor
 public class ResourcePermission extends AggregateRoot {
 
     @TableField("application_id")
@@ -56,6 +53,7 @@ public class ResourcePermission extends AggregateRoot {
 
 
     private ResourcePermission(PermissionType type, Long applicationId, Long resourceId) {
+        super(IdUtil.getSnowflakeNextId());
         this.applicationId = applicationId;
         this.type = type;
         this.resourceId = resourceId;

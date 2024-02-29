@@ -1,23 +1,18 @@
 package com.ark.center.iam.domain.api;
 
+import cn.hutool.core.util.IdUtil;
 import com.ark.center.iam.domain.api.event.ApiChangedEvent;
 import com.ark.center.iam.domain.api.event.ApiCreatedEvent;
 import com.ark.center.iam.domain.api.event.ApiDeletedEvent;
 import com.ark.center.iam.domain.api.vo.ApiAuthType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Getter
+@Data
 @EqualsAndHashCode(callSuper = true)
-@Builder
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor
 public class Api extends AggregateRoot {
 
     /**
@@ -67,6 +62,7 @@ public class Api extends AggregateRoot {
                String uri,
                String method,
                ApiAuthType authType) {
+        super(IdUtil.getSnowflakeNextId());
         this.name = name;
         this.applicationId = applicationId;
         this.categoryId = categoryId;

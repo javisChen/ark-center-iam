@@ -1,20 +1,17 @@
 package com.ark.center.iam.domain.user;
 
+import cn.hutool.core.util.IdUtil;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.SuperBuilder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import static lombok.AccessLevel.PRIVATE;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor
 public class User extends AggregateRoot {
 
     /**
@@ -59,18 +56,21 @@ public class User extends AggregateRoot {
                 String password,
                 List<Long> roleIds,
                 List<Long> userGroupIds) {
+        super(IdUtil.getSnowflakeNextId());
         this.username = username;
         this.mobile = mobile;
         this.code = code;
         this.password = password;
         this.roleIds = roleIds;
         this.userGroupIds = userGroupIds;
+        this.status = EnableDisableStatus.ENABLED;
     }
 
-//    public void update(String username, String mobile, List<Long> roleIds, List<Long> userGroupIds) {
-//        this.username = username;
-//        this.mobile = mobile;
-//        this.roleIds = roleIds;
-//        this.userGroupIds = userGroupIds;
-//    }
+    public void update(String username, String mobile, List<Long> roleIds, List<Long> userGroupIds) {
+        this.username = username;
+        this.mobile = mobile;
+        this.roleIds = roleIds;
+        this.userGroupIds = userGroupIds;
+    }
+
 }

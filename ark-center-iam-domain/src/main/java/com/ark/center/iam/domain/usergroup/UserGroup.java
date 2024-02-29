@@ -1,22 +1,21 @@
 package com.ark.center.iam.domain.usergroup;
 
+import cn.hutool.core.util.IdUtil;
 import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
 import com.ark.center.iam.domain.common.hierarchy.Parent;
 import com.ark.center.iam.domain.usergroup.vo.InheritType;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@Getter
+@Data
 @EqualsAndHashCode(callSuper = true)
-@SuperBuilder
-@AllArgsConstructor(access = PRIVATE)
+@NoArgsConstructor
 public class UserGroup extends AggregateRoot {
 
     /**
@@ -52,6 +51,7 @@ public class UserGroup extends AggregateRoot {
     private List<Long> roleIds;
 
     public UserGroup(String name, InheritType inheritType, UserGroupType type, List<Long> roleIds, UserGroup parent) {
+        super(IdUtil.getSnowflakeNextId());
         setBasicInfo(name, inheritType, type, roleIds, parent);
     }
 
@@ -65,6 +65,7 @@ public class UserGroup extends AggregateRoot {
         this.inheritType = inheritType;
         this.type = type;
         this.roleIds = roleIds;
+        this.status = EnableDisableStatus.ENABLED;
         if (parent == null) {
             this.hierarchy = new Hierarchy(getId());
         } else {

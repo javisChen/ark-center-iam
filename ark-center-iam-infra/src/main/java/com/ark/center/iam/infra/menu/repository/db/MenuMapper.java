@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.menu.repository.db;
 
-import com.ark.center.iam.model.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.model.menu.dto.MenuDetailsDTO;
 import com.ark.center.iam.model.menu.query.MenuQuery;
 import com.ark.center.iam.domain.menu.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -20,9 +20,9 @@ import java.util.List;
  */
 public interface MenuMapper extends BaseMapper<MenuDO> {
 
-    Page<RouteDetailsDTO> selectDetailsPages(@Param("page") IPage<Menu> page, @Param("params") MenuQuery params);
+    Page<MenuDetailsDTO> selectDetailsPages(@Param("page") IPage<Menu> page, @Param("params") MenuQuery params);
 
-    List<RouteDetailsDTO> selectSubRoutes();
+    List<MenuDetailsDTO> selectSubRoutes();
 
-    RouteDetailsDTO selectDetails(@Param("id") Long id);
+    MenuDetailsDTO selectDetails(@Param("id") Long id);
 }

@@ -32,7 +32,7 @@ include('eventstorming/Element/ReadModel')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement ReadModel
+' loads the Item which embeds the element ReadModel
 include('eventstorming/Element/ReadModel')
 
 ReadModel('ReadModel') [
@@ -56,7 +56,7 @@ A read model provides the information that needs to be available to take a given
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement ReadModel
+' loads the Item which embeds the element ReadModel
 include('eventstorming/Element/ReadModel')
 
 ReadModel('ReadModel') [

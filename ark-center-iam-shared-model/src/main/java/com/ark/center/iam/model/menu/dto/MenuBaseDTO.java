@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class RouteBaseDTO {
+public class MenuBaseDTO {
 
     private Long id;
     private Long pid;

@@ -62,6 +62,9 @@ public class MenuUpdateCommand implements Command {
     @Schema(description = "路由内部元素请求体")
     public static class Element {
 
+        @Schema(description = "元素id")
+        private Long id;
+
         @Schema(description = "元素名称")
         private String name;
 

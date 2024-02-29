@@ -15,33 +15,30 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserGroupDomainConverter {
 
-    default UserGroupDO fromDomain(UserGroup it) {
+    default UserGroupDO fromDomain(UserGroup userGroup) {
         UserGroupDO userGroupDO = new UserGroupDO();
-        userGroupDO.setName(it.getName());
-        userGroupDO.setPid(it.getPid());
-        userGroupDO.setStatus(it.getStatus().getValue());
-        Hierarchy hierarchy = it.getHierarchy();
+        userGroupDO.setName(userGroup.getName());
+        userGroupDO.setPid(userGroup.getPid());
+        userGroupDO.setStatus(userGroup.getStatus().getValue());
+        Hierarchy hierarchy = userGroup.getHierarchy();
         userGroupDO.setLevel(hierarchy.getLevel());
         userGroupDO.setLevelPath(hierarchy.getPath());
-        userGroupDO.setInheritType(it.getInheritType().getValue());
-        userGroupDO.setType(it.getType().getValue());
-        userGroupDO.setId(it.getId());
+        userGroupDO.setInheritType(userGroup.getInheritType().getValue());
+        userGroupDO.setType(userGroup.getType().getValue());
+        userGroupDO.setId(userGroup.getId());
         return userGroupDO;
     }
 
     default UserGroup toDomain(UserGroupDO groupDO, List<Long> roleIds) {
-        return UserGroup.builder()
-                .id(groupDO.getId())
-        		.name(groupDO.getName())
-        		.pid(groupDO.getPid())
-        		.status(EnableDisableStatus.from(groupDO.getStatus()))
-        		.hierarchy(Hierarchy.builder()
-                        .path(groupDO.getLevelPath())
-                        .parent(Parent.of(groupDO.getPid(), groupDO.getLevel(), groupDO.getLevelPath()))
-                        .build())
-        		.inheritType(InheritType.from(groupDO.getInheritType()))
-        		.type(UserGroupType.from(groupDO.getType()))
-        		.roleIds(roleIds)
-        		.build();
+        UserGroup userGroup = new UserGroup();
+        userGroup.setId(groupDO.getId());
+        userGroup.setName(groupDO.getName());
+        userGroup.setPid(groupDO.getPid());
+        userGroup.setStatus(EnableDisableStatus.from(groupDO.getStatus()));
+        userGroup.setHierarchy(new Hierarchy(userGroup.getId(), Parent.of(groupDO.getPid(), groupDO.getLevel(), groupDO.getLevelPath())));
+        userGroup.setInheritType(InheritType.from(groupDO.getInheritType()));
+        userGroup.setType(UserGroupType.from(groupDO.getType()));
+        userGroup.setRoleIds(roleIds);
+        return userGroup;
     }
 }

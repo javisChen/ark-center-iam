@@ -1,7 +1,7 @@
 //package com.ark.center.iam.domain.element.service;
 //
 //import cn.hutool.core.collection.CollectionUtil;
-//import com.ark.center.iam.domain.menu.vo.MenuElement;
+//import com.ark.center.iam.domain.element.MenuElement;
 //import com.ark.center.iam.domain.element.gateway.ElementGateway;
 //import com.ark.center.iam.domain.permission.enums.PermissionType;
 //import com.ark.center.iam.domain.permission.gateway.PermissionRepository;

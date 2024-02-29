@@ -34,18 +34,18 @@ public class ApiDBRepositoryImpl extends BaseDBRepository<Api, Long> implements 
         List<ApiDO> doList = dao.lambdaQuery()
                 .eq(ApiDO::getApplicationId, applicationId)
                 .list();
-        return domainConverter.convert(doList);
+        return domainConverter.fromDomain(doList);
     }
 
     @Override
     public Api byId(Long id) {
         ApiDO apiDO = dao.getById(id);
-        return domainConverter.convert(apiDO);
+        return domainConverter.toDomain(apiDO);
     }
 
     @Override
     public void save(Api api) {
-        ApiDO apiDO = domainConverter.convert(api);
+        ApiDO apiDO = domainConverter.fromDomain(api);
         dao.saveOrUpdate(apiDO);
     }
 

@@ -32,7 +32,7 @@ include('eventstorming/Element/UserInterface')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement UserInterface
+' loads the Item which embeds the element UserInterface
 include('eventstorming/Element/UserInterface')
 
 UserInterface('UserInterface') [
@@ -56,7 +56,7 @@ A user interface helps users to interact with the system.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement UserInterface
+' loads the Item which embeds the element UserInterface
 include('eventstorming/Element/UserInterface')
 
 UserInterface('UserInterface') [

@@ -32,7 +32,7 @@ include('eventstorming/Element/Query')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement Query
+' loads the Item which embeds the element Query
 include('eventstorming/Element/Query')
 
 Query('Query') [
@@ -56,7 +56,7 @@ A query is a wish to get a point of view of the state of the system.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement Query
+' loads the Item which embeds the element Query
 include('eventstorming/Element/Query')
 
 Query('Query') [

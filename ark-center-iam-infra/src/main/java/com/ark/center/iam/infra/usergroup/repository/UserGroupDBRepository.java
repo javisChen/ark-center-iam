@@ -86,8 +86,8 @@ public class UserGroupDBRepository extends BaseDBRepository<UserGroup, Long> imp
     public void save(UserGroup userGroup) {
         UserGroupDO userGroupDO = userGroupDomainConverter.fromDomain(userGroup);
         List<Long> roleIds = userGroup.getRoleIds();
-
         Long groupId = userGroupDO.getId();
+        userGroupDAO.saveOrUpdate(userGroupDO);
         userGroupDAO.deleteRoleRelations(groupId);
         userGroupDAO.saveRoleRelations(groupId, roleIds);
     }

@@ -1,4 +1,4 @@
-package com.ark.center.iam.domain.menu.vo;
+package com.ark.center.iam.domain.element.vo;
 
 import com.ark.component.ddd.domain.util.EnumUtils;
 import com.ark.component.ddd.domain.vo.BaseEnum;

@@ -30,8 +30,8 @@ public class UserGroupController extends BaseController {
 
     @GetMapping("")
     @Operation(summary = "查询用户组树结构列表")
-    public SingleResponse<PageResponse<UserGroupListTreeDTO>> queryList(@RequestBody UserGroupQuery qry) {
-        return SingleResponse.ok(PageResponse.of(userGroupQueryService.queryPage(qry)));
+    public SingleResponse<PageResponse<UserGroupListTreeDTO>> queryList(UserGroupQuery query) {
+        return SingleResponse.ok(PageResponse.of(userGroupQueryService.queryPage(query)));
     }
 
     @GetMapping("/all")

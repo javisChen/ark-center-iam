@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.menu.repository.db;
+package com.ark.center.iam.infra.element.repository.db;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

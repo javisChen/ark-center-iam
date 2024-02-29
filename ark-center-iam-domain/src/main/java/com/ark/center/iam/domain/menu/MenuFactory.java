@@ -1,7 +1,6 @@
 package com.ark.center.iam.domain.menu;
 
 import com.ark.center.iam.domain.menu.service.MenuChecker;
-import com.ark.center.iam.domain.menu.vo.MenuElement;
 import com.ark.center.iam.domain.menu.vo.MenuType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,14 +22,14 @@ public class MenuFactory {
                        Integer sequence,
                        String path,
                        String icon,
-                       List<MenuElement> menuElements,
+                       List<Long> elementIds,
                        Menu parentMenu) {
 
         menuChecker.ensureNameNotExists(name);
 
         menuChecker.ensureCodeNotExists(code);
 
-        return new Menu(name, applicationId, code, component, type, hideChildren, sequence, path, icon, menuElements,
+        return new Menu(name, applicationId, code, component, type, hideChildren, sequence, path, icon, elementIds,
                 parentMenu);
     }
 

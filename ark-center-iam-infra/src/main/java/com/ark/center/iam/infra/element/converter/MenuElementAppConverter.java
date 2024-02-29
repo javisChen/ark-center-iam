@@ -1,6 +1,6 @@
-package com.ark.center.iam.infra.menu.converter;
+package com.ark.center.iam.infra.element.converter;
 
-import com.ark.center.iam.infra.menu.repository.db.MenuElementDO;
+import com.ark.center.iam.infra.element.repository.db.MenuElementDO;
 import com.ark.center.iam.model.element.dto.ElementBaseDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

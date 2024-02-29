@@ -8,6 +8,7 @@ import com.ark.center.iam.model.user.command.UserCreateCommand;
 import com.ark.center.iam.model.user.command.UserUpdateCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserCommandHandler {
+public class UserCommandHandler implements InitializingBean {
 
 
     private final UserRepository userRepository;
@@ -24,6 +25,7 @@ public class UserCommandHandler {
     private final UserFactory userFactory;
 
     private final UserDomainService userDomainService;
+
 
 
     @Transactional(rollbackFor = Throwable.class)
@@ -70,4 +72,7 @@ public class UserCommandHandler {
         userRepository.deleteAndPublishEvents(user);
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+    }
 }

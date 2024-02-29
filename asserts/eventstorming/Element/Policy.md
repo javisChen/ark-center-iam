@@ -32,7 +32,7 @@ include('eventstorming/Element/Policy')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement Policy
+' loads the Item which embeds the element Policy
 include('eventstorming/Element/Policy')
 
 Policy('Policy') [
@@ -56,7 +56,7 @@ A policy captures the reactive logic of a process.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement Policy
+' loads the Item which embeds the element Policy
 include('eventstorming/Element/Policy')
 
 Policy('Policy') [

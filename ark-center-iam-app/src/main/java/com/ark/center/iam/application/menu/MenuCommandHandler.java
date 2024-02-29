@@ -1,14 +1,14 @@
 package com.ark.center.iam.application.menu;
 
+import com.ark.center.iam.domain.element.Element;
+import com.ark.center.iam.domain.element.repository.ElementRepository;
+import com.ark.center.iam.domain.element.service.ElementFactory;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.MenuFactory;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.domain.menu.service.MenuDomainService;
-import com.ark.center.iam.domain.menu.vo.ElementType;
-import com.ark.center.iam.domain.menu.vo.MenuElement;
+import com.ark.center.iam.domain.element.vo.ElementType;
 import com.ark.center.iam.domain.menu.vo.MenuType;
-import com.ark.center.iam.infra.menu.converter.MenuDomainConverter;
-import com.ark.center.iam.infra.menu.converter.MenuElementDomainConverter;
 import com.ark.center.iam.model.menu.command.MenuCreateCommand;
 import com.ark.center.iam.model.menu.command.MenuHierarchyChangeCommand;
 import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,15 +26,19 @@ import java.util.stream.Collectors;
 public class MenuCommandHandler {
 
     private final MenuRepository menuRepository;
-    private final MenuDomainConverter menuDomainConverter;
-    private final MenuElementDomainConverter menuElementDomainConverter;
     private final MenuFactory menuFactory;
     private final MenuDomainService menuDomainService;
+    private final ElementFactory elementFactory;
+    private final ElementRepository elementRepository;
 
     @Transactional(rollbackFor = Throwable.class)
     public void create(MenuCreateCommand command) {
 
         Menu parentMenu = command.getPid() > 0 ? menuRepository.byId(command.getPid()) : null;
+
+        List<Element> elements = command.getElements().stream()
+                .map(e -> elementFactory.create(e.getName(), ElementType.from(e.getType())))
+                .toList();
 
         Menu menu = menuFactory.create(command.getName(),
                 command.getApplicationId(),
@@ -43,11 +49,12 @@ public class MenuCommandHandler {
                 command.getSequence(),
                 command.getPath(),
                 command.getIcon(),
-                command.getElements().stream().map(e -> MenuElement.of(e.getName(), ElementType.from(e.getType())))
-                        .collect(Collectors.toList()),
+                elements.stream().map(Element::getId).collect(Collectors.toList()),
                 parentMenu);
 
         menuRepository.saveAndPublishEvents(menu);
+
+        elementRepository.saveAndPublishEvents(elements);
 
     }
 
@@ -57,7 +64,23 @@ public class MenuCommandHandler {
         Menu parentMenu = command.getPid() > 0 ? menuRepository.byIdOrThrowError(command.getPid(), "上级菜单不存在") : null;
 
         Menu menu = menuRepository.byIdOrThrowError(command.getId(), "菜单不存在");
+        
+        List<Element> newElements = command.getElements().stream()
+                .filter(e -> e.getId() == null)
+                .map(e -> elementFactory.create(e.getName(), ElementType.from(e.getType())))
+                .toList();
 
+        List<Long> originalElements = command.getElements().stream()
+                .map(MenuUpdateCommand.Element::getId)
+                .filter(Objects::nonNull)
+                .toList();
+
+        menu.addElements(newElements.stream().map(Element::getId).toList());
+
+        menu.removeElements(originalElements);
+
+
+        // 更新菜单基础信息
         menuDomainService.update(menu, command.getName(),
                 command.getApplicationId(),
                 command.getCode(),
@@ -68,9 +91,12 @@ public class MenuCommandHandler {
                 command.getPath(),
                 EnableDisableStatus.from(command.getStatus()),
                 command.getIcon(),
-                command.getElements().stream().map(e -> MenuElement.of(e.getName(), ElementType.from(e.getType())))
-                        .collect(Collectors.toList()),
+                newElements,
                 parentMenu);
+        
+        // 增加新元素
+        
+        // 删除元素
 
         menuRepository.saveAndPublishEvents(menu);
 

@@ -2,7 +2,7 @@
 //
 //import cn.hutool.core.collection.CollectionUtil;
 //import com.ark.center.iam.model.menu.command.MenuCreateCommand;
-//import com.ark.center.iam.domain.menu.vo.MenuElement;
+//import com.ark.center.iam.domain.element.MenuElement;
 //import com.ark.center.iam.domain.element.gateway.ElementGateway;
 //import com.ark.center.iam.domain.element.service.ElementService;
 //import com.ark.center.iam.domain.menu.Menu;

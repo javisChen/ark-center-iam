@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class ResourceResourcePermissionRepositoryImpl extends BaseDBRepository<ResourcePermission, Long> implements ResourcePermissionRepository {
+public class ResourcePermissionRepositoryImpl extends BaseDBRepository<ResourcePermission, Long> implements ResourcePermissionRepository {
 
     private final PermissionRoleRelMapper permissionRoleRelMapper;
     private final PermissionDomainConverter permissionDomainConverter;
@@ -50,7 +50,7 @@ public class ResourceResourcePermissionRepositoryImpl extends BaseDBRepository<R
         List<PermissionRoleRelDO> permissionRoleRelDOList = permissionRoleRelMapper
                 .selectByPermissionIdAndRoleId(applicationId, roleId, toRemoveApiPermissionIds);
         if (CollectionUtils.isNotEmpty(permissionRoleRelDOList)) {
-            List<Long> ids = permissionRoleRelDOList.stream().map(AggregateRoot::getId).sorted().collect(Collectors.toList());
+            List<Long> ids = permissionRoleRelDOList.stream().map(BaseEntity::getId).sorted().collect(Collectors.toList());
             permissionRoleRelMapper.deleteBatchIds(ids);
         }
     }

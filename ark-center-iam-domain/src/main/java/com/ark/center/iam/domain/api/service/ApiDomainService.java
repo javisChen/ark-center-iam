@@ -3,6 +3,7 @@ package com.ark.center.iam.domain.api.service;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.ApiRepository;
 import com.ark.center.iam.domain.api.event.ApiChangedEvent;
+import com.ark.center.iam.domain.api.event.ApiCreatedEvent;
 import com.ark.center.iam.domain.api.vo.ApiAuthType;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,11 @@ public class ApiDomainService {
 
         checkIsDuplicate(appId, method, uri);
 
-        return new Api(name, appId, categoryId, uri, method, ApiAuthType.from(authType));
+        Api api = new Api(name, appId, categoryId, uri, method, ApiAuthType.from(authType));
+
+        api.raiseEvent(new ApiCreatedEvent(this, api.getId()));
+
+        return api;
     }
 
     public Api update(Api api,

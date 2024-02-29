@@ -32,7 +32,7 @@ include('eventstorming/Element/DomainEvent')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement DomainEvent
+' loads the Item which embeds the element DomainEvent
 include('eventstorming/Element/DomainEvent')
 
 DomainEvent('DomainEvent') [
@@ -56,7 +56,7 @@ A domain event notifies something significant happened about an aggregate.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement DomainEvent
+' loads the Item which embeds the element DomainEvent
 include('eventstorming/Element/DomainEvent')
 
 DomainEvent('DomainEvent') [

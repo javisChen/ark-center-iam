@@ -32,7 +32,7 @@ include('eventstorming/Element/Process')
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement Process
+' loads the Item which embeds the element Process
 include('eventstorming/Element/Process')
 
 Process('Process') [
@@ -56,7 +56,7 @@ A process is a short-lived business transaction.
 ' loads the package bootstrap
 include('eventstorming/bootstrap')
 
-' loads the Item which embeds the menuElement Process
+' loads the Item which embeds the element Process
 include('eventstorming/Element/Process')
 
 Process('Process') [

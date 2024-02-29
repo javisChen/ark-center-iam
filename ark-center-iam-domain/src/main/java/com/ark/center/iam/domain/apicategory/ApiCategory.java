@@ -1,12 +1,10 @@
 package com.ark.center.iam.domain.apicategory;
 
+import cn.hutool.core.util.IdUtil;
 import com.ark.component.ddd.domain.AggregateRoot;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
-import static lombok.AccessLevel.PRIVATE;
 
 /**
  * <p>
@@ -32,6 +30,7 @@ public class ApiCategory extends AggregateRoot {
     private Long applicationId;
 
     public ApiCategory(String name, Long applicationId) {
+        super(IdUtil.getSnowflakeNextId());
         this.name = name;
         this.applicationId = applicationId;
     }

@@ -2,13 +2,11 @@ package com.ark.center.iam.domain.common.hierarchy;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 import static lombok.AccessLevel.PRIVATE;
 
-@Getter
-@Builder
+@Data
 @AllArgsConstructor(access = PRIVATE)
 public class Hierarchy {
 
