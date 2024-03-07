@@ -13,12 +13,17 @@ public interface MenuElementDomainConverter {
 
     List<Element> toDomain(List<MenuElementDO> elements);
 
-    default Element toDomain(MenuElementDO element) {
-        return Element.builder()
-                .id(element.getId())
-        		.name(element.getName())
-        		.type(ElementType.from(element.getType()))
-        		.build();
+    default Element toDomain(MenuElementDO elementDO) {
+        Element element = new Element();
+        element.setId(elementDO.getId());
+        element.setName(elementDO.getName());
+        element.setType(ElementType.from(elementDO.getType()));
+        element.setId(elementDO.getId());
+        element.setCreateTime(elementDO.getCreateTime());
+        element.setUpdateTime(elementDO.getUpdateTime());
+        element.setCreator(elementDO.getCreator());
+        element.setModifier(elementDO.getModifier());
+        return element;
     }
 
 

@@ -53,18 +53,7 @@ public class MenuCreateCommand implements Command {
     private Integer sequence;
 
     @Schema(description = "路由内部元素")
-    private List<Element> elements;
+    private List<ElementCommand> elements;
 
-    @Data
-    @Schema(description = "路由内部元素请求体")
-    public static class Element {
-
-        @Schema(description = "元素名称")
-        private String name;
-
-        @Schema(description = "元素类型")
-        private Integer type;
-
-    }
 
 }

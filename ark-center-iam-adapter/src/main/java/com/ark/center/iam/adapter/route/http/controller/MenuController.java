@@ -5,7 +5,6 @@ import com.ark.center.iam.application.menu.MenuCommandHandler;
 import com.ark.center.iam.application.menu.MenuQueryService;
 import com.ark.center.iam.model.element.dto.ElementBaseDTO;
 import com.ark.center.iam.model.menu.command.MenuCreateCommand;
-import com.ark.center.iam.model.menu.command.MenuHierarchyChangeCommand;
 import com.ark.center.iam.model.menu.command.MenuUpdateCommand;
 import com.ark.center.iam.model.menu.dto.MenuDetailsDTO;
 import com.ark.center.iam.model.menu.query.MenuQuery;
@@ -58,12 +57,12 @@ public class MenuController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @PutMapping("/menus/hierarchy")
-    @Operation(summary = "修改菜单的层级")
-    public ServerResponse changeHierarchy(@RequestBody @Validated MenuHierarchyChangeCommand dto) {
-        menuCommandHandler.changeHierarchy(dto);
-        return ServerResponse.ok();
-    }
+//    @PutMapping("/menus/hierarchy")
+//    @Operation(summary = "修改菜单的层级")
+//    public ServerResponse changeHierarchy(@RequestBody @Validated MenuHierarchyChangeCommand dto) {
+//        menuCommandHandler.changeHierarchy(dto);
+//        return ServerResponse.ok();
+//    }
 
     @GetMapping("/menus/details")
     @Operation(

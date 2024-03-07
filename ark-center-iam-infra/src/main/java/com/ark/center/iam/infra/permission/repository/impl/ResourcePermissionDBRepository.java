@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class ResourcePermissionRepositoryImpl extends BaseDBRepository<ResourcePermission, Long> implements ResourcePermissionRepository {
+public class ResourcePermissionDBRepository extends BaseDBRepository<ResourcePermission, Long> implements ResourcePermissionRepository {
 
     private final PermissionRoleRelMapper permissionRoleRelMapper;
     private final PermissionDomainConverter permissionDomainConverter;

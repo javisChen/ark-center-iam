@@ -1,7 +1,8 @@
 package com.ark.center.iam.infra.menu.converter;
 
-import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
 import com.ark.center.iam.domain.element.Element;
+import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.vo.MenuType;
 import com.ark.center.iam.infra.element.converter.MenuElementDomainConverter;
 import com.ark.center.iam.infra.menu.repository.db.MenuDO;
@@ -15,7 +16,7 @@ import java.util.List;
         uses = MenuElementDomainConverter.class)
 public interface MenuDomainConverter {
 
-    default Menu toDomain(MenuDO menuDO, List<Element> elements, List<MenuDO> children) {
+    default Menu toDomain(MenuDO menuDO, List<Element> elements, MenuDO parent) {
         Menu menu = new Menu();
         menu.setName(menuDO.getName());
         menu.setApplicationId(menuDO.getApplicationId());
@@ -28,8 +29,7 @@ public interface MenuDomainConverter {
         menu.setPath(menuDO.getPath());
         menu.setIcon(menuDO.getIcon());
         menu.setStatus(EnableDisableStatus.from(menuDO.getStatus()));
-        // menu.setMenuElements(elements);
-        menu.setChildren(children);
+        menu.setElements(elements);
         menu.setId(menuDO.getId());
         menu.setCreateTime(menuDO.getCreateTime());
         menu.setUpdateTime(menuDO.getUpdateTime());
@@ -47,8 +47,9 @@ public interface MenuDomainConverter {
         menuDO.setType(menu.getType().getValue());
         menuDO.setHideChildren(menu.getHideChildren());
         menuDO.setPid(menu.getPid());
-        menuDO.setLevelPath(menu.getHierarchy().getPath());
-        menuDO.setLevel(menu.getHierarchy().getLevel());
+        Hierarchy hierarchy = menu.getHierarchy();
+        menuDO.setLevelPath(hierarchy.getPath());
+        menuDO.setLevel(hierarchy.getLevel());
         menuDO.setSequence(menu.getSequence());
         menuDO.setPath(menu.getPath());
         menuDO.setIcon(menu.getIcon());

@@ -1,8 +1,10 @@
 package com.ark.center.iam.domain.menu;
 
 import cn.hutool.core.util.IdUtil;
-import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
-import com.ark.center.iam.domain.common.hierarchy.Parent;
+import com.ark.center.iam.domain.element.Element;
+import com.ark.center.iam.domain.menu.event.MenuCreatedEvent;
+import com.ark.center.iam.domain.menu.event.MenuDeletedEvent;
+import com.ark.center.iam.domain.menu.support.MenuDomainDTO;
 import com.ark.center.iam.domain.menu.vo.MenuType;
 import com.ark.component.ddd.domain.AggregateRoot;
 import com.ark.component.ddd.domain.vo.EnableDisableStatus;
@@ -13,6 +15,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -57,7 +60,7 @@ public class Menu extends AggregateRoot {
     /**
      * 层级
      */
-    private Hierarchy hierarchy;
+//    private Hierarchy hierarchy;
 
     /**
      * 排序序号
@@ -79,44 +82,46 @@ public class Menu extends AggregateRoot {
      */
     private EnableDisableStatus status;
 
-    private List<Long> elements;
+    private List<Element> elements;
 
     private List<Menu> children;
 
-    public Menu(String name,
-                Long applicationId,
-                String code,
-                String component,
-                MenuType type,
-                Boolean hideChildren,
-                Integer sequence,
-                String path,
-                String icon,
-                List<Long> elements,
-                Menu parent) {
+    public Menu(MenuDomainDTO domainDTO) {
         super(IdUtil.getSnowflakeNextId());
-        setBasicInfo(name, applicationId, code, component, type, hideChildren, sequence, path, icon, elements, parent);
+        String name = domainDTO.getName();
+        Long applicationId = domainDTO.getApplicationId();
+        String code = domainDTO.getCode();
+        String component = domainDTO.getComponent();
+        MenuType type = domainDTO.getType();
+        Boolean hideChildren = domainDTO.getHideChildren();
+        Integer sequence = domainDTO.getSequence();
+        String path = domainDTO.getPath();
+        String icon = domainDTO.getIcon();
+        List<Element> elements = domainDTO.getElements();
+        Menu parent = domainDTO.getParent();
+        setBasicInfo(name, applicationId, code, component, type, hideChildren, sequence, path, icon, parent);
         this.children = List.of();
-        setHierarchy(parent);
+        this.elements = elements;
+        // this.hierarchy = new Hierarchy(getId());
         raiseEvent(new MenuCreatedEvent(this, getId()));
     }
 
-    public void update(String name,
-                       Long applicationId,
-                       String code,
-                       String component,
-                       MenuType type,
-                       Boolean hideChildren,
-                       Integer sequence,
-                       String path,
-                       String icon,
-                       EnableDisableStatus status,
-                       List<Long> elements,
-                       Menu parent) {
-        setBasicInfo(name, applicationId, code, component, type, hideChildren, sequence, path, icon, elements, parent);
+    public void updateBasic(MenuDomainDTO updateDTO) {
+        String name = updateDTO.getName();
+        Long applicationId = updateDTO.getApplicationId();
+        String code = updateDTO.getCode();
+        String component = updateDTO.getComponent();
+        MenuType type = updateDTO.getType();
+        Boolean hideChildren = updateDTO.getHideChildren();
+        Integer sequence = updateDTO.getSequence();
+        String path = updateDTO.getPath();
+        String icon = updateDTO.getIcon();
+        Menu parent = updateDTO.getParent();
+        EnableDisableStatus status = updateDTO.getStatus();
+        setBasicInfo(name, applicationId, code, component, type, hideChildren, sequence, path, icon, parent);
         updateStatus(status);
-        changeHierarchy(parent);
-        raiseEvent(new MenuChangedEvent(this, getId()));
+        // changeHierarchy(parent);
+        raiseEvent(new com.ark.center.iam.domain.menu.event.MenuChangedEvent(this, getId()));
     }
 
     private void setBasicInfo(String name,
@@ -128,7 +133,6 @@ public class Menu extends AggregateRoot {
                               Integer sequence,
                               String path,
                               String icon,
-                              List<Long> elements,
                               Menu parent) {
         this.name = name;
         this.applicationId = applicationId;
@@ -140,17 +144,16 @@ public class Menu extends AggregateRoot {
         this.sequence = sequence;
         this.path = path;
         this.icon = icon;
-        this.elements = elements;
     }
 
-    public void setHierarchy(Menu parent) {
-        if (parent == null) {
-            this.hierarchy = new Hierarchy(getId());
-        } else {
-            Hierarchy parentHierarchy = parent.getHierarchy();
-            this.hierarchy = new Hierarchy(getId(), Parent.of(parent.getId(), parentHierarchy.getLevel(), parentHierarchy.getPath()));
-        }
-    }
+//    public void setHierarchy(Menu parent) {
+//        if (parent == null) {
+//            this.hierarchy = new Hierarchy(getId());
+//        } else {
+//            Hierarchy parentHierarchy = parent.getHierarchy();
+//            this.hierarchy = new Hierarchy(getId(), Parent.of(parent.getId(), parentHierarchy.getLevel(), parentHierarchy.getPath()));
+//        }
+//    }
 
     /**
      * 递归更新子菜单的状态
@@ -167,15 +170,15 @@ public class Menu extends AggregateRoot {
      *
      * @param parentMenu 父级菜单
      */
-    public void changeHierarchy(Menu parentMenu) {
-        if (parentMenu == null || parentMenu.getId().equals(this.pid)) {
-            return;
-        }
-        setHierarchy(parentMenu);
-        for (Menu child : this.children) {
-            child.changeHierarchy(this);
-        }
-    }
+//    public void changeHierarchy(Menu parentMenu) {
+//        if (parentMenu == null || parentMenu.getId().equals(this.pid)) {
+//            return;
+//        }
+//        setHierarchy(parentMenu);
+//        for (Menu child : this.children) {
+//            child.changeHierarchy(this);
+//        }
+//    }
 
     /**
      * 改变当前菜单状态同时要把子菜单状态一并修改
@@ -183,7 +186,7 @@ public class Menu extends AggregateRoot {
     public void updateStatus(EnableDisableStatus status) {
         this.status = status;
         this.updateChildrenStatus(status);
-        raiseEvent(new MenuChangedEvent(this, getId()));
+        raiseEvent(new com.ark.center.iam.domain.menu.event.MenuChangedEvent(this, getId()));
     }
 
     public void onDelete() {
@@ -212,7 +215,7 @@ public class Menu extends AggregateRoot {
     }
 
     public void collectElementIds(Menu menu, List<Long> allIds) {
-        List<Long> elements = menu.getElements();
+        List<Long> elements = menu.getElements().stream().map(Element::getId).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(elements)) {
             allIds.addAll(elements);
         }
@@ -223,20 +226,42 @@ public class Menu extends AggregateRoot {
         children.forEach(childMenu -> collectElementIds(childMenu, allIds));
     }
 
-    public void addElements(List<Long> newElementIds) {
+    /**
+     * 更新菜单元素
+     *
+     * @param newElementIds    新加入的元素
+     * @param reservedElements 仍然需要保留的元素
+     */
+    public void updateElements(List<Element> newElementIds, List<Element> reservedElements) {
+        if (CollectionUtils.isNotEmpty(reservedElements)) {
+            List<Long> removedIds = extractDiffElementIds(reservedElements);
+            this.elements = this.elements.stream()
+                    .filter(element -> !removedIds.contains(element.getId()))
+                    .collect(Collectors.toList());
+        }
+
         this.elements.addAll(newElementIds);
+
     }
 
-    public void removeElements(List<Long> existedElements) {
-        if (CollectionUtils.isEmpty(existedElements)) {
-            return;
-        }
-        List<Long> removedIds = new ArrayList<>();
-        for (Long element : this.elements) {
-            if (!existedElements.contains(element)) {
-                removedIds.add(element);
-            }
-        }
-        this.elements.removeAll(removedIds);
+    /**
+     * 获取元素的差集
+     */
+    public List<Long> extractDiffElementIds(List<Element> outElements) {
+        return this.elements.stream()
+                .filter(element -> !outElements.contains(element))
+                .map(Element::getId)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteElements(List<Long> deletedElements) {
+        this.elements = this.elements
+                .stream()
+                .filter(element -> !deletedElements.contains(element.getId()))
+                .collect(Collectors.toList());
+    }
+
+    public void addElements(List<Element> newElements) {
+        this.elements.addAll(newElements);
     }
 }

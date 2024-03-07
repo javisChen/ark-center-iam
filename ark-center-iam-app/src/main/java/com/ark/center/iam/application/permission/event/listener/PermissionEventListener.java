@@ -3,16 +3,14 @@ package com.ark.center.iam.application.permission.event.listener;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.ApiRepository;
 import com.ark.center.iam.domain.api.event.ApiCreatedEvent;
-import com.ark.center.iam.domain.menu.Menu;
-import com.ark.center.iam.domain.menu.MenuCreatedEvent;
-import com.ark.center.iam.domain.menu.MenuDeletedEvent;
+import com.ark.center.iam.domain.menu.event.MenuCreatedEvent;
+import com.ark.center.iam.domain.menu.event.MenuDeletedEvent;
 import com.ark.center.iam.domain.menu.repository.MenuRepository;
 import com.ark.center.iam.domain.permission.ResourcePermission;
-import com.ark.center.iam.domain.permission.vo.PermissionType;
 import com.ark.center.iam.domain.permission.repository.ResourcePermissionRepository;
+import com.ark.center.iam.domain.permission.vo.PermissionType;
 import com.ark.center.iam.domain.role.event.RoleDeletedEvent;
 import com.ark.center.iam.infra.element.repository.db.MenuElementDAO;
-import com.ark.center.iam.infra.element.repository.db.MenuElementDO;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,17 +44,17 @@ public class PermissionEventListener {
     public void onApplicationEvent(@NotNull MenuCreatedEvent event) {
         log.info("menu {} was created", event.getMenuId());
 
-        Menu menu = menuRepository.byId(event.getMenuId());
-
-        Long applicationId = menu.getApplicationId();
-
-        List<MenuElementDO> menuElementDOS = menuElementDAO.selectByMenuId(menu.getId());
-
-        resourcePermissionRepository.saveAndPublishEvents(ResourcePermission.of(PermissionType.MENU, applicationId, event.getMenuId()));
-
-        menuElementDOS.stream()
-                .map(menuElementDO -> ResourcePermission.of(PermissionType.MENU_ELEMENT, applicationId, menuElementDO.getId()))
-                .forEach(resourcePermissionRepository::saveAndPublishEvents);
+//        Menu menu = menuRepository.byId(event.getMenuId());
+//
+//        Long applicationId = menu.getApplicationId();
+//
+//        List<MenuElementDO> menuElementDOS = menuElementDAO.selectByMenuId(menu.getId());
+//
+//        resourcePermissionRepository.saveAndPublishEvents(ResourcePermission.of(PermissionType.MENU, applicationId, event.getMenuId()));
+//
+//        menuElementDOS.stream()
+//                .map(menuElementDO -> ResourcePermission.of(PermissionType.MENU_ELEMENT, applicationId, menuElementDO.getId()))
+//                .forEach(resourcePermissionRepository::saveAndPublishEvents);
 
     }
 

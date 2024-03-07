@@ -1,8 +1,10 @@
 package com.ark.center.iam.domain.common.hierarchy;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -10,23 +12,19 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor(access = PRIVATE)
 public class Hierarchy {
 
-    private final Integer level;
-    private final String path;
-    private Parent parent;
+    private List<HierarchyNode> nodes;
 
-    public Hierarchy(Long id, Parent parent) {
-        this.parent = parent;
-        this.level = (parent != null && parent.getId().equals(0L)) ? parent.getLevel() + 1 : 1;
-        if (level == 1) {
-            this.path = id + StrUtil.DOT;
-        } else {
-            this.path = parent.getPath() + id + StrUtil.DOT;
-        }
+    public Hierarchy() {
+        nodes = new ArrayList<>(0);
     }
 
-    public Hierarchy(Long id) {
-        this.level = 1;
-        this.path = id + StrUtil.DOT;
+    public void addNode(String parentNodeId, String nodeId) {
+        for (HierarchyNode node : nodes) {
+            HierarchyNode hierarchyNode = node.nodeById(parentNodeId);
+            if (hierarchyNode != null) {
+                hierarchyNode.addChild(nodeId);
+            }
+        }
     }
 
 }

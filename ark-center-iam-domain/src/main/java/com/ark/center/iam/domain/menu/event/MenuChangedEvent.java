@@ -1,4 +1,4 @@
-package com.ark.center.iam.domain.menu;
+package com.ark.center.iam.domain.menu.event;
 
 import com.ark.center.iam.domain.common.DomainEventTypes;
 import com.ark.component.ddd.domain.event.DomainEvent;
