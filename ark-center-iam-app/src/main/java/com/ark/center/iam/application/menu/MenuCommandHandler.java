@@ -6,9 +6,10 @@ import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.service.ElementFactory;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.MenuFactory;
-import com.ark.center.iam.domain.menu.repository.MenuRepository;
+import com.ark.center.iam.domain.menu.MenuRepository;
 import com.ark.center.iam.domain.menu.service.MenuDomainService;
 import com.ark.center.iam.domain.menu.support.MenuDomainDTO;
+import com.ark.center.iam.domain.menuhierarchy.MenuHierarchyRepository;
 import com.ark.center.iam.domain.permission.ResourcePermission;
 import com.ark.center.iam.domain.permission.repository.ResourcePermissionRepository;
 import com.ark.center.iam.domain.permission.vo.PermissionType;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class MenuCommandHandler {
 
     private final MenuRepository menuRepository;
+    private final MenuHierarchyRepository menuHierarchyRepository;
     private final MenuFactory menuFactory;
     private final ElementFactory elementFactory;
     private final MenuDomainService menuDomainService;

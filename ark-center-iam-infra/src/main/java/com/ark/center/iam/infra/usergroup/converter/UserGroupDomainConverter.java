@@ -1,7 +1,6 @@
 package com.ark.center.iam.infra.usergroup.converter;//package com.ark.center.iam.infra.usergroup.assembler;
 
-import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
-import com.ark.center.iam.domain.common.hierarchy.Parent;
+import com.ark.center.iam.domain.common.hierarchy.IdTree;
 import com.ark.center.iam.domain.usergroup.UserGroup;
 import com.ark.center.iam.domain.usergroup.vo.InheritType;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupType;
@@ -20,9 +19,9 @@ public interface UserGroupDomainConverter {
         userGroupDO.setName(userGroup.getName());
         userGroupDO.setPid(userGroup.getPid());
         userGroupDO.setStatus(userGroup.getStatus().getValue());
-        Hierarchy hierarchy = userGroup.getHierarchy();
-        userGroupDO.setLevel(hierarchy.getLevel());
-        userGroupDO.setLevelPath(hierarchy.getPath());
+        IdTree idTree = userGroup.getIdTree();
+//        userGroupDO.setLevel(idTree.getLevel());
+//        userGroupDO.setLevelPath(idTree.getPath());
         userGroupDO.setInheritType(userGroup.getInheritType().getValue());
         userGroupDO.setType(userGroup.getType().getValue());
         userGroupDO.setId(userGroup.getId());
@@ -35,7 +34,7 @@ public interface UserGroupDomainConverter {
         userGroup.setName(groupDO.getName());
         userGroup.setPid(groupDO.getPid());
         userGroup.setStatus(EnableDisableStatus.from(groupDO.getStatus()));
-        userGroup.setHierarchy(new Hierarchy(userGroup.getId(), Parent.of(groupDO.getPid(), groupDO.getLevel(), groupDO.getLevelPath())));
+//        userGroup.setIdTree(new IdTree(userGroup.getId(), Parent.of(groupDO.getPid(), groupDO.getLevel(), groupDO.getLevelPath())));
         userGroup.setInheritType(InheritType.from(groupDO.getInheritType()));
         userGroup.setType(UserGroupType.from(groupDO.getType()));
         userGroup.setRoleIds(roleIds);

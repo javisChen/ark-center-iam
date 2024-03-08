@@ -7,7 +7,7 @@
 //import com.ark.center.iam.domain.element.service.ElementService;
 //import com.ark.center.iam.domain.menu.Menu;
 //import com.ark.center.iam.domain.menu.common.MenuConst;
-//import com.ark.center.iam.domain.menu.repository.MenuRepository;
+//import com.ark.center.iam.domain.menu.MenuRepository;
 //import com.ark.center.iam.domain.menu.service.RouteCheckService;
 //import com.ark.center.iam.domain.menu.service.RouteService;
 //import com.ark.center.iam.infra.element.assembler.ElementAssembler;

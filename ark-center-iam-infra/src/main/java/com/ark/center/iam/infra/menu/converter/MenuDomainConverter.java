@@ -1,6 +1,5 @@
 package com.ark.center.iam.infra.menu.converter;
 
-import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.vo.MenuType;
@@ -47,9 +46,9 @@ public interface MenuDomainConverter {
         menuDO.setType(menu.getType().getValue());
         menuDO.setHideChildren(menu.getHideChildren());
         menuDO.setPid(menu.getPid());
-        Hierarchy hierarchy = menu.getHierarchy();
-        menuDO.setLevelPath(hierarchy.getPath());
-        menuDO.setLevel(hierarchy.getLevel());
+//        IdTree idTree = menu.getHierarchy();
+//        menuDO.setLevelPath(idTree.getPath());
+//        menuDO.setLevel(idTree.getLevel());
         menuDO.setSequence(menu.getSequence());
         menuDO.setPath(menu.getPath());
         menuDO.setIcon(menu.getIcon());

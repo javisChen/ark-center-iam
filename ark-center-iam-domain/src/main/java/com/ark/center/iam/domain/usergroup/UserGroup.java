@@ -1,8 +1,7 @@
 package com.ark.center.iam.domain.usergroup;
 
 import cn.hutool.core.util.IdUtil;
-import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
-import com.ark.center.iam.domain.common.hierarchy.Parent;
+import com.ark.center.iam.domain.common.hierarchy.IdTree;
 import com.ark.center.iam.domain.usergroup.vo.InheritType;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupType;
 import com.ark.component.ddd.domain.AggregateRoot;
@@ -36,7 +35,7 @@ public class UserGroup extends AggregateRoot {
     /**
      * 层级
      */
-    private Hierarchy hierarchy;
+    private IdTree idTree;
 
     /**
      * 继承类型 0-不继承 1-继承上级用户组 2-继承所有用户组
@@ -66,12 +65,12 @@ public class UserGroup extends AggregateRoot {
         this.type = type;
         this.roleIds = roleIds;
         this.status = EnableDisableStatus.ENABLED;
-        if (parent == null) {
-            this.hierarchy = new Hierarchy(getId());
-        } else {
-            Hierarchy parentHierarchy = parent.getHierarchy();
-            this.hierarchy = new Hierarchy(getId(), Parent.of(parent.getId(), parentHierarchy.getLevel(), parentHierarchy.getPath()));
-        }
+//        if (parent == null) {
+//            this.idTree = new IdTree(getId());
+//        } else {
+//            IdTree parentIdTree = parent.getIdTree();
+//            this.idTree = new IdTree(getId(), Parent.of(parent.getId(), parentIdTree.getLevel(), parentIdTree.getPath()));
+//        }
     }
 
 }

@@ -5,7 +5,7 @@ import com.ark.center.iam.domain.api.ApiRepository;
 import com.ark.center.iam.domain.api.event.ApiCreatedEvent;
 import com.ark.center.iam.domain.menu.event.MenuCreatedEvent;
 import com.ark.center.iam.domain.menu.event.MenuDeletedEvent;
-import com.ark.center.iam.domain.menu.repository.MenuRepository;
+import com.ark.center.iam.domain.menu.MenuRepository;
 import com.ark.center.iam.domain.permission.ResourcePermission;
 import com.ark.center.iam.domain.permission.repository.ResourcePermissionRepository;
 import com.ark.center.iam.domain.permission.vo.PermissionType;

@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.menu.repository;
 
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.menu.Menu;
-import com.ark.center.iam.domain.menu.repository.MenuRepository;
+import com.ark.center.iam.domain.menu.MenuRepository;
 import com.ark.center.iam.infra.element.converter.MenuElementDomainConverter;
 import com.ark.center.iam.infra.element.repository.db.MenuElementDAO;
 import com.ark.center.iam.infra.element.repository.db.MenuElementDO;
@@ -25,7 +25,6 @@ public class MenuDBRepository extends BaseDBRepository<Menu, Long> implements Me
     private final MenuElementDomainConverter elementDomainConverter;
     private final MenuDAO menuDAO;
     private final MenuElementDAO menuElementDAO;
-
 
     @Override
     public void save(Menu menu) {

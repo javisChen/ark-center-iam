@@ -1,7 +1,7 @@
 package com.ark.center.iam.domain.menu.service;
 
 import cn.hutool.core.lang.Assert;
-import com.ark.center.iam.domain.menu.repository.MenuRepository;
+import com.ark.center.iam.domain.menu.MenuRepository;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@
 //
 //import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
 //import com.ark.center.iam.domain.menu.Menu;
-//import com.ark.center.iam.domain.menu.repository.MenuRepository;
+//import com.ark.center.iam.domain.menu.MenuRepository;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Component;
 //

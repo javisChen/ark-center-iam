@@ -21,6 +21,7 @@
         <module>ark-center-iam-domain</module>
         <module>ark-center-iam-infra</module>
         <module>ark-center-iam-start</module>
+        <module>ark-center-iam-tests</module>
     </modules>
 
     <dependencyManagement>

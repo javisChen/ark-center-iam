@@ -1,6 +1,6 @@
 package com.ark.center.iam.domain.menu.support;
 
-import com.ark.center.iam.domain.common.hierarchy.Hierarchy;
+import com.ark.center.iam.domain.common.hierarchy.IdTree;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.vo.MenuType;
@@ -54,7 +54,7 @@ public class MenuDomainDTO {
     /**
      * 层级
      */
-    private Hierarchy hierarchy;
+    private IdTree idTree;
 
     /**
      * 排序序号

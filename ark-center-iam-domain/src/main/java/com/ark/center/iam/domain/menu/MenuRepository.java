@@ -1,6 +1,5 @@
-package com.ark.center.iam.domain.menu.repository;
+package com.ark.center.iam.domain.menu;
 
-import com.ark.center.iam.domain.menu.Menu;
 import com.ark.component.ddd.domain.repository.BaseRepository;
 
 public interface MenuRepository extends BaseRepository<Menu, Long> {

@@ -22,8 +22,8 @@ public interface UserGroupAppConverter {
         userGroupDetailDTO.setPid(userGroup.getPid());
         userGroupDetailDTO.setName(userGroup.getName());
         userGroupDetailDTO.setStatus(userGroup.getStatus().getValue());
-        userGroupDetailDTO.setLevel(userGroup.getHierarchy().getLevel());
-        userGroupDetailDTO.setLevelPath(userGroup.getHierarchy().getPath());
+//        userGroupDetailDTO.setLevel(userGroup.getIdTree().getLevel());
+//        userGroupDetailDTO.setLevelPath(userGroup.getIdTree().getPath());
         userGroupDetailDTO.setInheritType(userGroup.getInheritType().getValue());
         userGroupDetailDTO.setType(userGroup.getType().getValue());
         return userGroupDetailDTO;
