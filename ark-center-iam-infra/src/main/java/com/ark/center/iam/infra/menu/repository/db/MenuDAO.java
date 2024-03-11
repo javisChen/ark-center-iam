@@ -17,12 +17,6 @@ public class MenuDAO extends ServiceImpl<MenuMapper, MenuDO> {
 
     private final MenuAppConverter appConverter;
 
-    public List<MenuDO> selectChildMenus(Long id) {
-        return lambdaQuery()
-                .likeRight(MenuDO::getLevelPath, id)
-                .list();
-    }
-
     public List<UserRouteDTO> selectByIds(List<Long> routeIds) {
         if (CollectionUtil.isEmpty(routeIds)) {
             return Collections.emptyList();

@@ -9,6 +9,8 @@ import com.ark.center.iam.domain.menu.MenuFactory;
 import com.ark.center.iam.domain.menu.MenuRepository;
 import com.ark.center.iam.domain.menu.service.MenuDomainService;
 import com.ark.center.iam.domain.menu.support.MenuDomainDTO;
+import com.ark.center.iam.domain.menuhierarchy.MenuHierarchy;
+import com.ark.center.iam.domain.menuhierarchy.MenuHierarchyFactory;
 import com.ark.center.iam.domain.menuhierarchy.MenuHierarchyRepository;
 import com.ark.center.iam.domain.permission.ResourcePermission;
 import com.ark.center.iam.domain.permission.repository.ResourcePermissionRepository;
@@ -31,6 +33,7 @@ public class MenuCommandHandler {
     private final MenuRepository menuRepository;
     private final MenuHierarchyRepository menuHierarchyRepository;
     private final MenuFactory menuFactory;
+    private final MenuHierarchyFactory menuHierarchyFactory;
     private final ElementFactory elementFactory;
     private final MenuDomainService menuDomainService;
     private final AppElementDomainConverter elementDomainConverter;
@@ -49,6 +52,10 @@ public class MenuCommandHandler {
         Menu menu = menuFactory.create(domainDTO);
 
         menuRepository.saveAndPublishEvents(menu);
+
+        MenuHierarchy hierarchy = menuHierarchyFactory.create();
+        hierarchy.addMenu(menu.getPid(), menu.getId());
+        menuHierarchyRepository.saveAndPublishEvents(hierarchy);
 
         saveResourcePermission(menu, elements);
 

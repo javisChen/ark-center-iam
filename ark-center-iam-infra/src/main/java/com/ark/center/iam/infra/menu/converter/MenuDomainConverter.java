@@ -15,7 +15,7 @@ import java.util.List;
         uses = MenuElementDomainConverter.class)
 public interface MenuDomainConverter {
 
-    default Menu toDomain(MenuDO menuDO, List<Element> elements, MenuDO parent) {
+    default Menu toDomain(MenuDO menuDO, List<Element> elements) {
         Menu menu = new Menu();
         menu.setName(menuDO.getName());
         menu.setApplicationId(menuDO.getApplicationId());

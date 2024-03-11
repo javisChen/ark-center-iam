@@ -4,13 +4,18 @@ import com.ark.center.iam.domain.common.hierarchy.IdTree;
 import com.ark.component.ddd.domain.AggregateRoot;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 public class MenuHierarchy extends AggregateRoot {
 
     private IdTree idTree;
 
+    public MenuHierarchy() {
+        this.idTree = new IdTree();
+    }
+
+    public void addMenu(Long pid, Long menuId) {
+        this.idTree.addNode(pid.equals(0L) ? null : String.valueOf(pid), String.valueOf(menuId));
+    }
 }

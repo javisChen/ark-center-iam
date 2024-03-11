@@ -1,29 +1,26 @@
 package com.ark.center.iam.domain.common.hierarchy;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
-import static lombok.AccessLevel.PRIVATE;
 
-@AllArgsConstructor(access = PRIVATE)
+
 public class IdTree {
-
-    public static final String NODE_ID_SEPARATOR = "/";
 
     @Getter
     private List<IdNode> nodes;
 
+    @Getter
     private Set<String> nodeIds;
 
     public IdTree() {
         nodes = new ArrayList<>(10);
-        nodeIds = new CopyOnWriteArraySet<>();
+        nodeIds = new HashSet<>();
     }
 
     public void addNode(String nodeId) {
@@ -109,6 +106,15 @@ public class IdTree {
         return nodeIds;
     }
 
+    public List<IdNode> allNodes() {
+        // 我要获取所有
+        List<IdNode> ns = nodes.stream()
+                .flatMap(n -> n.allNodes().stream())
+                .collect(Collectors.toList());
+        ns.addAll(nodes);
+        return ns;
+    }
+
     @Getter
     public static class IdNode {
 
@@ -182,6 +188,14 @@ public class IdTree {
                 stringJoiner.append(child.show());
             }
             return stringJoiner.toString();
+        }
+
+        public List<IdNode> allNodes() {
+            List<IdNode> ns = this.children.stream()
+                    .flatMap(child -> child.allNodes().stream())
+                    .collect(Collectors.toList());
+            ns.add(this);
+            return ns;
         }
     }
 }

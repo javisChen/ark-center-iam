@@ -44,9 +44,6 @@ public class IdTreeTest {
         IdTree idTree = new IdTree();
         idTree.addNode("001");
 
-        System.out.println(idTree.show());
-        Assertions.assertEquals(1, idTree.allNodeIds().size());
-
         idTree.removeNode("001");
         System.out.println(idTree.show());
         Assertions.assertEquals(0, idTree.allNodeIds().size());

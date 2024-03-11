@@ -57,7 +57,7 @@ public class MenuDBRepository extends BaseDBRepository<Menu, Long> implements Me
         if (menuDO.getPid() != null) {
             parent = menuDAO.getById(menuDO.getPid());
         }
-        return menuDomainConverter.toDomain(menuDO, elements, parent);
+        return menuDomainConverter.toDomain(menuDO, elements);
     }
 
     @Override

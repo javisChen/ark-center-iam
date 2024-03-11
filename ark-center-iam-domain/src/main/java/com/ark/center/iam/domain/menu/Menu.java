@@ -3,7 +3,6 @@ package com.ark.center.iam.domain.menu;
 import cn.hutool.core.util.IdUtil;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.menu.event.MenuCreatedEvent;
-import com.ark.center.iam.domain.menu.event.MenuDeletedEvent;
 import com.ark.center.iam.domain.menu.support.MenuDomainDTO;
 import com.ark.center.iam.domain.menu.vo.MenuType;
 import com.ark.component.ddd.domain.AggregateRoot;
@@ -13,7 +12,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,7 +82,7 @@ public class Menu extends AggregateRoot {
 
     private List<Element> elements;
 
-    private List<Menu> children;
+//    private List<Menu> children;
 
     public Menu(MenuDomainDTO domainDTO) {
         super(IdUtil.getSnowflakeNextId());
@@ -100,7 +98,8 @@ public class Menu extends AggregateRoot {
         List<Element> elements = domainDTO.getElements();
         Menu parent = domainDTO.getParent();
         setBasicInfo(name, applicationId, code, component, type, hideChildren, sequence, path, icon, parent);
-        this.children = List.of();
+        this.status = EnableDisableStatus.ENABLED;
+        // this.children = List.of();
         this.elements = elements;
         // this.hierarchy = new Hierarchy(getId());
         raiseEvent(new MenuCreatedEvent(this, getId()));
@@ -159,10 +158,10 @@ public class Menu extends AggregateRoot {
      * 递归更新子菜单的状态
      */
     public void updateChildrenStatus(EnableDisableStatus status) {
-        this.children.forEach(child -> {
-            child.updateStatus(status);
-            child.updateChildrenStatus(status);
-        });
+//        this.children.forEach(child -> {
+//            child.updateStatus(status);
+//            child.updateChildrenStatus(status);
+//        });
     }
 
     /**
@@ -190,41 +189,41 @@ public class Menu extends AggregateRoot {
     }
 
     public void onDelete() {
-        raiseEvent(new MenuDeletedEvent(this, getAllIds(), getAllElementIds()));
+//        raiseEvent(new MenuDeletedEvent(this, getAllIds(), getAllElementIds()));
     }
 
-    public List<Long> getAllIds() {
-        List<Long> allIds = new ArrayList<>();
-        collectIds(this, allIds);
-        return allIds;
-    }
+//    public List<Long> getAllIds() {
+//        List<Long> allIds = new ArrayList<>();
+//        collectIds(this, allIds);
+//        return allIds;
+//    }
 
-    public void collectIds(Menu menu, List<Long> allIds) {
-        allIds.add(menu.getId());
-        List<Menu> children = menu.getChildren();
-        if (CollectionUtils.isEmpty(children)) {
-            return;
-        }
-        children.forEach(childMenu -> collectIds(childMenu, allIds));
-    }
+//    public void collectIds(Menu menu, List<Long> allIds) {
+//        allIds.add(menu.getId());
+//        List<Menu> children = menu.getChildren();
+//        if (CollectionUtils.isEmpty(children)) {
+//            return;
+//        }
+//        children.forEach(childMenu -> collectIds(childMenu, allIds));
+//    }
 
-    public List<Long> getAllElementIds() {
-        List<Long> allIds = new ArrayList<>();
-        collectElementIds(this, allIds);
-        return allIds;
-    }
-
-    public void collectElementIds(Menu menu, List<Long> allIds) {
-        List<Long> elements = menu.getElements().stream().map(Element::getId).collect(Collectors.toList());
-        if (CollectionUtils.isNotEmpty(elements)) {
-            allIds.addAll(elements);
-        }
-        List<Menu> children = menu.getChildren();
-        if (CollectionUtils.isEmpty(children)) {
-            return;
-        }
-        children.forEach(childMenu -> collectElementIds(childMenu, allIds));
-    }
+//    public List<Long> getAllElementIds() {
+//        List<Long> allIds = new ArrayList<>();
+//        collectElementIds(this, allIds);
+//        return allIds;
+//    }
+//
+//    public void collectElementIds(Menu menu, List<Long> allIds) {
+//        List<Long> elements = menu.getElements().stream().map(Element::getId).collect(Collectors.toList());
+//        if (CollectionUtils.isNotEmpty(elements)) {
+//            allIds.addAll(elements);
+//        }
+//        List<Menu> children = menu.getChildren();
+//        if (CollectionUtils.isEmpty(children)) {
+//            return;
+//        }
+//        children.forEach(childMenu -> collectElementIds(childMenu, allIds));
+//    }
 
     /**
      * 更新菜单元素
