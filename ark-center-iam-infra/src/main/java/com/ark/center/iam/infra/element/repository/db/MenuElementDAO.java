@@ -26,4 +26,10 @@ public class MenuElementDAO extends ServiceImpl<MenuElementMapper, MenuElementDO
                 .eq(MenuElementDO::getMenuId, menuId)
                 .remove();
     }
+
+    public List<MenuElementDO> selectByMenuIds(List<Long> menuIds) {
+        return lambdaQuery()
+                .in(BaseEntity::getId, menuIds)
+                .list();
+    }
 }

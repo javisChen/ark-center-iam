@@ -12,6 +12,12 @@ import lombok.EqualsAndHashCode;
 public class HierarchyDO extends BaseEntity {
 
     /**
+     * 应用id
+     */
+    @TableField("application_id")
+    private Long applicationId;
+
+    /**
      * 业务类型
      */
     @TableField("biz_type")

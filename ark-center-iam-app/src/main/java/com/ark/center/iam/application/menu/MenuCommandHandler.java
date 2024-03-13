@@ -1,5 +1,6 @@
 package com.ark.center.iam.application.menu;
 
+import cn.hutool.core.collection.CollUtil;
 import com.ark.center.iam.application.menu.converter.AppElementDomainConverter;
 import com.ark.center.iam.application.menu.converter.AppMenuDomainConverter;
 import com.ark.center.iam.domain.element.Element;
@@ -53,8 +54,12 @@ public class MenuCommandHandler {
 
         menuRepository.saveAndPublishEvents(menu);
 
-        MenuHierarchy hierarchy = menuHierarchyFactory.create();
+        MenuHierarchy hierarchy = menuHierarchyRepository.byApplicationId(command.getApplicationId());
+        if (hierarchy == null) {
+            hierarchy = menuHierarchyFactory.create(command.getApplicationId());
+        }
         hierarchy.addMenu(menu.getPid(), menu.getId());
+
         menuHierarchyRepository.saveAndPublishEvents(hierarchy);
 
         saveResourcePermission(menu, elements);
@@ -110,19 +115,6 @@ public class MenuCommandHandler {
         return menu.extractDiffElementIds(reservedElements);
     }
 
-//    @Transactional(rollbackFor = Throwable.class)
-//    public void changeHierarchy(MenuHierarchyChangeCommand command) {
-//
-//        Menu parentMenu = menuRepository.byIdOrThrowError(command.getPid(), "上级菜单不存在");
-//
-//        Menu menu = menuRepository.byIdOrThrowError(command.getPid(), "菜单不存在");
-//
-//        menu.changeHierarchy(parentMenu);
-//
-//        menuRepository.saveAndPublishEvents(menu);
-//
-//    }
-
     @Transactional(rollbackFor = Throwable.class)
     public void changeStatus(MenuUpdateCommand command) {
 
@@ -135,8 +127,20 @@ public class MenuCommandHandler {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void delete(Long id) {
-        Menu menu = menuRepository.byId(id);
+    public void delete(Long menuId) {
+        Menu menu = menuRepository.byId(menuId);
+
+        MenuHierarchy menuHierarchy = menuHierarchyRepository.byApplicationId(menu.getApplicationId());
+
+        List<Long> subMenuIds = menuHierarchy.allSubMenuIdsOf(menuId);
+        if (CollUtil.isNotEmpty(subMenuIds)) {
+            List<Menu> subMenus = menuRepository.byIds(subMenuIds);
+            menuRepository.deleteAndPublishEvents(subMenus);
+        }
+
+        menuHierarchy.removeMenu(menuId);
+
+        menuHierarchyRepository.saveAndPublishEvents(menuHierarchy);
 
         menuRepository.deleteAndPublishEvents(menu);
 

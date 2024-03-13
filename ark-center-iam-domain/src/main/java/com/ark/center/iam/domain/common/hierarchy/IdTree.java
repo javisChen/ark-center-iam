@@ -1,6 +1,7 @@
 package com.ark.center.iam.domain.common.hierarchy;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -9,13 +10,14 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
-
 public class IdTree {
 
     @Getter
+    @Setter
     private List<IdNode> nodes;
 
     @Getter
+    @Setter
     private Set<String> nodeIds;
 
     public IdTree() {
@@ -106,16 +108,17 @@ public class IdTree {
         return nodeIds;
     }
 
+    /**
+     * 获取所有的树节点
+     */
     public List<IdNode> allNodes() {
-        // 我要获取所有
-        List<IdNode> ns = nodes.stream()
+        return nodes.stream()
                 .flatMap(n -> n.allNodes().stream())
                 .collect(Collectors.toList());
-        ns.addAll(nodes);
-        return ns;
     }
 
     @Getter
+    @Setter
     public static class IdNode {
 
         public static final String NODE_ID_SEPARATOR = "/";
@@ -129,6 +132,9 @@ public class IdTree {
         private IdNode parent;
 
         private List<IdNode> children;
+
+        public IdNode() {
+        }
 
         public IdNode(String id, Integer level, IdNode parentNode) {
             this.id = id;
@@ -190,6 +196,9 @@ public class IdTree {
             return stringJoiner.toString();
         }
 
+        /**
+         * 获取所有子节点以及节点自身
+         */
         public List<IdNode> allNodes() {
             List<IdNode> ns = this.children.stream()
                     .flatMap(child -> child.allNodes().stream())

@@ -44,6 +44,12 @@ public class ApiDBRepositoryImpl extends BaseDBRepository<Api, Long> implements 
     }
 
     @Override
+    public List<Api> byIds(List<Long> ids) {
+        List<ApiDO> apiDOS = dao.listByIds(ids);
+        return domainConverter.toDomain(apiDOS);
+    }
+
+    @Override
     public void save(Api api) {
         ApiDO apiDO = domainConverter.fromDomain(api);
         dao.saveOrUpdate(apiDO);

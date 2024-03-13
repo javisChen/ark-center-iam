@@ -4,4 +4,5 @@ import com.ark.component.ddd.domain.repository.BaseRepository;
 
 public interface MenuHierarchyRepository extends BaseRepository<MenuHierarchy, Long> {
 
+    MenuHierarchy byApplicationId(Long applicationId);
 }

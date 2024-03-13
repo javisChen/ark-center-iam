@@ -5,6 +5,7 @@ import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.ApiRepository;
 import com.ark.center.iam.domain.permission.vo.PermissionType;
 import com.ark.center.iam.domain.role.repository.RoleRepository;
+import com.ark.center.iam.infra.api.repository.db.ApiDAO;
 import com.ark.center.iam.infra.permission.repository.db.PermissionDAO;
 import com.ark.center.iam.infra.permission.repository.db.PermissionDO;
 import com.ark.center.iam.infra.user.common.UserCacheKey;
@@ -39,6 +40,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
     private final RoleRepository roleRepository;
     private final UserDAO userDAO;
     private final ApiRepository apiRepository;
+    private final ApiDAO apiDAO;
     private final PermissionDAO permissionDAO;
     private final MessageTemplate messageTemplate;
     private final CacheService cacheService;

@@ -29,6 +29,8 @@ public interface ApiDomainConverter {
 
     List<Api> fromDomain(List<ApiDO> doList);
 
+    List<Api> toDomain(List<ApiDO> apiDOS);
+
     default Api toDomain(ApiDO apiDO) {
         Api api = new Api();
         api.setName(apiDO.getName());
@@ -39,8 +41,7 @@ public interface ApiDomainConverter {
         api.setAuthType(ApiAuthType.from(apiDO.getAuthType()));
         api.setHasPathVariable(apiDO.getHasPathVariable());
         api.setStatus(EnableDisableStatus.from(apiDO.getStatus()));
-        Long id = apiDO.getId();
-        api.setId(id);
+        api.setId(apiDO.getId());
         api.setCreateTime(apiDO.getCreateTime());
         api.setUpdateTime(apiDO.getUpdateTime());
         api.setCreator(apiDO.getCreator());

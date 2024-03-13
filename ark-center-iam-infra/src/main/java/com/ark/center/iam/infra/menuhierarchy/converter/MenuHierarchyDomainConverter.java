@@ -15,7 +15,9 @@ public interface MenuHierarchyDomainConverter {
         hierarchyDO.setId(Long.valueOf(idNode.getId()));
         hierarchyDO.setBizType("MENU");
         hierarchyDO.setBizId(Long.valueOf(idNode.getId()));
-        hierarchyDO.setPid(Long.valueOf(idNode.getParent().getId()));
+        if (idNode.getParent() != null) {
+            hierarchyDO.setPid(Long.valueOf(idNode.getParent().getId()));
+        }
         hierarchyDO.setLevelPath(idNode.getPath());
         hierarchyDO.setLevel(idNode.getLevel());
         return hierarchyDO;

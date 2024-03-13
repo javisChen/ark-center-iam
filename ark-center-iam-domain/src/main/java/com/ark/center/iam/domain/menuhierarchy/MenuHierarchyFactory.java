@@ -7,9 +7,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MenuHierarchyFactory {
 
-    public MenuHierarchy create() {
-
-        return new MenuHierarchy();
+    public MenuHierarchy create(Long applicationId) {
+        return new MenuHierarchy(applicationId);
     }
 
 }
