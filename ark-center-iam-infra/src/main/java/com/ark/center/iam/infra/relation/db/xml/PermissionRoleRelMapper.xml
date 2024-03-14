@@ -38,14 +38,19 @@
     </select>
 
     <select id="selectByRoleIdAndType"
-            resultType="com.ark.center.iam.infra.relation.db.PermissionRoleRelDO">
-
-        select uprr.id
+            resultType="com.ark.center.iam.infra.relation.db.bo.PermissionRoleRelBO">
+        select uprr.id,
+               up.type permissionType,
+               up.id permissionId
         from iam_permission up
-                 inner join iam_permission_role_rel uprr on uprr.permission_id = up.id
+        inner join iam_permission_role_rel uprr on uprr.permission_id = up.id
         where role_id = #{roleId}
-          and up.type = #{type}
-          and up.application_id = #{applicationId}
+        <if test="type != null">
+            and up.type = #{type}
+        </if>
+        <if test="applicationId != null">
+            and up.application_id = #{applicationId}
+        </if>
 
     </select>
     <select id="selectByPermissionIdAndRoleId"

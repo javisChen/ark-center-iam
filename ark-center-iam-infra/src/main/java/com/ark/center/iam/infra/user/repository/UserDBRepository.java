@@ -58,20 +58,18 @@ public class UserDBRepository extends BaseDBRepository<User, Long> implements Us
         Long userId = userDO.getId();
 
         if (CollectionUtil.isNotEmpty(userGroupIds)) {
-            userGroupIds = userGroupIds.stream().sorted().collect(Collectors.toList());
             userGroupUserRelDAO.lambdaUpdate()
                     .eq(UserGroupUserRelDO::getUserId, userId)
-                    .in(UserGroupUserRelDO::getUserGroupId, userGroupIds)
                     .remove();
+            userGroupIds = userGroupIds.stream().sorted().collect(Collectors.toList());
             userGroupUserRelDAO.batchSave(userId, userGroupIds);
         }
 
         if (CollectionUtil.isNotEmpty(roleIds)) {
-            roleIds = roleIds.stream().sorted().collect(Collectors.toList());
             userRoleRelDAO.lambdaUpdate()
                     .eq(UserRoleRelDO::getUserId, userId)
-                    .in(UserRoleRelDO::getRoleId, roleIds)
                     .remove();
+            roleIds = roleIds.stream().sorted().collect(Collectors.toList());
             userRoleRelDAO.batchSave(userId, roleIds);
 
         }

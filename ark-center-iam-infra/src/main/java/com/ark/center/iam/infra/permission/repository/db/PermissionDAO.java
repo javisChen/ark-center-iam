@@ -4,10 +4,12 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.permission.vo.PermissionType;
 import com.ark.center.iam.domain.user.support.UserConst;
+import com.ark.center.iam.infra.permission.converter.PermissionDomainConverter;
 import com.ark.center.iam.infra.role.repository.db.RoleDAO;
 import com.ark.center.iam.infra.user.repository.db.UserDAO;
 import com.ark.center.iam.infra.user.repository.db.UserDO;
 import com.ark.center.iam.infra.usergroup.repository.db.UserGroupDAO;
+import com.ark.center.iam.model.permission.vo.PermissionDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,7 @@ public class PermissionDAO extends ServiceImpl<PermissionMapper, PermissionDO> {
     private final RoleDAO roleDAO;
     private final UserGroupDAO userGroupDAO;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+    private final PermissionDomainConverter permissionDomainConverter;
 
     public List<PermissionDO> queryUserPermissions(Long userId, PermissionType permissionType) {
         UserDO user = userDAO.getById(userId);
@@ -115,5 +118,10 @@ public class PermissionDAO extends ServiceImpl<PermissionMapper, PermissionDO> {
             return Collections.emptyList();
         }
         return getBaseMapper().selectByRoleIdsAndType(roleIds, permissionType.getName());
+    }
+
+    public List<PermissionDTO> selectRolePermissions(Long applicationId, Long roleId, String permissionType) {
+        List<PermissionDO> resourcePermissions = baseMapper.selectByRoleIdAndType(applicationId, roleId, permissionType);
+        return resourcePermissions.stream().map(permissionDomainConverter::toPermissionDTO).collect(Collectors.toList());
     }
 }

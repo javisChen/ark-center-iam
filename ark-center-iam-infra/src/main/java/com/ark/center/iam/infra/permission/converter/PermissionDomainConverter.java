@@ -16,7 +16,10 @@ import java.util.List;
 public interface PermissionDomainConverter {
 
     default PermissionDTO toPermissionDTO(PermissionDO permissionDO) {
-        return new PermissionDTO(permissionDO.getId(), permissionDO.getCode());
+        PermissionDTO permissionDTO = new PermissionDTO();
+        permissionDTO.setPermissionId(permissionDO.getId());
+        permissionDTO.setPermissionCode(permissionDO.getCode());
+        return permissionDTO;
     }
 
     List<ResourcePermission> toDomain(List<PermissionDO> permissionDOS);

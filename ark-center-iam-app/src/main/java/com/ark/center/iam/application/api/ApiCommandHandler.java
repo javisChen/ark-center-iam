@@ -43,6 +43,8 @@ public class ApiCommandHandler {
 
         apiDomainService.update(api, dto.getName(), dto.getApplicationId(), dto.getCategoryId(), dto.getMethod(), dto.getUri(), dto.getAuthType());
 
+        apiRepository.saveAndPublishEvents(api);
+
         // eventPublisher.publishEvent(new ApiChangedEvent(this, api.getId()));
     }
 

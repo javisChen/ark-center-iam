@@ -18,16 +18,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class UserCommandHandler implements InitializingBean {
-
-
     private final UserRepository userRepository;
-
     private final UserFactory userFactory;
-
     private final UserDomainService userDomainService;
-
-
-
     @Transactional(rollbackFor = Throwable.class)
     public void updateUser(UserUpdateCommand command) {
 

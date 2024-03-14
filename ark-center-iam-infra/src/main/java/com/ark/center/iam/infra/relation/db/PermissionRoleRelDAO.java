@@ -2,10 +2,8 @@ package com.ark.center.iam.infra.relation.db;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 @Repository
-public class UserGroupRoleRelDAO extends ServiceImpl<UserGroupRoleRelMapper, UserGroupRoleRelDO> {
-
+public class PermissionRoleRelDAO extends ServiceImpl<PermissionRoleRelMapper, PermissionRoleRelDO> {
 
 }

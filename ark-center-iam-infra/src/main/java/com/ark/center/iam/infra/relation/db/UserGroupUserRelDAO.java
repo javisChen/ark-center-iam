@@ -1,12 +1,13 @@
 package com.ark.center.iam.infra.relation.db;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Repository
 public class UserGroupUserRelDAO extends ServiceImpl<UserGroupUserRelMapper, UserGroupUserRelDO> {
 
 

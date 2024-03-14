@@ -1,5 +1,6 @@
 package com.ark.center.iam.infra.relation.db;
 
+import com.ark.center.iam.infra.relation.db.bo.PermissionRoleRelBO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,10 +17,9 @@ public interface PermissionRoleRelMapper extends BaseMapper<PermissionRoleRelDO>
 
     List<String> selectRoleNamesByUserGroupId(@Param("userGroupId") Long userGroupId);
 
-    List<PermissionRoleRelDO> selectByRoleIdAndType(@Param("applicationId") Long applicationId,
+    List<PermissionRoleRelBO> selectByRoleIdAndType(@Param("applicationId") Long applicationId,
                                                     @Param("roleId") Long roleId,
                                                     @Param("type") String type);
-
     /**
      * 根据应用id+角色id+权限id查询关联表数据
      */

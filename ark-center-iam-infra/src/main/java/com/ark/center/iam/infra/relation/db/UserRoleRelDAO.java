@@ -1,12 +1,12 @@
 package com.ark.center.iam.infra.relation.db;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Repository
 public class UserRoleRelDAO extends ServiceImpl<UserRoleRelMapper, UserRoleRelDO> {
 
     public void batchSave(Long userId, List<Long> roleIds) {

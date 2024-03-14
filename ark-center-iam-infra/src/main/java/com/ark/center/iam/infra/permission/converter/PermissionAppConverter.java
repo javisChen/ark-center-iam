@@ -14,7 +14,10 @@ import java.util.List;
 public interface PermissionAppConverter {
 
     default PermissionDTO toPermissionDTO(PermissionDO permissionDO) {
-        return new PermissionDTO(permissionDO.getId(), permissionDO.getCode());
+        PermissionDTO permissionDTO = new PermissionDTO();
+        permissionDTO.setPermissionId(permissionDO.getId());
+        permissionDTO.setPermissionCode(permissionDTO.getPermissionCode());
+        return permissionDTO;
     }
 
     List<UserApiPermissionDTO> toUserApiPermissionDTO(List<ApiPermissionVO> permissions);

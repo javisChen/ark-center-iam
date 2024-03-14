@@ -16,13 +16,11 @@ import java.util.StringJoiner;
 public class RolePermissionChangedEvent extends ApplicationEvent {
 
     private final Long roleId;
-    private final String roleName;
     private final PermissionType permissionType;
 
-    public RolePermissionChangedEvent(Object source, Long roleId, String  roleName, PermissionType permissionType) {
+    public RolePermissionChangedEvent(Object source, Long roleId, PermissionType permissionType) {
         super(source);
         this.roleId = roleId;
-        this.roleName = roleName;
         this.permissionType = permissionType;
     }
 
@@ -35,7 +33,6 @@ public class RolePermissionChangedEvent extends ApplicationEvent {
     public String toString() {
         return new StringJoiner(", ", RolePermissionChangedEvent.class.getSimpleName() + "[", "]")
                 .add("roleId=" + roleId)
-                .add("roleName='" + roleName + "'")
                 .add("permissionType=" + permissionType)
                 .add("source=" + source)
                 .toString();
