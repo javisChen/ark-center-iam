@@ -12,5 +12,17 @@ public interface MenuAppConverter {
 
     List<UserRouteDTO> convert(List<MenuDO> menus);
 
+    default UserRouteDTO convert(MenuDO menu) {
+        UserRouteDTO userRouteDTO = new UserRouteDTO();
+        userRouteDTO.setName(menu.getName());
+        userRouteDTO.setParentId(menu.getPid());
+        userRouteDTO.setId(menu.getId());
+//        userRouteDTO.setMeta(menu.ge);
+        userRouteDTO.setComponent(menu.getComponent());
+//        userRouteDTO.setRedirect();
+        userRouteDTO.setPath(menu.getPath());
+        return userRouteDTO;
+    }
+
 
 }
