@@ -11,7 +11,7 @@ public class ApplicationDomainService {
 
     private final AppChecker appChecker;
 
-    public void update(App app, String name) {
+    public void update(App app, String name, String code) {
 
         Assert.notNull(app, ExceptionFactory.userExceptionSupplier("应用不存在"));
 
@@ -20,6 +20,8 @@ public class ApplicationDomainService {
         appChecker.ensureCodeNotExists(app.getId(), name);
 
         app.rename(name);
+
+        app.changeCode(code);
 
 //        eventPublisher.publishEvent(new ApplicationChangedEvent(this, application.getId()));
     }

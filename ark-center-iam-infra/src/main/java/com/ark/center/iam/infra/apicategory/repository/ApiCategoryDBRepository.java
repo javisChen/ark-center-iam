@@ -23,15 +23,6 @@ public class ApiCategoryDBRepository extends BaseDBRepository<ApiCategory, Long>
 
     private final ApiCategoryDomainConverter domainConverter;
 
-    @Override
-    public boolean exists(String name, Long appId) {
-        return dao.lambdaQuery()
-                .eq(ApiCategoryDO::getIsDeleted, DeletedEnums.NOT.getCode())
-                .eq(ApiCategoryDO::getName, name)
-                .eq(ApiCategoryDO::getApplicationId, appId)
-                .exists();
-    }
-
 
     @Override
     public List<ApiCategory> byAppId(Long applicationId) {

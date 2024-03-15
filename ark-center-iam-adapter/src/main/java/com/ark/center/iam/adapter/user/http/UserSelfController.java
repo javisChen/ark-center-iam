@@ -18,7 +18,7 @@ import java.util.List;
 
 
 
-@Tag(name = "登录用户相关接口", description = "登录用户接口")
+@Tag(name = "已登录用户信息", description = "根据Token获取用户信息")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/users/self")

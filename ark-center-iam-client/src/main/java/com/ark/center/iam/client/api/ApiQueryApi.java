@@ -7,7 +7,6 @@ import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.microservice.rpc.exception.FeignCommonErrorDecoder;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
-@Schema(description = "API-查询")
 public interface ApiQueryApi {
 
     @GetMapping("/all")

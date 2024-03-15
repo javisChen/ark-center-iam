@@ -32,7 +32,7 @@ public class ApplicationCommandHandler {
         
         App app = appRepository.byId(command.getId());
         
-        applicationDomainService.update(app, command.getName());
+        applicationDomainService.update(app, command.getName(), command.getCode());
 
         appRepository.saveAndPublishEvents(app);
 

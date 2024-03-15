@@ -6,9 +6,11 @@ import com.ark.center.iam.model.api.command.ApiUpdateCommand;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.microservice.rpc.exception.FeignCommonErrorDecoder;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         name = "${ark.center.iam.service.name:iam}",
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
-@Schema(description = "API-命令")
 public interface ApiCommandApi {
 
     @Operation(summary = "新建Api")

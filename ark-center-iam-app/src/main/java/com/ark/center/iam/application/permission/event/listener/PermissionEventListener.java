@@ -33,7 +33,7 @@ public class PermissionEventListener {
 
     @EventListener
     public void onApplicationEvent(@NotNull ApiCreatedEvent event) {
-        log.info("app {} was created", event.getApiId());
+        log.info("app {} has been created", event.getApiId());
 
         Api api = apiRepository.byId(event.getApiId());
 
@@ -42,7 +42,7 @@ public class PermissionEventListener {
 
     @EventListener
     public void onApplicationEvent(@NotNull MenuCreatedEvent event) {
-        log.info("menu {} was created", event.getMenuId());
+        log.info("menu {} has been created", event.getMenuId());
 
 //        Menu menu = menuRepository.byId(event.getMenuId());
 //
@@ -60,7 +60,7 @@ public class PermissionEventListener {
 
     @EventListener
     public void onApplicationEvent(@NotNull MenuDeletedEvent event) {
-        log.info("menus [{}] were deleted", event.getElementIds());
+        log.info("menus [{}] have been deleted", event.getElementIds());
 
         List<ResourcePermission> menuResourcePermissions = resourcePermissionRepository.byResourceIdsAndType(event.getElementIds(), PermissionType.MENU_ELEMENT);
 
@@ -74,7 +74,7 @@ public class PermissionEventListener {
 
     @EventListener
     public void onApplicationEvent(@NotNull RoleDeletedEvent event) {
-        log.info("role [{}] was deleted", event.getRoleId());
+        log.info("role [{}] has been deleted", event.getRoleId());
 
 //        List<ResourcePermission> menuResourcePermissions = resourcePermissionRepository.byResourceIdsAndType(event.getElementIds(), PermissionType.MENU_ELEMENT);
 //

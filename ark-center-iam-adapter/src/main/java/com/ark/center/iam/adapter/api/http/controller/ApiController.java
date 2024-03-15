@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "API管理", description = "API管理")
+@Tag(name = "Api", description = "Api接口")
 @RestController
 @RequestMapping("/v1/apis")
 @RequiredArgsConstructor
@@ -69,7 +69,7 @@ public class ApiController implements ApiQueryApi, ApiCommandApi {
     }
 
     @Operation(summary = "同步API", description = "同步服务API")
-    @PostMapping("/api/sync")
+    @PostMapping("/sync")
     public ServerResponse syncApi(@RequestBody ApiSyncCmd cmd) {
         apiCommandHandler.syncApi(cmd);
         return ServerResponse.ok();

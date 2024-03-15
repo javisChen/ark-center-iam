@@ -46,17 +46,18 @@
     </select>
 
     <select id="selectDetails" resultType="com.ark.center.iam.model.menu.dto.MenuDetailsDTO">
-        SELECT
-        r.*,
-        a.name as applicationName,
-        p.code as permissionCode,
-        p.id as permissionId,
-        rp.name as parentRouteName
+        SELECT r.*,
+               a.name  as applicationName,
+               p.code  as permissionCode,
+               p.id    as permissionId,
+               rp.name as parentRouteName
         FROM iam_menu r
-        inner join iam_permission p on p.resource_id = r.id
-        inner join iam_application a on a.id = r.application_id
-        left join iam_menu rp on rp.id = r.pid
-        where r.is_deleted = 0 and r.id = #{id} 
+                 inner join iam_permission p on p.resource_id = r.id
+                 inner join iam_application a on a.id = r.application_id
+                 left join iam_menu rp on rp.id = r.pid
+        where r.is_deleted = 0
+          and p.type = 'FRONT_ROUTE'
+          and r.id = #{id}
     </select>
 
 </mapper>

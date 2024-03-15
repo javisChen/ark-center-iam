@@ -7,6 +7,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.nacos.api.exception.NacosException;
+import com.ark.center.iam.domain.api.event.ApiCreatedEvent;
 import com.ark.center.iam.model.api.command.ApiSyncCmd;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.ApiRepository;
@@ -27,6 +28,7 @@ import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -50,6 +52,8 @@ public class ApiSyncCmdExe {
     private final ApiCategoryDomainService apiCategoryDomainService;
 
     private final NacosServiceDiscovery nacosServiceDiscovery;
+
+    private final ApplicationEventPublisher eventPublisher;
 
     public void execute(ApiSyncCmd cmd) {
 
@@ -89,10 +93,15 @@ public class ApiSyncCmdExe {
         }
 
         // 插入新的Api分类
-        return newCategories
+        List<ApiCategory> newApiCategories = newCategories
                 .stream()
                 .distinct()
                 .map(tag -> apiCategoryDomainService.create(tag, app.getId())).collect(Collectors.toList());
+        apiCategoryRepository.saveAndPublishEvents(newApiCategories);
+
+        existsCategories.addAll(newApiCategories);
+
+        return existsCategories;
     }
 
     /**
@@ -115,7 +124,7 @@ public class ApiSyncCmdExe {
                     })
                     .forEach(apis::addAll);
         });
-        return apis;
+        return apis.stream().distinct().toList();
     }
 
     private void saveApis(App app, List<Api> serviceApis, List<ApiCategory> apiCategories) {
@@ -143,6 +152,7 @@ public class ApiSyncCmdExe {
         for (Api api : insertApis) {
             api.onCreate();
             apiRepository.saveAndPublishEvents(api);
+            eventPublisher.publishEvent(new ApiCreatedEvent(this, api.getId()));
         }
 
         for (Api api : updateApis) {
@@ -155,7 +165,7 @@ public class ApiSyncCmdExe {
      * 复合Key，uri + method + categoryId
      */
     private MultiKey<String> createApiMultiKey(Api serviceApi) {
-        return new MultiKey<>(serviceApi.getUri(), serviceApi.getMethod());
+        return new MultiKey<>(serviceApi.getUri().toLowerCase(), serviceApi.getMethod().toLowerCase());
     }
 
     private MultiKeyMap<String, Api> queryExistsApis(App app) {

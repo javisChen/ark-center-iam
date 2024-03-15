@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "用户管理", description = "用户管理")
+@Tag(name = "用户", description = "用户管理接口")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/users")

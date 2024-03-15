@@ -49,4 +49,9 @@ public class App extends AggregateRoot {
         this.name = name;
         raiseEvent(new ApplicationChangedEvent(this, this.getId()));
     }
+
+    public void changeCode(String code) {
+        this.code = code;
+        raiseEvent(new ApplicationChangedEvent(this, this.getId()));
+    }
 }
