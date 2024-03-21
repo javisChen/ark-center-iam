@@ -1,8 +1,8 @@
 package com.ark.center.iam.adapter.user.http;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.user.UserSelfQueryService;
 import com.ark.center.iam.model.permission.vo.PermissionDTO;
-import com.ark.center.iam.model.user.dto.UserMenuDTO;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.security.base.user.LoginUser;
@@ -19,8 +19,8 @@ import java.util.List;
 @Tag(name = "已登录用户信息", description = "根据Token获取用户信息")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/users/self")
-public class UserSelfController extends BaseController {
+@RequestMapping("/v2/users/self")
+public class UserSelfV2Controller extends BaseController {
 
     private final UserSelfQueryService userSelfQueryService;
 
@@ -35,8 +35,8 @@ public class UserSelfController extends BaseController {
      */
     @GetMapping("/menus")
     @Operation(summary = "查询登录用户的菜单权限")
-    public MultiResponse<UserMenuDTO> queryUserSelfRoutes() {
-        List<UserMenuDTO> selfRoutes = userSelfQueryService.queryUserSelfRoutes();
+    public MultiResponse<Tree<Long>> queryUserSelfRoutes() {
+        List<Tree<Long>> selfRoutes = userSelfQueryService.queryUserSelfRoutesV2();
         return MultiResponse.ok(selfRoutes);
     }
 

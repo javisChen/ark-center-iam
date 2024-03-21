@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.menu.repository.db;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.infra.menu.converter.MenuAppConverter;
-import com.ark.center.iam.model.user.dto.UserRouteDTO;
+import com.ark.center.iam.model.user.dto.UserMenuDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class MenuDAO extends ServiceImpl<MenuMapper, MenuDO> {
 
     private final MenuAppConverter appConverter;
 
-    public List<UserRouteDTO> selectByIds(List<Long> routeIds) {
+    public List<UserMenuDTO> selectByIds(List<Long> routeIds) {
         if (CollectionUtil.isEmpty(routeIds)) {
             return Collections.emptyList();
         }
