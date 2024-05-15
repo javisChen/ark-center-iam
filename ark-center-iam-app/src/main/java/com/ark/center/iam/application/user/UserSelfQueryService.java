@@ -57,22 +57,35 @@ public class UserSelfQueryService {
     public List<Tree<Long>> queryUserSelfRoutesV2() {
         LoginUser user = ServiceContext.getCurrentUser();
         Long userId = user.getUserId();
-        String cacheKey = String.format(CACHE_KEY_USER_ROUTES, userId);
-        return CacheHelper.execute(cacheKey, key -> {
-            List<PermissionDO> resourcePermissions = permissionDAO.queryUserPermissions(userId, MENU);
-            List<Long> menuIds = resourcePermissions.stream()
-                    .filter(Objects::nonNull)
-                    .map(PermissionDO::getResourceId)
-                    .collect(Collectors.toList());
-            List<UserMenuDTO> userMenuDTOS = menuDAO.selectByIds(menuIds);
-            List<Tree<Long>> build = TreeUtil.build(userMenuDTOS, 0L, (object, treeNode) -> {
-                treeNode.setId(object.getId());
-                treeNode.setParentId(object.getParentId());
-                treeNode.setWeight(object.getWeight());
-                treeNode.setName(object.getName());
-                treeNode.putAll(BeanUtil.beanToMap(object));
-            });
-            return build;
+//        String cacheKey = String.format(CACHE_KEY_USER_ROUTES, userId);
+//        return CacheHelper.execute(cacheKey, key -> {
+//            List<PermissionDO> resourcePermissions = permissionDAO.queryUserPermissions(userId, MENU);
+//            List<Long> menuIds = resourcePermissions.stream()
+//                    .filter(Objects::nonNull)
+//                    .map(PermissionDO::getResourceId)
+//                    .collect(Collectors.toList());
+//            List<UserMenuDTO> userMenuDTOS = menuDAO.selectByIds(menuIds);
+//            return TreeUtil.build(userMenuDTOS, 0L, (object, treeNode) -> {
+//                treeNode.setId(object.getId());
+//                treeNode.setParentId(object.getParentId());
+//                treeNode.setWeight(object.getWeight());
+//                treeNode.setName(object.getName());
+//                treeNode.putAll(BeanUtil.beanToMap(object));
+//            });
+//        });
+
+        List<PermissionDO> resourcePermissions = permissionDAO.queryUserPermissions(userId, MENU);
+        List<Long> menuIds = resourcePermissions.stream()
+                .filter(Objects::nonNull)
+                .map(PermissionDO::getResourceId)
+                .collect(Collectors.toList());
+        List<UserMenuDTO> userMenuDTOS = menuDAO.selectByIds(menuIds);
+        return TreeUtil.build(userMenuDTOS, 0L, (object, treeNode) -> {
+            treeNode.setId(object.getId());
+            treeNode.setParentId(object.getParentId());
+            treeNode.setWeight(object.getWeight());
+            treeNode.setName(object.getName());
+            treeNode.putAll(BeanUtil.beanToMap(object));
         });
     }
 
