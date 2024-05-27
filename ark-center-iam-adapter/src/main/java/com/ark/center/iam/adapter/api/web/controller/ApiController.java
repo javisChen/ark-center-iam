@@ -6,7 +6,7 @@ import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
-import com.ark.center.iam.client.api.query.ApiQry;
+import com.ark.center.iam.client.api.query.ApiQuery;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
@@ -29,7 +29,7 @@ public class ApiController extends BaseController {
 
     @Operation(summary = "API列表（全量）")
     @GetMapping("/apis")
-    public MultiResponse<ApiDetailsDTO> queryList(ApiQry dto) {
+    public MultiResponse<ApiDetailsDTO> queryList(ApiQuery dto) {
         return MultiResponse.ok(apiAppService.queryList(dto));
     }
 

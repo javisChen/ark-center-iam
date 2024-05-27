@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@TableName("iam_route")
+@TableName("iam_menu")
 public class Route extends BaseEntity {
 
     

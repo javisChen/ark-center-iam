@@ -30,7 +30,7 @@ public class RouteController extends BaseController {
 
     private final RouteAppService routeAppService;
 
-    @PostMapping("/routes")
+    @PostMapping("/menus")
     @Operation(summary = "路由树形分页查询")
     public SingleResponse<PageResponse<RouteDetailsDTO>> listPage(@RequestBody RouteQry dto) {
         Page<RouteDetailsDTO> routeListTreeVOPage = routeAppService.queryPage(dto);

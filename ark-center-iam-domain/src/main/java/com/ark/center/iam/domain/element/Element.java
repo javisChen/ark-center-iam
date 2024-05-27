@@ -23,7 +23,7 @@ public class Element extends BaseEntity {
     
 
     /**
-     * 所属菜单id，关联iam_route.id
+     * 所属菜单id，关联iam_menu.id
      */
     @TableField("route_id")
     private Long routeId;

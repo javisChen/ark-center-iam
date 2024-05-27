@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @FeignClient(
         name = "${ark.center.iam.service.name:iam}",
-        path = "/v1/inner/users",
+        path = "/v1/users",
         url = "${ark.center.iam.service.uri:}",
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Schema(description = "用户管理-内部调用接口")
 public interface UserQryApi {
 
-    @GetMapping
+    @GetMapping("/user/simple")
     @Operation(summary = "用户管理（内部调用） - 查询单个用户")
     SingleResponse<UserInnerDTO> getUser(@SpringQueryMap UserQry userQry);
 

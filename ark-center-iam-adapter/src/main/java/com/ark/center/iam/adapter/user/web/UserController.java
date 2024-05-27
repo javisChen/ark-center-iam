@@ -1,10 +1,17 @@
 package com.ark.center.iam.adapter.user.web;
 
 import com.ark.center.iam.application.user.UserAppService;
+import com.ark.center.iam.client.user.UserPermissionQryApi;
+import com.ark.center.iam.client.user.UserQryApi;
 import com.ark.center.iam.client.user.command.UserCmd;
+import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.client.user.dto.UserDetailsDTO;
+import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.client.user.query.UserPageQry;
+import com.ark.center.iam.client.user.query.UserPermissionQry;
+import com.ark.center.iam.client.user.query.UserQry;
+import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
@@ -25,7 +32,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1")
-public class UserController extends BaseController {
+public class UserController extends BaseController implements UserQryApi {
 
     private final UserAppService userAppService;
 
@@ -59,6 +66,11 @@ public class UserController extends BaseController {
     public ServerResponse deleteUser(Long id) {
         userAppService.deleteUser(id);
         return SingleResponse.ok();
+    }
+
+    @Override
+    public SingleResponse<UserInnerDTO> getUser(UserQry userQry) {
+        return SingleResponse.ok(userAppService.getUser(userQry));
     }
 
 }

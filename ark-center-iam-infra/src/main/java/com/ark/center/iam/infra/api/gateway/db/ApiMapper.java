@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.api.gateway.db;
 
 
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
-import com.ark.center.iam.client.api.query.ApiQry;
+import com.ark.center.iam.client.api.query.ApiQuery;
 import com.ark.center.iam.domain.api.Api;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,5 +19,5 @@ import java.util.List;
  */
 public interface ApiMapper extends BaseMapper<Api> {
 
-    List<ApiDetailsDTO> selectApiList(@Param("qry") ApiQry apiQry);
+    List<ApiDetailsDTO> selectApiList(@Param("qry") ApiQuery apiQuery);
 }

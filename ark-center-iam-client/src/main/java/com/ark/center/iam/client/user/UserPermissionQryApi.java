@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         name = "${ark.center.iam.service.name:iam}",
-        path = "/v1/inner/users",
+        path = "/v1/users/permission",
         url = "${ark.center.iam.service.uri:}",
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class

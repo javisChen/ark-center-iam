@@ -10,7 +10,7 @@ import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
-import com.ark.center.iam.client.api.query.ApiQry;
+import com.ark.center.iam.client.api.query.ApiQuery;
 import com.ark.center.iam.domain.api.Api;
 import com.ark.center.iam.domain.api.gateway.ApiGateway;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
@@ -34,7 +34,7 @@ public class ApiAppService {
     private final ApiAssembler apiAssembler;
     private final ApplicationEventPublisher eventPublisher;
 
-    public List<ApiDetailsDTO> queryList(ApiQry dto) {
+    public List<ApiDetailsDTO> queryList(ApiQuery dto) {
         return apiGateway.selectList(dto);
     }
 

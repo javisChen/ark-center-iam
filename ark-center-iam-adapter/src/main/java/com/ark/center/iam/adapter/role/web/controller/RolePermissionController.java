@@ -38,7 +38,7 @@ public class RolePermissionController extends BaseController {
     /**
      * 获取角色拥有的路由权限
      */
-    @GetMapping("/role/permission/routes")
+    @GetMapping("/role/permission/menus")
     @Operation(summary = "查询角色路由权限")
     public MultiResponse<PermissionDTO> getRoleRoutePermission(Long roleId, Long applicationId) {
         List<PermissionDTO> vos = rolePermissionAppService.queryRoleRoutesPermissions(roleId, applicationId);

@@ -49,7 +49,7 @@
         a.name as applicationName,
         p.code as permissionCode,
         p.id as permissionId
-        FROM iam_route r
+        FROM iam_menu r
         inner join iam_permission p on p.resource_id = r.id
         inner join iam_application a on a.id = r.application_id
         <where>
@@ -78,7 +78,7 @@
         a.name as applicationName,
         p.code as permissionCode,
         p.id as permissionId
-        FROM iam_route r
+        FROM iam_menu r
         inner join iam_permission p on p.resource_id = r.id
         inner join iam_application a on a.id = r.application_id
         AND r.pid != 0
@@ -93,10 +93,10 @@
         p.code as permissionCode,
         p.id as permissionId,
         rp.name as parentRouteName
-        FROM iam_route r
+        FROM iam_menu r
         inner join iam_permission p on p.resource_id = r.id
         inner join iam_application a on a.id = r.application_id
-        left join iam_route rp on rp.id = r.pid
+        left join iam_menu rp on rp.id = r.pid
         where r.is_deleted = 0 and r.id = #{id} 
     </select>
 
