@@ -8,8 +8,8 @@ import lombok.Data;
  * 查询用户列表搜索入参
  */
 @Data
-@Schema(description = "单个查询用户查询入参")
-public class UserQry {
+@Schema(description = "查询用户查询入参")
+public class UserQuery {
 
     @Schema(description = "用户名")
     private String username;

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
-import com.ark.center.iam.client.user.command.UserCmd;
+import com.ark.center.iam.client.user.command.UserCommand;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.domain.user.support.IUserPasswordHelper;
@@ -33,9 +33,9 @@ public class UserCreateCmdExe {
 
     private final IUserPasswordHelper userPasswordHelper;
 
-    public Long execute(UserCmd userCmd) {
-        log.info("[User]: Begin Create User, User = {}", userCmd);
-        User user = beanConverter.toUserDO(userCmd);
+    public Long execute(UserCommand userCommand) {
+        log.info("[User]: Begin Create User, User = {}", userCommand);
+        User user = beanConverter.toUserDO(userCommand);
 
         // 信息有效性校验
         validityCheck(user);
@@ -47,7 +47,7 @@ public class UserCreateCmdExe {
         persistUser(user);
 
         // 持久化后一些操作
-        postPersistUser(user, userCmd);
+        postPersistUser(user, userCommand);
 
         // todo 发布事件
         return user.getId();
@@ -87,7 +87,7 @@ public class UserCreateCmdExe {
      * @param user   用户
      * @param createCmd 创建用户请求
      */
-    private void postPersistUser(User user, UserCmd createCmd) {
+    private void postPersistUser(User user, UserCommand createCmd) {
 
         Long userId = user.getId();
 

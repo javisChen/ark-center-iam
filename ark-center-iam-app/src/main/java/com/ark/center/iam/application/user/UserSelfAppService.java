@@ -1,5 +1,6 @@
 package com.ark.center.iam.application.user;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.user.executor.UserSelfQryExe;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
@@ -28,4 +29,7 @@ public class UserSelfAppService {
         return userSelfQryExe.queryUserSelfElements();
     }
 
+    public List<Tree<Long>> queryUserSelfRoutesV2() {
+        return userSelfQryExe.queryUserSelfRoutesV2();
+    }
 }

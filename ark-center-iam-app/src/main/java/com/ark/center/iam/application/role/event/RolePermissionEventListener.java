@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.role.event;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.user.common.UserMqInfo;
+import com.ark.center.iam.client.IamMQConst;
 import com.ark.center.iam.client.user.dto.UserApiPermissionChangedDTO;
 import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.domain.api.Api;
@@ -81,7 +81,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
                         return permissionDTO;
                     })
                     .toList());
-            messageTemplate.asyncSend(UserMqInfo.TOPIC_IAM, UserMqInfo.TAG_USER_API_PERMS, MsgBody.of(dto));
+            messageTemplate.asyncSend(IamMQConst.TOPIC_IAM, IamMQConst.TAG_USER_API_PERMS, MsgBody.of(dto));
     }
 
     private void cache(Long roleId, List<Api> apis) {

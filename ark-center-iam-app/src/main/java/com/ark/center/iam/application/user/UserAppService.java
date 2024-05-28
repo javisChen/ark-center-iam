@@ -3,14 +3,14 @@ package com.ark.center.iam.application.user;
 import com.ark.center.iam.application.user.executor.UserCreateCmdExe;
 import com.ark.center.iam.application.user.executor.UserQryExe;
 import com.ark.center.iam.application.user.executor.UserUpdateCmdExe;
-import com.ark.center.iam.client.user.command.UserCmd;
+import com.ark.center.iam.client.user.command.UserCommand;
 import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.client.user.dto.UserDetailsDTO;
 import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
-import com.ark.center.iam.client.user.query.UserPageQry;
-import com.ark.center.iam.client.user.query.UserPermissionQry;
-import com.ark.center.iam.client.user.query.UserQry;
+import com.ark.center.iam.client.user.query.UserPageQuery;
+import com.ark.center.iam.client.user.query.UserPermissionQuery;
+import com.ark.center.iam.client.user.query.UserQuery;
 import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.User;
@@ -50,17 +50,17 @@ public class UserAppService {
     private final PermissionAssembler permissionAssembler;
 
 
-    public Page<UserPageDTO> pageQuery(UserPageQry qry) {
+    public Page<UserPageDTO> pageQuery(UserPageQuery qry) {
         return userQryExe.pageQuery(qry);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void updateUser(UserCmd userCmd) {
-        userUpdateCmdExe.execute(userCmd);
+    public void updateUser(UserCommand userCommand) {
+        userUpdateCmdExe.execute(userCommand);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public Long createUser(UserCmd cmd) {
+    public Long createUser(UserCommand cmd) {
         return userCreateCmdExe.execute(cmd);
     }
 
@@ -78,8 +78,8 @@ public class UserAppService {
         userGroupAssignService.clearUserAndUserGroupRelations(userId);
     }
 
-    public UserInnerDTO getUser(UserQry userQry) {
-        User user = userQryExe.queryUserByUnique(userQry);
+    public UserInnerDTO getUser(UserQuery userQuery) {
+        User user = userQryExe.queryUserByUnique(userQuery);
         if (user == null) {
             return null;
         }
@@ -88,10 +88,10 @@ public class UserAppService {
         return userInnerDTO;
     }
 
-    public Boolean checkApiHasPermission(UserPermissionQry userPermissionQry) {
-        Long userId = userPermissionQry.getUserId();
-        String requestUri = userPermissionQry.getRequestUri();
-        String method = userPermissionQry.getMethod();
+    public Boolean checkApiHasPermission(UserPermissionQuery userPermissionQuery) {
+        Long userId = userPermissionQuery.getUserId();
+        String requestUri = userPermissionQuery.getRequestUri();
+        String method = userPermissionQuery.getMethod();
         return userPermissionService.checkHasApiPermission(userId, requestUri, method);
     }
 

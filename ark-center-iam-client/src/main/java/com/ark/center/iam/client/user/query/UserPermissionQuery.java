@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "用户权限查询请求")
-public class UserPermissionQry {
+public class UserPermissionQuery {
 
     @Schema(description = "用户id")
     private Long userId;

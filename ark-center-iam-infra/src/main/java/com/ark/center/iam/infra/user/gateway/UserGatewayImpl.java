@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.user.gateway;
 
 import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.client.user.query.UserPageQry;
+import com.ark.center.iam.client.user.query.UserPageQuery;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
@@ -27,7 +27,7 @@ public class UserGatewayImpl extends ServiceImpl<UserMapper, User> implements Us
     private final UserBeanConverter beanConverter;
 
     @Override
-    public Page<UserPageDTO> selectUsers(UserPageQry pageQry) {
+    public Page<UserPageDTO> selectUsers(UserPageQuery pageQry) {
         LambdaQueryWrapper<User> qw = new LambdaQueryWrapper<User>()
                 .like(StrUtil.isNotBlank(pageQry.getMobile()), User::getMobile, pageQry.getMobile())
                 .like(StrUtil.isNotBlank(pageQry.getUsername()), User::getUsername, pageQry.getUsername())

@@ -1,7 +1,7 @@
 package com.ark.center.iam.client.user;
 
 import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
-import com.ark.center.iam.client.user.query.UserPermissionQry;
+import com.ark.center.iam.client.user.query.UserPermissionQuery;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.microservice.rpc.exception.FeignCommonErrorDecoder;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
-@Schema(description = "用户权限管理-内部调用接口")
-public interface UserPermissionQryApi {
+@Schema(description = "用户权限接口（查询）")
+public interface UserPermissionQueryApi {
 
     @GetMapping("/has-api-permission")
     @Operation(summary = "用户管理（内部调用） - 查询用户是否具备API访问权限")
-    SingleResponse<Boolean> hasApiPermission(@SpringQueryMap UserPermissionQry userPermissionQry);
+    SingleResponse<Boolean> hasApiPermission(@SpringQueryMap UserPermissionQuery userPermissionQuery);
 
     @GetMapping("/api-permission")
     @Operation(summary = "用户管理（内部调用） - 查询用户拥有的API权限")

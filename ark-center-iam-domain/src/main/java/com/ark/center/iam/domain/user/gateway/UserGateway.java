@@ -1,6 +1,6 @@
 package com.ark.center.iam.domain.user.gateway;
 
-import com.ark.center.iam.client.user.query.UserPageQry;
+import com.ark.center.iam.client.user.query.UserPageQuery;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.domain.user.User;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserGateway {
 
-    Page<UserPageDTO> selectUsers(UserPageQry qry);
+    Page<UserPageDTO> selectUsers(UserPageQuery qry);
 
     boolean insert(User user);
 

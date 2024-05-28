@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.user.converter;
 
-import com.ark.center.iam.client.user.command.UserCmd;
+import com.ark.center.iam.client.user.command.UserCommand;
 import com.ark.center.iam.client.user.dto.UserDetailsDTO;
 import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
@@ -18,6 +18,6 @@ public interface UserBeanConverter {
     @Mapping(target = "userCode", source = "code")
     UserInnerDTO toUserInnerDTO(User user);
 
-    User toUserDO(UserCmd dto);
+    User toUserDO(UserCommand dto);
 
 }

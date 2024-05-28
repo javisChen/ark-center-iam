@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Schema(description = "查询用户列表搜索入参")
-public class UserPageQry extends PagingQuery {
+public class UserPageQuery extends PagingQuery {
 
     @Schema(description = "用户名")
     private String username;

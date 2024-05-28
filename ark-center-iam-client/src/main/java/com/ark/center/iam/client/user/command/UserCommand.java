@@ -13,8 +13,8 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 @Data
-@Schema(description = "用户模型")
-public class UserCmd {
+@Schema(description = "用户")
+public class UserCommand {
 
     @NotNull(groups = ValidateGroup.Update.class, message = "id 不能为空")
     @Schema(description = "用户id")

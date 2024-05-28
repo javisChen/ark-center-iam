@@ -3,8 +3,8 @@ package com.ark.center.iam.application.user.executor;
 import com.ark.center.iam.client.user.dto.UserBaseDTO;
 import com.ark.center.iam.client.user.dto.UserDetailsDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
-import com.ark.center.iam.client.user.query.UserPageQry;
-import com.ark.center.iam.client.user.query.UserQry;
+import com.ark.center.iam.client.user.query.UserPageQuery;
+import com.ark.center.iam.client.user.query.UserQuery;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.center.iam.domain.user.User;
@@ -32,7 +32,7 @@ public class UserQryExe {
     private final UserGroupGateway userGroupGateway;
     private final UserBeanConverter userBeanConverter;
 
-    public Page<UserPageDTO> pageQuery(UserPageQry qry) {
+    public Page<UserPageDTO> pageQuery(UserPageQuery qry) {
         Page<UserPageDTO> userPageDTOPage = userGateway.selectUsers(qry);
         List<UserPageDTO> records = userPageDTOPage.getRecords();
         if (CollectionUtils.isEmpty(records)) {
@@ -75,9 +75,9 @@ public class UserQryExe {
         return userDetailsDTO;
     }
 
-    public User queryUserByUnique(UserQry userQry) {
-        String mobile = userQry.getMobile();
-        String username = userQry.getUsername();
+    public User queryUserByUnique(UserQuery userQuery) {
+        String mobile = userQuery.getMobile();
+        String username = userQuery.getUsername();
         User user = null;
         if (StringUtils.isNotBlank(mobile)) {
             user = userGateway.selectByMobile(mobile);
