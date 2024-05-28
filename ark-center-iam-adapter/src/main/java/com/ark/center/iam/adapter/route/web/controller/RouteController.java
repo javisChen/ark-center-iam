@@ -37,34 +37,34 @@ public class RouteController extends BaseController {
         return SingleResponse.ok(PageResponse.of(routeListTreeVOPage));
     }
 
-    @PostMapping("/routes/all")
+    @PostMapping("/menus/all")
     @Operation(summary = "路由全量查询")
     public MultiResponse<RouteDetailsDTO> queryList(@RequestBody RouteQry dto) {
         return MultiResponse.ok(routeAppService.queryList(dto));
     }
 
-    @PostMapping("/route/create")
+    @PostMapping("/menus/create")
     @Operation(summary = "创建路由")
     public ServerResponse add(@RequestBody @Validated RouteCmd dto) {
         routeAppService.saveRoute(dto);
         return ServerResponse.ok();
     }
 
-    @PutMapping("/route/update")
+    @PutMapping("/menus/update")
     @Operation(summary = "更新路由")
     public ServerResponse update(@RequestBody @Validated RouteCmd dto) {
         routeAppService.updateRoute(dto);
         return ServerResponse.ok();
     }
 
-    @PutMapping("/route/parent")
+    @PutMapping("/menus/parent")
     @Operation(summary = "移动路由层级")
     public ServerResponse move(@RequestBody @Validated RouteModifyParentCmd dto) {
         routeAppService.modifyParent(dto);
         return ServerResponse.ok();
     }
 
-    @GetMapping("/route")
+    @GetMapping("/menus")
     @Operation(
             summary = "查询路由详情",
             parameters = {
@@ -76,7 +76,7 @@ public class RouteController extends BaseController {
         return SingleResponse.ok(dto);
     }
 
-    @PutMapping("/route/status")
+    @PutMapping("/menus/status")
     @Operation(summary = "更新路由状态")
     public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
                                        @RequestBody RouteCmd dto) {
@@ -84,7 +84,7 @@ public class RouteController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @DeleteMapping("/route/delete")
+    @DeleteMapping("/menus/delete")
     @Operation(
             summary = "删除路由",
             parameters = {
@@ -96,7 +96,7 @@ public class RouteController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @GetMapping("/route/elements")
+    @GetMapping("/menus/elements")
     @Operation(
             summary = "获取路由的页面元素",
             description = "根据路由id查询页面元素",

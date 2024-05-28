@@ -250,7 +250,7 @@ public class ApiSyncCmdExe {
         }
         // 建立名字和id的映射关系
         Map<String, Long> categoriesMappings = apiCategories.stream()
-                .collect(Collectors.toMap(ApiCategory::getName, BaseEntity::getId));
+                .collect(Collectors.toMap(ApiCategory::getName, BaseEntity::getId, (k1, k2) -> k1));
         List<Api> apis = new ArrayList<>();
         paths.forEach((uri, value) -> {
             JSONObject pathItem = (JSONObject) value;
