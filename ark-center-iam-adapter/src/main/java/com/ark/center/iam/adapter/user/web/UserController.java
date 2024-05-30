@@ -1,6 +1,7 @@
 package com.ark.center.iam.adapter.user.web;
 
-import com.ark.center.iam.application.user.UserAppService;
+import com.ark.center.iam.application.user.UserCommandHandler;
+import com.ark.center.iam.application.user.UserQueryService;
 import com.ark.center.iam.client.user.UserQueryApi;
 import com.ark.center.iam.client.user.command.UserCommand;
 import com.ark.center.iam.client.user.dto.UserDetailsDTO;
@@ -29,43 +30,44 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/users")
 public class UserController implements UserQueryApi {
 
-    private final UserAppService userAppService;
+    private final UserCommandHandler userCommandHandler;
+    private final UserQueryService userQueryService;
 
     @GetMapping("/pages")
     @Operation(summary = "分页查询用户信息")
     public SingleResponse<PageResponse<UserPageDTO>> pageQuery(UserPageQuery pageQry) {
-        return SingleResponse.ok(PageResponse.of(userAppService.pageQuery(pageQry)));
+        return SingleResponse.ok(PageResponse.of(userQueryService.pageQuery(pageQry)));
     }
 
     @PostMapping("/create")
     @Operation(summary = "创建用户")
-    public ServerResponse createUser(@RequestBody @Validated({ValidateGroup.Add.class, Default.class}) UserCommand cmd) {
-        return SingleResponse.ok(userAppService.createUser(cmd));
+    public ServerResponse createUser(@RequestBody @Validated() UserCommand cmd) {
+        return SingleResponse.ok(userCommandHandler.createUser(cmd));
     }
 
     @PostMapping("/update")
     @Operation(summary = "编辑用户")
     public ServerResponse updateUser(@RequestBody @Validated({ValidateGroup.Update.class, Default.class}) UserCommand userCommand) {
-        userAppService.updateUser(userCommand);
+        userCommandHandler.updateUser(userCommand);
         return ServerResponse.ok();
     }
 
     @GetMapping("/details")
     @Operation(summary = "用户详情")
     public SingleResponse<UserDetailsDTO> userDetails(Long id) {
-        return SingleResponse.ok(userAppService.userDetails(id));
+        return SingleResponse.ok(userQueryService.userDetails(id));
     }
 
     @DeleteMapping("/delete")
     @Operation(summary = "删除用户")
     public ServerResponse deleteUser(Long id) {
-        userAppService.deleteUser(id);
+        userCommandHandler.deleteUser(id);
         return SingleResponse.ok();
     }
 
     @Override
     public SingleResponse<UserInnerDTO> queryUserSimpleInfo(UserQuery userQuery) {
-        return SingleResponse.ok(userAppService.getUser(userQuery));
+        return SingleResponse.ok(userQueryService.getUser(userQuery));
     }
 
 }

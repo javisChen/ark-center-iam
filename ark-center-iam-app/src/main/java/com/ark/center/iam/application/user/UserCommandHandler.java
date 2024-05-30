@@ -29,7 +29,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserAppService {
+public class UserCommandHandler {
 
     private final UserCreateCmdExe userCreateCmdExe;
 
@@ -37,35 +37,23 @@ public class UserAppService {
 
     private final UserGateway userGateway;
 
-    private final UserQryExe userQryExe;
-
     private final RoleAssignService roleAssignService;
 
     private final UserGroupAssignService userGroupAssignService;
-
-    private final UserBeanConverter userBeanConverter;
 
     private final UserPermissionService userPermissionService;
 
     private final PermissionAssembler permissionAssembler;
 
 
-    public Page<UserPageDTO> pageQuery(UserPageQuery qry) {
-        return userQryExe.pageQuery(qry);
+    @Transactional(rollbackFor = Throwable.class)
+    public Long createUser(UserCommand command) {
+        return userCreateCmdExe.execute(command);
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void updateUser(UserCommand userCommand) {
-        userUpdateCmdExe.execute(userCommand);
-    }
-
-    @Transactional(rollbackFor = Throwable.class)
-    public Long createUser(UserCommand cmd) {
-        return userCreateCmdExe.execute(cmd);
-    }
-
-    public UserDetailsDTO userDetails(Long userId) {
-        return userQryExe.queryUserDetails(userId);
+    public void updateUser(UserCommand command) {
+        userUpdateCmdExe.execute(command);
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -76,16 +64,6 @@ public class UserAppService {
         roleAssignService.clearUserRoles(userId);
         // 移除用户组关系
         userGroupAssignService.clearUserAndUserGroupRelations(userId);
-    }
-
-    public UserInnerDTO getUser(UserQuery userQuery) {
-        User user = userQryExe.queryUserByUnique(userQuery);
-        if (user == null) {
-            return null;
-        }
-        UserInnerDTO userInnerDTO = userBeanConverter.toUserInnerDTO(user);
-        userInnerDTO.setIsSuperAdmin(user.getCode().equals(UserConst.SUPER_ADMIN));
-        return userInnerDTO;
     }
 
     public Boolean checkApiHasPermission(UserPermissionQuery userPermissionQuery) {

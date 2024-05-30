@@ -1,6 +1,6 @@
 package com.ark.center.iam.adapter.user.web;
 
-import com.ark.center.iam.application.user.UserAppService;
+import com.ark.center.iam.application.user.UserCommandHandler;
 import com.ark.center.iam.client.user.UserPermissionQueryApi;
 import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.client.user.query.UserPermissionQuery;
@@ -21,16 +21,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/users/permission")
 public class UserPermissionController extends BaseController implements UserPermissionQueryApi {
 
-    private final UserAppService userAppService;
+    private final UserCommandHandler userCommandHandler;
 
     @Override
     public SingleResponse<Boolean> hasApiPermission(UserPermissionQuery userPermissionQuery) {
-        return SingleResponse.ok(userAppService.checkApiHasPermission(userPermissionQuery));
+        return SingleResponse.ok(userCommandHandler.checkApiHasPermission(userPermissionQuery));
     }
 
     @Override
     public MultiResponse<UserApiPermissionDTO> getApiPermissions(Long userId) {
-        return MultiResponse.ok(userAppService.getApiPermissions(userId));
+        return MultiResponse.ok(userCommandHandler.getApiPermissions(userId));
     }
 }
 

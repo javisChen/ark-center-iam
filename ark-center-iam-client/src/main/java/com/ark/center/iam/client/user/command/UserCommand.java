@@ -13,7 +13,7 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 
 @Data
-@Schema(description = "用户")
+@Schema(description = "用户命令")
 public class UserCommand {
 
     @NotNull(groups = ValidateGroup.Update.class, message = "id 不能为空")
@@ -33,10 +33,9 @@ public class UserCommand {
     @Schema(description = "用户密码")
     private String password;
 
-    @NotNull(message = "status 不能为空")
     @Range(min = 1, max = 2)
     @Schema(description = "用户状态", allowableValues = {"1-启用", "2-禁用"})
-    private Integer status;
+    private Integer status = 1;
 
     @Schema(description = "角色id集合")
     public List<Long> roleIds;
