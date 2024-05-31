@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.user.gateway.db;
+package com.ark.center.iam.infra.user.db;
 
 import com.ark.center.iam.domain.user.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

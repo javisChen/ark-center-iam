@@ -3,15 +3,11 @@ package com.ark.center.iam.application.user;
 import com.ark.center.iam.application.user.executor.UserCreateCmdExe;
 import com.ark.center.iam.application.user.executor.UserQryExe;
 import com.ark.center.iam.application.user.executor.UserUpdateCmdExe;
-import com.ark.center.iam.client.user.command.UserCommand;
-import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.client.user.dto.UserDetailsDTO;
 import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.client.user.query.UserPageQuery;
-import com.ark.center.iam.client.user.query.UserPermissionQuery;
 import com.ark.center.iam.client.user.query.UserQuery;
-import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.role.service.RoleAssignService;
 import com.ark.center.iam.domain.user.User;
 import com.ark.center.iam.domain.user.gateway.UserGateway;
@@ -23,9 +19,6 @@ import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +43,7 @@ public class UserQueryService {
     private final PermissionAssembler permissionAssembler;
 
 
-    public Page<UserPageDTO> pageQuery(UserPageQuery qry) {
+    public Page<UserPageDTO> queryPages(UserPageQuery qry) {
         return userQryExe.pageQuery(qry);
     }
     public UserDetailsDTO userDetails(Long userId) {

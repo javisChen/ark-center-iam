@@ -5,10 +5,11 @@ import com.ark.center.iam.client.application.dto.ApplicationDTO;
 import com.ark.center.iam.domain.application.Application;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ApplicationAssembler {
 
     ApplicationDTO toApplicationDTO(Application application);

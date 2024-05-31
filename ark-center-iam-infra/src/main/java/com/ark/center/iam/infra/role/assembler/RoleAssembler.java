@@ -5,8 +5,9 @@ import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.domain.role.Role;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface RoleAssembler {
 
     @Mapping(target = "modifier", ignore = true)

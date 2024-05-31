@@ -36,7 +36,7 @@ public class UserController implements UserQueryApi {
     @GetMapping("/pages")
     @Operation(summary = "分页查询用户信息")
     public SingleResponse<PageResponse<UserPageDTO>> pageQuery(UserPageQuery pageQry) {
-        return SingleResponse.ok(PageResponse.of(userQueryService.pageQuery(pageQry)));
+        return SingleResponse.ok(PageResponse.of(userQueryService.queryPages(pageQry)));
     }
 
     @PostMapping("/create")

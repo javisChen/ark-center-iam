@@ -5,10 +5,11 @@ import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.domain.element.Element;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ElementAssembler {
 
     @Mapping(target = "routeId", source = "routeId")

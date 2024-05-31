@@ -5,10 +5,11 @@ import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
 import com.ark.center.iam.domain.route.Route;
 import com.ark.center.iam.domain.usergroup.UserGroup;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserAssembler {
 
     UserRouteDTO toRouteDTO(Route route);

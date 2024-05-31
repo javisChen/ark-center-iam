@@ -6,11 +6,12 @@ import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
 import com.ark.center.iam.domain.permission.Permission;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface PermissionAssembler {
 
     @Mappings({

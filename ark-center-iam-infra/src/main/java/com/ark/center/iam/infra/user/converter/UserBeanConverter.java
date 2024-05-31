@@ -7,8 +7,9 @@ import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.domain.user.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserBeanConverter {
 
     UserPageDTO toUserPageDTO(User user);

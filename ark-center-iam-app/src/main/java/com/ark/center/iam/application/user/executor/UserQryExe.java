@@ -8,10 +8,10 @@ import com.ark.center.iam.client.user.query.UserQuery;
 import com.ark.center.iam.domain.role.gateway.RoleGateway;
 import com.ark.center.iam.domain.role.vo.UserRoleVO;
 import com.ark.center.iam.domain.user.User;
-import com.ark.center.iam.domain.user.gateway.UserGateway;
 import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
 import com.ark.center.iam.domain.usergroup.vo.UserGroupVO;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
+import com.ark.center.iam.infra.user.db.UserDAO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -27,13 +27,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserQryExe {
 
-    private final UserGateway userGateway;
+    private final UserDAO userDAO;
     private final RoleGateway roleGateway;
     private final UserGroupGateway userGroupGateway;
     private final UserBeanConverter userBeanConverter;
 
     public Page<UserPageDTO> pageQuery(UserPageQuery qry) {
-        Page<UserPageDTO> userPageDTOPage = userGateway.selectUsers(qry);
+        Page<UserPageDTO> userPageDTOPage = userDAO.selectUsers(qry);
         List<UserPageDTO> records = userPageDTOPage.getRecords();
         if (CollectionUtils.isEmpty(records)) {
             return userPageDTOPage;
@@ -68,7 +68,7 @@ public class UserQryExe {
     }
 
     public UserDetailsDTO queryUserDetails(Long userId) {
-        User user = userGateway.selectByUserId(userId);
+        User user = userDAO.selectByUserId(userId);
         UserDetailsDTO userDetailsDTO = userBeanConverter.toUserDetailsDTO(user);
         userDetailsDTO.setRoleIds(roleGateway.selectRoleIdsByUserId(userId));
         userDetailsDTO.setUserGroupIds(userGroupGateway.selectUserGroupIdsByUserId(userId));
@@ -80,9 +80,9 @@ public class UserQryExe {
         String username = userQuery.getUsername();
         User user = null;
         if (StringUtils.isNotBlank(mobile)) {
-            user = userGateway.selectByMobile(mobile);
+            user = userDAO.selectByMobile(mobile);
         } else if (StringUtils.isNotBlank(username)) {
-            user = userGateway.selectByUsername(username);
+            user = userDAO.selectByUsername(username);
         }
         return user;
     }

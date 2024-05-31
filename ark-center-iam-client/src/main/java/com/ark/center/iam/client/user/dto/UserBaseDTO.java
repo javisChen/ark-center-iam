@@ -2,6 +2,8 @@ package com.ark.center.iam.client.user.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class UserBaseDTO {
 
@@ -11,5 +13,7 @@ public class UserBaseDTO {
     private String userCode;
     private Boolean isSuperAdmin;
     private Integer status;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 
 }

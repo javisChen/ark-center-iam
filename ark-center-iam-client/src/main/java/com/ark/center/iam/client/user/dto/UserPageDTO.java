@@ -16,4 +16,5 @@ public class UserPageDTO extends UserBaseDTO {
 
     @Schema(description = "用户组集合")
     private List<String> userGroups;
+
 }

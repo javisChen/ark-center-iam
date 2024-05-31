@@ -7,8 +7,9 @@ import com.ark.center.iam.domain.api.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ApiAssembler {
 
     @Mapping(target = "updateTime", ignore = true)
