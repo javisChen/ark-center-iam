@@ -28,8 +28,10 @@ public class UserUpdateCmdExe {
 
 
     public void execute(UserCommand userCommand) {
-        log.info("[User]: Begin Modify User, User = {}", userCommand);
+        log.info("[User]: Begin update user, User = {}", userCommand);
         User user = beanConverter.toUserDO(userCommand);
+        // 更新用户禁止修改密码
+        user.setPassword(null);
 
         // 持久化用户
         persistUser(user);
@@ -67,11 +69,12 @@ public class UserUpdateCmdExe {
     }
 
     private void persistUser(User user) {
-        User toUpdateUser = new User();
-        toUpdateUser.setId(user.getId());
-        toUpdateUser.setUsername(user.getUsername());
-        toUpdateUser.setStatus(user.getStatus());
-        userGateway.updateByUserId(toUpdateUser);
+        User forUpdate = new User();
+        forUpdate.setId(user.getId());
+        forUpdate.setUsername(user.getUsername());
+        forUpdate.setMobile(user.getMobile());
+        forUpdate.setStatus(user.getStatus());
+        userGateway.updateByUserId(forUpdate);
     }
 
 }

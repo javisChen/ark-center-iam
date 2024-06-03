@@ -24,41 +24,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserGroupAppService {
+public class UserGroupCommandHandler {
 
-    private final UserGroupGateway userGroupGateway;
-    private final UserGroupQryExe userGroupQryExe;
     private final UserGroupCreateCmdExe userGroupCreateCmdExe;
     private final UserGroupUpdateCmdExe userGroupUpdateCmdExe;
     private final UserGroupDeleteCmdExe userGroupDeleteCmdExe;
-    private final UserGroupAssembler userGroupAssembler;
-
-    public Page<UserGroupListTreeDTO> queryPage(UserGroupQry qry) {
-        return userGroupQryExe.execute(qry);
-    }
-
-    public List<UserGroupBaseDTO> queryListAll() {
-        return userGroupGateway.selectList();
-    }
-
-    public UserGroupDetailDTO queryDetails(Long id) {
-        UserGroup userGroup = userGroupGateway.selectById(id);
-        return userGroupAssembler.toUserGroupDetailsDTO(userGroup);
-    }
-
-    public List<UserGroupTreeDTO> queryTree(UserGroupQry qry) {
-        List<UserGroupBaseDTO> list = userGroupGateway.selectList();
-        return list.stream().map(assembleUserGroupUserGroupTreeVO()).collect(Collectors.toList());
-    }
-
-    private Function<UserGroupBaseDTO, UserGroupTreeDTO> assembleUserGroupUserGroupTreeVO() {
-        return item -> {
-            UserGroupTreeDTO userGroupTreeVO = new UserGroupTreeDTO();
-            userGroupTreeVO.setTitle(item.getName());
-            userGroupTreeVO.setKey(String.valueOf(item.getId()));
-            return userGroupTreeVO;
-        };
-    }
 
     @Transactional(rollbackFor = Throwable.class)
     public void createUserGroup(UserGroupCmd userGroupUpdateDTO) {

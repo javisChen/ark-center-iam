@@ -14,6 +14,7 @@ import com.ark.center.iam.domain.user.User;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -54,6 +55,9 @@ public class UserCreateCmdExe {
     }
 
     private void validityCheck(User user) {
+
+        // 检查密码
+        Assert.isTrue(StringUtils.isNotBlank(user.getPassword()), ExceptionFactory.userExceptionSupplier("密码不能为空"));
 
         // 检查用户手机号
         checkUserMobile(user);

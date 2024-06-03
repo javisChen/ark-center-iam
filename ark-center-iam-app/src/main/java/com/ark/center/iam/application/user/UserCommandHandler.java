@@ -20,12 +20,16 @@ import com.ark.center.iam.domain.user.support.UserConst;
 import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
+import com.ark.component.cache.CacheService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_ELEMS;
+import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_ROUTES;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +48,8 @@ public class UserCommandHandler {
     private final UserPermissionService userPermissionService;
 
     private final PermissionAssembler permissionAssembler;
+
+    private final CacheService cacheService;
 
 
     @Transactional(rollbackFor = Throwable.class)
@@ -76,5 +82,10 @@ public class UserCommandHandler {
     public List<UserApiPermissionDTO> getApiPermissions(Long userId) {
         List<ApiPermissionVO> userApiPermissions = userPermissionService.getUserApiPermissions(userId);
         return permissionAssembler.toUserApiPermissionDTO(userApiPermissions);
+    }
+
+    public void emptyCache(Long userId) {
+        cacheService.del(String.format(CACHE_KEY_USER_ROUTES, userId));
+        cacheService.del(String.format(CACHE_KEY_USER_ELEMS, userId));
     }
 }

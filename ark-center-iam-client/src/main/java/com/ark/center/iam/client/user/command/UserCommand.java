@@ -29,7 +29,7 @@ public class UserCommand {
     @Schema(description = "用户手机号")
     private String mobile;
 
-    @NotBlank(message = "password 不能为空")
+    @NotBlank(message = "password 不能为空", groups = ValidateGroup.Add.class)
     @Schema(description = "用户密码")
     private String password;
 

@@ -33,32 +33,35 @@ public class UserController implements UserQueryApi {
     private final UserCommandHandler userCommandHandler;
     private final UserQueryService userQueryService;
 
-    @GetMapping("/pages")
-    @Operation(summary = "分页查询用户信息")
-    public SingleResponse<PageResponse<UserPageDTO>> pageQuery(UserPageQuery pageQry) {
-        return SingleResponse.ok(PageResponse.of(userQueryService.queryPages(pageQry)));
-    }
-
-    @PostMapping("/create")
-    @Operation(summary = "创建用户")
-    public ServerResponse createUser(@RequestBody @Validated() UserCommand cmd) {
-        return SingleResponse.ok(userCommandHandler.createUser(cmd));
-    }
-
-    @PostMapping("/update")
-    @Operation(summary = "编辑用户")
-    public ServerResponse updateUser(@RequestBody @Validated({ValidateGroup.Update.class, Default.class}) UserCommand userCommand) {
-        userCommandHandler.updateUser(userCommand);
-        return ServerResponse.ok();
+    @GetMapping
+    @Operation(summary = "查询用户列表")
+    public SingleResponse<PageResponse<UserPageDTO>> queryUsers(UserPageQuery query) {
+        return SingleResponse.ok(PageResponse.of(userQueryService.queryUsers(query)));
     }
 
     @GetMapping("/details")
     @Operation(summary = "用户详情")
-    public SingleResponse<UserDetailsDTO> userDetails(Long id) {
-        return SingleResponse.ok(userQueryService.userDetails(id));
+    public SingleResponse<UserDetailsDTO> queryUserDetails(Long id) {
+        return SingleResponse.ok(userQueryService.queryUserDetails(id));
     }
 
-    @DeleteMapping("/delete")
+
+    @PostMapping
+    @Operation(summary = "创建用户")
+    public ServerResponse createUser(@RequestBody
+                                     @Validated({ValidateGroup.Add.class, Default.class}) UserCommand command) {
+        return SingleResponse.ok(userCommandHandler.createUser(command));
+    }
+
+    @PutMapping
+    @Operation(summary = "编辑用户")
+    public ServerResponse updateUser(@RequestBody
+                                     @Validated({ValidateGroup.Update.class, Default.class}) UserCommand command) {
+        userCommandHandler.updateUser(command);
+        return ServerResponse.ok();
+    }
+
+    @DeleteMapping
     @Operation(summary = "删除用户")
     public ServerResponse deleteUser(Long id) {
         userCommandHandler.deleteUser(id);
@@ -66,8 +69,8 @@ public class UserController implements UserQueryApi {
     }
 
     @Override
-    public SingleResponse<UserInnerDTO> queryUserSimpleInfo(UserQuery userQuery) {
-        return SingleResponse.ok(userQueryService.getUser(userQuery));
+    public SingleResponse<UserInnerDTO> queryUserSimpleInfo(UserQuery query) {
+        return SingleResponse.ok(userQueryService.getUser(query));
     }
 
 }
