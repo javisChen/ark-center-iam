@@ -2,7 +2,7 @@ package com.ark.center.iam.application.route.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQry;
+import com.ark.center.iam.client.route.query.RouteQuery;
 import com.ark.center.iam.domain.route.gateway.RouteGateway;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class RouteTreeQryExe {
 
     private final RouteGateway routeGateway;
     
-    public Page<RouteDetailsDTO> execute(RouteQry dto) {
+    public Page<RouteDetailsDTO> execute(RouteQuery dto) {
         Page<RouteDetailsDTO> pageResult = getFirstLevelRoutesByPage(dto);
         List<RouteDetailsDTO> firstLevelRoutes = pageResult.getRecords();
         List<RouteDetailsDTO> childrenLevelRoutes = getChildrenRoutes(firstLevelRoutes);
@@ -24,7 +24,7 @@ public class RouteTreeQryExe {
         return pageResult;
     }
 
-    private Page<RouteDetailsDTO> getFirstLevelRoutesByPage(RouteQry params) {
+    private Page<RouteDetailsDTO> getFirstLevelRoutesByPage(RouteQuery params) {
         return routeGateway.selectDetailsPage(params);
     }
     

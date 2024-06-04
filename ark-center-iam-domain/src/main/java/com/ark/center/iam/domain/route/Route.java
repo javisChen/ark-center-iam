@@ -48,6 +48,11 @@ public class Route extends BaseEntity {
      */
     @TableField("component")
     private String component;
+    /**
+     * 组件名
+     */
+    @TableField("component2")
+    private String component2;
 
     /**
      * 路由类型 1：菜单路由 2：页面路由 3:页面隐藏路由
@@ -90,6 +95,11 @@ public class Route extends BaseEntity {
      */
     @TableField("path")
     private String path;
+    /**
+     * 路径
+     */
+    @TableField("path2")
+    private String path2;
 
     /**
      * 图标

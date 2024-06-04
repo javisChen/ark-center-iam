@@ -1,7 +1,7 @@
 package com.ark.center.iam.domain.route.gateway;
 
 import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQry;
+import com.ark.center.iam.client.route.query.RouteQuery;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.route.Route;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,7 +12,7 @@ public interface RouteGateway {
 
     List<UserRouteDTO> selectByRouteIds(List<Long> routeIds);
 
-    Page<RouteDetailsDTO> selectDetailsPage(RouteQry qry);
+    Page<RouteDetailsDTO> selectDetailsPage(RouteQuery qry);
 
     List<RouteDetailsDTO> selectSubRoutes();
 

@@ -20,6 +20,9 @@ public class RouteDetailsQryExe {
 
     public RouteDetailsDTO execute(Long id) {
         RouteDetailsDTO routeDetailsDTO = routeGateway.selectDetailsByRouteId(id);
+        if (routeDetailsDTO == null) {
+            return routeDetailsDTO;
+        }
         List<Element> elements = elementGateway.selectElementsByRouteId(id);
         routeDetailsDTO.setElements(elementAssembler.toElementDTO(elements));
         return routeDetailsDTO;

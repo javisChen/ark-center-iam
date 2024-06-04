@@ -15,9 +15,11 @@ public class RouteBaseDTO {
     private String name;
     private String icon;
     private String component;
+    private String component2;
     private String levelPath;
     private Integer status;
     private String path;
+    private String path2;
     private Integer type;
     private Boolean hideChildren;
     private LocalDateTime createTime;

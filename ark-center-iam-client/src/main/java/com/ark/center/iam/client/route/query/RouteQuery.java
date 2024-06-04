@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RouteQry extends PagingQuery {
+public class RouteQuery extends PagingQuery {
 
     private String name;
 

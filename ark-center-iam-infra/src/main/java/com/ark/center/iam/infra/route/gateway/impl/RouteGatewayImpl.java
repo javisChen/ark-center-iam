@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.route.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQry;
+import com.ark.center.iam.client.route.query.RouteQuery;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.route.gateway.RouteGateway;
 import com.ark.center.iam.domain.route.Route;
@@ -41,7 +41,7 @@ public class RouteGatewayImpl extends ServiceImpl<RouteMapper, Route> implements
     }
 
     @Override
-    public Page<RouteDetailsDTO> selectDetailsPage(RouteQry params) {
+    public Page<RouteDetailsDTO> selectDetailsPage(RouteQuery params) {
         return baseMapper.selectDetailsPages(new Page<>(params.getCurrent(), params.getSize()), params);
     }
 

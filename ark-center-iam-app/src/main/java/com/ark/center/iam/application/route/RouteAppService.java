@@ -5,7 +5,7 @@ import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.client.route.command.RouteCmd;
 import com.ark.center.iam.client.route.command.RouteModifyParentCmd;
 import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQry;
+import com.ark.center.iam.client.route.query.RouteQuery;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.route.Route;
@@ -39,13 +39,13 @@ public class RouteAppService {
     private final ElementAssembler elementAssembler;
 
 
-    public Page<RouteDetailsDTO> queryPage(RouteQry dto) {
+    public Page<RouteDetailsDTO> queryRoutes(RouteQuery dto) {
         return routeTreeQryExe.execute(dto);
     }
 
-    public List<RouteDetailsDTO> queryList(RouteQry dto) {
+    public List<RouteDetailsDTO> queryList(RouteQuery dto) {
         dto.setSize(99999);
-        return queryPage(dto).getRecords();
+        return queryRoutes(dto).getRecords();
     }
 
     @Transactional(rollbackFor = Throwable.class)

@@ -16,8 +16,10 @@ public class UserRouteDTO  {
     private Long id;
     private Meta meta;
     private String component;
+    private String component2;
     private String redirect;
     private String path;
+    private String path2;
 
     @Data
     public static class Meta {
