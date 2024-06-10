@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.route.dto;
+package com.ark.center.iam.client.menu.dto;
 
 
 import lombok.Data;

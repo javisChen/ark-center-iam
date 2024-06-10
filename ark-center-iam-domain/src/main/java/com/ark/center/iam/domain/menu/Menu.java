@@ -1,6 +1,6 @@
-package com.ark.center.iam.domain.route;
+package com.ark.center.iam.domain.menu;
 
-import com.ark.center.iam.domain.route.common.RouteConst;
+import com.ark.center.iam.domain.menu.common.RouteConst;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.ark.component.orm.mybatis.base.BaseEntity;
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("iam_menu")
-public class Route extends BaseEntity {
+public class Menu extends BaseEntity {
 
     
 

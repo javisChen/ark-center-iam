@@ -1,4 +1,4 @@
-package com.ark.center.iam.domain.route.common;
+package com.ark.center.iam.domain.menu.common;
 
 public interface RouteConst {
 

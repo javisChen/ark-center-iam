@@ -1,12 +1,13 @@
 
 package com.ark.center.iam.adapter.route.web.controller;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.route.RouteAppService;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
-import com.ark.center.iam.client.route.command.RouteCmd;
-import com.ark.center.iam.client.route.command.RouteModifyParentCmd;
-import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQuery;
+import com.ark.center.iam.client.menu.command.RouteCmd;
+import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
+import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.menu.query.RouteQuery;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
@@ -22,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "路由管理", description = "路由管理")
 @RestController
 @RequestMapping("/v1/menus")
@@ -32,14 +35,13 @@ public class MenuController extends BaseController {
 
     @GetMapping("")
     @Operation(summary = "路由树形分页查询")
-    public SingleResponse<PageResponse<RouteDetailsDTO>> queryRoutes(RouteQuery query) {
-        Page<RouteDetailsDTO> routeListTreeVOPage = routeAppService.queryRoutes(query);
-        return SingleResponse.ok(PageResponse.of(routeListTreeVOPage));
+    public MultiResponse<Tree<Long>> queryRoutes(RouteQuery query) {
+        return MultiResponse.ok(routeAppService.queryRoutes(query));
     }
 
     @PostMapping("/all")
     @Operation(summary = "路由全量查询")
-    public MultiResponse<RouteDetailsDTO> queryList(@RequestBody RouteQuery dto) {
+    public MultiResponse<Tree<Long>> queryList(@RequestBody RouteQuery dto) {
         return MultiResponse.ok(routeAppService.queryList(dto));
     }
 

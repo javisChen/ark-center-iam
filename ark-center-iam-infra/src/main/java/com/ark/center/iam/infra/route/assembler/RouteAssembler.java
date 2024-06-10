@@ -1,10 +1,11 @@
 package com.ark.center.iam.infra.route.assembler;
 
-import com.ark.center.iam.client.route.command.RouteCmd;
-import com.ark.center.iam.client.route.command.RouteModifyParentCmd;
+import com.ark.center.iam.client.menu.command.RouteCmd;
+import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
+import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.enums.RouteTypeEnums;
-import com.ark.center.iam.domain.route.Route;
+import com.ark.center.iam.domain.menu.Menu;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -14,11 +15,13 @@ import java.util.List;
 public interface RouteAssembler {
 
     @Mapping(target = "parentId", source = "pid")
-    @Mapping(target = "meta", expression = "java(assembleMeta(route))")
-    UserRouteDTO toRouteDTO(Route route);
+    @Mapping(target = "meta", expression = "java(assembleMeta(menu))")
+    UserRouteDTO toRouteDTO(Menu menu);
+
+    MenuDTO toMenuDTO(Menu menu);
 
 
-    default UserRouteDTO.Meta assembleMeta(Route item) {
+    default UserRouteDTO.Meta assembleMeta(Menu item) {
         UserRouteDTO.Meta meta = new UserRouteDTO.Meta();
         meta.setIcon(item.getIcon());
         meta.setTitle(item.getName());
@@ -27,7 +30,7 @@ public interface RouteAssembler {
         return meta;
     }
 
-    List<UserRouteDTO> toRouteDTO(List<Route> route);
+    List<UserRouteDTO> toRouteDTO(List<Menu> menu);
 
     @Mapping(target = "modifier", ignore = true)
     @Mapping(target = "levelPath", ignore = true)
@@ -36,7 +39,7 @@ public interface RouteAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    Route toRouteDO(RouteCmd cmd);
+    Menu toRouteDO(RouteCmd cmd);
 
     @Mapping(target = "type", ignore = true)
     @Mapping(target = "status", ignore = true)
@@ -55,5 +58,5 @@ public interface RouteAssembler {
     @Mapping(target = "component", ignore = true)
     @Mapping(target = "code", ignore = true)
     @Mapping(target = "applicationId", ignore = true)
-    Route toRouteDO(RouteModifyParentCmd cmd);
+    Menu toRouteDO(RouteModifyParentCmd cmd);
 }

@@ -1,15 +1,15 @@
 package com.ark.center.iam.application.route.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.route.command.RouteCmd;
+import com.ark.center.iam.client.menu.command.RouteCmd;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.element.service.ElementService;
-import com.ark.center.iam.domain.route.Route;
-import com.ark.center.iam.domain.route.common.RouteConst;
-import com.ark.center.iam.domain.route.gateway.RouteGateway;
-import com.ark.center.iam.domain.route.service.RouteCheckService;
-import com.ark.center.iam.domain.route.service.RouteService;
+import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.menu.common.RouteConst;
+import com.ark.center.iam.domain.menu.gateway.RouteGateway;
+import com.ark.center.iam.domain.menu.service.RouteCheckService;
+import com.ark.center.iam.domain.menu.service.RouteService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.route.assembler.RouteAssembler;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +56,8 @@ public class RouteUpdateCmdExe {
     }
 
     private void updateBase(RouteCmd dto) {
-        Route route = routeAssembler.toRouteDO(dto);
-        routeGateway.updateByRouteId(route);
+        Menu menu = routeAssembler.toRouteDO(dto);
+        routeGateway.updateByRouteId(menu);
     }
 
     private void clearRouteElements(Long routeId) {
@@ -90,36 +90,36 @@ public class RouteUpdateCmdExe {
      * @param toRouteId   所属路由id
      */
     private void tryMoveLevel(Long fromRouteId, Long toRouteId) {
-        Route route = routeGateway.selectBaseByRouteId(fromRouteId);
-        Long oldPid = route.getPid();
+        Menu menu = routeGateway.selectBaseByRouteId(fromRouteId);
+        Long oldPid = menu.getPid();
         // 如果pid不一致的话才做更新
         if (!oldPid.equals(toRouteId)) {
 
-            Route parentRoute = toRouteId.equals(RouteConst.DEFAULT_PID) ? defaultParentRoute() : routeGateway.selectBaseByRouteId(toRouteId);
-            updateRouteLevel(route, parentRoute);
+            Menu parentMenu = toRouteId.equals(RouteConst.DEFAULT_PID) ? defaultParentRoute() : routeGateway.selectBaseByRouteId(toRouteId);
+            updateRouteLevel(menu, parentMenu);
 
-            List<Route> children = getChildrenRouteByLevelPath(route.getLevelPath());
-            updateRouteChildrenLevel(parentRoute, children);
+            List<Menu> children = getChildrenRouteByLevelPath(menu.getLevelPath());
+            updateRouteChildrenLevel(parentMenu, children);
         }
     }
 
-    private Route defaultParentRoute() {
-        Route route = new Route();
-        route.setId(0L);
-        route.setPid(0L);
-        route.setLevelPath("");
-        route.setLevel(0);
-        return route;
+    private Menu defaultParentRoute() {
+        Menu menu = new Menu();
+        menu.setId(0L);
+        menu.setPid(0L);
+        menu.setLevelPath("");
+        menu.setLevel(0);
+        return menu;
     }
 
-    private void updateRouteChildrenLevel(Route parentRoute, List<Route> children) {
+    private void updateRouteChildrenLevel(Menu parentMenu, List<Menu> children) {
         if (CollectionUtil.isNotEmpty(children)) {
-            List<Route> collect = children.stream().map(item -> {
-                Route route = new Route();
-                route.setId(item.getId());
-                route.setLevel(parentRoute.getLevel() + 1);
-                route.setLevelPath(createChildLevelPath(item.getId(), item.getLevelPath(), parentRoute.getLevelPath()));
-                return route;
+            List<Menu> collect = children.stream().map(item -> {
+                Menu menu = new Menu();
+                menu.setId(item.getId());
+                menu.setLevel(parentMenu.getLevel() + 1);
+                menu.setLevelPath(createChildLevelPath(item.getId(), item.getLevelPath(), parentMenu.getLevelPath()));
+                return menu;
             }).collect(Collectors.toList());
             routeGateway.updateBatchByRouteId(collect);
         }
@@ -132,24 +132,24 @@ public class RouteUpdateCmdExe {
         return StringUtils.replace(oldRouteLevelPath, partOfOldParent, newParentRouteLevelPath);
     }
 
-    private List<Route> getChildrenRouteByLevelPath(String levelPath) {
+    private List<Menu> getChildrenRouteByLevelPath(String levelPath) {
         return routeGateway.selectByLevelPath(levelPath);
     }
 
     /**
      * 更新路由的层级信息
      */
-    private void updateRouteLevel(Route route, Route parentRoute) {
-        Route newRoute = new Route();
-        newRoute.setId(route.getId());
-        newRoute.setPid(parentRoute.getId());
-        String routeLevelPath = route.getLevelPath();
-        String parentRouteLevelPath = parentRoute.getLevelPath();
-        String levelPath = route.isFirstLevel() ? (parentRouteLevelPath + routeLevelPath)
-                : createNewLevelPath(route.getId(), routeLevelPath, parentRouteLevelPath);
-        newRoute.setLevelPath(levelPath);
-        newRoute.setLevel(parentRoute.getLevel() + 1);
-        routeGateway.updateByRouteId(newRoute);
+    private void updateRouteLevel(Menu menu, Menu parentMenu) {
+        Menu newMenu = new Menu();
+        newMenu.setId(menu.getId());
+        newMenu.setPid(parentMenu.getId());
+        String routeLevelPath = menu.getLevelPath();
+        String parentRouteLevelPath = parentMenu.getLevelPath();
+        String levelPath = menu.isFirstLevel() ? (parentRouteLevelPath + routeLevelPath)
+                : createNewLevelPath(menu.getId(), routeLevelPath, parentRouteLevelPath);
+        newMenu.setLevelPath(levelPath);
+        newMenu.setLevel(parentMenu.getLevel() + 1);
+        routeGateway.updateByRouteId(newMenu);
     }
 
     private String createNewLevelPath(Long oldRouteId, String oldRouteLevelPath, String parentRouteLevelPath) {

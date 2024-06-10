@@ -1,9 +1,16 @@
 package com.ark.center.iam.application.route.executor;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQuery;
-import com.ark.center.iam.domain.route.gateway.RouteGateway;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeUtil;
+import com.ark.center.iam.client.menu.dto.MenuDTO;
+import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.menu.query.RouteQuery;
+import com.ark.center.iam.domain.menu.gateway.RouteGateway;
+import com.ark.center.iam.infra.route.assembler.RouteAssembler;
+import com.ark.center.iam.infra.route.db.MenuDAO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,13 +22,23 @@ import java.util.List;
 public class RouteTreeQryExe {
 
     private final RouteGateway routeGateway;
-    
-    public Page<RouteDetailsDTO> execute(RouteQuery dto) {
-        Page<RouteDetailsDTO> pageResult = getFirstLevelRoutesByPage(dto);
-        List<RouteDetailsDTO> firstLevelRoutes = pageResult.getRecords();
-        List<RouteDetailsDTO> childrenLevelRoutes = getChildrenRoutes(firstLevelRoutes);
-        recursionRoutes(firstLevelRoutes, childrenLevelRoutes);
-        return pageResult;
+    private final MenuDAO menuDAO;
+    private final RouteAssembler routeAssembler;
+
+    public List<Tree<Long>> execute(RouteQuery dto) {
+        IPage<MenuDTO> page = menuDAO.page(new Page<>(dto.getCurrent(), dto.getSize()))
+                .convert(routeAssembler::toMenuDTO);
+
+        return TreeUtil.build(page.getRecords(), 0L, (object, treeNode) -> {
+            treeNode.setId(object.getId());
+            treeNode.setParentId(object.getPid());
+            treeNode.setName(object.getName());
+            treeNode.putAll(BeanUtil.beanToMap(object));
+        });
+//        Page<RouteDetailsDTO> pageResult = getFirstLevelRoutesByPage(dto);
+//        List<RouteDetailsDTO> firstLevelRoutes = pageResult.getRecords();
+//        List<RouteDetailsDTO> childrenLevelRoutes = getChildrenRoutes(firstLevelRoutes);
+//        recursionRoutes(firstLevelRoutes, childrenLevelRoutes);
     }
 
     private Page<RouteDetailsDTO> getFirstLevelRoutesByPage(RouteQuery params) {

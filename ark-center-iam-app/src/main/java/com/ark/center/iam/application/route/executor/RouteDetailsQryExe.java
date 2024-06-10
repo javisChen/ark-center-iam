@@ -1,9 +1,9 @@
 package com.ark.center.iam.application.route.executor;
 
-import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
-import com.ark.center.iam.domain.route.gateway.RouteGateway;
+import com.ark.center.iam.domain.menu.gateway.RouteGateway;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

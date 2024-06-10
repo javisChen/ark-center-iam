@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.route.dto;
+package com.ark.center.iam.client.menu.dto;
 
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RouteDetailsDTO extends RouteBaseDTO {
+public class RouteDetailsDTO extends MenuDTO {
 
     private Long applicationId;
     private String applicationName;

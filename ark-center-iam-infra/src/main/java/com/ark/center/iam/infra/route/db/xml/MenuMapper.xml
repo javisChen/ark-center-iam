@@ -1,26 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ark.center.iam.infra.route.gateway.db.RouteMapper">
-
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.route.Route">
-        <result column="id" property="id"/>
-        <result column="gmt_create" property="createTime"/>
-        <result column="gmt_modified" property="updateTime"/>
-        <result column="name" property="name"/>
-        <result column="component" property="component"/>
-        <result column="path" property="path"/>
-        <result column="type" property="type"/>
-        <result column="level_path" property="levelPath"/>
-        <result column="application_id" property="applicationId"/>
-        <result column="level" property="level"/>
-        <result column="status" property="status"/>
-        <result column="sequence" property="sequence"/>
-        <result column="pid" property="pid"/>
-        <result column="icon" property="icon"/>
-        <result column="status" property="status"/>
-        <result column="hide_children" property="hideChildren"/>
-    </resultMap>
+<mapper namespace="com.ark.center.iam.infra.route.db.MenuMapper">
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -43,7 +23,7 @@
         modifier
     </sql>
 
-    <select id="selectDetailsPages" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">
+    <select id="selectDetailsPages" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -72,7 +52,7 @@
         ORDER BY r.`sequence`
     </select>
 
-    <select id="selectSubRoutes" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">
+    <select id="selectSubRoutes" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -86,7 +66,7 @@
         AND p.type = 'FRONT_ROUTE'
     </select>
 
-    <select id="selectDetails" resultType="com.ark.center.iam.client.route.dto.RouteDetailsDTO">
+    <select id="selectDetails" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
         SELECT
         r.*,
         a.name as applicationName,

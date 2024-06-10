@@ -1,20 +1,20 @@
 package com.ark.center.iam.application.route;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.route.executor.*;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
-import com.ark.center.iam.client.route.command.RouteCmd;
-import com.ark.center.iam.client.route.command.RouteModifyParentCmd;
-import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQuery;
+import com.ark.center.iam.client.menu.command.RouteCmd;
+import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
+import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.menu.query.RouteQuery;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
-import com.ark.center.iam.domain.route.Route;
-import com.ark.center.iam.domain.route.gateway.RouteGateway;
-import com.ark.center.iam.domain.route.service.RouteCheckService;
-import com.ark.center.iam.domain.route.service.RouteService;
+import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.menu.gateway.RouteGateway;
+import com.ark.center.iam.domain.menu.service.RouteCheckService;
+import com.ark.center.iam.domain.menu.service.RouteService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.route.assembler.RouteAssembler;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,13 +39,13 @@ public class RouteAppService {
     private final ElementAssembler elementAssembler;
 
 
-    public Page<RouteDetailsDTO> queryRoutes(RouteQuery dto) {
+    public List<Tree<Long>> queryRoutes(RouteQuery dto) {
         return routeTreeQryExe.execute(dto);
     }
 
-    public List<RouteDetailsDTO> queryList(RouteQuery dto) {
+    public List<Tree<Long>> queryList(RouteQuery dto) {
         dto.setSize(99999);
-        return queryRoutes(dto).getRecords();
+        return queryRoutes(dto);
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -65,9 +65,9 @@ public class RouteAppService {
 
         routeCheckService.ensureRouteNotExists(cmd.getPid(), "父级路由不存在");
 
-        Route route = routeAssembler.toRouteDO(cmd);
+        Menu menu = routeAssembler.toRouteDO(cmd);
 
-        routeGateway.updateByRouteId(route);
+        routeGateway.updateByRouteId(menu);
 
     }
 

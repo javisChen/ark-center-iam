@@ -1,11 +1,11 @@
-package com.ark.center.iam.client.route.dto;
+package com.ark.center.iam.client.menu.dto;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class RouteBaseDTO {
+public class MenuDTO {
 
     private Long id;
     private Long pid;

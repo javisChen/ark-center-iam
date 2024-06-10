@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.route.dto;
+package com.ark.center.iam.client.menu.dto;
 
 
 import com.ark.component.validator.ValidateGroup;
@@ -6,7 +6,6 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
 import jakarta.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Data
 public class PermissionUpdateDTO  {

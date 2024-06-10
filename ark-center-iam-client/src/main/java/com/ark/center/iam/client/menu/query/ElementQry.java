@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.route.query;
+package com.ark.center.iam.client.menu.query;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.ark.center.iam.client.route.command;
+package com.ark.center.iam.client.menu.command;
 
 import com.ark.component.validator.ValidateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;

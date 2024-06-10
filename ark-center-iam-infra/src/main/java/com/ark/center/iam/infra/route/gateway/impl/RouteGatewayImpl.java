@@ -1,13 +1,13 @@
 package com.ark.center.iam.infra.route.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.route.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.route.query.RouteQuery;
+import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.menu.query.RouteQuery;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
-import com.ark.center.iam.domain.route.gateway.RouteGateway;
-import com.ark.center.iam.domain.route.Route;
+import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.domain.menu.gateway.RouteGateway;
 import com.ark.center.iam.infra.route.assembler.RouteAssembler;
-import com.ark.center.iam.infra.route.gateway.db.RouteMapper;
+import com.ark.center.iam.infra.route.db.MenuMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -23,21 +23,20 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class RouteGatewayImpl extends ServiceImpl<RouteMapper, Route> implements RouteGateway {
+public class RouteGatewayImpl extends ServiceImpl<MenuMapper, Menu> implements RouteGateway {
 
     private final RouteAssembler routeAssembler;
-
 
     @Override
     public List<UserRouteDTO> selectByRouteIds(List<Long> routeIds) {
         if (CollectionUtil.isEmpty(routeIds)) {
             return Collections.emptyList();
         }
-        List<Route> routes = lambdaQuery()
-                .in(Route::getId, routeIds)
-                .orderByAsc(Lists.newArrayList(Route::getLevel, Route::getSequence))
+        List<Menu> menus = lambdaQuery()
+                .in(Menu::getId, routeIds)
+                .orderByAsc(Lists.newArrayList(Menu::getLevel, Menu::getSequence))
                 .list();
-        return routeAssembler.toRouteDTO(routes);
+        return routeAssembler.toRouteDTO(menus);
     }
 
     @Override
@@ -51,37 +50,37 @@ public class RouteGatewayImpl extends ServiceImpl<RouteMapper, Route> implements
     }
 
     @Override
-    public Route selectBaseByRouteId(Long id) {
+    public Menu selectBaseByRouteId(Long id) {
         return getById(id);
     }
 
     @Override
-    public void insert(Route route) {
-        save(route);
+    public void insert(Menu menu) {
+        save(menu);
     }
 
     @Override
-    public void updateByRouteId(Route entity) {
+    public void updateByRouteId(Menu entity) {
         updateById(entity);
     }
 
     @Override
     public void updateStatusByLevelPath(Integer status, String levelPath) {
-        LambdaUpdateWrapper<Route> wrapper = new LambdaUpdateWrapper<Route>()
-                .likeRight(Route::getLevelPath, levelPath)
-                .set(Route::getStatus, status);
+        LambdaUpdateWrapper<Menu> wrapper = new LambdaUpdateWrapper<Menu>()
+                .likeRight(Menu::getLevelPath, levelPath)
+                .set(Menu::getStatus, status);
         this.update(wrapper);
     }
 
     @Override
-    public void updateBatchByRouteId(List<Route> routes) {
-        updateBatchById(routes);
+    public void updateBatchByRouteId(List<Menu> menus) {
+        updateBatchById(menus);
     }
 
     @Override
-    public List<Route> selectByLevelPath(String levelPath) {
-        return this.list(new LambdaQueryWrapper<Route>()
-                .likeRight(Route::getLevelPath, levelPath));
+    public List<Menu> selectByLevelPath(String levelPath) {
+        return this.list(new LambdaQueryWrapper<Menu>()
+                .likeRight(Menu::getLevelPath, levelPath));
     }
 
     @Override
@@ -95,9 +94,9 @@ public class RouteGatewayImpl extends ServiceImpl<RouteMapper, Route> implements
     }
 
     @Override
-    public List<Route> selectSubRoutesByLevelPath(String levelPath) {
+    public List<Menu> selectSubRoutesByLevelPath(String levelPath) {
         return lambdaQuery()
-                .likeRight(Route::getLevelPath, levelPath)
+                .likeRight(Menu::getLevelPath, levelPath)
                 .list();
     }
 
@@ -105,7 +104,7 @@ public class RouteGatewayImpl extends ServiceImpl<RouteMapper, Route> implements
     public void logicDeleteBatchByIds(List<Long> ids) {
         lambdaUpdate()
                 .in(BaseEntity::getId, ids)
-                .set(Route::getIsDeleted, DeletedEnums.NOT.getCode())
+                .set(Menu::getIsDeleted, DeletedEnums.NOT.getCode())
                 .update();
     }
 
