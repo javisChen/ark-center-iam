@@ -5,8 +5,8 @@ import com.ark.center.iam.application.route.executor.*;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.client.menu.command.RouteCmd;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
-import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.menu.query.RouteQuery;
+import com.ark.center.iam.client.menu.dto.MenuDTO;
+import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.menu.Menu;
@@ -39,13 +39,13 @@ public class RouteAppService {
     private final ElementAssembler elementAssembler;
 
 
-    public List<Tree<Long>> queryRoutes(RouteQuery dto) {
+    public List<Tree<Long>> queryMenus(MenuQuery dto) {
         return routeTreeQryExe.execute(dto);
     }
 
-    public List<Tree<Long>> queryList(RouteQuery dto) {
+    public List<Tree<Long>> queryList(MenuQuery dto) {
         dto.setSize(99999);
-        return queryRoutes(dto);
+        return queryMenus(dto);
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -71,7 +71,7 @@ public class RouteAppService {
 
     }
 
-    public RouteDetailsDTO queryDetails(Long id) {
+    public MenuDTO queryDetails(Long id) {
         return routeDetailsQryExe.execute(id);
     }
 

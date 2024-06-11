@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.route.db;
 
 import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.menu.query.RouteQuery;
+import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.domain.menu.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 
-    Page<RouteDetailsDTO> selectDetailsPages(@Param("page") IPage<Menu> page, @Param("params") RouteQuery params);
+    Page<RouteDetailsDTO> selectDetailsPages(@Param("page") IPage<Menu> page, @Param("params") MenuQuery params);
 
     List<RouteDetailsDTO> selectSubRoutes();
 

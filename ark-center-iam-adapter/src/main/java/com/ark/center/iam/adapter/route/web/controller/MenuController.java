@@ -6,15 +6,13 @@ import com.ark.center.iam.application.route.RouteAppService;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.client.menu.command.RouteCmd;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
-import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.menu.query.RouteQuery;
+import com.ark.center.iam.client.menu.dto.MenuDTO;
+import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.component.dto.MultiResponse;
-import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.validator.ValidateGroup;
 import com.ark.component.web.base.BaseController;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,8 +20,6 @@ import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Tag(name = "路由管理", description = "路由管理")
 @RestController
@@ -34,14 +30,14 @@ public class MenuController extends BaseController {
     private final RouteAppService routeAppService;
 
     @GetMapping("")
-    @Operation(summary = "路由树形分页查询")
-    public MultiResponse<Tree<Long>> queryRoutes(RouteQuery query) {
-        return MultiResponse.ok(routeAppService.queryRoutes(query));
+    @Operation(summary = "获取全量菜单树状结构")
+    public MultiResponse<Tree<Long>> queryMenus(MenuQuery query) {
+        return MultiResponse.ok(routeAppService.queryMenus(query));
     }
 
     @PostMapping("/all")
     @Operation(summary = "路由全量查询")
-    public MultiResponse<Tree<Long>> queryList(@RequestBody RouteQuery dto) {
+    public MultiResponse<Tree<Long>> queryList(@RequestBody MenuQuery dto) {
         return MultiResponse.ok(routeAppService.queryList(dto));
     }
 
@@ -73,8 +69,8 @@ public class MenuController extends BaseController {
                     @Parameter(name = "id", description = "路由id", required = true)
             }
     )
-    public SingleResponse<RouteDetailsDTO> queryDetails(Long id) {
-        RouteDetailsDTO dto = routeAppService.queryDetails(id);
+    public SingleResponse<MenuDTO> queryDetails(Long id) {
+        MenuDTO dto = routeAppService.queryDetails(id);
         return SingleResponse.ok(dto);
     }
 

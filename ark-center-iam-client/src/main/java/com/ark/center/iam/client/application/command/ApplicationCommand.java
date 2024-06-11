@@ -1,15 +1,12 @@
 package com.ark.center.iam.client.application.command;
 
-import java.io.Serializable;
-
 import com.ark.component.validator.ValidateGroup;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @Data
-public class ApplicationCmd  {
+public class ApplicationCommand {
 
     private Long id;
 

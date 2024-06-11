@@ -1,11 +1,11 @@
 package com.ark.center.iam.infra.application.gateway.impl;
 
 import com.ark.center.iam.client.application.dto.ApplicationDTO;
-import com.ark.center.iam.client.application.query.ApplicationQry;
+import com.ark.center.iam.client.application.query.ApplicationQuery;
 import com.ark.center.iam.domain.application.Application;
 import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
 import com.ark.center.iam.infra.application.assembler.ApplicationAssembler;
-import com.ark.center.iam.infra.application.gateway.db.ApplicationMapper;
+import com.ark.center.iam.infra.application.db.ApplicationMapper;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class ApplicationGatewayImpl extends ServiceImpl<ApplicationMapper, Appli
     private final ApplicationAssembler applicationAssembler;
 
     @Override
-    public List<ApplicationDTO> selectApplications(ApplicationQry dto) {
+    public List<ApplicationDTO> selectApplications(ApplicationQuery dto) {
         return this.list()
                 .stream()
                 .map(applicationAssembler::toApplicationDTO)

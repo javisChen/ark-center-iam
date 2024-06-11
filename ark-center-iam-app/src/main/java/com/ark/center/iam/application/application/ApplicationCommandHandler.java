@@ -1,8 +1,6 @@
 package com.ark.center.iam.application.application;
 
-import com.ark.center.iam.client.application.command.ApplicationCmd;
-import com.ark.center.iam.client.application.dto.ApplicationDTO;
-import com.ark.center.iam.client.application.query.ApplicationQry;
+import com.ark.center.iam.client.application.command.ApplicationCommand;
 import com.ark.center.iam.domain.application.Application;
 import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
 import com.ark.center.iam.domain.application.service.ApplicationCheckService;
@@ -10,11 +8,9 @@ import com.ark.center.iam.infra.application.assembler.ApplicationAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
-public class ApplicationAppService {
+public class ApplicationCommandHandler {
 
     private final ApplicationGateway applicationGateway;
 
@@ -22,13 +18,7 @@ public class ApplicationAppService {
 
     private final ApplicationCheckService applicationCheckService;
 
-    private final ApplicationCreateCmdExe applicationCreateCmdExe;
-
-    public List<ApplicationDTO> queryList(ApplicationQry dto) {
-        return applicationGateway.selectApplications(dto);
-    }
-
-    public void createApplication(ApplicationCmd dto) {
+    public void createApplication(ApplicationCommand dto) {
 
         Application application = applicationAssembler.toDomain(dto);
 
@@ -37,7 +27,7 @@ public class ApplicationAppService {
         applicationGateway.insert(application);
     }
 
-    public void updateApplication(ApplicationCmd dto) {
+    public void updateApplication(ApplicationCommand dto) {
 
         baseCheck(dto);
 
@@ -47,15 +37,11 @@ public class ApplicationAppService {
     }
 
 
-    private void baseCheck(ApplicationCmd cmd) {
+    private void baseCheck(ApplicationCommand cmd) {
 
         applicationCheckService.ensureNameNotExists(cmd.getName(), cmd.getId());
 
         applicationCheckService.ensureCodeNotExists(cmd.getCode(), cmd.getId());
-    }
-
-    private boolean sameRecord(ApplicationCmd cmd, Application application) {
-        return cmd.getId() != null && cmd.getId().equals(application.getId());
     }
 
 }

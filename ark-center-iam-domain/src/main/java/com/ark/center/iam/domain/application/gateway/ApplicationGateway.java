@@ -1,14 +1,14 @@
 package com.ark.center.iam.domain.application.gateway;
 
 import com.ark.center.iam.client.application.dto.ApplicationDTO;
-import com.ark.center.iam.client.application.query.ApplicationQry;
+import com.ark.center.iam.client.application.query.ApplicationQuery;
 import com.ark.center.iam.domain.application.Application;
 
 import java.util.List;
 
 public interface ApplicationGateway {
 
-    List<ApplicationDTO> selectApplications(ApplicationQry dto);
+    List<ApplicationDTO> selectApplications(ApplicationQuery dto);
 
     void insert(Application application);
 

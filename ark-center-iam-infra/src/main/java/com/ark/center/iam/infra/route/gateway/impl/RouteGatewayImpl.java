@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.route.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
-import com.ark.center.iam.client.menu.query.RouteQuery;
+import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
 import com.ark.center.iam.domain.menu.Menu;
 import com.ark.center.iam.domain.menu.gateway.RouteGateway;
@@ -40,7 +40,7 @@ public class RouteGatewayImpl extends ServiceImpl<MenuMapper, Menu> implements R
     }
 
     @Override
-    public Page<RouteDetailsDTO> selectDetailsPage(RouteQuery params) {
+    public Page<RouteDetailsDTO> selectDetailsPage(MenuQuery params) {
         return baseMapper.selectDetailsPages(new Page<>(params.getCurrent(), params.getSize()), params);
     }
 

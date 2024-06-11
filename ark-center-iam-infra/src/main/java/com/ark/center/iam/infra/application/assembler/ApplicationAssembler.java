@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.application.assembler;
 
-import com.ark.center.iam.client.application.command.ApplicationCmd;
+import com.ark.center.iam.client.application.command.ApplicationCommand;
 import com.ark.center.iam.client.application.dto.ApplicationDTO;
 import com.ark.center.iam.domain.application.Application;
 import org.mapstruct.Mapper;
@@ -21,5 +21,5 @@ public interface ApplicationAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    Application toDomain(ApplicationCmd applicationCmd);
+    Application toDomain(ApplicationCommand applicationCommand);
 }

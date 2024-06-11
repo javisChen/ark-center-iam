@@ -20,6 +20,8 @@ public interface RouteAssembler {
 
     MenuDTO toMenuDTO(Menu menu);
 
+    List<MenuDTO> toMenuDTO(List<Menu> menus);
+
 
     default UserRouteDTO.Meta assembleMeta(Menu item) {
         UserRouteDTO.Meta meta = new UserRouteDTO.Meta();
@@ -59,4 +61,5 @@ public interface RouteAssembler {
     @Mapping(target = "code", ignore = true)
     @Mapping(target = "applicationId", ignore = true)
     Menu toRouteDO(RouteModifyParentCmd cmd);
+
 }

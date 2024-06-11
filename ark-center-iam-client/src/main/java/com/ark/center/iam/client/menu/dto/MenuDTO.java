@@ -9,6 +9,7 @@ public class MenuDTO {
 
     private Long id;
     private Long pid;
+    private Long applicationId;
     private Integer sequence;
     private Integer level;
     private String code;

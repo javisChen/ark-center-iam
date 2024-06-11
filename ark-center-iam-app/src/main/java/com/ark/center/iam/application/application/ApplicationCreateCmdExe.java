@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.application;
 
-import com.ark.center.iam.client.application.command.ApplicationCmd;
+import com.ark.center.iam.client.application.command.ApplicationCommand;
 import com.ark.center.iam.domain.application.Application;
 import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
 import com.ark.center.iam.infra.application.assembler.ApplicationAssembler;
@@ -15,7 +15,7 @@ public class ApplicationCreateCmdExe {
 
     private final ApplicationAssembler applicationAssembler;
 
-    public void execute(ApplicationCmd cmd) {
+    public void execute(ApplicationCommand cmd) {
 
         Application application = applicationGateway.queryById(cmd.getId());
         if (application == null) {
