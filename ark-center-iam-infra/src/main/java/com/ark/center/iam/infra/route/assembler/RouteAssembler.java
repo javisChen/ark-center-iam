@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.route.assembler;
 
-import com.ark.center.iam.client.menu.command.RouteCmd;
+import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.client.user.dto.UserRouteDTO;
@@ -41,7 +41,7 @@ public interface RouteAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    Menu toRouteDO(RouteCmd cmd);
+    Menu toRouteDO(MenuCommand cmd);
 
     @Mapping(target = "type", ignore = true)
     @Mapping(target = "status", ignore = true)

@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.route.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.menu.command.RouteCmd;
+import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.gateway.ElementGateway;
 import com.ark.center.iam.domain.element.service.ElementService;
@@ -32,7 +32,7 @@ public class RouteUpdateCmdExe {
     private final ElementService elementService;
     private final ElementAssembler elementAssembler;
 
-    public void execute(RouteCmd dto) {
+    public void execute(MenuCommand dto) {
         Long routeId = dto.getId();
 
         // 基础校验
@@ -55,7 +55,7 @@ public class RouteUpdateCmdExe {
 
     }
 
-    private void updateBase(RouteCmd dto) {
+    private void updateBase(MenuCommand dto) {
         Menu menu = routeAssembler.toRouteDO(dto);
         routeGateway.updateByRouteId(menu);
     }
@@ -64,8 +64,8 @@ public class RouteUpdateCmdExe {
         elementGateway.deleteByRouteId(routeId);
     }
 
-    private void saveElements(RouteCmd cmd, Long routeId) {
-        List<RouteCmd.Element> elements = cmd.getElements();
+    private void saveElements(MenuCommand cmd, Long routeId) {
+        List<MenuCommand.Element> elements = cmd.getElements();
         if (CollectionUtils.isEmpty(elements)) {
             return;
         }
@@ -158,7 +158,7 @@ public class RouteUpdateCmdExe {
     }
 
 
-    private void baseCheck(RouteCmd dto) {
+    private void baseCheck(MenuCommand dto) {
         routeCheckService.ensureNameNotExists(dto.getName(), dto.getId());
         routeCheckService.ensureCodeNotExists(dto.getCode(), dto.getId());
     }

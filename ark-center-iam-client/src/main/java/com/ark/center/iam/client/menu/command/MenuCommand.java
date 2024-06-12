@@ -10,8 +10,8 @@ import org.hibernate.validator.constraints.Range;
 import java.util.List;
 
 @Data
-@Schema(description = "路由命令请求体")
-public class RouteCmd {
+@Schema(description = "菜单命令请求体")
+public class MenuCommand {
 
     @NotNull(message = "id 不能为空", groups = ValidateGroup.Update.class)
     @Schema(description = "路由名称")

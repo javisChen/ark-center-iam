@@ -45,9 +45,8 @@ public class UserController implements UserQueryApi {
         return SingleResponse.ok(userQueryService.queryUserDetails(id));
     }
 
-
     @PostMapping
-    @Operation(summary = "创建用户")
+    @Operation(summary = "新建用户")
     public ServerResponse createUser(@RequestBody
                                      @Validated({ValidateGroup.Add.class, Default.class}) UserCommand command) {
         return SingleResponse.ok(userCommandHandler.createUser(command));

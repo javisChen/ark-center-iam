@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.route.executor;
 
 import cn.hutool.core.util.StrUtil;
-import com.ark.center.iam.client.menu.command.RouteCmd;
+import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.service.ElementService;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
@@ -35,7 +35,7 @@ public class RouteCreateCmdExe {
 
     private final PermissionService permissionService;
 
-    public void execute(RouteCmd cmd) {
+    public void execute(MenuCommand cmd) {
         baseCheck(cmd);
 
         Menu menu = routeAssembler.toRouteDO(cmd);
@@ -61,8 +61,8 @@ public class RouteCreateCmdExe {
         saveElements(cmd, routeId);
     }
 
-    private void saveElements(RouteCmd cmd, Long routeId) {
-        List<RouteCmd.Element> elements = cmd.getElements();
+    private void saveElements(MenuCommand cmd, Long routeId) {
+        List<MenuCommand.Element> elements = cmd.getElements();
         if (CollectionUtils.isEmpty(elements)) {
             return;
         }
@@ -83,7 +83,7 @@ public class RouteCreateCmdExe {
         routeGateway.updateByRouteId(entity);
     }
 
-    private void baseCheck(RouteCmd dto) {
+    private void baseCheck(MenuCommand dto) {
         routeCheckService.ensureNameNotExists(dto.getName(), dto.getId());
         routeCheckService.ensureCodeNotExists(dto.getCode(), dto.getId());
     }

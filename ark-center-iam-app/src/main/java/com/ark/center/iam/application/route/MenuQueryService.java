@@ -3,7 +3,7 @@ package com.ark.center.iam.application.route;
 import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.route.executor.*;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
-import com.ark.center.iam.client.menu.command.RouteCmd;
+import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
@@ -24,20 +24,12 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class RouteAppService {
+public class MenuQueryService {
 
     private final RouteTreeQryExe routeTreeQryExe;
     private final RouteDetailsQryExe routeDetailsQryExe;
-    private final RouteCreateCmdExe routeCreateCmdExe;
-    private final RouteUpdateCmdExe routeUpdateCmdExe;
-    private final RouteDeleteCmdExe routeDeleteCmdExe;
-    private final RouteCheckService routeCheckService;
-    private final RouteGateway routeGateway;
-    private final RouteService routeService;
-    private final RouteAssembler routeAssembler;
     private final ElementGateway elementGateway;
     private final ElementAssembler elementAssembler;
-
 
     public List<Tree<Long>> queryMenus(MenuQuery dto) {
         return routeTreeQryExe.execute(dto);
@@ -48,42 +40,11 @@ public class RouteAppService {
         return queryMenus(dto);
     }
 
-    @Transactional(rollbackFor = Throwable.class)
-    public void saveRoute(RouteCmd cmd) {
-        routeCreateCmdExe.execute(cmd);
-    }
-
-    @Transactional(rollbackFor = Throwable.class)
-    public void updateRoute(RouteCmd dto) {
-        routeUpdateCmdExe.execute(dto);
-    }
-
-    @Transactional(rollbackFor = Throwable.class)
-    public void modifyParent(RouteModifyParentCmd cmd) {
-
-        routeCheckService.ensureRouteNotExists(cmd.getId());
-
-        routeCheckService.ensureRouteNotExists(cmd.getPid(), "父级路由不存在");
-
-        Menu menu = routeAssembler.toRouteDO(cmd);
-
-        routeGateway.updateByRouteId(menu);
-
-    }
 
     public MenuDTO queryDetails(Long id) {
         return routeDetailsQryExe.execute(id);
     }
 
-    @Transactional(rollbackFor = Throwable.class)
-    public void updateRouteStatus(RouteCmd dto) {
-        routeService.updateRouteStatus(dto.getId(), dto.getStatus());
-    }
-
-    @Transactional(rollbackFor = Throwable.class)
-    public void deleteRouteById(Long id) {
-        routeDeleteCmdExe.execute(id);
-    }
 
     public List<ElementBaseDTO> queryRouteElementsById(Long routeId) {
         List<Element> elements = elementGateway.selectElementsByRouteId(routeId);
