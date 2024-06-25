@@ -38,14 +38,20 @@ public class MenuCommand {
     @Schema(description = "状态", allowableValues = {"1-已启用", "2-已禁用"})
     private Integer status;
 
-    @Schema(description = "路由组件名称")
-    private String component;
-
     @Schema(description = "是否隐藏子路由页面")
     private Boolean hideChildren;
 
     @Schema(description = "路径")
     private String path;
+
+    @Schema(description = "路由组件名称")
+    private String component;
+
+    @Schema(description = "路径")
+    private String path2;
+
+    @Schema(description = "路由组件名称")
+    private String component2;
 
     @Schema(description = "路由类型", allowableValues = {"1-菜单路由", "2-页面路由", "3-页面隐藏路由"})
     private Integer type;
