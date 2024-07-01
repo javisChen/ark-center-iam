@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class RouteDeleteCmdExe {
 
     private final RouteGateway routeGateway;
+    
     private final PermissionGateway permissionGateway;
 
     public void execute(Long id) {
