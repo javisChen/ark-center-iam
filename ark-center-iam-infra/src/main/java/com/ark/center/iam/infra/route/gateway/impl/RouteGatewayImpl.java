@@ -9,6 +9,7 @@ import com.ark.center.iam.domain.menu.gateway.RouteGateway;
 import com.ark.center.iam.infra.route.assembler.RouteAssembler;
 import com.ark.center.iam.infra.route.db.MenuMapper;
 import com.ark.component.orm.mybatis.base.BaseEntity;
+import com.ark.component.tree.AbstractTreeService;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -23,7 +24,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class RouteGatewayImpl extends ServiceImpl<MenuMapper, Menu> implements RouteGateway {
+public class RouteGatewayImpl extends AbstractTreeService<Menu> implements RouteGateway {
 
     private final RouteAssembler routeAssembler;
 
@@ -41,12 +42,15 @@ public class RouteGatewayImpl extends ServiceImpl<MenuMapper, Menu> implements R
 
     @Override
     public Page<RouteDetailsDTO> selectDetailsPage(MenuQuery params) {
-        return baseMapper.selectDetailsPages(new Page<>(params.getCurrent(), params.getSize()), params);
+//        return baseMapper.selectDetailsPages(new Page<>(params.getCurrent(), params.getSize()), params);
+        return null;
     }
 
     @Override
     public List<RouteDetailsDTO> selectSubRoutes() {
-        return baseMapper.selectSubRoutes();
+//        return baseMapper.selectSubRoutes();
+        return null;
+
     }
 
     @Override
@@ -56,7 +60,7 @@ public class RouteGatewayImpl extends ServiceImpl<MenuMapper, Menu> implements R
 
     @Override
     public void insert(Menu menu) {
-        save(menu);
+        addNode(menu);
     }
 
     @Override
@@ -86,6 +90,7 @@ public class RouteGatewayImpl extends ServiceImpl<MenuMapper, Menu> implements R
     @Override
     public RouteDetailsDTO selectDetailsByRouteId(Long id) {
         return baseMapper.selectDetails(id);
+        return null;
     }
 
     @Override

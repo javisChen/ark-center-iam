@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @MapperScan(basePackages = {
         "com.ark.center.iam.infra.*.gateway.db",
         "com.ark.center.iam.infra.*.db",
-        "com.ark.component.dao",
+        "com.ark.component.tree.dao",
 })
 @Configuration
 public class MyBatisConfig {

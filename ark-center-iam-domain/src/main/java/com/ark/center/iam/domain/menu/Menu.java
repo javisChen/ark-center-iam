@@ -1,6 +1,7 @@
 package com.ark.center.iam.domain.menu;
 
 import com.ark.center.iam.domain.menu.common.RouteConst;
+import com.ark.component.tree.TreeNode;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.ark.component.orm.mybatis.base.BaseEntity;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @TableName("iam_menu")
-public class Menu extends BaseEntity {
+public class Menu extends TreeNode {
 
     
 
@@ -66,29 +67,29 @@ public class Menu extends BaseEntity {
     @TableField("hide_children")
     private Boolean hideChildren;
 
-    /**
-     * 父级菜单id
-     */
-    @TableField("pid")
-    private Long pid;
-
-    /**
-     * 菜单层级路径，例如：0.1.2 代表该菜单是三级菜单，上级菜单的id是1,再上级的菜单id是0
-     */
-    @TableField("level_path")
-    private String levelPath;
-
-    /**
-     * 菜单层级
-     */
-    @TableField("level")
-    private Integer level;
-
-    /**
-     * 排序序号
-     */
-    @TableField("sequence")
-    private Integer sequence;
+//    /**
+//     * 父级菜单id
+//     */
+//    @TableField("pid")
+//    private Long pid;
+//
+//    /**
+//     * 菜单层级路径，例如：0.1.2 代表该菜单是三级菜单，上级菜单的id是1,再上级的菜单id是0
+//     */
+//    @TableField("level_path")
+//    private String levelPath;
+//
+//    /**
+//     * 菜单层级
+//     */
+//    @TableField("level")
+//    private Integer level;
+//
+//    /**
+//     * 排序序号
+//     */
+//    @TableField("sequence")
+//    private Integer sequence;
 
     /**
      * 路径
@@ -121,7 +122,7 @@ public class Menu extends BaseEntity {
      * 是否一级路由
      */
     public boolean isFirstLevel() {
-        return RouteConst.DEFAULT_PID.equals(this.pid)
-                || RouteConst.FIRST_LEVEL.equals(this.level);
+        return RouteConst.DEFAULT_PID.equals(getPid())
+                || RouteConst.FIRST_LEVEL.equals(getLevel());
     }
 }

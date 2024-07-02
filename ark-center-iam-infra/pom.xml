@@ -93,8 +93,8 @@
         </dependency>
 
         <dependency>
-            <artifactId>ark-component-tree-core</artifactId>
             <groupId>com.ark.tree</groupId>
+            <artifactId>ark-component-tree-spring-boot-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 

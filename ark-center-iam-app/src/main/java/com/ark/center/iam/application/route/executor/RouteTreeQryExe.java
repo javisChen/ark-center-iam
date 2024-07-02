@@ -44,13 +44,13 @@ public class RouteTreeQryExe {
 //        recursionRoutes(firstLevelRoutes, childrenLevelRoutes);
     }
 
-    private Page<RouteDetailsDTO> getFirstLevelRoutesByPage(MenuQuery params) {
-        return routeGateway.selectDetailsPage(params);
-    }
-    
-    private List<RouteDetailsDTO> getChildrenRoutes(List<RouteDetailsDTO> firstLevelRoutes) {
-        return routeGateway.selectSubRoutes();
-    }
+//    private Page<RouteDetailsDTO> getFirstLevelRoutesByPage(MenuQuery params) {
+//        return routeGateway.selectDetailsPage(params);
+//    }
+//
+//    private List<RouteDetailsDTO> getChildrenRoutes(List<RouteDetailsDTO> firstLevelRoutes) {
+//        return routeGateway.selectSubRoutes();
+//    }
 
     /**
      * 递归组装路由

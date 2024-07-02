@@ -13,6 +13,7 @@ import com.ark.center.iam.domain.menu.service.RouteCheckService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.route.assembler.RouteAssembler;
 import com.ark.component.exception.ExceptionFactory;
+import com.ark.component.tree.TreeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -56,6 +57,7 @@ public class RouteCreateCmdExe {
         updateLevelPathAfterSave(menu, parentMenu);
         // 添加到权限
         Long routeId = menu.getId();
+
         permissionService.addPermission(routeId, PermissionType.FRONT_ROUTE);
         // 添加页面元素
         saveElements(cmd, routeId);
