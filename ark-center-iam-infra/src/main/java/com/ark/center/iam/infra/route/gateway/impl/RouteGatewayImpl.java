@@ -24,7 +24,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class RouteGatewayImpl extends AbstractTreeService<Menu> implements RouteGateway {
+public class RouteGatewayImpl extends ServiceImpl<MenuMapper, Menu> implements RouteGateway {
 
     private final RouteAssembler routeAssembler;
 
@@ -42,8 +42,7 @@ public class RouteGatewayImpl extends AbstractTreeService<Menu> implements Route
 
     @Override
     public Page<RouteDetailsDTO> selectDetailsPage(MenuQuery params) {
-//        return baseMapper.selectDetailsPages(new Page<>(params.getCurrent(), params.getSize()), params);
-        return null;
+        return baseMapper.selectDetailsPages(new Page<>(params.getCurrent(), params.getSize()), params);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class RouteGatewayImpl extends AbstractTreeService<Menu> implements Route
 
     @Override
     public void insert(Menu menu) {
-        addNode(menu);
+//        addNode(menu);
     }
 
     @Override
@@ -90,7 +89,6 @@ public class RouteGatewayImpl extends AbstractTreeService<Menu> implements Route
     @Override
     public RouteDetailsDTO selectDetailsByRouteId(Long id) {
         return baseMapper.selectDetails(id);
-        return null;
     }
 
     @Override

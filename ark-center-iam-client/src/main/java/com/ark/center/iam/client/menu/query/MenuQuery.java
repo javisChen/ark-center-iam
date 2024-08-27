@@ -19,5 +19,4 @@ public class MenuQuery extends PagingQuery {
 
     private Long applicationId;
 
-
 }

@@ -1,5 +1,5 @@
 
-package com.ark.center.iam.adapter.route.web.controller;
+package com.ark.center.iam.adapter.menu.web.controller;
 
 import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.route.MenuCommandHandler;
@@ -31,7 +31,7 @@ public class MenuController {
     private final MenuQueryService menuQueryService;
 
     @GetMapping("")
-    @Operation(summary = "获取全量菜单树状结构")
+    @Operation(summary = "查询菜单全量树形数据")
     public MultiResponse<Tree<Long>> queryMenus(MenuQuery query) {
         return MultiResponse.ok(menuQueryService.queryMenus(query));
     }
@@ -68,9 +68,7 @@ public class MenuController {
     @GetMapping("/details")
     @Operation(
             summary = "查询菜单详情",
-            parameters = {
-                    @Parameter(name = "id", description = "菜单id", required = true)
-            }
+            parameters = {@Parameter(name = "id", description = "菜单id", required = true)}
     )
     public SingleResponse<MenuDTO> queryDetails(Long id) {
         MenuDTO dto = menuQueryService.queryDetails(id);

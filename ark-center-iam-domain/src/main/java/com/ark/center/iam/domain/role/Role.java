@@ -21,8 +21,6 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_role")
 public class Role extends BaseEntity {
 
-    
-
     /**
      * 用户名称
      */

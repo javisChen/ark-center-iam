@@ -73,14 +73,12 @@ public class UserSelfQryExe {
                 .map(Permission::getResourceId)
                 .collect(Collectors.toList());
         List<UserRouteDTO> userMenuDTOS = routeGateway.selectByRouteIds(menuIds);
-        List<Tree<Long>> build = TreeUtil.build(userMenuDTOS, 0L, (object, treeNode) -> {
+        return TreeUtil.build(userMenuDTOS, 0L, (object, treeNode) -> {
             treeNode.setId(object.getId());
             treeNode.setParentId(object.getParentId());
             // treeNode.setWeight(object.getWeight());
             treeNode.setName(object.getName());
             treeNode.putAll(BeanUtil.beanToMap(object));
         });
-        return build;
-//        });
     }
 }
