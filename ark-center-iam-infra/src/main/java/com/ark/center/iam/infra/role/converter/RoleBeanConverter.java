@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.role.converter;
 
 import com.ark.center.iam.client.role.command.RoleCmd;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
-import com.ark.center.iam.domain.role.Role;
+import com.ark.center.iam.infra.role.Role;
 import org.springframework.stereotype.Component;
 
 /**

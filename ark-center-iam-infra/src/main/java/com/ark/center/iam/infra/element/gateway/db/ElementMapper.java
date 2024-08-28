@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.element.gateway.db;
 
-import com.ark.center.iam.domain.element.Element;
+import com.ark.center.iam.infra.element.Element;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

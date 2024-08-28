@@ -3,7 +3,7 @@ package com.ark.center.iam.application.user;
 import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.user.executor.UserSelfQryExe;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.user.dto.UserRouteDTO;
+import com.ark.center.iam.client.user.dto.UserMenuDTO;
 import com.ark.component.context.core.ServiceContext;
 import com.ark.component.security.base.user.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserSelfAppService {
         return ServiceContext.getCurrentUser();
     }
 
-    public List<UserRouteDTO> queryUserSelfRoutes() {
+    public List<UserMenuDTO> queryUserSelfRoutes() {
         return userSelfQryExe.queryUserSelfRoutes();
     }
 

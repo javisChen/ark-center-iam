@@ -3,7 +3,7 @@
 <mapper namespace="com.ark.center.iam.infra.user.db.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.user.User">
+    <resultMap id="BaseResultMap" type="com.ark.center.iam.infra.user.User">
         <result column="id" property="id"/>
         <result column="gmt_create" property="createTime"/>
         <result column="gmt_modified" property="updateTime"/>
@@ -20,7 +20,7 @@
         gmt_modified,
         name, mobile, password, status
     </sql>
-    <select id="selectByRoleId" resultType="com.ark.center.iam.domain.user.User">
+    <select id="selectByRoleId" resultType="com.ark.center.iam.infra.user.User">
         select u.id, u.username
         from iam_user u
         inner join iam_user_role_rel ur on ur.user_id = u.id

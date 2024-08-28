@@ -3,7 +3,7 @@ package com.ark.center.iam.infra.api.assembler;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
-import com.ark.center.iam.domain.api.Api;
+import com.ark.center.iam.infra.api.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

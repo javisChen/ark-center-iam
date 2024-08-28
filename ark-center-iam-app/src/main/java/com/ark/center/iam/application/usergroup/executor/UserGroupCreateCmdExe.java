@@ -2,10 +2,10 @@ package com.ark.center.iam.application.usergroup.executor;
 
 import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.client.usergroup.command.UserGroupCmd;
-import com.ark.center.iam.domain.usergroup.UserGroup;
-import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
-import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
-import com.ark.center.iam.domain.usergroup.service.UserGroupCheckService;
+import com.ark.center.iam.infra.usergroup.UserGroup;
+import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
+import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
+import com.ark.center.iam.infra.usergroup.service.UserGroupCheckService;
 import com.ark.center.iam.infra.usergroup.assembler.UserGroupAssembler;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;

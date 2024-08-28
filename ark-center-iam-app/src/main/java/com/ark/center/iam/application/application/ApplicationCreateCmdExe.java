@@ -1,8 +1,8 @@
 package com.ark.center.iam.application.application;
 
 import com.ark.center.iam.client.application.command.ApplicationCommand;
-import com.ark.center.iam.domain.application.Application;
-import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
+import com.ark.center.iam.infra.application.Application;
+import com.ark.center.iam.infra.application.gateway.ApplicationGateway;
 import com.ark.center.iam.infra.application.assembler.ApplicationAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

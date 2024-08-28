@@ -3,7 +3,7 @@
 <mapper namespace="com.ark.center.iam.infra.role.gateway.db.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.role.Role">
+    <resultMap id="BaseResultMap" type="com.ark.center.iam.infra.role.Role">
         <result column="id" property="id"/>
         <result column="gmt_create" property="createTime"/>
         <result column="gmt_modified" property="updateTime"/>
@@ -19,7 +19,7 @@
         name, status
     </sql>
 
-    <select id="selectRolesByUserIds" resultType="com.ark.center.iam.domain.role.vo.UserRoleVO">
+    <select id="selectRolesByUserIds" resultType="com.ark.center.iam.infra.role.vo.UserRoleVO">
         select ur.id as roleId,
                ur.name as roleName,
                uurr.user_id as userId

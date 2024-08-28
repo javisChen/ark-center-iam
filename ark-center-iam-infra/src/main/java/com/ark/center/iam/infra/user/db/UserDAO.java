@@ -3,7 +3,7 @@ package com.ark.center.iam.infra.user.db;
 import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.client.user.query.UserPageQuery;
-import com.ark.center.iam.domain.user.User;
+import com.ark.center.iam.infra.user.User;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

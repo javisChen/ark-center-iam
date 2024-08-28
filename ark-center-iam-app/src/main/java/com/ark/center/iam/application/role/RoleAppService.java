@@ -7,7 +7,7 @@ import com.ark.center.iam.application.role.executor.RoleUpdateCmdExe;
 import com.ark.center.iam.client.role.command.RoleCmd;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.client.role.query.RoleQry;
-import com.ark.center.iam.domain.role.gateway.RoleGateway;
+import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

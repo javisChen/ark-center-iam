@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.role.gateway.db;
 
-import com.ark.center.iam.domain.role.Role;
-import com.ark.center.iam.domain.role.vo.UserRoleVO;
+import com.ark.center.iam.infra.role.Role;
+import com.ark.center.iam.infra.role.vo.UserRoleVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 

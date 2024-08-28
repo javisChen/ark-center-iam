@@ -31,10 +31,10 @@
 
         <!-- MQ -->
 
-        <dependency>
-            <groupId>com.ark.center</groupId>
-            <artifactId>ark-center-iam-domain</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ark.center</groupId>-->
+<!--            <artifactId>ark-center-iam-domain</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.ark.center</groupId>

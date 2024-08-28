@@ -3,7 +3,7 @@
 <mapper namespace="com.ark.center.iam.infra.element.gateway.db.ElementMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.element.Element">
+    <resultMap id="BaseResultMap" type="com.ark.center.iam.infra.element.Element">
         <result column="id" property="id"/>
         <result column="gmt_create" property="createTime"/>
         <result column="gmt_modified" property="updateTime"/>

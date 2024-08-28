@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.permission.gateway.db;
 
-import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.permission.Permission;
+import com.ark.center.iam.infra.api.vo.ApiPermissionVO;
+import com.ark.center.iam.infra.permission.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 

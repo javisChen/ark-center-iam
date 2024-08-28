@@ -4,7 +4,7 @@ import com.ark.center.iam.client.usergroup.command.UserGroupCmd;
 import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupDetailDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
-import com.ark.center.iam.domain.usergroup.UserGroup;
+import com.ark.center.iam.infra.usergroup.UserGroup;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 

@@ -1,11 +1,7 @@
 package com.ark.center.iam.application.application;
 
-import com.ark.center.iam.client.application.command.ApplicationCommand;
 import com.ark.center.iam.client.application.dto.ApplicationDTO;
 import com.ark.center.iam.client.application.query.ApplicationQuery;
-import com.ark.center.iam.domain.application.Application;
-import com.ark.center.iam.domain.application.gateway.ApplicationGateway;
-import com.ark.center.iam.domain.application.service.ApplicationCheckService;
 import com.ark.center.iam.infra.application.assembler.ApplicationAssembler;
 import com.ark.center.iam.infra.application.db.ApplicationDAO;
 import lombok.RequiredArgsConstructor;

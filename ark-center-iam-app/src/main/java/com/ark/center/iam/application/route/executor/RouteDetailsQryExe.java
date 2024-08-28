@@ -1,9 +1,9 @@
 package com.ark.center.iam.application.route.executor;
 
 import com.ark.center.iam.client.menu.dto.MenuDTO;
-import com.ark.center.iam.domain.element.gateway.ElementGateway;
-import com.ark.center.iam.domain.menu.Menu;
-import com.ark.center.iam.domain.menu.gateway.RouteGateway;
+import com.ark.center.iam.infra.element.gateway.ElementGateway;
+import com.ark.center.iam.infra.menu.Menu;
+import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.route.assembler.RouteAssembler;
 import com.ark.center.iam.infra.route.db.MenuDAO;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RouteDetailsQryExe {
     
-    private final RouteGateway routeGateway;
+    private final MenuGateway menuGateway;
     private final MenuDAO menuDAO;
     private final ElementGateway elementGateway;
     private final ElementAssembler elementAssembler;

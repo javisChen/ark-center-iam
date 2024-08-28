@@ -2,7 +2,7 @@ package com.ark.center.iam.adapter.user.web;
 
 import com.ark.center.iam.application.user.UserSelfAppService;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.user.dto.UserRouteDTO;
+import com.ark.center.iam.client.user.dto.UserMenuDTO;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.security.base.user.LoginUser;
@@ -37,8 +37,8 @@ public class UserSelfController extends BaseController {
      */
     @GetMapping("/menus")
     @Operation(summary = "查询登录用户的菜单权限")
-    public MultiResponse<UserRouteDTO> queryUserSelfRoutes() {
-        List<UserRouteDTO> selfRoutes = userSelfAppService.queryUserSelfRoutes();
+    public MultiResponse<UserMenuDTO> queryUserSelfRoutes() {
+        List<UserMenuDTO> selfRoutes = userSelfAppService.queryUserSelfRoutes();
         return MultiResponse.ok(selfRoutes);
     }
 

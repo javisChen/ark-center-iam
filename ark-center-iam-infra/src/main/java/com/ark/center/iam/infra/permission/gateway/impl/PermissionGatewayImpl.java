@@ -2,11 +2,11 @@ package com.ark.center.iam.infra.permission.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.domain.api.vo.ApiPermissionVO;
-import com.ark.center.iam.domain.permission.Permission;
-import com.ark.center.iam.domain.permission.enums.PermissionStatusEnums;
-import com.ark.center.iam.domain.permission.enums.PermissionType;
-import com.ark.center.iam.domain.permission.gateway.PermissionGateway;
+import com.ark.center.iam.infra.api.vo.ApiPermissionVO;
+import com.ark.center.iam.infra.permission.Permission;
+import com.ark.center.iam.infra.permission.enums.PermissionStatusEnums;
+import com.ark.center.iam.infra.permission.enums.PermissionType;
+import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
 import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.center.iam.infra.permission.gateway.db.PermissionMapper;
 import com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRel;

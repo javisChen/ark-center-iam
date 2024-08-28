@@ -3,7 +3,7 @@
 <mapper namespace="com.ark.center.iam.infra.permission.gateway.db.PermissionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.permission.Permission">
+    <resultMap id="BaseResultMap" type="com.ark.center.iam.infra.permission.Permission">
         <result column="id" property="id"/>
         <result column="gmt_create" property="createTime"/>
         <result column="gmt_modified" property="updateTime"/>
@@ -21,7 +21,7 @@
         type, code, status, resource_id
     </sql>
 
-    <select id="selectByRoleIdsAndType" resultType="com.ark.center.iam.domain.permission.Permission">
+    <select id="selectByRoleIdsAndType" resultType="com.ark.center.iam.infra.permission.Permission">
         select p.id,
         p.type,
         p.code,
@@ -35,7 +35,7 @@
         </foreach>
     </select>
 
-    <select id="selectByRoleIdAndType" resultType="com.ark.center.iam.domain.permission.Permission">
+    <select id="selectByRoleIdAndType" resultType="com.ark.center.iam.infra.permission.Permission">
         select up.id,
                code
         from iam_permission up
@@ -46,7 +46,7 @@
           and up.is_deleted = 0
     </select>
 
-    <select id="selectApiPermissionByIds" resultType="com.ark.center.iam.domain.api.vo.ApiPermissionVO">
+    <select id="selectApiPermissionByIds" resultType="com.ark.center.iam.infra.api.vo.ApiPermissionVO">
 
         select up.id permissionId,
         up.code permissionCode,
@@ -66,7 +66,7 @@
         </foreach>
 
     </select>
-    <select id="selectApiPermissionsByRoleIds" resultType="com.ark.center.iam.domain.api.vo.ApiPermissionVO">
+    <select id="selectApiPermissionsByRoleIds" resultType="com.ark.center.iam.infra.api.vo.ApiPermissionVO">
         select
             up.id permissionId,
             up.code permissionCode,

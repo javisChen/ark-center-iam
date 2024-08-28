@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.usergroup.executor;
 
-import com.ark.center.iam.domain.usergroup.UserGroup;
-import com.ark.center.iam.domain.usergroup.gateway.UserGroupGateway;
+import com.ark.center.iam.infra.usergroup.UserGroup;
+import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

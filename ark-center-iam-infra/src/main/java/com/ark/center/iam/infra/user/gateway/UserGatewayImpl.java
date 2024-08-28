@@ -1,7 +1,6 @@
 package com.ark.center.iam.infra.user.gateway;
 
-import com.ark.center.iam.domain.user.User;
-import com.ark.center.iam.domain.user.gateway.UserGateway;
+import com.ark.center.iam.infra.user.User;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.ark.center.iam.infra.user.db.UserMapper;
 import com.ark.component.web.common.DeletedEnums;

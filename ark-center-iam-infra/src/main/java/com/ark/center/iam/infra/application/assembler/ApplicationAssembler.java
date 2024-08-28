@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.application.assembler;
 
 import com.ark.center.iam.client.application.command.ApplicationCommand;
 import com.ark.center.iam.client.application.dto.ApplicationDTO;
-import com.ark.center.iam.domain.application.Application;
+import com.ark.center.iam.infra.application.Application;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

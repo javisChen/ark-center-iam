@@ -1,9 +1,9 @@
 package com.ark.center.iam.application.role.executor;
 
 import com.ark.center.iam.client.role.command.RoleCmd;
-import com.ark.center.iam.domain.role.Role;
-import com.ark.center.iam.domain.role.gateway.RoleGateway;
-import com.ark.center.iam.domain.role.service.RoleCheckService;
+import com.ark.center.iam.infra.role.Role;
+import com.ark.center.iam.infra.role.gateway.RoleGateway;
+import com.ark.center.iam.infra.role.service.RoleCheckService;
 import com.ark.center.iam.infra.role.assembler.RoleAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

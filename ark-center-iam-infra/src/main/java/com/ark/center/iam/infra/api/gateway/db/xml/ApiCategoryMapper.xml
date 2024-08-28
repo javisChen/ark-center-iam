@@ -3,7 +3,7 @@
 <mapper namespace="com.ark.center.iam.infra.api.gateway.db.ApiCategoryMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.api.ApiCategory">
+    <resultMap id="BaseResultMap" type="com.ark.center.iam.infra.api.ApiCategory">
         <result column="id" property="id"/>
         <result column="application_id" property="applicationId"/>
         <result column="name" property="name"/>

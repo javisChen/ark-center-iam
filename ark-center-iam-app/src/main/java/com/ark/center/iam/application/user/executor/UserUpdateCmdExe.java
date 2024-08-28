@@ -2,10 +2,10 @@ package com.ark.center.iam.application.user.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.user.command.UserCommand;
-import com.ark.center.iam.domain.role.service.RoleAssignService;
-import com.ark.center.iam.domain.user.User;
-import com.ark.center.iam.domain.user.gateway.UserGateway;
-import com.ark.center.iam.domain.usergroup.service.UserGroupAssignService;
+import com.ark.center.iam.infra.role.service.RoleAssignService;
+import com.ark.center.iam.infra.user.User;
+import com.ark.center.iam.infra.user.gateway.UserGateway;
+import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.role.event;
 
-import com.ark.center.iam.domain.permission.enums.PermissionType;
+import com.ark.center.iam.infra.permission.enums.PermissionType;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;

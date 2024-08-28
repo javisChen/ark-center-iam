@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.route.db;
 
 import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
-import com.ark.center.iam.domain.menu.Menu;
+import com.ark.center.iam.infra.menu.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

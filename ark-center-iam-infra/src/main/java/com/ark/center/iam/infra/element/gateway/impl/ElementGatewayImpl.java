@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.element.gateway.impl;
 
-import com.ark.center.iam.domain.element.Element;
-import com.ark.center.iam.domain.element.gateway.ElementGateway;
+import com.ark.center.iam.infra.element.Element;
+import com.ark.center.iam.infra.element.gateway.ElementGateway;
 import com.ark.center.iam.infra.element.gateway.db.ElementMapper;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;

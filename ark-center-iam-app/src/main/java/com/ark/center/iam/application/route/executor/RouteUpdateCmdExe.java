@@ -2,14 +2,14 @@ package com.ark.center.iam.application.route.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.menu.command.MenuCommand;
-import com.ark.center.iam.domain.element.Element;
-import com.ark.center.iam.domain.element.gateway.ElementGateway;
-import com.ark.center.iam.domain.element.service.ElementService;
-import com.ark.center.iam.domain.menu.Menu;
-import com.ark.center.iam.domain.menu.common.RouteConst;
-import com.ark.center.iam.domain.menu.gateway.RouteGateway;
-import com.ark.center.iam.domain.menu.service.RouteCheckService;
-import com.ark.center.iam.domain.menu.service.RouteService;
+import com.ark.center.iam.infra.element.Element;
+import com.ark.center.iam.infra.element.gateway.ElementGateway;
+import com.ark.center.iam.infra.element.service.ElementService;
+import com.ark.center.iam.infra.menu.Menu;
+import com.ark.center.iam.infra.menu.common.RouteConst;
+import com.ark.center.iam.infra.menu.gateway.MenuGateway;
+import com.ark.center.iam.infra.menu.service.MenuCheckService;
+import com.ark.center.iam.infra.menu.service.RouteService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.route.assembler.RouteAssembler;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +24,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RouteUpdateCmdExe {
 
-    private final RouteCheckService routeCheckService;
+    private final MenuCheckService menuCheckService;
     private final RouteService routeService;
     private final RouteAssembler routeAssembler;
-    private final RouteGateway routeGateway;
+    private final MenuGateway menuGateway;
     private final ElementGateway elementGateway;
     private final ElementService elementService;
     private final ElementAssembler elementAssembler;
@@ -56,8 +56,8 @@ public class RouteUpdateCmdExe {
     }
 
     private void updateBase(MenuCommand dto) {
-        Menu menu = routeAssembler.toRouteDO(dto);
-        routeGateway.updateByRouteId(menu);
+        Menu menu = routeAssembler.toMenuDO(dto);
+        menuGateway.updateByRouteId(menu);
     }
 
     private void clearRouteElements(Long routeId) {
@@ -90,25 +90,26 @@ public class RouteUpdateCmdExe {
      * @param toRouteId   所属路由id
      */
     private void tryMoveLevel(Long fromRouteId, Long toRouteId) {
-        Menu menu = routeGateway.selectBaseByRouteId(fromRouteId);
-        Long oldPid = menu.getPid();
+        Menu menu = menuGateway.selectBaseByRouteId(fromRouteId);
+//        Long oldPid = menu.getPid();
+        Long oldPid = null;
         // 如果pid不一致的话才做更新
         if (!oldPid.equals(toRouteId)) {
 
-            Menu parentMenu = toRouteId.equals(RouteConst.DEFAULT_PID) ? defaultParentRoute() : routeGateway.selectBaseByRouteId(toRouteId);
+            Menu parentMenu = toRouteId.equals(RouteConst.DEFAULT_PID) ? defaultParentRoute() : menuGateway.selectBaseByRouteId(toRouteId);
             updateRouteLevel(menu, parentMenu);
 
-            List<Menu> children = getChildrenRouteByLevelPath(menu.getLevelPath());
-            updateRouteChildrenLevel(parentMenu, children);
+//            List<Menu> children = getChildrenRouteByLevelPath(menu.getLevelPath());
+//            updateRouteChildrenLevel(parentMenu, children);
         }
     }
 
     private Menu defaultParentRoute() {
         Menu menu = new Menu();
         menu.setId(0L);
-        menu.setPid(0L);
-        menu.setLevelPath("");
-        menu.setLevel(0);
+//        menu.setPid(0L);
+//        menu.setLevelPath("");
+//        menu.setLevel(0);
         return menu;
     }
 
@@ -117,11 +118,11 @@ public class RouteUpdateCmdExe {
             List<Menu> collect = children.stream().map(item -> {
                 Menu menu = new Menu();
                 menu.setId(item.getId());
-                menu.setLevel(parentMenu.getLevel() + 1);
-                menu.setLevelPath(createChildLevelPath(item.getId(), item.getLevelPath(), parentMenu.getLevelPath()));
+//                menu.setLevel(parentMenu.getLevel() + 1);
+//                menu.setLevelPath(createChildLevelPath(item.getId(), item.getLevelPath(), parentMenu.getLevelPath()));
                 return menu;
             }).collect(Collectors.toList());
-            routeGateway.updateBatchByRouteId(collect);
+            menuGateway.updateBatchByRouteId(collect);
         }
     }
 
@@ -133,23 +134,23 @@ public class RouteUpdateCmdExe {
     }
 
     private List<Menu> getChildrenRouteByLevelPath(String levelPath) {
-        return routeGateway.selectByLevelPath(levelPath);
+        return menuGateway.selectByLevelPath(levelPath);
     }
 
     /**
      * 更新路由的层级信息
      */
     private void updateRouteLevel(Menu menu, Menu parentMenu) {
-        Menu newMenu = new Menu();
-        newMenu.setId(menu.getId());
-        newMenu.setPid(parentMenu.getId());
-        String routeLevelPath = menu.getLevelPath();
-        String parentRouteLevelPath = parentMenu.getLevelPath();
-        String levelPath = menu.isFirstLevel() ? (parentRouteLevelPath + routeLevelPath)
-                : createNewLevelPath(menu.getId(), routeLevelPath, parentRouteLevelPath);
-        newMenu.setLevelPath(levelPath);
-        newMenu.setLevel(parentMenu.getLevel() + 1);
-        routeGateway.updateByRouteId(newMenu);
+//        Menu newMenu = new Menu();
+//        newMenu.setId(menu.getId());
+//        newMenu.setPid(parentMenu.getId());
+//        String routeLevelPath = menu.getLevelPath();
+//        String parentRouteLevelPath = parentMenu.getLevelPath();
+//        String levelPath = menu.isFirstLevel() ? (parentRouteLevelPath + routeLevelPath)
+//                : createNewLevelPath(menu.getId(), routeLevelPath, parentRouteLevelPath);
+//        newMenu.setLevelPath(levelPath);
+//        newMenu.setLevel(parentMenu.getLevel() + 1);
+//        menuGateway.updateByRouteId(newMenu);
     }
 
     private String createNewLevelPath(Long oldRouteId, String oldRouteLevelPath, String parentRouteLevelPath) {
@@ -159,8 +160,8 @@ public class RouteUpdateCmdExe {
 
 
     private void baseCheck(MenuCommand dto) {
-        routeCheckService.ensureNameNotExists(dto.getName(), dto.getId());
-        routeCheckService.ensureCodeNotExists(dto.getCode(), dto.getId());
+        menuCheckService.ensureNameNotExists(dto.getName(), dto.getId());
+        menuCheckService.ensureCodeNotExists(dto.getCode(), dto.getId());
     }
 
 }

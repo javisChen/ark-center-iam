@@ -3,7 +3,7 @@
 <mapper namespace="com.ark.center.iam.infra.usergroup.gateway.db.UserGroupMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.ark.center.iam.domain.usergroup.UserGroup">
+    <resultMap id="BaseResultMap" type="com.ark.center.iam.infra.usergroup.UserGroup">
         <result column="id" property="id"/>
         <result column="pid" property="pid"/>
         <result column="level" property="level"/>
@@ -48,7 +48,7 @@
         </foreach>
     </select>
 
-    <select id="selectUserGroupsByUserId" resultType="com.ark.center.iam.domain.usergroup.UserGroup">
+    <select id="selectUserGroupsByUserId" resultType="com.ark.center.iam.infra.usergroup.UserGroup">
         select ug.id,
                ug.inherit_type,
                ug.level,
@@ -61,7 +61,7 @@
           and ugur.user_id = #{userId}
     </select>
 
-    <select id="selectUserGroupsByUserIds" resultType="com.ark.center.iam.domain.usergroup.vo.UserGroupVO">
+    <select id="selectUserGroupsByUserIds" resultType="com.ark.center.iam.infra.usergroup.vo.UserGroupVO">
         select ugur.user_id as userId,
                ug.name as userGroupName,
                ug.id as userGroupId

@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.user.db;
 
-import com.ark.center.iam.domain.user.User;
+import com.ark.center.iam.infra.user.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
