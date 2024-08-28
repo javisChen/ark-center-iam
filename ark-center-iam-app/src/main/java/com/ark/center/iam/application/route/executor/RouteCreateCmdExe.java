@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.domain.element.Element;
 import com.ark.center.iam.domain.element.service.ElementService;
+import com.ark.center.iam.domain.menu.service.RouteService;
 import com.ark.center.iam.domain.permission.enums.PermissionType;
 import com.ark.center.iam.domain.permission.service.PermissionService;
 import com.ark.center.iam.domain.menu.Menu;
@@ -59,6 +60,7 @@ public class RouteCreateCmdExe {
         Long routeId = menu.getId();
 
         permissionService.addPermission(routeId, PermissionType.FRONT_ROUTE);
+
         // 添加页面元素
         saveElements(cmd, routeId);
     }

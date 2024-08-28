@@ -43,7 +43,7 @@ public class MenuController {
     }
 
     @PostMapping("")
-    @Operation(summary = "新建菜单")
+    @Operation(summary = "新增菜单")
     public ServerResponse create(@RequestBody
                                  @Validated({ValidateGroup.Add.class, Default.class}) MenuCommand command) {
         menuCommandHandler.create(command);
