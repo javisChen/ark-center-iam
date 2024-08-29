@@ -6,7 +6,6 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.infra.menu.Menu;
-import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.route.assembler.RouteAssembler;
 import com.ark.center.iam.infra.route.db.MenuDAO;
 import com.ark.component.tree.TreeNode;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class RouteTreeQryExe {
+public class MenuTreeQryExe {
 
     private final MenuDAO menuDAO;
     private final TreeService treeService;
@@ -35,6 +34,7 @@ public class RouteTreeQryExe {
         List<TreeNode> treeNodes = treeService.queryNodes("MENU");
 
         List<MenuDTO> menuDTO = routeAssembler.toMenuDTO(page);
+
         // page 转成Map以id为key
         Map<Long, MenuDTO> menuMap = menuDTO.stream().collect(Collectors.toMap(MenuDTO::getId, menu -> menu));
 
@@ -48,13 +48,6 @@ public class RouteTreeQryExe {
             }
         });
 
-//        // 遍历treeNodes，将其转换成
-//        return TreeUtil.build(menuDTO, 0L, (object, treeNode) -> {
-//            treeNode.setId(object.getId());
-//            treeNode.setParentId(object.getPid());
-//            treeNode.setName(object.getName());
-//            treeNode.putAll(BeanUtil.beanToMap(object));
-//        });
     }
 
 }

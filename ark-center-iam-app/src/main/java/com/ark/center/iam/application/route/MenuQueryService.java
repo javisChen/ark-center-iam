@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MenuQueryService {
 
-    private final RouteTreeQryExe routeTreeQryExe;
+    private final MenuTreeQryExe menuTreeQryExe;
     private final RouteDetailsQryExe routeDetailsQryExe;
     private final ElementGateway elementGateway;
     private final ElementAssembler elementAssembler;
 
     public List<Tree<Long>> queryMenus(MenuQuery dto) {
-        return routeTreeQryExe.execute(dto);
+        return menuTreeQryExe.execute(dto);
     }
 
     public List<Tree<Long>> queryList(MenuQuery dto) {
