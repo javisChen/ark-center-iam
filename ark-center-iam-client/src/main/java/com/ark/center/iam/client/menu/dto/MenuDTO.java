@@ -1,11 +1,12 @@
 package com.ark.center.iam.client.menu.dto;
 
+import com.ark.component.tree.TreeDTO;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class MenuDTO {
+public class MenuDTO implements TreeDTO<Long> {
 
     private Long id;
     private Long pid;

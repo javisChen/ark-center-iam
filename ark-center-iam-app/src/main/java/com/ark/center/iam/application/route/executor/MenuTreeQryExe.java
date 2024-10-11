@@ -31,22 +31,9 @@ public class MenuTreeQryExe {
                 .eq(dto.getApplicationId() != null, Menu::getApplicationId, dto.getApplicationId())
                 .list();
 
-        List<TreeNode> treeNodes = treeService.queryNodes("MENU");
+        List<MenuDTO> menus = routeAssembler.toMenuDTO(page);
 
-        List<MenuDTO> menuDTO = routeAssembler.toMenuDTO(page);
-
-        // page 转成Map以id为key
-        Map<Long, MenuDTO> menuMap = menuDTO.stream().collect(Collectors.toMap(MenuDTO::getId, menu -> menu));
-
-        return TreeUtil.build(treeNodes, 0L, (object, treeNode) -> {
-            treeNode.setId(object.getId());
-            treeNode.setParentId(object.getParentBizId());
-            MenuDTO menu = menuMap.get(object.getBizId());
-            if (menu != null) {
-                treeNode.setName(menu.getName());
-                treeNode.putAll(BeanUtil.beanToMap(menu));
-            }
-        });
+        return treeService.queryTreeNodes("MENU", menus);
 
     }
 

@@ -46,8 +46,6 @@ public class MenuCreateCmdExe {
 
         Menu menu = routeAssembler.toMenuDO(command);
 
-        menuService.save(menu);
-
         TreeNode treeNode = new TreeNode();
         treeNode.setApplicationId(menu.getApplicationId());
         treeNode.setBizId(menu.getId());
@@ -55,6 +53,8 @@ public class MenuCreateCmdExe {
         treeNode.setParentBizId(command.getPid());
         treeNode.setSequence(menu.getSequence());
         treeService.addNode(treeNode);
+
+        menuService.save(menu);
 
 //        Menu parentMenu = null;
 //        if (menu.isFirstLevel()) {
