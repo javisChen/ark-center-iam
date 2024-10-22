@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.route.db;
+package com.ark.center.iam.infra.menu.db;
 
 import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;

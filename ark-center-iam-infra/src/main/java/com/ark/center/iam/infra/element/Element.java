@@ -20,13 +20,11 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_element")
 public class Element extends BaseEntity {
 
-    
-
     /**
      * 所属菜单id，关联iam_menu.id
      */
-    @TableField("route_id")
-    private Long routeId;
+    @TableField("menu_id")
+    private Long menuId;
 
     /**
      * 元素名称

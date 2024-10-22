@@ -20,7 +20,7 @@ public interface MenuGateway {
 
     void insert(Menu menu);
 
-    void updateByRouteId(Menu entity);
+    void updateByMenuId(Menu entity);
 
     void updateStatusByLevelPath(Integer status, String levelPath);
 

@@ -1,6 +1,6 @@
-package com.ark.center.iam.application.route.executor;
+package com.ark.center.iam.application.menu.executor;
 
-import cn.hutool.core.util.StrUtil;
+import com.ark.center.iam.application.menu.MenuTreeService;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.infra.element.Element;
 import com.ark.center.iam.infra.element.service.ElementService;
@@ -10,9 +10,8 @@ import com.ark.center.iam.infra.menu.service.MenuCheckService;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.service.PermissionService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.route.assembler.RouteAssembler;
-import com.ark.center.iam.infra.route.gateway.impl.MenuService;
-import com.ark.component.tree.TreeNode;
+import com.ark.center.iam.infra.menu.assembler.RouteAssembler;
+import com.ark.center.iam.infra.menu.gateway.impl.MenuService;
 import com.ark.component.tree.TreeService;
 
 import java.util.List;
@@ -41,20 +40,15 @@ public class MenuCreateCmdExe {
 
     private final TreeService treeService;
 
+    private final MenuTreeService menuTreeService;
+
     public void execute(MenuCommand command) {
         baseCheck(command);
 
         Menu menu = routeAssembler.toMenuDO(command);
-
-        TreeNode treeNode = new TreeNode();
-        treeNode.setApplicationId(menu.getApplicationId());
-        treeNode.setBizId(menu.getId());
-        treeNode.setBizType("MENU");
-        treeNode.setParentBizId(command.getPid());
-        treeNode.setSequence(menu.getSequence());
-        treeService.addNode(treeNode);
-
         menuService.save(menu);
+
+        menuTreeService.addNode(menu, command.getPid());
 
 //        Menu parentMenu = null;
 //        if (menu.isFirstLevel()) {

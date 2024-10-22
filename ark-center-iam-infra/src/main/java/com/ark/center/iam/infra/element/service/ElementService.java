@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.element.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.infra.element.Element;
-import com.ark.center.iam.infra.element.gateway.ElementGateway;
+import com.ark.center.iam.infra.menu.gateway.ElementGateway;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
 import lombok.RequiredArgsConstructor;

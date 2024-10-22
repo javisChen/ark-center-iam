@@ -1,12 +1,12 @@
-package com.ark.center.iam.application.route;
+package com.ark.center.iam.application.menu;
 
 import cn.hutool.core.lang.tree.Tree;
-import com.ark.center.iam.application.route.executor.*;
+import com.ark.center.iam.application.menu.executor.*;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.infra.element.Element;
-import com.ark.center.iam.infra.element.gateway.ElementGateway;
+import com.ark.center.iam.infra.menu.gateway.ElementGateway;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class MenuQueryService {
 
     private final MenuTreeQryExe menuTreeQryExe;
-    private final RouteDetailsQryExe routeDetailsQryExe;
+    private final MenuDetailsQryExe menuDetailsQryExe;
     private final ElementGateway elementGateway;
     private final ElementAssembler elementAssembler;
 
@@ -34,7 +34,7 @@ public class MenuQueryService {
 
 
     public MenuDTO queryDetails(Long id) {
-        return routeDetailsQryExe.execute(id);
+        return menuDetailsQryExe.execute(id);
     }
 
 

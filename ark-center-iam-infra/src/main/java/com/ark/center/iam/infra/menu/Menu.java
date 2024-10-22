@@ -1,6 +1,5 @@
 package com.ark.center.iam.infra.menu;
 
-import com.ark.center.iam.infra.menu.common.RouteConst;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.ark.component.orm.mybatis.base.BaseEntity;

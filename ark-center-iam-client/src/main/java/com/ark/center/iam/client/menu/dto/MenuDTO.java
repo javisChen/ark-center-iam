@@ -1,6 +1,6 @@
 package com.ark.center.iam.client.menu.dto;
 
-import com.ark.component.tree.TreeDTO;
+import com.ark.component.tree.dto.TreeDTO;
 import lombok.Data;
 
 import java.time.LocalDateTime;

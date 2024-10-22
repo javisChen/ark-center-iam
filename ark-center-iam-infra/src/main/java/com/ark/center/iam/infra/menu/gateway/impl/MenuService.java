@@ -1,24 +1,28 @@
-package com.ark.center.iam.infra.route.gateway.impl;
+package com.ark.center.iam.infra.menu.gateway.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.client.user.dto.UserMenuDTO;
+import com.ark.center.iam.infra.element.Element;
+import com.ark.center.iam.infra.element.assembler.ElementAssembler;
+import com.ark.center.iam.infra.menu.gateway.ElementGateway;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
-import com.ark.center.iam.infra.route.assembler.RouteAssembler;
-import com.ark.center.iam.infra.route.db.MenuMapper;
+import com.ark.center.iam.infra.menu.assembler.RouteAssembler;
+import com.ark.center.iam.infra.menu.db.MenuMapper;
+import com.ark.center.iam.infra.permission.enums.PermissionType;
+import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
 import com.ark.component.orm.mybatis.base.BaseEntity;
-import com.ark.component.web.common.DeletedEnums;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -26,6 +30,9 @@ import java.util.List;
 public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGateway {
 
     private final RouteAssembler routeAssembler;
+    private final ElementGateway elementGateway;
+    private final ElementAssembler elementAssembler;
+    private final PermissionGateway permissionGateway;
 
 
     @Override
@@ -64,7 +71,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
     }
 
     @Override
-    public void updateByRouteId(Menu entity) {
+    public void updateByMenuId(Menu entity) {
         updateById(entity);
     }
 
@@ -109,8 +116,31 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
     public void logicDeleteBatchByIds(List<Long> ids) {
         lambdaUpdate()
                 .in(BaseEntity::getId, ids)
-//                .set(Menu::getIsDeleted, DeletedEnums.NOT.getCode())
                 .remove();
     }
 
+    @Transactional(rollbackFor = Throwable.class)
+    public void saveElements(Long menuId, List<MenuCommand.Element> elements) {
+
+        elementGateway.deleteByMenuId(menuId);
+
+        if (CollectionUtils.isEmpty(elements)) {
+            return;
+        }
+
+        if (CollectionUtil.isNotEmpty(elements)) {
+            List<Element> elementEos = elements.stream().map(item -> {
+                Element elementDO = elementAssembler.toElementDO(item, menuId);
+                elementDO.setMenuId(menuId);
+                return elementDO;
+            }).toList();
+
+            for (Element element : elementEos) {
+                elementGateway.insert(element);
+                permissionGateway.insertPermission(element.getId(), PermissionType.PAGE_ELEMENT);
+            }
+
+        }
+
+    }
 }

@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.route.assembler;
+package com.ark.center.iam.infra.menu.assembler;
 
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;

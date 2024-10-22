@@ -1,13 +1,13 @@
-package com.ark.center.iam.application.route;
+package com.ark.center.iam.application.menu;
 
-import com.ark.center.iam.application.route.executor.*;
+import com.ark.center.iam.application.menu.executor.*;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.menu.service.MenuCheckService;
 import com.ark.center.iam.infra.menu.service.RouteService;
-import com.ark.center.iam.infra.route.assembler.RouteAssembler;
+import com.ark.center.iam.infra.menu.assembler.RouteAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,21 +17,24 @@ import org.springframework.transaction.annotation.Transactional;
 public class MenuCommandHandler {
 
     private final MenuCreateCmdExe menuCreateCmdExe;
-    private final RouteUpdateCmdExe routeUpdateCmdExe;
-    private final RouteDeleteCmdExe routeDeleteCmdExe;
+    private final MenuUpdateCmdExe menuUpdateCmdExe;
+    private final MenuDeleteCmdExe menuDeleteCmdExe;
     private final MenuCheckService menuCheckService;
     private final MenuGateway menuGateway;
     private final RouteService routeService;
     private final RouteAssembler routeAssembler;
 
     @Transactional(rollbackFor = Throwable.class)
-    public void create(MenuCommand command) {
-        menuCreateCmdExe.execute(command);
+    public void save(MenuCommand command) {
+        if (command.getId() == null) {
+            menuCreateCmdExe.execute(command);
+        } else {
+            menuUpdateCmdExe.execute(command);
+        }
     }
 
     @Transactional(rollbackFor = Throwable.class)
     public void update(MenuCommand command) {
-        routeUpdateCmdExe.execute(command);
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -43,7 +46,7 @@ public class MenuCommandHandler {
 
         Menu menu = routeAssembler.toMenuDO(parentCmd);
 
-        menuGateway.updateByRouteId(menu);
+        menuGateway.updateByMenuId(menu);
 
     }
 
@@ -54,7 +57,7 @@ public class MenuCommandHandler {
 
     @Transactional(rollbackFor = Throwable.class)
     public void deleteById(Long id) {
-        routeDeleteCmdExe.execute(id);
+        menuDeleteCmdExe.execute(id);
     }
 
 }

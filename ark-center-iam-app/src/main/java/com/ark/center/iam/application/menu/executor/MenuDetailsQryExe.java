@@ -1,18 +1,18 @@
-package com.ark.center.iam.application.route.executor;
+package com.ark.center.iam.application.menu.executor;
 
 import com.ark.center.iam.client.menu.dto.MenuDTO;
-import com.ark.center.iam.infra.element.gateway.ElementGateway;
+import com.ark.center.iam.infra.menu.gateway.ElementGateway;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.route.assembler.RouteAssembler;
-import com.ark.center.iam.infra.route.db.MenuDAO;
+import com.ark.center.iam.infra.menu.assembler.RouteAssembler;
+import com.ark.center.iam.infra.menu.db.MenuDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RouteDetailsQryExe {
+public class MenuDetailsQryExe {
     
     private final MenuGateway menuGateway;
     private final MenuDAO menuDAO;
@@ -23,8 +23,7 @@ public class RouteDetailsQryExe {
 
     public MenuDTO execute(Long id) {
         Menu menu = menuDAO.getById(id);
-        MenuDTO menuDTO = routeAssembler.toMenuDTO(menu);
-        return menuDTO;
+        return routeAssembler.toMenuDTO(menu);
 //        RouteDetailsDTO routeDetailsDTO = routeGateway.selectDetailsByRouteId(id);
 //        if (routeDetailsDTO == null) {
 //            return routeDetailsDTO;

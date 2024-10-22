@@ -2,8 +2,8 @@
 package com.ark.center.iam.adapter.menu.web.controller;
 
 import cn.hutool.core.lang.tree.Tree;
-import com.ark.center.iam.application.route.MenuCommandHandler;
-import com.ark.center.iam.application.route.MenuQueryService;
+import com.ark.center.iam.application.menu.MenuCommandHandler;
+import com.ark.center.iam.application.menu.MenuQueryService;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
@@ -43,10 +43,10 @@ public class MenuController {
     }
 
     @PostMapping("")
-    @Operation(summary = "新增菜单")
+    @Operation(summary = "保存菜单")
     public ServerResponse create(@RequestBody
                                  @Validated({ValidateGroup.Add.class, Default.class}) MenuCommand command) {
-        menuCommandHandler.create(command);
+        menuCommandHandler.save(command);
         return ServerResponse.ok();
     }
 
@@ -54,7 +54,7 @@ public class MenuController {
     @Operation(summary = "修改菜单")
     public ServerResponse update(@RequestBody
                                  @Validated({ValidateGroup.Update.class, Default.class}) MenuCommand command) {
-        menuCommandHandler.update(command);
+        menuCommandHandler.save(command);
         return ServerResponse.ok();
     }
 

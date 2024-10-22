@@ -12,14 +12,15 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ElementAssembler {
 
-    @Mapping(target = "routeId", source = "routeId")
+    @Mapping(target = "menuId", source = "menuId")
     @Mapping(target = "modifier", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    Element toElementDO(MenuCommand.Element element, Long routeId);
+    Element toElementDO(MenuCommand.Element element, Long menuId);
 
     List<ElementBaseDTO> toElementDTO(List<Element> elements);
+
     ElementBaseDTO toElementDTO(Element elements);
 }

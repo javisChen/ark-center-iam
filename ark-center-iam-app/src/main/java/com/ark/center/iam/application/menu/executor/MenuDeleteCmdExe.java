@@ -1,4 +1,4 @@
-package com.ark.center.iam.application.route.executor;
+package com.ark.center.iam.application.menu.executor;
 
 import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
 import com.ark.center.iam.infra.menu.Menu;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class RouteDeleteCmdExe {
+public class MenuDeleteCmdExe {
 
     private final MenuGateway menuGateway;
     
