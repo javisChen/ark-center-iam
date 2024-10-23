@@ -1435,3 +1435,11 @@ select id,
        modifier,
        is_deleted
 from iam_menu;
+
+drop index idx_biz_type_biz_id on func_tree_node;
+
+create index idx_level_path
+    on func_tree_node (level_path);
+
+create unique index udx_biz_type_biz_id
+    on func_tree_node (biz_type, biz_id);
