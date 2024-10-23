@@ -5,12 +5,12 @@ import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.infra.element.Element;
 import com.ark.center.iam.infra.element.service.ElementService;
 import com.ark.center.iam.infra.menu.Menu;
+import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.menu.service.MenuCheckService;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.service.PermissionService;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.menu.assembler.RouteAssembler;
 import com.ark.center.iam.infra.menu.gateway.impl.MenuService;
 import com.ark.component.tree.TreeService;
 
@@ -26,7 +26,7 @@ public class MenuCreateCmdExe {
 
     private final MenuCheckService menuCheckService;
 
-    private final RouteAssembler routeAssembler;
+    private final MenuAssembler menuAssembler;
 
     private final MenuGateway menuGateway;
 
@@ -45,7 +45,7 @@ public class MenuCreateCmdExe {
     public void execute(MenuCommand command) {
         baseCheck(command);
 
-        Menu menu = routeAssembler.toMenuDO(command);
+        Menu menu = menuAssembler.toMenuDO(command);
         menuService.save(menu);
 
         menuTreeService.addNode(menu, command.getPid());

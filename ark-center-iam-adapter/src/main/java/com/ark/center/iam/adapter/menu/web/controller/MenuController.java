@@ -31,20 +31,20 @@ public class MenuController {
     private final MenuQueryService menuQueryService;
 
     @GetMapping("")
-    @Operation(summary = "查询菜单全量树形数据")
+    @Operation(summary = "菜单树形数据-分页")
     public MultiResponse<Tree<Long>> queryMenus(MenuQuery query) {
         return MultiResponse.ok(menuQueryService.queryMenus(query));
     }
 
     @PostMapping("/all")
     @Operation(summary = "菜单全量查询")
-    public MultiResponse<Tree<Long>> queryList(@RequestBody MenuQuery query) {
+    public MultiResponse<Tree<Long>> queryAllMenus(@RequestBody MenuQuery query) {
         return MultiResponse.ok(menuQueryService.queryList(query));
     }
 
     @PostMapping("")
     @Operation(summary = "保存菜单")
-    public ServerResponse create(@RequestBody
+    public ServerResponse save(@RequestBody
                                  @Validated({ValidateGroup.Add.class, Default.class}) MenuCommand command) {
         menuCommandHandler.save(command);
         return ServerResponse.ok();
@@ -83,14 +83,14 @@ public class MenuController {
         return ServerResponse.ok();
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("")
     @Operation(
             summary = "删除菜单",
             parameters = {
                     @Parameter(name = "id", description = "菜单id", required = true)
             }
     )
-    public ServerResponse deleteRoute(Long id) {
+    public ServerResponse deleteMenu(Long id) {
         menuCommandHandler.deleteById(id);
         return ServerResponse.ok();
     }

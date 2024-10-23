@@ -1,13 +1,14 @@
 package com.ark.center.iam.application.menu.executor;
 
+import com.ark.center.iam.application.menu.MenuTreeService;
 import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -17,19 +18,26 @@ public class MenuDeleteCmdExe {
     
     private final PermissionGateway permissionGateway;
 
+    private final MenuTreeService menuTreeService;
+
     public void execute(Long id) {
-        Menu menu = menuGateway.selectBaseByRouteId(id);
 
-        List<Long> ids = querySubRoutes(menu).stream().map(Menu::getId).collect(Collectors.toList());
+        Menu menu = menuGateway.byId(id);
 
-        menuGateway.logicDeleteBatchByIds(ids);
+        Long menuId = menu.getId();
+        List<Long> childIds = menuTreeService.queryChildNodeIds(menuId);
+        if (CollectionUtils.isEmpty(childIds)) {
+            return;
+        }
 
-        permissionGateway.deleteByResourceIds(ids);
-    }
+        // 删除层级数据
+        menuTreeService.removeNode(menuId);
 
-    private List<Menu> querySubRoutes(Menu menu) {
-//        return menuGateway.selectSubRoutesByLevelPath(menu.getLevelPath());
-        return null;
+        // 删除子菜单
+        menuGateway.deleteByIds(childIds);
+
+        // 删除权限数据
+        permissionGateway.deleteByResourceIds(childIds);
     }
 
 }

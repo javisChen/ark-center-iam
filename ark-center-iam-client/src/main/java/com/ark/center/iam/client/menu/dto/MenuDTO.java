@@ -2,11 +2,11 @@ package com.ark.center.iam.client.menu.dto;
 
 import com.ark.component.tree.dto.TreeDTO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class MenuDTO implements TreeDTO<Long> {
+public class MenuDTO extends TreeDTO<Long> {
 
     private Long id;
     private Long pid;
@@ -16,11 +16,12 @@ public class MenuDTO implements TreeDTO<Long> {
     private String name;
     private String icon;
     private String component;
-    private String component2;
+//    private String component2;
     private Integer status;
     private String path;
-    private String path2;
+    //    private String path2;
     private Integer type;
     private Boolean hideChildren;
+
 
 }

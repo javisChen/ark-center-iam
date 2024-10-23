@@ -10,7 +10,7 @@ import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.menu.gateway.ElementGateway;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
-import com.ark.center.iam.infra.menu.assembler.RouteAssembler;
+import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import com.ark.center.iam.infra.menu.db.MenuMapper;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
@@ -29,7 +29,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGateway {
 
-    private final RouteAssembler routeAssembler;
+    private final MenuAssembler menuAssembler;
     private final ElementGateway elementGateway;
     private final ElementAssembler elementAssembler;
     private final PermissionGateway permissionGateway;
@@ -61,7 +61,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
     }
 
     @Override
-    public Menu selectBaseByRouteId(Long id) {
+    public Menu byId(Long id) {
         return getById(id);
     }
 
@@ -113,7 +113,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
     }
 
     @Override
-    public void logicDeleteBatchByIds(List<Long> ids) {
+    public void deleteByIds(List<Long> ids) {
         lambdaUpdate()
                 .in(BaseEntity::getId, ids)
                 .remove();

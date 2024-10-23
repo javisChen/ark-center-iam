@@ -2,13 +2,10 @@ package com.ark.center.iam.application.menu.executor;
 
 import com.ark.center.iam.application.menu.MenuTreeService;
 import com.ark.center.iam.client.menu.command.MenuCommand;
-import com.ark.center.iam.infra.menu.gateway.ElementGateway;
-import com.ark.center.iam.infra.element.service.ElementService;
+import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.impl.MenuService;
 import com.ark.center.iam.infra.menu.service.MenuCheckService;
-import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.menu.assembler.RouteAssembler;
 import com.ark.center.iam.infra.menu.db.MenuDAO;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +20,7 @@ public class MenuUpdateCmdExe {
     private final MenuCheckService menuCheckService;
     private final MenuTreeService menuTreeService;
     private final MenuService menuService;
-    private final RouteAssembler routeAssembler;
+    private final MenuAssembler menuAssembler;
     private final MenuDAO menuDAO;
 
     public void execute(MenuCommand command) {
@@ -52,7 +49,7 @@ public class MenuUpdateCmdExe {
     }
 
     private void updateBase(MenuCommand command) {
-        Menu menu = routeAssembler.toMenuDO(command);
+        Menu menu = menuAssembler.toMenuDO(command);
         menuDAO.updateById(menu);
     }
 
@@ -60,7 +57,7 @@ public class MenuUpdateCmdExe {
      * 尝试更新子路由状态
      */
     public void tryToUpdateChildrenStatus(Long menuId, Integer status) {
-        List<Long> treeNodes = menuTreeService.queryChildNodes(menuId);
+        List<Long> treeNodes = menuTreeService.queryChildNodeIds(menuId);
         if (org.apache.commons.collections4.CollectionUtils.isNotEmpty(treeNodes)) {
             menuDAO.lambdaUpdate()
                     .set(Menu::getStatus, status)

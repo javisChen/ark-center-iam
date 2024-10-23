@@ -13,7 +13,7 @@ import org.mapstruct.MappingConstants;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface RouteAssembler {
+public interface MenuAssembler {
 
     @Mapping(target = "redirect", ignore = true)
     @Mapping(target = "parentId", ignore = true)

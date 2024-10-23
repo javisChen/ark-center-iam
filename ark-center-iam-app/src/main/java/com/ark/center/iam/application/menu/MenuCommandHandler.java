@@ -7,7 +7,7 @@ import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.menu.service.MenuCheckService;
 import com.ark.center.iam.infra.menu.service.RouteService;
-import com.ark.center.iam.infra.menu.assembler.RouteAssembler;
+import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ public class MenuCommandHandler {
     private final MenuCheckService menuCheckService;
     private final MenuGateway menuGateway;
     private final RouteService routeService;
-    private final RouteAssembler routeAssembler;
+    private final MenuAssembler menuAssembler;
 
     @Transactional(rollbackFor = Throwable.class)
     public void save(MenuCommand command) {
@@ -44,7 +44,7 @@ public class MenuCommandHandler {
 
         menuCheckService.ensureRouteNotExists(parentCmd.getPid(), "父级路由不存在");
 
-        Menu menu = routeAssembler.toMenuDO(parentCmd);
+        Menu menu = menuAssembler.toMenuDO(parentCmd);
 
         menuGateway.updateByMenuId(menu);
 

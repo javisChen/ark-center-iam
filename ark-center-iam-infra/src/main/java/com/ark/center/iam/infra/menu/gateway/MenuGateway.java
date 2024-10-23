@@ -16,7 +16,7 @@ public interface MenuGateway {
 
     List<RouteDetailsDTO> selectSubRoutes();
 
-    Menu selectBaseByRouteId(Long id);
+    Menu byId(Long id);
 
     void insert(Menu menu);
 
@@ -34,5 +34,5 @@ public interface MenuGateway {
 
     List<Menu> selectSubRoutesByLevelPath(String levelPath);
 
-    void logicDeleteBatchByIds(List<Long> ids);
+    void deleteByIds(List<Long> ids);
 }

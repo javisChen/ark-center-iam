@@ -5,7 +5,7 @@ import com.ark.center.iam.application.menu.MenuTreeService;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.infra.menu.Menu;
-import com.ark.center.iam.infra.menu.assembler.RouteAssembler;
+import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import com.ark.center.iam.infra.menu.db.MenuDAO;
 import com.ark.component.tree.TreeService;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +18,18 @@ import java.util.List;
 public class MenuTreeQryExe {
 
     private final MenuDAO menuDAO;
-    private final TreeService treeService;
     private final MenuTreeService menuTreeService;
-    private final RouteAssembler routeAssembler;
+    private final MenuAssembler menuAssembler;
 
-    public List<Tree<Long>> execute(MenuQuery dto) {
+    public List<Tree<Long>> execute(MenuQuery query) {
         List<Menu> page = menuDAO
                 .lambdaQuery()
-                .eq(dto.getApplicationId() != null, Menu::getApplicationId, dto.getApplicationId())
+                .eq(query.getApplicationId() != null, Menu::getApplicationId, query.getApplicationId())
                 .list();
 
-        List<MenuDTO> menus = routeAssembler.toMenuDTO(page);
+        List<MenuDTO> menus = menuAssembler.toMenuDTO(page);
 
-        return menuTreeService.queryTreeNodes(menus);
+        return menuTreeService.transformToTree(menus);
 
     }
 

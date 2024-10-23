@@ -7,7 +7,6 @@ import com.ark.component.tree.TreeNode;
 import com.ark.component.tree.TreeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -23,15 +22,23 @@ public class MenuTreeService {
         return treeService.addNode(BIZ_TYPE, menu.getId(), pid, menu.getSequence());
     }
 
-    public List<Tree<Long>> queryTreeNodes(List<MenuDTO> menus) {
-        return treeService.queryTreeNodes(BIZ_TYPE, menus);
+    public List<Tree<Long>> transformToTree(List<MenuDTO> menus) {
+        return treeService.transformToTree(BIZ_TYPE, menus);
     }
 
     public void changeLevel(Long menuId, Long parentMenuId) {
         treeService.move(BIZ_TYPE, menuId, parentMenuId);
     }
 
-    public List<Long> queryChildNodes(Long menuId) {
+    public List<Long> queryChildNodeIds(Long menuId) {
         return treeService.queryChildNodeBizIds(BIZ_TYPE, menuId);
+    }
+
+    public MenuDTO transformToTreeNode(MenuDTO menuDTO) {
+        return treeService.transformToTreeNode(BIZ_TYPE, menuDTO);
+    }
+
+    public void removeNode(Long menuId) {
+        treeService.removeNode(BIZ_TYPE, menuId);
     }
 }
