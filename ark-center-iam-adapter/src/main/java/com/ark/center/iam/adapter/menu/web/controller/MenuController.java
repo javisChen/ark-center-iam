@@ -44,8 +44,7 @@ public class MenuController {
 
     @PostMapping("")
     @Operation(summary = "保存菜单")
-    public ServerResponse save(@RequestBody
-                                 @Validated({ValidateGroup.Add.class, Default.class}) MenuCommand command) {
+    public ServerResponse save(@RequestBody @Validated MenuCommand command) {
         menuCommandHandler.save(command);
         return ServerResponse.ok();
     }

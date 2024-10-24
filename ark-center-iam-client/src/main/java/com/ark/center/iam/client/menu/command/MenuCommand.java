@@ -19,9 +19,8 @@ public class MenuCommand {
     @Schema(description = "菜单名称")
     private String name;
 
-    @NotNull(message = "pid 不能为空")
     @Schema(description = "父级菜单id")
-    private Long pid;
+    private Long parentId = 0L;
 
     @NotNull(message = "applicationId 不能为空")
     @Schema(description = "应用id")

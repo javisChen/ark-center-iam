@@ -14,8 +14,8 @@ public class RouteModifyParentCmd {
     @Schema(description = "路由id", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long id;
 
-    @NotNull(message = "pid 不能为空")
+    @NotNull(message = "parentId 不能为空")
     @Schema(description = "父级路由id", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Long pid;
+    private Long parentId;
 
 }

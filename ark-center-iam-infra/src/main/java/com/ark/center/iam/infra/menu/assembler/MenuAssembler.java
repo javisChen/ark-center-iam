@@ -41,8 +41,6 @@ public interface MenuAssembler {
     List<UserMenuDTO> toUserMenuDTO(List<Menu> menu);
 
     @Mapping(target = "modifier", ignore = true)
-//    @Mapping(target = "levelPath", ignore = true)
-//    @Mapping(target = "level", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
@@ -54,13 +52,9 @@ public interface MenuAssembler {
     @Mapping(target = "component2", ignore = true)
     @Mapping(target = "type", ignore = true)
     @Mapping(target = "status", ignore = true)
-    @Mapping(target = "sequence", ignore = true)
     @Mapping(target = "path", ignore = true)
     @Mapping(target = "name", ignore = true)
     @Mapping(target = "modifier", ignore = true)
-//    @Mapping(target = "levelPath", ignore = true)
-//    @Mapping(target = "level", ignore = true)
-//    @Mapping(target = "isDeleted", ignore = true)
     @Mapping(target = "icon", ignore = true)
     @Mapping(target = "hideChildren", ignore = true)
     @Mapping(target = "updateTime", ignore = true)

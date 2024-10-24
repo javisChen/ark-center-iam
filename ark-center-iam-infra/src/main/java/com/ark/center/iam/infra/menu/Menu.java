@@ -46,6 +46,7 @@ public class Menu extends BaseEntity {
      */
     @TableField("component")
     private String component;
+
     /**
      * 组件名
      */
@@ -82,11 +83,11 @@ public class Menu extends BaseEntity {
 //    @TableField("level")
 //    private Integer level;
 
-    /**
-     * 排序序号
-     */
-    @TableField("sequence")
-    private Integer sequence;
+//    /**
+//     * 排序序号
+//     */
+//    @TableField("sequence")
+//    private Integer sequence;
 
     /**
      * 路径

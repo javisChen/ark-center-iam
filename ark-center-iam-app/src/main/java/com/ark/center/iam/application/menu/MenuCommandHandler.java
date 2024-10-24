@@ -42,7 +42,7 @@ public class MenuCommandHandler {
 
         menuCheckService.ensureRouteNotExists(parentCmd.getId());
 
-        menuCheckService.ensureRouteNotExists(parentCmd.getPid(), "父级路由不存在");
+        menuCheckService.ensureRouteNotExists(parentCmd.getParentId(), "父级路由不存在");
 
         Menu menu = menuAssembler.toMenuDO(parentCmd);
 

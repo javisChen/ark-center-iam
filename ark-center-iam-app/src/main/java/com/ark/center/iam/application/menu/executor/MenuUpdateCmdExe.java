@@ -36,15 +36,14 @@ public class MenuUpdateCmdExe {
         tryToUpdateChildrenStatus(menuId, command.getStatus());
 
         // 尝试更新子节点层级
-        tryToChangeChildren(menuId, command.getPid());
+        tryToChangeChildren(menuId, command.getParentId());
 
         // 处理页面元素
-        processElements(command);
+        processElements(menuId, command);
 
     }
 
-    private void processElements(MenuCommand command) {
-        Long menuId = command.getId();
+    private void processElements(Long menuId, MenuCommand command) {
         menuService.saveElements(menuId, command.getElements());
     }
 

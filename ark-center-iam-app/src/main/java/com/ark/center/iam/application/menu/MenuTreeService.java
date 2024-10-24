@@ -1,6 +1,7 @@
 package com.ark.center.iam.application.menu;
 
 import cn.hutool.core.lang.tree.Tree;
+import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.component.tree.TreeNode;
@@ -18,8 +19,8 @@ public class MenuTreeService {
     private final static String BIZ_TYPE = "MENU";
 
 
-    public TreeNode addNode(Menu menu, Long pid) {
-        return treeService.addNode(BIZ_TYPE, menu.getId(), pid, menu.getSequence());
+    public TreeNode addNode(MenuCommand command) {
+        return treeService.addNode(BIZ_TYPE, command.getId(), command.getParentId(), command.getSequence());
     }
 
     public List<Tree<Long>> transformToTree(List<MenuDTO> menus) {
