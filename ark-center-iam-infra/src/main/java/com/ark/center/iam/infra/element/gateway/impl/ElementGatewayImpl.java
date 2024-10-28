@@ -4,7 +4,7 @@ import com.ark.center.iam.infra.element.Element;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
 import com.ark.center.iam.infra.menu.gateway.ElementGateway;
 import com.ark.center.iam.infra.menu.db.ElementMapper;
-import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 public class ElementGatewayImpl extends ServiceImpl<ElementMapper, Element> implements ElementGateway {
 
     private final ElementAssembler elementAssembler;
-    private final PermissionGateway permissionGateway;
+    private final PermissionService permissionGateway;
 
     @Override
     public void insert(Element element) {
@@ -32,7 +32,7 @@ public class ElementGatewayImpl extends ServiceImpl<ElementMapper, Element> impl
     }
 
     @Override
-    public List<Element> selectElementsByRouteId(Long routeId) {
+    public List<Element> byMenuId(Long routeId) {
         return lambdaQuery()
                 .eq(Element::getMenuId, routeId)
                 .eq(Element::getIsDeleted, DeletedEnums.NOT.getCode())

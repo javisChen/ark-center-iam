@@ -7,45 +7,45 @@ import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.client.user.dto.UserMenuDTO;
 import com.ark.center.iam.infra.element.Element;
 import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.menu.gateway.ElementGateway;
+import com.ark.center.iam.infra.element.service.ElementService;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import com.ark.center.iam.infra.menu.db.MenuMapper;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
-import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
 public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGateway {
 
-    private final MenuAssembler menuAssembler;
-    private final ElementGateway elementGateway;
+    private final ElementService elementService;
     private final ElementAssembler elementAssembler;
-    private final PermissionGateway permissionGateway;
-
+    private final PermissionService permissionService;
+    private final MenuTreeService menuTreeService;
+    private final MenuAssembler menuAssembler;
 
     @Override
-    public List<UserMenuDTO> selectByRouteIds(List<Long> routeIds) {
-        return null;
-//        if (CollectionUtil.isEmpty(routeIds)) {
-//            return Collections.emptyList();
-//        }
-//        List<Menu> menus = lambdaQuery()
-//                .in(Menu::getId, routeIds)
-//                .orderByAsc(Lists.newArrayList(Menu::getLevel, Menu::getSequence))
-//                .list();
-//        return routeAssembler.toUserMenuDTO(menus);
+    public List<UserMenuDTO> byIds(List<Long> menuIds) {
+//        return null;
+        if (CollectionUtil.isEmpty(menuIds)) {
+            return Collections.emptyList();
+        }
+        List<Menu> menus = lambdaQuery()
+                .in(Menu::getId, menuIds)
+                .list();
+        return menuAssembler.toUserMenuDTO(menus);
     }
 
     @Override
@@ -101,8 +101,11 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
     }
 
     @Override
-    public void updateStatusById(Integer status, Long id) {
-
+    public void updateStatusById(Long id, Integer status) {
+        Menu entity = new Menu();
+        entity.setId(id);
+        entity.setStatus(status);
+        updateById(entity);
     }
 
     @Override
@@ -120,27 +123,40 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
     }
 
     @Transactional(rollbackFor = Throwable.class)
+    @Override
     public void saveElements(Long menuId, List<MenuCommand.Element> elements) {
 
-        elementGateway.deleteByMenuId(menuId);
+        elementService.deleteByMenuId(menuId);
 
         if (CollectionUtils.isEmpty(elements)) {
             return;
         }
 
-        if (CollectionUtil.isNotEmpty(elements)) {
-            List<Element> elementEos = elements.stream().map(item -> {
-                Element elementDO = elementAssembler.toElementDO(item, menuId);
-                elementDO.setMenuId(menuId);
-                return elementDO;
-            }).toList();
+        List<Element> elementEos = elements.stream().map(item -> {
+            Element elementDO = elementAssembler.toElementDO(item, menuId);
+            elementDO.setMenuId(menuId);
+            return elementDO;
+        }).toList();
 
-            for (Element element : elementEos) {
-                elementGateway.insert(element);
-                permissionGateway.insertPermission(element.getId(), PermissionType.PAGE_ELEMENT);
-            }
-
+        for (Element element : elementEos) {
+            elementService.save(element);
+            permissionService.insertPermission(element.getId(), PermissionType.PAGE_ELEMENT);
         }
 
+    }
+
+    @Override
+    public void saveMenu(Menu menu) {
+        save(menu);
+    }
+
+    public void updateChildrenStatus(Long menuId, Integer status) {
+        List<Long> treeNodes = menuTreeService.queryChildNodeIds(menuId);
+        if (CollectionUtils.isNotEmpty(treeNodes)) {
+            lambdaUpdate()
+                    .set(Menu::getStatus, status)
+                    .in(BaseEntity::getId, treeNodes)
+                    .update();
+        }
     }
 }

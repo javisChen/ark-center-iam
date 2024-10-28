@@ -14,7 +14,7 @@ import com.ark.center.iam.client.api.query.ApiQuery;
 import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.api.gateway.ApiGateway;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
-import com.ark.center.iam.infra.permission.service.PermissionService;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.api.assembler.ApiAssembler;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;

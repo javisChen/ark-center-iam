@@ -6,6 +6,7 @@ import com.ark.center.iam.application.menu.MenuCommandHandler;
 import com.ark.center.iam.application.menu.MenuQueryService;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.client.menu.command.MenuCommand;
+import com.ark.center.iam.client.menu.command.MenuStatusCommand;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
@@ -70,15 +71,14 @@ public class MenuController {
             parameters = {@Parameter(name = "id", description = "菜单id", required = true)}
     )
     public SingleResponse<MenuDTO> queryDetails(Long id) {
-        MenuDTO dto = menuQueryService.queryDetails(id);
-        return SingleResponse.ok(dto);
+        MenuDTO menuDTO = menuQueryService.queryDetails(id);
+        return SingleResponse.ok(menuDTO);
     }
 
     @PutMapping("/status")
     @Operation(summary = "更新菜单状态")
-    public ServerResponse updateStatus(@Validated({ValidateGroup.Update.class, Default.class})
-                                       @RequestBody MenuCommand dto) {
-        menuCommandHandler.updateRouteStatus(dto);
+    public ServerResponse updateStatus(@RequestBody MenuStatusCommand command) {
+        menuCommandHandler.updateStatus(command);
         return ServerResponse.ok();
     }
 

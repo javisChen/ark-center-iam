@@ -39,7 +39,7 @@ public class MenuQueryService {
 
 
     public List<ElementBaseDTO> queryRouteElementsById(Long routeId) {
-        List<Element> elements = elementGateway.selectElementsByRouteId(routeId);
+        List<Element> elements = elementGateway.byMenuId(routeId);
         return elements.stream().map(elementAssembler::toElementDTO).collect(Collectors.toList());
     }
 }

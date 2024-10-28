@@ -2,9 +2,11 @@ package com.ark.center.iam.infra.element.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.infra.element.Element;
+import com.ark.center.iam.infra.menu.db.ElementMapper;
 import com.ark.center.iam.infra.menu.gateway.ElementGateway;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
-import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,10 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class ElementService {
+public class ElementService extends ServiceImpl<ElementMapper, Element> {
 
     private final ElementGateway elementGateway;
-    private final PermissionGateway permissionGateway;
+    private final PermissionService permissionGateway;
 
     public void saveBatchElements(List<Element> elements) {
         if (CollectionUtil.isNotEmpty(elements)) {
@@ -27,5 +29,11 @@ public class ElementService {
                 permissionGateway.insertPermission(element.getId(), PermissionType.PAGE_ELEMENT);
             }
         }
+    }
+
+    public void deleteByMenuId(Long menuId) {
+        lambdaUpdate()
+                .eq(Element::getMenuId, menuId)
+                .remove();
     }
 }

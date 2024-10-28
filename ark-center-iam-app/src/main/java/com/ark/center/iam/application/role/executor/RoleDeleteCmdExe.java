@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.role.executor;
 
-import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ public class RoleDeleteCmdExe {
     private final RoleGateway roleGateway;
     private final UserGroupGateway userGroupGateway;
 
-    private final PermissionGateway permissionGateway;
+    private final PermissionService permissionGateway;
 
     public void execute(Long id) {
 

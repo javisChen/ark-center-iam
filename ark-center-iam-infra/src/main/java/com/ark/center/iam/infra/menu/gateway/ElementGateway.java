@@ -10,6 +10,6 @@ public interface ElementGateway {
 
     void deleteByMenuId(Long menuId);
 
-    List<Element> selectElementsByRouteId(Long menuId);
+    List<Element> byMenuId(Long menuId);
 
 }

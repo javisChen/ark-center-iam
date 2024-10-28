@@ -17,7 +17,7 @@ import com.ark.center.iam.infra.application.gateway.ApplicationGateway;
 import com.ark.center.iam.infra.enums.ApiAuthTypeEnums;
 import com.ark.center.iam.infra.enums.ApiStatusEnums;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
-import com.ark.center.iam.infra.permission.service.PermissionService;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.component.exception.ExceptionFactory;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.google.common.collect.Lists;

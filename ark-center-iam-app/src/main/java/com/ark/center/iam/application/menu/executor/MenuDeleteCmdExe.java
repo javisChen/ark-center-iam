@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.menu.executor;
 
-import com.ark.center.iam.application.menu.MenuTreeService;
-import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
+import com.ark.center.iam.infra.menu.gateway.impl.MenuTreeService;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class MenuDeleteCmdExe {
 
     private final MenuGateway menuGateway;
     
-    private final PermissionGateway permissionGateway;
+    private final PermissionService permissionGateway;
 
     private final MenuTreeService menuTreeService;
 

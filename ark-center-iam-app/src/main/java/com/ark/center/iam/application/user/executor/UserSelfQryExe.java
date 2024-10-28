@@ -1,12 +1,11 @@
 package com.ark.center.iam.application.user.executor;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
-import cn.hutool.core.lang.tree.TreeUtil;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.user.dto.UserMenuDTO;
+import com.ark.center.iam.infra.menu.gateway.impl.MenuService;
+import com.ark.center.iam.infra.menu.gateway.impl.MenuTreeService;
 import com.ark.center.iam.infra.permission.Permission;
-import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.user.service.UserPermissionService;
 import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.component.cache.core.CacheHelper;
@@ -30,9 +29,10 @@ public class UserSelfQryExe {
 
     private final UserPermissionService userPermissionService;
 
-    private final MenuGateway menuGateway;
+    private final MenuService menuService;
 
     private final PermissionAssembler permissionAssembler;
+    private final MenuTreeService menuTreeService;
 
     public List<PermissionDTO> queryUserSelfElements() {
         LoginUser user = ServiceContext.getCurrentUser();
@@ -57,7 +57,7 @@ public class UserSelfQryExe {
                     .filter(Objects::nonNull)
                     .map(Permission::getResourceId)
                     .toList();
-            return menuGateway.selectByRouteIds(routeIds);
+            return menuService.byIds(routeIds);
         });
     }
 
@@ -72,13 +72,8 @@ public class UserSelfQryExe {
                 .filter(Objects::nonNull)
                 .map(Permission::getResourceId)
                 .collect(Collectors.toList());
-        List<UserMenuDTO> userMenuDTOS = menuGateway.selectByRouteIds(menuIds);
-        return TreeUtil.build(userMenuDTOS, 0L, (object, treeNode) -> {
-            treeNode.setId(object.getId());
-            treeNode.setParentId(object.getParentId());
-            // treeNode.setWeight(object.getWeight());
-            treeNode.setName(object.getName());
-            treeNode.putAll(BeanUtil.beanToMap(object));
-        });
+        List<UserMenuDTO> userMenuDTOS = menuService.byIds(menuIds);
+        return menuTreeService.transformToTree(userMenuDTOS);
+
     }
 }

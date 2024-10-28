@@ -2,9 +2,11 @@ package com.ark.center.iam.application.menu;
 
 import com.ark.center.iam.application.menu.executor.*;
 import com.ark.center.iam.client.menu.command.MenuCommand;
+import com.ark.center.iam.client.menu.command.MenuStatusCommand;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.gateway.MenuGateway;
+import com.ark.center.iam.infra.menu.gateway.impl.MenuService;
 import com.ark.center.iam.infra.menu.service.MenuCheckService;
 import com.ark.center.iam.infra.menu.service.RouteService;
 import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
@@ -20,8 +22,8 @@ public class MenuCommandHandler {
     private final MenuUpdateCmdExe menuUpdateCmdExe;
     private final MenuDeleteCmdExe menuDeleteCmdExe;
     private final MenuCheckService menuCheckService;
+    private final MenuService menuService;
     private final MenuGateway menuGateway;
-    private final RouteService routeService;
     private final MenuAssembler menuAssembler;
 
     @Transactional(rollbackFor = Throwable.class)
@@ -31,10 +33,6 @@ public class MenuCommandHandler {
         } else {
             menuUpdateCmdExe.execute(command);
         }
-    }
-
-    @Transactional(rollbackFor = Throwable.class)
-    public void update(MenuCommand command) {
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -51,8 +49,9 @@ public class MenuCommandHandler {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void updateRouteStatus(MenuCommand command) {
-        routeService.updateRouteStatus(command.getId(), command.getStatus());
+    public void updateStatus(MenuStatusCommand command) {
+        menuGateway.updateStatusById(command.getId(), command.getStatus());
+
     }
 
     @Transactional(rollbackFor = Throwable.class)

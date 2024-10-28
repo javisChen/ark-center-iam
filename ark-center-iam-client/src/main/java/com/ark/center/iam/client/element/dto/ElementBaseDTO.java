@@ -6,7 +6,7 @@ import lombok.Data;
 public class ElementBaseDTO {
 
     private Long id;
-    private Long routeId;
+    private Long menuId;
     private String name;
     private Integer type;
 }

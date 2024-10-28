@@ -8,7 +8,7 @@ import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.api.gateway.ApiGateway;
 import com.ark.center.iam.infra.permission.Permission;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
-import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.user.User;
 import com.ark.center.iam.infra.user.gateway.UserGateway;
@@ -38,7 +38,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
     private final RoleGateway roleGateway;
     private final UserGateway userGateway;
     private final ApiGateway apiGateway;
-    private final PermissionGateway permissionGateway;
+    private final PermissionService permissionGateway;
     private final MessageTemplate messageTemplate;
     private final CacheService cacheService;
 

@@ -11,7 +11,7 @@ import com.ark.center.iam.client.role.command.RoleRoutePermissionGrantCmd;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.application.role.event.RolePermissionChangedEvent;
-import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
@@ -34,7 +34,7 @@ public class RolePermissionAppService {
     private final ApplicationEventPublisher eventPublisher;
     private final ApplicationContext applicationContext;
 
-    private final PermissionGateway permissionGateway;
+    private final PermissionService permissionGateway;
 
 
     @Transactional(rollbackFor = Throwable.class)

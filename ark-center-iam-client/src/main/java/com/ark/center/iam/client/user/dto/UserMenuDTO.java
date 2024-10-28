@@ -1,17 +1,20 @@
 package com.ark.center.iam.client.user.dto;
 
+import com.ark.component.tree.dto.TreeDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserMenuDTO {
+public class UserMenuDTO extends TreeDTO<Long> {
 
     private String name;
-    private Long parentId;
-    private Long id;
+//    private Long parentId;
+//    private Long id;
     private Meta meta;
     private String component;
     private String component2;

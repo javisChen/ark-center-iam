@@ -5,7 +5,7 @@ import com.ark.center.iam.infra.api.vo.ApiPermissionVO;
 import com.ark.center.iam.infra.application.gateway.ApplicationGateway;
 import com.ark.center.iam.infra.permission.Permission;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
-import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
+import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.user.User;
 import com.ark.center.iam.infra.user.gateway.UserGateway;
@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 public class UserPermissionService {
 
-    private final PermissionGateway permissionGateway;
+    private final PermissionService permissionGateway;
 
     private final RoleGateway roleGateway;
 

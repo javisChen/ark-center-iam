@@ -6,7 +6,6 @@ import com.ark.center.iam.infra.api.vo.ApiPermissionVO;
 import com.ark.center.iam.infra.permission.Permission;
 import com.ark.center.iam.infra.permission.enums.PermissionStatusEnums;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
-import com.ark.center.iam.infra.permission.gateway.PermissionGateway;
 import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.center.iam.infra.permission.gateway.db.PermissionMapper;
 import com.ark.center.iam.infra.permission.gateway.db.PermissionRoleRel;
@@ -25,13 +24,12 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionGateway {
+public class PermissionService extends ServiceImpl<PermissionMapper, Permission> {
 
     private final PermissionRoleRelMapper permissionRoleRelMapper;
 
     private final PermissionAssembler permissionAssembler;
 
-    @Override
     public List<Permission> selectByType(PermissionType permissionType) {
         return lambdaQuery()
                 .eq(Permission::getType, permissionType.getName())
@@ -39,7 +37,6 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
                 .list();
     }
 
-    @Override
     public List<Permission> selectByTypeAndRoleIds(List<Long> roleIds, PermissionType permissionType) {
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();
@@ -47,19 +44,16 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
         return baseMapper.selectByRoleIdsAndType(roleIds, permissionType.getName());
     }
 
-    @Override
     public void insert(Permission permission) {
         save(permission);
     }
 
-    @Override
     public void deletePermissionAndRoleRelationsByRoleId(Long roleId) {
         LambdaUpdateWrapper<PermissionRoleRel> qw = new LambdaUpdateWrapper<>();
         qw.eq(PermissionRoleRel::getRoleId, roleId);
         permissionRoleRelMapper.delete(qw);
     }
 
-    @Override
     public void deleteRolePermission(Long applicationId, Long roleId, PermissionType permissionType) {
         // 先把关联表id查出来然后排序，再根据id去删除，避免死锁
         List<PermissionRoleRel> permissionRoleRelList = permissionRoleRelMapper
@@ -70,7 +64,6 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
         }
     }
 
-    @Override
     public void deleteRolePermissionByIds(Long applicationId, Long roleId, List<Long> toRemoveApiPermissionIds) {
         if (CollectionUtil.isEmpty(toRemoveApiPermissionIds)) {
             return;
@@ -84,20 +77,17 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
         }
     }
 
-    @Override
     public void insertBatchRolePermissionRelations(Long roleId, List<Long> permissionIds) {
         if (CollectionUtil.isNotEmpty(permissionIds)) {
             permissionRoleRelMapper.batchInsert(roleId, permissionIds);
         }
     }
 
-    @Override
     public List<PermissionDTO> selectRolePermissions(Long applicationId, Long roleId, String permissionType) {
         List<Permission> permissions = this.baseMapper.selectByRoleIdAndType(applicationId, roleId, permissionType);
         return permissions.stream().map(permissionAssembler::toPermissionDTO).collect(Collectors.toList());
     }
 
-    @Override
     public void insertPermission(Long resourceId, PermissionType permissionType) {
         Permission permission = new Permission();
         permission.setType(permissionType.getName());
@@ -115,19 +105,16 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
         return tag + StringUtils.leftPad(String.valueOf(id), 9, "0");
     }
 
-    @Override
     public void deleteByResourceIds(List<Long> resourceIds) {
         lambdaUpdate()
                 .in(Permission::getResourceId, resourceIds)
                 .remove();
     }
 
-    @Override
     public List<ApiPermissionVO> selectApiPermissionsByRoleIds(List<Long> roleIds) {
         return baseMapper.selectApiPermissionsByRoleIds(roleIds);
     }
 
-    @Override
     public List<Long> selectResourceIdsByIds(List<Long> permissionIds) {
         return lambdaQuery()
                 .select(Permission::getResourceId)
@@ -137,5 +124,23 @@ public class PermissionGatewayImpl extends ServiceImpl<PermissionMapper, Permiss
                 .map(Permission::getResourceId)
                 .collect(Collectors.toList());
     }
+
+
+    public void addPermission(Long resourceId, PermissionType permissionType) {
+        Permission permission = new Permission();
+        permission.setType(permissionType.getName());
+        permission.setCode(generatePermissionCode(permissionType.getTag(), resourceId));
+        permission.setResourceId(resourceId);
+        permission.setStatus(PermissionStatusEnums.ENABLED.getValue());
+        save(permission);
+    }
+//
+//    /**
+//     * 生成权限编码
+//     * 规则：类型首字母+资源id（十位，不足左补0） EXAMPLE：P0000000001
+//     */
+//    private String generatePermissionCode(String tag, long id) {
+//        return tag + StringUtils.leftPad(String.valueOf(id), 9, "0");
+//    }
 
 }
