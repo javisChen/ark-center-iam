@@ -99,11 +99,11 @@ public class MenuController {
             summary = "获取菜单的页面元素",
             description = "根据菜单id查询页面元素",
             parameters = {
-                    @Parameter(name = "id", description = "菜单id", required = true)
+                    @Parameter(name = "menuId", description = "菜单id", required = true)
             }
     )
-    public MultiResponse<ElementBaseDTO> queryRouteElements(Long id) {
-        return MultiResponse.ok(menuQueryService.queryRouteElementsById(id));
+    public MultiResponse<ElementBaseDTO> queryMenuElements(Long menuId) {
+        return MultiResponse.ok(menuQueryService.queryElementsByMenuId(menuId));
     }
 
 }

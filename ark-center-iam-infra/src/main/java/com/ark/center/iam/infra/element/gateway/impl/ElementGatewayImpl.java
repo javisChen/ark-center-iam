@@ -32,9 +32,9 @@ public class ElementGatewayImpl extends ServiceImpl<ElementMapper, Element> impl
     }
 
     @Override
-    public List<Element> byMenuId(Long routeId) {
+    public List<Element> byMenuId(Long menuId) {
         return lambdaQuery()
-                .eq(Element::getMenuId, routeId)
+                .eq(Element::getMenuId, menuId)
                 .eq(Element::getIsDeleted, DeletedEnums.NOT.getCode())
                 .list();
     }

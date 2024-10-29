@@ -38,7 +38,7 @@ public class MenuQueryService {
     }
 
 
-    public List<ElementBaseDTO> queryRouteElementsById(Long routeId) {
+    public List<ElementBaseDTO> queryElementsByMenuId(Long routeId) {
         List<Element> elements = elementGateway.byMenuId(routeId);
         return elements.stream().map(elementAssembler::toElementDTO).collect(Collectors.toList());
     }
