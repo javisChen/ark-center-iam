@@ -35,7 +35,6 @@ public class UserPermissionService {
 
     private final UserGroupGateway userGroupGateway;
 
-    private final ApplicationGateway applicationGateway;
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     public List<Permission> queryUserPermissions(Long userId, PermissionType permissionType) {

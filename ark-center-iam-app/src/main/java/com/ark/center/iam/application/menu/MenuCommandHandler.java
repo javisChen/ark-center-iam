@@ -50,8 +50,7 @@ public class MenuCommandHandler {
 
     @Transactional(rollbackFor = Throwable.class)
     public void updateStatus(MenuStatusCommand command) {
-        menuGateway.updateStatusById(command.getId(), command.getStatus());
-
+        menuService.updateChildrenStatus(command.getId(), command.getStatus());
     }
 
     @Transactional(rollbackFor = Throwable.class)
