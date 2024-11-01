@@ -1,8 +1,8 @@
-package com.ark.center.iam.infra.element.assembler;
+package com.ark.center.iam.infra.menu.assembler;
 
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
-import com.ark.center.iam.infra.element.Element;
+import com.ark.center.iam.infra.menu.Element;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

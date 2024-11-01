@@ -2,7 +2,7 @@ package com.ark.center.iam.application.role.executor;
 
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
-import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

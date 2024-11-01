@@ -1,11 +1,11 @@
 package com.ark.center.iam.application.usergroup.executor;
 
-import com.ark.center.iam.client.usergroup.command.UserGroupCmd;
+import com.ark.center.iam.client.usergroup.command.UserGroupCommand;
 import com.ark.center.iam.infra.usergroup.UserGroup;
-import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
 import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.usergroup.service.UserGroupCheckService;
 import com.ark.center.iam.infra.usergroup.assembler.UserGroupAssembler;
+import com.ark.center.iam.infra.usergroup.service.UserGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
 public class UserGroupUpdateCmdExe {
 
     private final UserGroupAssembler userGroupAssembler;
-    private final UserGroupGateway userGroupGateway;
+    private final UserGroupService userGroupService;
     private final UserGroupCheckService userGroupCheckService;
     private final UserGroupAssignService userGroupAssignService;
-    public void execute(UserGroupCmd cmd) {
+    public void execute(UserGroupCommand cmd) {
         UserGroup userGroup = userGroupAssembler.convertToDO(cmd);
-        userGroupGateway.updateByUserGroupId(userGroup);
+        userGroupService.updateByUserGroupId(userGroup);
 
         Long userGroupId = userGroup.getId();
         // 清除用户角色和用户组的关联关系

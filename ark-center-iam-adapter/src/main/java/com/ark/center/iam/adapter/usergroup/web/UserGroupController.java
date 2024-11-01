@@ -1,12 +1,12 @@
 package com.ark.center.iam.adapter.usergroup.web;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.usergroup.UserGroupCommandHandler;
 import com.ark.center.iam.application.usergroup.UserGroupQueryService;
-import com.ark.center.iam.client.usergroup.command.UserGroupCmd;
+import com.ark.center.iam.client.usergroup.command.UserGroupCommand;
 import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupDetailDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
-import com.ark.center.iam.client.usergroup.dto.UserGroupTreeDTO;
 import com.ark.center.iam.client.usergroup.query.UserGroupQry;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.PageResponse;
@@ -43,21 +43,21 @@ public class UserGroupController extends BaseController {
     }
 
     @PostMapping("/tree")
-    public MultiResponse<UserGroupTreeDTO> getUserGroupsTree(@RequestBody UserGroupQry dto) {
+    public MultiResponse<Tree<Long>> queryUserGroupsTree(@RequestBody UserGroupQry dto) {
         return MultiResponse.ok(userGroupQueryService.queryTree(dto));
     }
 
     @PostMapping("")
     public ServerResponse create(@RequestBody
-                                 @Validated({ValidateGroup.Add.class, Default.class}) UserGroupCmd userGroupUpdateDTO) {
-        userGroupCommandHandler.createUserGroup(userGroupUpdateDTO);
+                                 @Validated({ValidateGroup.Add.class, Default.class}) UserGroupCommand command) {
+        userGroupCommandHandler.createUserGroup(command);
         return ServerResponse.ok();
     }
 
     @PutMapping("")
     public ServerResponse update(@RequestBody
-                                 @Validated({ValidateGroup.Update.class, Default.class}) UserGroupCmd dto) {
-        userGroupCommandHandler.updateUserGroup(dto);
+                                 @Validated({ValidateGroup.Update.class, Default.class}) UserGroupCommand command) {
+        userGroupCommandHandler.updateUserGroup(command);
         return ServerResponse.ok();
     }
 

@@ -1,10 +1,10 @@
 package com.ark.center.iam.application.menu.executor;
 
-import com.ark.center.iam.infra.menu.gateway.impl.MenuTreeService;
+import com.ark.center.iam.infra.menu.service.MenuTreeService;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import com.ark.center.iam.infra.menu.Menu;
-import com.ark.center.iam.infra.menu.gateway.impl.MenuService;
+import com.ark.center.iam.infra.menu.service.MenuService;
 import com.ark.center.iam.infra.menu.service.MenuCheckService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

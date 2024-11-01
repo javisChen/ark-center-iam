@@ -1,7 +1,6 @@
 package com.ark.center.iam.infra.usergroup.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserGroupAssignService {
 
-    private final UserGroupGateway userGroupGateway;
+    private final UserGroupService userGroupService;
 
     /**
      * 分配用户到用户组
@@ -23,7 +22,7 @@ public class UserGroupAssignService {
      * @param userGroupIds 用户组id集合
      */
     public void assignUserGroupsToUser(Long userId, List<Long> userGroupIds) {
-        userGroupGateway.insertUserGroupAndUserRelations(userId, userGroupIds);
+        userGroupService.insertUserGroupAndUserRelations(userId, userGroupIds);
     }
 
     /**
@@ -34,7 +33,7 @@ public class UserGroupAssignService {
      */
     public void assignUserGroupsToRoles(Long userGroupId, List<Long> roleIds) {
         if (CollectionUtil.isNotEmpty(roleIds)) {
-            userGroupGateway.insertUserGroupAndRolesRelations(userGroupId, roleIds);
+            userGroupService.insertUserGroupAndRolesRelations(userGroupId, roleIds);
         }
     }
 
@@ -44,7 +43,7 @@ public class UserGroupAssignService {
      * @param userId 用户id
      */
     public void clearUserAndUserGroupRelations(Long userId) {
-        userGroupGateway.deleteUserGroupAndUserRelationsByUserId(userId);
+        userGroupService.deleteUserGroupAndUserRelationsByUserId(userId);
     }
 
     /**
@@ -53,6 +52,6 @@ public class UserGroupAssignService {
      * @param userGroupId 角色id
      */
     public void clearRoleAndUserGroupRelations(Long userGroupId) {
-        userGroupGateway.deleteUserGroupAndRoleRelationsByUserGroupId(userGroupId);
+        userGroupService.deleteUserGroupAndRoleRelationsByUserGroupId(userGroupId);
     }
 }

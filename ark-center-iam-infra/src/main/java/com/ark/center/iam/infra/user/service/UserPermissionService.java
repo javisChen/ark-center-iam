@@ -10,7 +10,7 @@ import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.user.User;
 import com.ark.center.iam.infra.user.gateway.UserGateway;
 import com.ark.center.iam.infra.user.support.UserConst;
-import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

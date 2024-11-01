@@ -8,7 +8,7 @@ import com.ark.center.iam.client.user.query.UserQuery;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.role.vo.UserRoleVO;
 import com.ark.center.iam.infra.user.User;
-import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
+
 import com.ark.center.iam.infra.usergroup.vo.UserGroupVO;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.ark.center.iam.infra.user.db.UserDAO;

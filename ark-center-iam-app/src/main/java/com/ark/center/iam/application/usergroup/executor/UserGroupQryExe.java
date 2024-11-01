@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
 import com.ark.center.iam.client.usergroup.query.UserGroupQry;
 import com.ark.center.iam.infra.usergroup.UserGroup;
-import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
+
 import com.ark.center.iam.infra.user.assembler.UserAssembler;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;

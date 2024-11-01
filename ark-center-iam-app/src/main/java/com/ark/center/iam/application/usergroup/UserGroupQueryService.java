@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.usergroup;
 
-import com.ark.center.iam.application.usergroup.executor.UserGroupDeleteCmdExe;
+import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.usergroup.executor.UserGroupQryExe;
 import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupDetailDTO;
@@ -8,8 +8,10 @@ import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupTreeDTO;
 import com.ark.center.iam.client.usergroup.query.UserGroupQry;
 import com.ark.center.iam.infra.usergroup.UserGroup;
-import com.ark.center.iam.infra.usergroup.gateway.UserGroupGateway;
+
 import com.ark.center.iam.infra.usergroup.assembler.UserGroupAssembler;
+import com.ark.center.iam.infra.usergroup.service.UserGroupService;
+import com.ark.center.iam.infra.usergroup.service.UserGroupTreeService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserGroupQueryService {
 
-    private final UserGroupGateway userGroupGateway;
+    private final UserGroupService userGroupService;
     private final UserGroupQryExe userGroupQryExe;
-    private final UserGroupDeleteCmdExe userGroupDeleteCmdExe;
+    private final UserGroupTreeService userGroupTreeService;
     private final UserGroupAssembler userGroupAssembler;
 
     public Page<UserGroupListTreeDTO> queryGroups(UserGroupQry qry) {
@@ -32,17 +34,19 @@ public class UserGroupQueryService {
     }
 
     public List<UserGroupBaseDTO> queryListAll() {
-        return userGroupGateway.selectList();
+        return userGroupService.selectList();
     }
 
     public UserGroupDetailDTO queryDetails(Long id) {
-        UserGroup userGroup = userGroupGateway.selectById(id);
+        UserGroup userGroup = userGroupService.selectById(id);
         return userGroupAssembler.toUserGroupDetailsDTO(userGroup);
     }
 
-    public List<UserGroupTreeDTO> queryTree(UserGroupQry qry) {
-        List<UserGroupBaseDTO> list = userGroupGateway.selectList();
-        return list.stream().map(assembleUserGroupUserGroupTreeVO()).collect(Collectors.toList());
+    public List<Tree<Long>> queryTree(UserGroupQry qry) {
+        List<UserGroupBaseDTO> list = userGroupService.selectList();
+        return userGroupTreeService.transformToTree(list);
+
+
     }
 
     private Function<UserGroupBaseDTO, UserGroupTreeDTO> assembleUserGroupUserGroupTreeVO() {

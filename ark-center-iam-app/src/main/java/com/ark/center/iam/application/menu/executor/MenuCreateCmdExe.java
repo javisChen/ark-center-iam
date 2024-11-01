@@ -1,10 +1,10 @@
 package com.ark.center.iam.application.menu.executor;
 
-import com.ark.center.iam.infra.menu.gateway.impl.MenuTreeService;
+import com.ark.center.iam.infra.menu.service.MenuService;
+import com.ark.center.iam.infra.menu.service.MenuTreeService;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
-import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.menu.service.MenuCheckService;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
@@ -20,7 +20,7 @@ public class MenuCreateCmdExe {
 
     private final MenuCheckService menuCheckService;
     private final MenuAssembler menuAssembler;
-    private final MenuGateway menuGateway;
+    private final MenuService menuService;
     private final PermissionService permissionService;
     private final MenuTreeService menuTreeService;
 
@@ -48,7 +48,7 @@ public class MenuCreateCmdExe {
 
     private Menu save(MenuCommand command) {
         Menu menu = menuAssembler.toMenuDO(command);
-        menuGateway.saveMenu(menu);
+        menuService.save(menu);
         return menu;
     }
 
@@ -59,7 +59,7 @@ public class MenuCreateCmdExe {
     private void saveElements(MenuCommand command) {
         Long menuId = command.getId();
         List<MenuCommand.Element> elements = command.getElements();
-        menuGateway.saveElements(menuId, elements);
+        menuService.saveElements(menuId, elements);
     }
 
     private void baseCheck(MenuCommand dto) {

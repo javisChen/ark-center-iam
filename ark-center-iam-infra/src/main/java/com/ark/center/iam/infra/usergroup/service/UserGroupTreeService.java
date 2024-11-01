@@ -1,30 +1,29 @@
-package com.ark.center.iam.infra.menu.gateway.impl;
+package com.ark.center.iam.infra.usergroup.service;
 
 import cn.hutool.core.lang.tree.Tree;
-import com.ark.center.iam.client.menu.command.MenuCommand;
-import com.ark.center.iam.client.menu.dto.MenuDTO;
+import com.ark.center.iam.client.usergroup.command.UserGroupCommand;
 import com.ark.component.tree.TreeNode;
 import com.ark.component.tree.TreeService;
 import com.ark.component.tree.dto.TreeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MenuTreeService {
+public class UserGroupTreeService {
 
     private final TreeService treeService;
 
-    private final static String BIZ_TYPE = "MENU";
+    private final static String BIZ_TYPE = "USER_GROUP";
 
-
-    public TreeNode addNode(MenuCommand command) {
-        return treeService.addNode(BIZ_TYPE, command.getId(), command.getParentId(), command.getSequence());
+    public TreeNode addNode(UserGroupCommand command) {
+        return treeService.addNode(BIZ_TYPE, command.getId(), command.getParentId(), 0);
     }
 
-    public <T extends TreeDTO<Long>> List<Tree<Long>> transformToTree(List<T> menus) {
-        return treeService.transformToTree(BIZ_TYPE, menus);
+    public <T extends TreeDTO<Long>> List<Tree<Long>> transformToTree(List<T> data) {
+        return treeService.transformToTree(BIZ_TYPE, data);
     }
 
     public void changeLevel(Long menuId, Long parentMenuId) {
@@ -39,7 +38,7 @@ public class MenuTreeService {
         return treeService.transformToTreeNode(BIZ_TYPE, menuDTO);
     }
 
-    public void removeNode(Long menuId) {
-        treeService.removeNode(BIZ_TYPE, menuId);
+    public List<Long> removeNodeAndChildren(Long bizId) {
+        return treeService.removeNodeAndChildren(BIZ_TYPE, bizId);
     }
 }

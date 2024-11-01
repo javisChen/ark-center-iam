@@ -1,15 +1,13 @@
-package com.ark.center.iam.infra.menu.gateway.impl;
+package com.ark.center.iam.infra.menu.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.client.user.dto.UserMenuDTO;
-import com.ark.center.iam.infra.element.Element;
-import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.element.service.ElementService;
+import com.ark.center.iam.infra.menu.Element;
+import com.ark.center.iam.infra.menu.assembler.ElementAssembler;
 import com.ark.center.iam.infra.menu.Menu;
-import com.ark.center.iam.infra.menu.gateway.MenuGateway;
 import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import com.ark.center.iam.infra.menu.db.MenuMapper;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
@@ -28,7 +26,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGateway {
+public class MenuService extends ServiceImpl<MenuMapper, Menu> {
 
     private final ElementService elementService;
     private final ElementAssembler elementAssembler;
@@ -36,7 +34,6 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
     private final MenuTreeService menuTreeService;
     private final MenuAssembler menuAssembler;
 
-    @Override
     public List<UserMenuDTO> byIds(List<Long> menuIds) {
 //        return null;
         if (CollectionUtil.isEmpty(menuIds)) {
@@ -48,34 +45,28 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
         return menuAssembler.toUserMenuDTO(menus);
     }
 
-    @Override
     public Page<RouteDetailsDTO> selectDetailsPage(MenuQuery params) {
         return baseMapper.selectDetailsPages(new Page<>(params.getCurrent(), params.getSize()), params);
     }
 
-    @Override
     public List<RouteDetailsDTO> selectSubRoutes() {
 //        return baseMapper.selectSubRoutes();
         return null;
 
     }
 
-    @Override
-    public Menu byId(Long id) {
-        return getById(id);
-    }
+//    public Menu byId(Long id) {
+//        return getById(id);
+//    }
 
-    @Override
-    public void insert(Menu menu) {
-        save(menu);
-    }
+//    public void insert(Menu menu) {
+//        save(menu);
+//    }
 
-    @Override
-    public void updateByMenuId(Menu entity) {
-        updateById(entity);
-    }
+//    public void updateByMenuId(Menu entity) {
+//        updateById(entity);
+//    }
 
-    @Override
     public void updateStatusByLevelPath(Integer status, String levelPath) {
         LambdaUpdateWrapper<Menu> wrapper = new LambdaUpdateWrapper<Menu>()
 //                .likeRight(Menu::getLevelPath, levelPath)
@@ -83,24 +74,20 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
         this.update(wrapper);
     }
 
-    @Override
     public void updateBatchByRouteId(List<Menu> menus) {
         updateBatchById(menus);
     }
 
-    @Override
     public List<Menu> selectByLevelPath(String levelPath) {
 //        return this.list(new LambdaQueryWrapper<Menu>()
 //                .likeRight(Menu::getLevelPath, levelPath));
         return null;
     }
 
-    @Override
     public RouteDetailsDTO selectDetailsByRouteId(Long id) {
         return baseMapper.selectDetails(id);
     }
 
-    @Override
     public void updateStatusById(Long id, Integer status) {
         Menu entity = new Menu();
         entity.setId(id);
@@ -108,14 +95,12 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
         updateById(entity);
     }
 
-    @Override
     public List<Menu> selectSubRoutesByLevelPath(String levelPath) {
         return lambdaQuery()
 //                .likeRight(Menu::getLevelPath, levelPath)
                 .list();
     }
 
-    @Override
     public void deleteByIds(List<Long> ids) {
         lambdaUpdate()
                 .in(BaseEntity::getId, ids)
@@ -123,7 +108,6 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    @Override
     public void saveElements(Long menuId, List<MenuCommand.Element> elements) {
 
         elementService.deleteByMenuId(menuId);
@@ -145,7 +129,6 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
 
     }
 
-    @Override
     public void saveMenu(Menu menu) {
         save(menu);
     }
@@ -159,4 +142,5 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements MenuGa
                     .update();
         }
     }
+
 }

@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.menu.db;
 
-import com.ark.center.iam.infra.element.Element;
+import com.ark.center.iam.infra.menu.Element;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

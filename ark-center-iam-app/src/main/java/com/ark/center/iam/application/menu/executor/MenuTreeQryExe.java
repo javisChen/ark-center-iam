@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.menu.executor;
 
 import cn.hutool.core.lang.tree.Tree;
-import com.ark.center.iam.infra.menu.gateway.impl.MenuTreeService;
+import com.ark.center.iam.infra.menu.service.MenuTreeService;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.infra.menu.Menu;

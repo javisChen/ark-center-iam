@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.usergroup.assembler;//package com.ark.center.iam.infra.usergroup.assembler;
 
-import com.ark.center.iam.client.usergroup.command.UserGroupCmd;
+import com.ark.center.iam.client.usergroup.command.UserGroupCommand;
 import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupDetailDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
@@ -28,14 +28,14 @@ public interface UserGroupAssembler {
         return DTO;
     }
 
-    public default UserGroup convertToDO(UserGroupCmd dto) {
+    public default UserGroup convertToDO(UserGroupCommand dto) {
         UserGroup userGroup = new UserGroup();
         userGroup.setId(dto.getId());
         userGroup.setName(dto.getName());
-        userGroup.setPid(dto.getPid());
+        userGroup.setPid(dto.getParentId());
         userGroup.setInheritType(dto.getInheritType());
         userGroup.setType(dto.getType());
-        userGroup.setPid(dto.getPid());
+        userGroup.setPid(dto.getParentId());
         return userGroup;
     }
 

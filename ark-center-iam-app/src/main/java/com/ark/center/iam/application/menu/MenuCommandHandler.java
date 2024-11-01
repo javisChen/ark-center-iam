@@ -5,10 +5,8 @@ import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.client.menu.command.MenuStatusCommand;
 import com.ark.center.iam.client.menu.command.RouteModifyParentCmd;
 import com.ark.center.iam.infra.menu.Menu;
-import com.ark.center.iam.infra.menu.gateway.MenuGateway;
-import com.ark.center.iam.infra.menu.gateway.impl.MenuService;
+import com.ark.center.iam.infra.menu.service.MenuService;
 import com.ark.center.iam.infra.menu.service.MenuCheckService;
-import com.ark.center.iam.infra.menu.service.RouteService;
 import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +21,6 @@ public class MenuCommandHandler {
     private final MenuDeleteCmdExe menuDeleteCmdExe;
     private final MenuCheckService menuCheckService;
     private final MenuService menuService;
-    private final MenuGateway menuGateway;
     private final MenuAssembler menuAssembler;
 
     @Transactional(rollbackFor = Throwable.class)
@@ -44,7 +41,7 @@ public class MenuCommandHandler {
 
         Menu menu = menuAssembler.toMenuDO(parentCmd);
 
-        menuGateway.updateByMenuId(menu);
+        menuService.updateById(menu);
 
     }
 

@@ -1,4 +1,4 @@
-package com.ark.center.iam.infra.element;
+package com.ark.center.iam.infra.menu;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;

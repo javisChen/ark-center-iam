@@ -1,37 +1,45 @@
-package com.ark.center.iam.infra.element.gateway.impl;
+package com.ark.center.iam.infra.menu.service;
 
-import com.ark.center.iam.infra.element.Element;
-import com.ark.center.iam.infra.element.assembler.ElementAssembler;
-import com.ark.center.iam.infra.menu.gateway.ElementGateway;
+import cn.hutool.core.collection.CollectionUtil;
+import com.ark.center.iam.infra.menu.Element;
 import com.ark.center.iam.infra.menu.db.ElementMapper;
+import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Repository
+/**
+ * 角色校验服务
+ */
+@Service
 @RequiredArgsConstructor
-public class ElementGatewayImpl extends ServiceImpl<ElementMapper, Element> implements ElementGateway {
+public class ElementService extends ServiceImpl<ElementMapper, Element> {
 
-    private final ElementAssembler elementAssembler;
     private final PermissionService permissionGateway;
 
-    @Override
-    public void insert(Element element) {
-        save(element);
+    public void saveBatchElements(List<Element> elements) {
+        if (CollectionUtil.isNotEmpty(elements)) {
+            for (Element element : elements) {
+                save(element);
+                permissionGateway.insertPermission(element.getId(), PermissionType.PAGE_ELEMENT);
+            }
+        }
     }
 
-    @Override
     public void deleteByMenuId(Long menuId) {
         lambdaUpdate()
                 .eq(Element::getMenuId, menuId)
                 .remove();
     }
 
-    @Override
+    public void insert(Element element) {
+        save(element);
+    }
+
     public List<Element> byMenuId(Long menuId) {
         return lambdaQuery()
                 .eq(Element::getMenuId, menuId)
