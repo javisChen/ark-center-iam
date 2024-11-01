@@ -2,7 +2,6 @@ package com.ark.center.iam.infra.user.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.infra.api.vo.ApiPermissionVO;
-import com.ark.center.iam.infra.application.gateway.ApplicationGateway;
 import com.ark.center.iam.infra.permission.Permission;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
@@ -11,6 +10,7 @@ import com.ark.center.iam.infra.user.User;
 import com.ark.center.iam.infra.user.gateway.UserGateway;
 import com.ark.center.iam.infra.user.support.UserConst;
 
+import com.ark.center.iam.infra.usergroup.service.UserGroupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class UserPermissionService {
 
     private final UserGateway userGateway;
 
-    private final UserGroupGateway userGroupGateway;
+    private final UserGroupService userGroupService;
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
@@ -62,7 +62,7 @@ public class UserPermissionService {
         // 用户自身拥有的角色
         List<Long> roleIds = roleGateway.selectRoleIdsByUserId(userId);
         // 用户所归属的用户组所拥有的角色
-        List<Long> userGroupIds = userGroupGateway.selectUserGroupIdsByUserId(userId, true);
+        List<Long> userGroupIds = userGroupService.selectUserGroupIdsByUserId(userId, true);
         List<Long> userGroupsRoleIds = roleGateway.selectRoleIdsByUserGroupIds(userGroupIds);
         roleIds.addAll(userGroupsRoleIds);
         return roleIds.stream().distinct().toList();
