@@ -6,6 +6,7 @@ import com.ark.center.iam.client.usergroup.query.UserGroupQry;
 import com.ark.center.iam.infra.usergroup.UserGroup;
 
 import com.ark.center.iam.infra.user.assembler.UserAssembler;
+import com.ark.center.iam.infra.usergroup.service.UserGroupService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserGroupQryExe {
 
-    private final UserGroupGateway userGroupGateway;
+    private final UserGroupService userGroupGateway;
     private final UserAssembler userAssembler;
     public Page<UserGroupListTreeDTO> execute(UserGroupQry qry) {
         qry.setPid(0L);

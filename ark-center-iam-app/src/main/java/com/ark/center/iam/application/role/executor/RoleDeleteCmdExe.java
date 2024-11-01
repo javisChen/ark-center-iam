@@ -3,6 +3,7 @@ package com.ark.center.iam.application.role.executor;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
 
+import com.ark.center.iam.infra.usergroup.service.UserGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,7 @@ import org.springframework.stereotype.Component;
 public class RoleDeleteCmdExe {
 
     private final RoleGateway roleGateway;
-    private final UserGroupGateway userGroupGateway;
-
+    private final UserGroupService userGroupService;
     private final PermissionService permissionGateway;
 
     public void execute(Long id) {
@@ -32,7 +32,7 @@ public class RoleDeleteCmdExe {
     }
 
     private void removeUserGroupRoleRelByRoleId(Long roleId) {
-        userGroupGateway.deleteUserGroupAndRoleRelationsByUserGroupId(roleId);
+        userGroupService.deleteUserGroupAndRoleRelationsByUserGroupId(roleId);
     }
 
     private void removeUserRoleRelByRoleId(Long roleId) {

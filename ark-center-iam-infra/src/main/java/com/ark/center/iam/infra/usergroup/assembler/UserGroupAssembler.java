@@ -16,7 +16,7 @@ public interface UserGroupAssembler {
     default UserGroupListTreeDTO convertToUserGroupListTreeDTO(UserGroup item) {
         UserGroupListTreeDTO DTO = new UserGroupListTreeDTO();
         DTO.setId(item.getId());
-        DTO.setPid(item.getPid());
+        DTO.setParentId(item.getPid());
         DTO.setName(item.getName());
         DTO.setStatus(item.getStatus());
         DTO.setCreateTime(item.getCreateTime());
@@ -42,7 +42,7 @@ public interface UserGroupAssembler {
     public default UserGroupDetailDTO convertToUserGroupDetailDTO(UserGroup userGroup) {
         UserGroupDetailDTO DTO = new UserGroupDetailDTO();
         DTO.setId(userGroup.getId());
-        DTO.setPid(userGroup.getPid());
+        DTO.setParentId(userGroup.getPid());
         DTO.setName(userGroup.getName());
         DTO.setStatus(userGroup.getStatus());
         DTO.setLevel(userGroup.getLevel());

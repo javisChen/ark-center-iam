@@ -9,6 +9,7 @@ import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.role.vo.UserRoleVO;
 import com.ark.center.iam.infra.user.User;
 
+import com.ark.center.iam.infra.usergroup.service.UserGroupService;
 import com.ark.center.iam.infra.usergroup.vo.UserGroupVO;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import com.ark.center.iam.infra.user.db.UserDAO;
@@ -29,7 +30,7 @@ public class UserQryExe {
 
     private final UserDAO userDAO;
     private final RoleGateway roleGateway;
-    private final UserGroupGateway userGroupGateway;
+    private final UserGroupService userGroupService;
     private final UserBeanConverter userBeanConverter;
 
     public Page<UserPageDTO> pageQuery(UserPageQuery qry) {
@@ -56,7 +57,7 @@ public class UserQryExe {
     }
 
     private Map<Long, List<UserGroupVO>> collectUserGroups(List<Long> userIds) {
-        List<UserGroupVO> userGroups = userGroupGateway.selectUserGroupsByUserIds(userIds);
+        List<UserGroupVO> userGroups = userGroupService.selectUserGroupsByUserIds(userIds);
         return userGroups.stream()
                 .collect(Collectors.groupingBy(UserGroupVO::getUserId));
     }
@@ -71,7 +72,7 @@ public class UserQryExe {
         User user = userDAO.selectByUserId(userId);
         UserDetailsDTO userDetailsDTO = userBeanConverter.toUserDetailsDTO(user);
         userDetailsDTO.setRoleIds(roleGateway.selectRoleIdsByUserId(userId));
-        userDetailsDTO.setUserGroupIds(userGroupGateway.selectUserGroupIdsByUserId(userId));
+        userDetailsDTO.setUserGroupIds(userGroupService.selectUserGroupIdsByUserId(userId));
         return userDetailsDTO;
     }
 
