@@ -6,10 +6,8 @@ import com.ark.center.iam.application.usergroup.UserGroupQueryService;
 import com.ark.center.iam.client.usergroup.command.UserGroupCommand;
 import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupDetailDTO;
-import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
 import com.ark.center.iam.client.usergroup.query.UserGroupQry;
 import com.ark.component.dto.MultiResponse;
-import com.ark.component.dto.PageResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.dto.SingleResponse;
 import com.ark.component.validator.ValidateGroup;
@@ -18,6 +16,8 @@ import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,8 +28,9 @@ public class UserGroupController extends BaseController {
     private final UserGroupCommandHandler userGroupCommandHandler;
 
     @GetMapping("")
-    public SingleResponse<PageResponse<UserGroupListTreeDTO>> queryGroups(UserGroupQry qry) {
-        return SingleResponse.ok(PageResponse.of(userGroupQueryService.queryGroups(qry)));
+    public MultiResponse<Tree<Long>> queryGroups(UserGroupQry qry) {
+        List<Tree<Long>> trees = userGroupQueryService.queryGroups(qry);
+        return MultiResponse.ok(trees);
     }
 
     @GetMapping("/all")

@@ -27,7 +27,8 @@ public class UserGroupCreateCmdExe {
         userGroupCheckService.ensureNameNotExists(command.getName(), command.getId());
 
         UserGroup userGroup = userGroupAssembler.convertToDO(command);
-        userGroupService.insert(userGroup);
+        userGroupService.save(userGroup);
+        command.setId(userGroup.getId());
 
         userGroupTreeService.addNode(command);
 

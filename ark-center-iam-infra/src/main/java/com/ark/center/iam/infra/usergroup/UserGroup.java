@@ -20,9 +20,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName("iam_user_group")
 public class UserGroup extends BaseEntity {
-
-    public final static Long DEFAULT_PID = 0L;
-    public final static Integer FIRST_LEVEL = 1;
+//
+//    public final static Long DEFAULT_PID = 0L;
+//    public final static Integer FIRST_LEVEL = 1;
     
 
     /**
@@ -31,26 +31,26 @@ public class UserGroup extends BaseEntity {
     @TableField("name")
     private String name;
 
-    /**
-     * 用户组名称
-     */
-    @TableField("pid")
-    private Long pid;
+//    /**
+//     * 用户组名称
+//     */
+//    @TableField("pid")
+//    private Long pid;
 
     /**
      * 状态 1-已启用；2-已禁用；
      */
     @TableField("status")
     private Integer status;
-
-    /**
-     * 状态 1-已启用；2-已禁用；
-     */
-    @TableField("level")
-    private Integer level;
-
-    @TableField("level_path")
-    private String levelPath;
+//
+//    /**
+//     * 状态 1-已启用；2-已禁用；
+//     */
+//    @TableField("level")
+//    private Integer level;
+//
+//    @TableField("level_path")
+//    private String levelPath;
 
     /**
      * 继承类型 0-不继承 1-继承上级用户组 2-继承所有用户组
@@ -63,13 +63,9 @@ public class UserGroup extends BaseEntity {
      */
     @TableField("type")
     private Integer type;
-
-    @TableField(value = "is_deleted")
-    @TableLogic
-    private Long isDeleted;
-
-    public boolean isFirstLevel() {
-        return DEFAULT_PID.equals(this.pid) || FIRST_LEVEL.equals(this.getLevel());
-    }
+//
+//    @TableField(value = "is_deleted")
+//    @TableLogic
+//    private Long isDeleted;
 
 }

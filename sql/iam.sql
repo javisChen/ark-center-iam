@@ -1445,7 +1445,7 @@ create unique index udx_biz_type_biz_id
     on func_tree_node (biz_type, biz_id);
 
 alter table iam_menu
-    drop column parentId;
+    drop column pid;
 
 alter table iam_menu
     drop column level_path;

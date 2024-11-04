@@ -14,7 +14,6 @@ import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
@@ -84,24 +83,18 @@ public class UserGroupService extends ServiceImpl<UserGroupMapper, UserGroup> {
         userGroupRoleRelMapper.delete(qw);
     }
 
-    public Page<UserGroup> selectPages(UserGroupQry dto) {
+    public List<UserGroup> selectPages(UserGroupQry dto) {
         LambdaQueryWrapper<UserGroup> queryWrapper = new LambdaQueryWrapper<UserGroup>()
                 .like(StrUtil.isNotBlank(dto.getName()), UserGroup::getName, dto.getName())
-                .eq(UserGroup::getPid, dto.getPid())
+//                .eq(UserGroup::getPid, dto.getParentId())
                 .eq(UserGroup::getIsDeleted, DeletedEnums.NOT.getCode())
                 .orderByAsc(UserGroup::getCreateTime);
-        return page(new Page<>(dto.getCurrent(), dto.getSize()), queryWrapper);
-    }
-
-    public List<UserGroup> selectListWithoutRoot() {
-        return this.list(new LambdaQueryWrapper<UserGroup>()
-                .ne(UserGroup::getPid, 0));
+        return list(queryWrapper);
     }
 
     public List<UserGroupBaseDTO> selectList() {
         LambdaQueryWrapper<UserGroup> queryWrapper = new LambdaQueryWrapper<UserGroup>()
-                .orderByAsc(UserGroup::getCreateTime)
-                .orderByAsc(UserGroup::getLevel);
+                .orderByAsc(UserGroup::getCreateTime);
         return list(queryWrapper).stream()
                 .map(userGroupAssembler::toBaseDTO)
                 .collect(Collectors.toList());
@@ -123,11 +116,11 @@ public class UserGroupService extends ServiceImpl<UserGroupMapper, UserGroup> {
         userGroupRoleRelMapper.insertBatch(userGroupId, roleIds);
     }
 
-    public List<UserGroup> selectSubUserGroups(String levelPath) {
-        return lambdaQuery()
-                .likeRight(UserGroup::getLevelPath, levelPath)
-                .list();
-    }
+//    public List<UserGroup> selectSubUserGroups(String levelPath) {
+//        return lambdaQuery()
+//                .likeRight(UserGroup::getLevelPath, levelPath)
+//                .list();
+//    }
 
     public void deleteByIds(List<Long> ids) {
         removeByIds(ids);
@@ -137,20 +130,21 @@ public class UserGroupService extends ServiceImpl<UserGroupMapper, UserGroup> {
      * 收集继承的父级用户组
      */
     public Set<Long> collectParentUserGroupIds(List<UserGroup> userGroups) {
-        return userGroups.stream()
-                .filter(item -> !item.getPid().equals(0L))
-                .flatMap(item -> {
-                    if (Objects.equals(item.getInheritType(), UserGroupInheritType.INHERIT_PARENT.getValue())) {
-                        return Stream.of(item.getId(), item.getPid());
-                    } else if (Objects.equals(item.getInheritType(), UserGroupInheritType.INHERIT_ALL.getValue())) {
-                        return Stream.of(item.getLevelPath().split("\\."))
-                                .map(Long::valueOf)
-                                .distinct();
-                    } else {
-                        return Stream.empty();
-                    }
-                })
-                .collect(Collectors.toSet());
+        return null;
+//        return userGroups.stream()
+//                .filter(item -> !item.getPid().equals(0L))
+//                .flatMap(item -> {
+//                    if (Objects.equals(item.getInheritType(), UserGroupInheritType.INHERIT_PARENT.getValue())) {
+//                        return Stream.of(item.getId(), item.getPid());
+//                    } else if (Objects.equals(item.getInheritType(), UserGroupInheritType.INHERIT_ALL.getValue())) {
+//                        return Stream.of(item.getLevelPath().split("\\."))
+//                                .map(Long::valueOf)
+//                                .distinct();
+//                    } else {
+//                        return Stream.empty();
+//                    }
+//                })
+//                .collect(Collectors.toSet());
 
     }
 }

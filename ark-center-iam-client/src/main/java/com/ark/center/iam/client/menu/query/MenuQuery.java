@@ -11,7 +11,7 @@ public class MenuQuery extends PagingQuery {
 
     private String name;
 
-    private Long pid;
+    private Long parentId;
 
     private String path;
 

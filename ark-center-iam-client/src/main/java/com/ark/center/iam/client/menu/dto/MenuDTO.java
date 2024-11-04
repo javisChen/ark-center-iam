@@ -12,7 +12,7 @@ import java.util.List;
 public class MenuDTO extends TreeDTO<Long> {
 
     private Long id;
-    private Long pid;
+//    private Long pid;
     private Long applicationId;
     private Integer sequence;
     private String code;
