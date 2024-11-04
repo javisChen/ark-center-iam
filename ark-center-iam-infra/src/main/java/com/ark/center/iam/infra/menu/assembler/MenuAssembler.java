@@ -23,7 +23,7 @@ public interface MenuAssembler {
     //    @Mapping(target = "pid", ignore = true)
 //    @Mapping(target = "levelPath", ignore = true)
 //    @Mapping(target = "level", ignore = true)
-    @Mapping(target = "pid", ignore = true)
+    @Mapping(target = "parentId", ignore = true)
     MenuDTO toMenuDTO(Menu menu);
 
     List<MenuDTO> toMenuDTO(List<Menu> menus);
