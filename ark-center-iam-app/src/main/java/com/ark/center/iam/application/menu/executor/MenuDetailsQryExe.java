@@ -28,7 +28,8 @@ public class MenuDetailsQryExe {
         MenuDTO menuDTO = menuAssembler.toMenuDTO(menu);
         List<Element> elements = elementService.byMenuId(id);
         setupElements(elements, menuDTO);
-        return menuHierarchyService.transformToTreeNode(menuDTO);
+        menuHierarchyService.populateNodeParams(menuDTO);
+        return menuDTO;
     }
 
     private void setupElements(List<Element> elements, MenuDTO menuDTO) {

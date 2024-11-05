@@ -37,7 +37,8 @@ public class UserGroupQueryService {
     public UserGroupDetailDTO queryDetails(Long id) {
         UserGroup userGroup = userGroupService.selectById(id);
         UserGroupDetailDTO userGroupDetailsDTO = userGroupAssembler.toUserGroupDetailsDTO(userGroup);
-        return userGroupHierarchyService.transformToTreeNode(userGroupDetailsDTO);
+        userGroupHierarchyService.populateNodeParams(userGroupDetailsDTO);
+        return userGroupDetailsDTO;
     }
 
     public List<Tree<Long>> queryTree(UserGroupQry qry) {

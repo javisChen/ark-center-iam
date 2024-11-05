@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "菜单管理", description = "菜单管理")
+@Tag(name = "菜单", description = "菜单")
 @RestController
 @RequestMapping("/v1/menus")
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class MenuController {
     private final MenuQueryService menuQueryService;
 
     @GetMapping("")
-    @Operation(summary = "菜单树形数据-分页")
+    @Operation(summary = "菜单树形数据")
     public MultiResponse<Tree<Long>> queryMenus(MenuQuery query) {
         return MultiResponse.ok(menuQueryService.queryMenus(query));
     }

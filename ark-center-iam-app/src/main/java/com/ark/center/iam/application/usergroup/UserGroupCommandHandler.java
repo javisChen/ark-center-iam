@@ -17,17 +17,16 @@ public class UserGroupCommandHandler {
     private final UserGroupDeleteCmdExe userGroupDeleteCmdExe;
 
     @Transactional(rollbackFor = Throwable.class)
-    public void createUserGroup(UserGroupCommand command) {
-        userGroupCreateCmdExe.execute(command);
+    public void save(UserGroupCommand command) {
+        if (command.getId() == null) {
+            userGroupCreateCmdExe.execute(command);
+        } else {
+            userGroupUpdateCmdExe.execute(command);
+        }
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void updateUserGroup(UserGroupCommand command) {
-        userGroupUpdateCmdExe.execute(command);
-    }
-
-    @Transactional(rollbackFor = Throwable.class)
-    public void removeUserGroup(Long id) {
+    public void delete(Long id) {
         userGroupDeleteCmdExe.execute(id);
     }
 }
