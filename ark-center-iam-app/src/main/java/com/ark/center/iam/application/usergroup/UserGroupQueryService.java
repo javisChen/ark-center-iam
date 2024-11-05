@@ -4,7 +4,6 @@ import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.application.usergroup.executor.UserGroupQryExe;
 import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupDetailDTO;
-import com.ark.center.iam.client.usergroup.dto.UserGroupTreeDTO;
 import com.ark.center.iam.client.usergroup.query.UserGroupQry;
 import com.ark.center.iam.infra.usergroup.UserGroup;
 
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +29,9 @@ public class UserGroupQueryService {
     }
 
     public List<UserGroupBaseDTO> queryListAll() {
-        return userGroupService.selectList();
+        List<UserGroupBaseDTO> userGroupBaseDTOS = userGroupService.selectList();
+        userGroupHierarchyService.populateNodeParams(userGroupBaseDTOS);
+        return userGroupBaseDTOS;
     }
 
     public UserGroupDetailDTO queryDetails(Long id) {
@@ -46,15 +46,6 @@ public class UserGroupQueryService {
         return userGroupHierarchyService.transformToTree(list);
 
 
-    }
-
-    private Function<UserGroupBaseDTO, UserGroupTreeDTO> assembleUserGroupUserGroupTreeVO() {
-        return item -> {
-            UserGroupTreeDTO userGroupTreeVO = new UserGroupTreeDTO();
-            userGroupTreeVO.setTitle(item.getName());
-            userGroupTreeVO.setKey(String.valueOf(item.getId()));
-            return userGroupTreeVO;
-        };
     }
 
 }

@@ -16,8 +16,8 @@ public class ApplicationCheckService extends CheckService<Application> {
         super(service);
     }
 
-    public void ensureNameNotExists(String name, Long roleId) {
-        ensureRecordNotExists(Application::getName, name, roleId, "应用名称已存在");
+    public void ensureNameNotExists(String name, Long id) {
+        ensureRecordNotExists(Application::getName, name, id, "应用名称已存在");
     }
 
     public void ensureCodeNotExists(String code, Long roleId) {

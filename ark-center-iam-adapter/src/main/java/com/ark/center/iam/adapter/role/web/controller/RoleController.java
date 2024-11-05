@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "角色管理", description = "角色管理")
+@Tag(name = "角色", description = "角色")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1")

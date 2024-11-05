@@ -14,6 +14,7 @@ import com.ark.center.iam.infra.api.gateway.ApiCategoryGateway;
 import com.ark.center.iam.infra.api.gateway.ApiGateway;
 import com.ark.center.iam.infra.application.Application;
 import com.ark.center.iam.infra.application.gateway.ApplicationGateway;
+import com.ark.center.iam.infra.application.service.ApplicationService;
 import com.ark.center.iam.infra.enums.ApiAuthTypeEnums;
 import com.ark.center.iam.infra.enums.ApiStatusEnums;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
@@ -46,7 +47,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ApiSyncCmdExe {
 
-    private final ApplicationGateway applicationGateway;
+    private final ApplicationService applicationGateway;
 
     private final ApiGateway apiGateway;
 

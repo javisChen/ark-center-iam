@@ -2,9 +2,9 @@ package com.ark.center.iam.application.application;
 
 import com.ark.center.iam.client.application.command.ApplicationCommand;
 import com.ark.center.iam.infra.application.Application;
-import com.ark.center.iam.infra.application.gateway.ApplicationGateway;
 import com.ark.center.iam.infra.application.service.ApplicationCheckService;
 import com.ark.center.iam.infra.application.assembler.ApplicationAssembler;
+import com.ark.center.iam.infra.application.service.ApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ApplicationCommandHandler {
 
-    private final ApplicationGateway applicationGateway;
+    private final ApplicationService applicationService;
 
     private final ApplicationAssembler applicationAssembler;
 
@@ -24,7 +24,7 @@ public class ApplicationCommandHandler {
 
         baseCheck(dto);
 
-        applicationGateway.insert(application);
+        applicationService.save(application);
     }
 
     public void updateApplication(ApplicationCommand dto) {
@@ -33,7 +33,7 @@ public class ApplicationCommandHandler {
 
         Application application = applicationAssembler.toDomain(dto);
 
-        applicationGateway.update(application);
+        applicationService.update(application);
     }
 
 
