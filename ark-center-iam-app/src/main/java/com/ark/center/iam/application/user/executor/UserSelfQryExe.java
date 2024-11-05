@@ -4,7 +4,7 @@ import cn.hutool.core.lang.tree.Tree;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.user.dto.UserMenuDTO;
 import com.ark.center.iam.infra.menu.service.MenuService;
-import com.ark.center.iam.infra.menu.service.MenuTreeService;
+import com.ark.center.iam.infra.menu.service.MenuBizTreeService;
 import com.ark.center.iam.infra.permission.Permission;
 import com.ark.center.iam.infra.user.service.UserPermissionService;
 import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
@@ -32,7 +32,7 @@ public class UserSelfQryExe {
     private final MenuService menuService;
 
     private final PermissionAssembler permissionAssembler;
-    private final MenuTreeService menuTreeService;
+    private final MenuBizTreeService menuHierarchyService;
 
     public List<PermissionDTO> queryUserSelfElements() {
         LoginUser user = ServiceContext.getCurrentUser();
@@ -73,7 +73,7 @@ public class UserSelfQryExe {
                 .map(Permission::getResourceId)
                 .collect(Collectors.toList());
         List<UserMenuDTO> userMenuDTOS = menuService.byIds(menuIds);
-        return menuTreeService.transformToTree(userMenuDTOS);
+        return menuHierarchyService.transformToTree(userMenuDTOS);
 
     }
 }

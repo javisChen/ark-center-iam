@@ -1,6 +1,6 @@
 package com.ark.center.iam.client.user.dto;
 
-import com.ark.component.tree.dto.TreeDTO;
+import com.ark.component.tree.dto.HierarchyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserMenuDTO extends TreeDTO<Long> {
+public class UserMenuDTO extends HierarchyDTO<Long> {
 
     private String name;
 //    private Long parentId;

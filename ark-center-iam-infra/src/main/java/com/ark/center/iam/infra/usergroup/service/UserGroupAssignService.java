@@ -31,7 +31,7 @@ public class UserGroupAssignService {
      * @param roleIds     角色id
      * @param userGroupId 用户组id
      */
-    public void assignUserGroupsToRoles(Long userGroupId, List<Long> roleIds) {
+    public void assignRolesToUserGroups(Long userGroupId, List<Long> roleIds) {
         if (CollectionUtil.isNotEmpty(roleIds)) {
             userGroupService.insertUserGroupAndRolesRelations(userGroupId, roleIds);
         }

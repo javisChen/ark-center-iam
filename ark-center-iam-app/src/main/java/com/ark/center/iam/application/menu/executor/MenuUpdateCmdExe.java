@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.menu.executor;
 
-import com.ark.center.iam.infra.menu.service.MenuTreeService;
+import com.ark.center.iam.infra.menu.service.MenuBizTreeService;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
 import com.ark.center.iam.infra.menu.Menu;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class MenuUpdateCmdExe {
 
     private final MenuCheckService menuCheckService;
-    private final MenuTreeService menuTreeService;
+    private final MenuBizTreeService menuHierarchyService;
     private final MenuService menuService;
     private final MenuAssembler menuAssembler;
 
@@ -61,7 +61,7 @@ public class MenuUpdateCmdExe {
      * @param parentId   所属路由id
      */
     private void tryToChangeChildren(Long menuId, Long parentId) {
-        menuTreeService.changeLevel(menuId, parentId);
+        menuHierarchyService.changeLevel(menuId, parentId);
     }
 
 

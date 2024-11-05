@@ -31,7 +31,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
     private final ElementService elementService;
     private final ElementAssembler elementAssembler;
     private final PermissionService permissionService;
-    private final MenuTreeService menuTreeService;
+    private final MenuBizTreeService menuHierarchyService;
     private final MenuAssembler menuAssembler;
 
     public List<UserMenuDTO> byIds(List<Long> menuIds) {
@@ -134,7 +134,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
     }
 
     public void updateChildrenStatus(Long menuId, Integer status) {
-        List<Long> treeNodes = menuTreeService.queryChildNodeIds(menuId);
+        List<Long> treeNodes = menuHierarchyService.queryChildNodeIds(menuId);
         if (CollectionUtils.isNotEmpty(treeNodes)) {
             lambdaUpdate()
                     .set(Menu::getStatus, status)

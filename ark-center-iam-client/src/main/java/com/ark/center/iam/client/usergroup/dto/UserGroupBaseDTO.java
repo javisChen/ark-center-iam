@@ -1,6 +1,6 @@
 package com.ark.center.iam.client.usergroup.dto;
 
-import com.ark.component.tree.dto.TreeDTO;
+import com.ark.component.tree.dto.HierarchyDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserGroupBaseDTO extends TreeDTO<Long> {
+public class UserGroupBaseDTO extends HierarchyDTO<Long> {
 
     private String name;
     private Integer status;

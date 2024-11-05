@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.menu.executor;
 
 import cn.hutool.core.lang.tree.Tree;
-import com.ark.center.iam.infra.menu.service.MenuTreeService;
+import com.ark.center.iam.infra.menu.service.MenuBizTreeService;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.infra.menu.Menu;
@@ -17,7 +17,7 @@ import java.util.List;
 public class MenuTreeQryExe {
 
     private final MenuDAO menuDAO;
-    private final MenuTreeService menuTreeService;
+    private final MenuBizTreeService menuHierarchyService;
     private final MenuAssembler menuAssembler;
 
     public List<Tree<Long>> execute(MenuQuery query) {
@@ -25,7 +25,7 @@ public class MenuTreeQryExe {
 
         List<MenuDTO> menus = menuAssembler.toMenuDTO(page);
 
-        return menuTreeService.transformToTree(menus);
+        return menuHierarchyService.transformToTree(menus);
 
     }
 

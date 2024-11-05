@@ -3,12 +3,9 @@ package com.ark.center.iam.infra.usergroup.assembler;//package com.ark.center.ia
 import com.ark.center.iam.client.usergroup.command.UserGroupCommand;
 import com.ark.center.iam.client.usergroup.dto.UserGroupBaseDTO;
 import com.ark.center.iam.client.usergroup.dto.UserGroupDetailDTO;
-import com.ark.center.iam.client.usergroup.dto.UserGroupListTreeDTO;
 import com.ark.center.iam.infra.usergroup.UserGroup;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
-
-import java.util.ArrayList;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserGroupAssembler {

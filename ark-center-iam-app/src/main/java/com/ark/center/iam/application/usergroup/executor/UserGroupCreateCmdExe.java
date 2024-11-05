@@ -6,7 +6,8 @@ import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.usergroup.service.UserGroupCheckService;
 import com.ark.center.iam.infra.usergroup.assembler.UserGroupAssembler;
 import com.ark.center.iam.infra.usergroup.service.UserGroupService;
-import com.ark.center.iam.infra.usergroup.service.UserGroupTreeService;
+import com.ark.center.iam.infra.usergroup.service.UserGroupBizTreeService;
+import com.ark.component.tree.dto.HierarchyCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ public class UserGroupCreateCmdExe {
     private final UserGroupService userGroupService;
     private final UserGroupCheckService userGroupCheckService;
     private final UserGroupAssignService userGroupAssignService;
-    private final UserGroupTreeService userGroupTreeService;
+    private final UserGroupBizTreeService userGroupHierarchyService;
 
     public void execute(UserGroupCommand command) {
 
@@ -28,15 +29,14 @@ public class UserGroupCreateCmdExe {
 
         UserGroup userGroup = userGroupAssembler.convertToDO(command);
         userGroupService.save(userGroup);
-        command.setId(userGroup.getId());
 
-        userGroupTreeService.addNode(command);
+        userGroupHierarchyService.addNode(new HierarchyCommand(userGroup.getId(), command.getParentId()));
 
-        assignRoleUserGroup(userGroup.getId(), command.getRoleIds());
+        assignRolesToUserGroup(userGroup.getId(), command.getRoleIds());
     }
 
-    private void assignRoleUserGroup(Long userGroupId, List<Long> roleIds) {
-        userGroupAssignService.assignUserGroupsToRoles(userGroupId, roleIds);
+    private void assignRolesToUserGroup(Long userGroupId, List<Long> roleIds) {
+        userGroupAssignService.assignRolesToUserGroups(userGroupId, roleIds);
     }
 
 }

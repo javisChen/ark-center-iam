@@ -10,7 +10,7 @@ import com.ark.center.iam.infra.usergroup.UserGroup;
 
 import com.ark.center.iam.infra.usergroup.assembler.UserGroupAssembler;
 import com.ark.center.iam.infra.usergroup.service.UserGroupService;
-import com.ark.center.iam.infra.usergroup.service.UserGroupTreeService;
+import com.ark.center.iam.infra.usergroup.service.UserGroupBizTreeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class UserGroupQueryService {
 
     private final UserGroupService userGroupService;
     private final UserGroupQryExe userGroupQryExe;
-    private final UserGroupTreeService userGroupTreeService;
+    private final UserGroupBizTreeService userGroupHierarchyService;
     private final UserGroupAssembler userGroupAssembler;
 
     public List<Tree<Long>> queryGroups(UserGroupQry qry) {
@@ -36,12 +36,13 @@ public class UserGroupQueryService {
 
     public UserGroupDetailDTO queryDetails(Long id) {
         UserGroup userGroup = userGroupService.selectById(id);
-        return userGroupAssembler.toUserGroupDetailsDTO(userGroup);
+        UserGroupDetailDTO userGroupDetailsDTO = userGroupAssembler.toUserGroupDetailsDTO(userGroup);
+        return userGroupHierarchyService.transformToTreeNode(userGroupDetailsDTO);
     }
 
     public List<Tree<Long>> queryTree(UserGroupQry qry) {
         List<UserGroupBaseDTO> list = userGroupService.selectList();
-        return userGroupTreeService.transformToTree(list);
+        return userGroupHierarchyService.transformToTree(list);
 
 
     }

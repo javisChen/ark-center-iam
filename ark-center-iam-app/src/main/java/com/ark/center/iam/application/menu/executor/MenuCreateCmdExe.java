@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.menu.executor;
 
 import com.ark.center.iam.infra.menu.service.MenuService;
-import com.ark.center.iam.infra.menu.service.MenuTreeService;
+import com.ark.center.iam.infra.menu.service.MenuBizTreeService;
 import com.ark.center.iam.client.menu.command.MenuCommand;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
@@ -10,6 +10,8 @@ import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 
 import java.util.List;
+
+import com.ark.component.tree.dto.HierarchyCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +24,7 @@ public class MenuCreateCmdExe {
     private final MenuAssembler menuAssembler;
     private final MenuService menuService;
     private final PermissionService permissionService;
-    private final MenuTreeService menuTreeService;
+    private final MenuBizTreeService menuHierarchyService;
 
     public void execute(MenuCommand command) {
         baseCheck(command);
@@ -31,8 +33,8 @@ public class MenuCreateCmdExe {
 
         command.setId(menu.getId());
 
-        // 添加到树节点
-        addTreeNode(command);
+        // 添加到层级结构中
+        addToHierarchy(command);
 
         // 增加权限
         savePermissions(command);
@@ -41,9 +43,9 @@ public class MenuCreateCmdExe {
         saveElements(command);
     }
 
-    private void addTreeNode(MenuCommand command) {
+    private void addToHierarchy(MenuCommand command) {
         // 添加树节点
-        menuTreeService.addNode(command);
+        menuHierarchyService.addNode(new HierarchyCommand(command.getId(), command.getParentId(), command.getSequence()));
     }
 
     private Menu save(MenuCommand command) {

@@ -1,7 +1,7 @@
 package com.ark.center.iam.client.menu.dto;
 
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
-import com.ark.component.tree.dto.TreeDTO;
+import com.ark.component.tree.dto.HierarchyDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class MenuDTO extends TreeDTO<Long> {
+public class MenuDTO extends HierarchyDTO<Long> {
 
     private Long id;
 //    private Long pid;

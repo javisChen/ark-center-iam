@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.menu.executor;
 
 import com.ark.center.iam.infra.menu.service.ElementService;
-import com.ark.center.iam.infra.menu.service.MenuTreeService;
+import com.ark.center.iam.infra.menu.service.MenuBizTreeService;
 import com.ark.center.iam.client.element.dto.ElementBaseDTO;
 import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.infra.menu.Element;
@@ -21,14 +21,14 @@ public class MenuDetailsQryExe {
     private final MenuDAO menuDAO;
     private final MenuAssembler menuAssembler;
     private final ElementService elementService;
-    private final MenuTreeService menuTreeService;
+    private final MenuBizTreeService menuHierarchyService;
 
     public MenuDTO execute(Long id) {
         Menu menu = menuDAO.getById(id);
         MenuDTO menuDTO = menuAssembler.toMenuDTO(menu);
         List<Element> elements = elementService.byMenuId(id);
         setupElements(elements, menuDTO);
-        return menuTreeService.transformToTreeNode(menuDTO);
+        return menuHierarchyService.transformToTreeNode(menuDTO);
     }
 
     private void setupElements(List<Element> elements, MenuDTO menuDTO) {

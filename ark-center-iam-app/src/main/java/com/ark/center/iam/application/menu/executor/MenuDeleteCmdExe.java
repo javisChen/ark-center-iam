@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.menu.executor;
 
 import com.ark.center.iam.infra.menu.service.MenuService;
-import com.ark.center.iam.infra.menu.service.MenuTreeService;
+import com.ark.center.iam.infra.menu.service.MenuBizTreeService;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.menu.Menu;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class MenuDeleteCmdExe {
     
     private final PermissionService permissionGateway;
 
-    private final MenuTreeService menuTreeService;
+    private final MenuBizTreeService menuHierarchyService;
 
     public void execute(Long id) {
 
@@ -26,7 +26,7 @@ public class MenuDeleteCmdExe {
 
         Long menuId = menu.getId();
         // 删除层级数据
-        List<Long> removedIds = menuTreeService.removeNodeAndChildren(menuId);
+        List<Long> removedIds = menuHierarchyService.removeNodeAndChildren(menuId);
         if (CollectionUtils.isEmpty(removedIds)) {
             return;
         }

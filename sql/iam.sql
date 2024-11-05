@@ -1456,3 +1456,5 @@ alter table iam_menu
 alter table iam_menu
     drop column sequence;
 
+alter table func_tree_node
+    modify level_path varchar(512) charset utf8mb4 default '' not null comment '层级路径，例如：0/1/2 代表该菜单是三级路由，上级路由的id是1,再上级的路由id是0'

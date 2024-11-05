@@ -12,11 +12,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserGroupListTreeDTO extends UserGroupBaseDTO  {
+public class UserGroupListHierarchyDTO extends UserGroupBaseDTO  {
 
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    private List<UserGroupListTreeDTO> children;
+    private List<UserGroupListHierarchyDTO> children;
     private List<String> roles;
 
 }
