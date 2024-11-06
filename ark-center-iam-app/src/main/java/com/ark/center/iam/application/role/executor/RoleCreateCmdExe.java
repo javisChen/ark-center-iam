@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.role.executor;
 
 import cn.hutool.core.util.IdUtil;
-import com.ark.center.iam.client.role.command.RoleCmd;
+import com.ark.center.iam.client.role.command.RoleCommand;
 import com.ark.center.iam.infra.role.Role;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.role.service.RoleCheckService;
@@ -22,7 +22,7 @@ public class RoleCreateCmdExe {
 
     private final RoleCheckService roleCheckService;
 
-    public void execute(RoleCmd cmd) {
+    public void execute(RoleCommand cmd) {
 
         baseCheck(cmd);
 
@@ -31,7 +31,7 @@ public class RoleCreateCmdExe {
         save(cmd);
     }
 
-    private void initRole(RoleCmd cmd) {
+    private void initRole(RoleCommand cmd) {
         if (StringUtils.isBlank(cmd.getCode())) {
             cmd.setCode(generateRoleCode());
         }
@@ -45,7 +45,7 @@ public class RoleCreateCmdExe {
         return code;
     }
 
-    private void save(RoleCmd cmd) {
+    private void save(RoleCommand cmd) {
 
         Role role = roleAssembler.toRoleDO(cmd);
 
@@ -53,7 +53,7 @@ public class RoleCreateCmdExe {
 
     }
 
-    private void baseCheck(RoleCmd cmd) {
+    private void baseCheck(RoleCommand cmd) {
 
         roleCheckService.ensureNameNotExists(cmd.getName(), cmd.getId());
 

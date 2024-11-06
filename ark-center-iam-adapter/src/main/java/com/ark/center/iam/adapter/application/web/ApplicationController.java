@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  * @author
  * @since 2020-11-09
  */
-@Tag(name = "应用管理", description = "应用管理")
+@Tag(name = "应用", description = "应用")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/applications")
@@ -43,17 +43,15 @@ public class ApplicationController extends BaseController {
 
     @PostMapping("")
     @Operation(summary = "创建应用")
-    public ServerResponse createApplication(@Validated({ValidateGroup.Add.class, Default.class})
-                                            @RequestBody ApplicationCommand command) {
-        applicationCommandHandler.createApplication(command);
+    public ServerResponse createApplication(@RequestBody ApplicationCommand command) {
+        applicationCommandHandler.save(command);
         return ServerResponse.ok();
     }
 
     @PutMapping("")
     @Operation(summary = "更新应用")
-    public ServerResponse updateApplication(@Validated({ValidateGroup.Update.class, Default.class})
-                                            @RequestBody ApplicationCommand command) {
-        applicationCommandHandler.updateApplication(command);
+    public ServerResponse updateApplication(@RequestBody ApplicationCommand command) {
+        applicationCommandHandler.save(command);
         return ServerResponse.ok();
     }
 

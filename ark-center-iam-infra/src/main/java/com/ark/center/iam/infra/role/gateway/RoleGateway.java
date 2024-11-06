@@ -1,7 +1,7 @@
 package com.ark.center.iam.infra.role.gateway;
 
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
-import com.ark.center.iam.client.role.query.RoleQry;
+import com.ark.center.iam.client.role.query.RoleQuery;
 import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.role.Role;
 import com.ark.center.iam.infra.role.vo.UserRoleVO;
@@ -21,7 +21,7 @@ public interface RoleGateway extends BaseGateway<Role> {
 
     List<UserRoleVO> selectRolesByUserIds(List<Long> userIds);
 
-    IPage<RoleBaseDTO> selectPages(RoleQry dto);
+    IPage<RoleBaseDTO> selectPages(RoleQuery dto);
 
     List<RoleBaseDTO> selectList();
 

@@ -1,9 +1,9 @@
-package com.ark.center.iam.infra.role.gateway.impl;
+package com.ark.center.iam.infra.role.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
-import com.ark.center.iam.client.role.query.RoleQry;
+import com.ark.center.iam.client.role.query.RoleQuery;
 import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.role.Role;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements RoleGateway {
+public class RoleService extends ServiceImpl<RoleMapper, Role> implements RoleGateway {
 
     private final UserRoleRelMapper userRoleRelMapper;
     private final RoleAssembler roleAssembler;
@@ -75,7 +75,7 @@ public class RoleGatewayImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public IPage<RoleBaseDTO> selectPages(RoleQry params) {
+    public IPage<RoleBaseDTO> selectPages(RoleQuery params) {
         return lambdaQuery()
                 .like(StrUtil.isNotBlank(params.getName()), Role::getName, params.getName())
                 .page(new Page<>(params.getCurrent(), params.getSize()))

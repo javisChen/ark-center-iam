@@ -1,6 +1,6 @@
 package com.ark.center.iam.application.role.executor;
 
-import com.ark.center.iam.client.role.command.RoleCmd;
+import com.ark.center.iam.client.role.command.RoleCommand;
 import com.ark.center.iam.infra.role.Role;
 import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.role.service.RoleCheckService;
@@ -16,7 +16,7 @@ public class RoleUpdateCmdExe {
     private final RoleGateway roleGateway;
     private final RoleCheckService roleCheckService;
 
-    public void execute(RoleCmd cmd) {
+    public void execute(RoleCommand cmd) {
 
         baseCheck(cmd);
 
@@ -26,7 +26,7 @@ public class RoleUpdateCmdExe {
 
     }
 
-    private void baseCheck(RoleCmd cmd) {
+    private void baseCheck(RoleCommand cmd) {
 
         roleCheckService.ensureNameNotExists(cmd.getName(), cmd.getId());
 

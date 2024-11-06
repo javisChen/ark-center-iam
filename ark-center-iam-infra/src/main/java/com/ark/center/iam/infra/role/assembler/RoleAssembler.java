@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.role.assembler;
 
-import com.ark.center.iam.client.role.command.RoleCmd;
+import com.ark.center.iam.client.role.command.RoleCommand;
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.infra.role.Role;
 import org.mapstruct.Mapper;
@@ -15,7 +15,7 @@ public interface RoleAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    Role toRoleDO(RoleCmd cmd);
+    Role toRoleDO(RoleCommand cmd);
 
     RoleBaseDTO toRoleBaseDTO(Role role);
 }

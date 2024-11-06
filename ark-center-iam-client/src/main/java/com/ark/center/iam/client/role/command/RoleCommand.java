@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Range;
 
 @Data
 @Schema
-public class RoleCmd  {
+public class RoleCommand {
 
     @NotNull(message = "id 不能为空", groups = {ValidateGroup.Update.class})
     @Schema(description = "角色id")

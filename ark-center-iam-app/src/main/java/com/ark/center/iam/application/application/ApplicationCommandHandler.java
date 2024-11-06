@@ -18,24 +18,19 @@ public class ApplicationCommandHandler {
 
     private final ApplicationCheckService applicationCheckService;
 
-    public void createApplication(ApplicationCommand dto) {
+    public void save(ApplicationCommand command) {
 
-        Application application = applicationAssembler.toDomain(dto);
+        Application application = applicationAssembler.toDomain(command);
 
-        baseCheck(dto);
+        baseCheck(command);
 
-        applicationService.save(application);
+        if (command.getId() == null) {
+            applicationService.save(application);
+        } else {
+            applicationService.updateById(application);
+        }
+
     }
-
-    public void updateApplication(ApplicationCommand dto) {
-
-        baseCheck(dto);
-
-        Application application = applicationAssembler.toDomain(dto);
-
-        applicationService.update(application);
-    }
-
 
     private void baseCheck(ApplicationCommand cmd) {
 
