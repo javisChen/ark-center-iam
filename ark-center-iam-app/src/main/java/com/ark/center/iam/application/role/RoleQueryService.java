@@ -3,7 +3,7 @@ package com.ark.center.iam.application.role;
 
 import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.client.role.query.RoleQuery;
-import com.ark.center.iam.infra.role.gateway.RoleGateway;
+import com.ark.center.iam.infra.role.service.RoleService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,18 +15,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleQueryService {
 
-    private final RoleGateway roleGateway;
+    private final RoleService roleService;
 
     public IPage<RoleBaseDTO> pageQuery(RoleQuery dto) {
-        return roleGateway.selectPages(dto);
+        return roleService.selectPages(dto);
     }
 
     public List<RoleBaseDTO> queryList() {
-        return roleGateway.selectList();
+        return roleService.selectList();
     }
 
     public RoleBaseDTO byId(Long id) {
-        return roleGateway.selectById(id);
+        return roleService.selectById(id);
     }
 
 

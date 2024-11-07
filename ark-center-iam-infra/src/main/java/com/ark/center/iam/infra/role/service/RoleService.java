@@ -6,7 +6,7 @@ import com.ark.center.iam.client.role.dto.RoleBaseDTO;
 import com.ark.center.iam.client.role.query.RoleQuery;
 import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.role.Role;
-import com.ark.center.iam.infra.role.gateway.RoleGateway;
+
 import com.ark.center.iam.infra.role.vo.UserRoleVO;
 import com.ark.center.iam.infra.role.assembler.RoleAssembler;
 import com.ark.center.iam.infra.role.gateway.cache.RoleCacheKey;
@@ -31,25 +31,22 @@ import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class RoleService extends ServiceImpl<RoleMapper, Role> implements RoleGateway {
+public class RoleService extends ServiceImpl<RoleMapper, Role> {
 
     private final UserRoleRelMapper userRoleRelMapper;
     private final RoleAssembler roleAssembler;
     private final CacheService cacheService;
 
-    @Override
     public void insertUserRolesRelations(Long userId, List<Long> roleIds) {
         userRoleRelMapper.batchInsert(userId, roleIds);
     }
 
-    @Override
     public void deleteUserRoleRelationsByUserId(Long userId) {
         LambdaQueryWrapper<UserRoleRel> eq = new LambdaQueryWrapper<UserRoleRel>()
                 .eq(UserRoleRel::getUserId, userId);
         userRoleRelMapper.delete(eq);
     }
 
-    @Override
     public List<Long> selectRoleIdsByUserId(Long userId) {
         LambdaQueryWrapper<UserRoleRel> eq = Wrappers.lambdaQuery(UserRoleRel.class)
                 .select(UserRoleRel::getUserId, UserRoleRel::getRoleId)
@@ -61,7 +58,6 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements RoleGa
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<Long> selectRoleIdsByUserGroupIds(List<Long> userGroupIds) {
         if (CollectionUtils.isEmpty(userGroupIds)) {
             return Collections.emptyList();
@@ -69,12 +65,10 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements RoleGa
         return userRoleRelMapper.selectRoleIdsByUserGroupIds(userGroupIds);
     }
 
-    @Override
     public List<UserRoleVO> selectRolesByUserIds(List<Long> userIds) {
         return baseMapper.selectRolesByUserIds(userIds);
     }
 
-    @Override
     public IPage<RoleBaseDTO> selectPages(RoleQuery params) {
         return lambdaQuery()
                 .like(StrUtil.isNotBlank(params.getName()), Role::getName, params.getName())
@@ -82,42 +76,25 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements RoleGa
                 .convert(roleAssembler::toRoleBaseDTO);
     }
 
-    @Override
     public List<RoleBaseDTO> selectList() {
         return this.list().stream().map(roleAssembler::toRoleBaseDTO).collect(Collectors.toList());
     }
 
-    @Override
     public void insert(Role role) {
         save(role);
     }
 
-    @Override
-    public long countByName(String name) {
-        return lambdaQuery()
-                .eq(Role::getName, name)
-                .count();
-    }
-
-    @Override
     public long countByCode(String code) {
         return lambdaQuery()
                 .eq(Role::getCode, code)
                 .count();
     }
 
-    @Override
-    public void updateByRoleId(Role role) {
-        updateById(role);
-    }
-
-    @Override
     public RoleBaseDTO selectById(Long id) {
         Role role = getById(id);
         return roleAssembler.toRoleBaseDTO(role);
     }
 
-    @Override
     public void logicDelete(Long id) {
         LambdaUpdateWrapper<Role> qw = new LambdaUpdateWrapper<>();
         qw.eq(Role::getId, id);
@@ -126,22 +103,12 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> implements RoleGa
         update(qw);
     }
 
-    @Override
     public void deleteUserRoleRelationsByRoleId(Long roleId) {
         LambdaQueryWrapper<UserRoleRel> eq = new LambdaQueryWrapper<UserRoleRel>()
                 .eq(UserRoleRel::getRoleId, roleId);
         userRoleRelMapper.delete(eq);
     }
 
-    @Override
-    public void updateStatusById(Long id, Integer status) {
-        lambdaUpdate()
-                .eq(Role::getStatus, id)
-                .set(Role::getStatus, status)
-                .update();
-    }
-
-    @Override
     public void saveRoleApiPermissionCache(Long roleId, List<Api> apis) {
         String key = String.format(RoleCacheKey.ROLE_API_PERM_KEY, roleId);
         cacheService.del(key);

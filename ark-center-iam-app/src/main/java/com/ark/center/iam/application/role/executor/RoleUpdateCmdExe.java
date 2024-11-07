@@ -2,9 +2,9 @@ package com.ark.center.iam.application.role.executor;
 
 import com.ark.center.iam.client.role.command.RoleCommand;
 import com.ark.center.iam.infra.role.Role;
-import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.role.service.RoleCheckService;
 import com.ark.center.iam.infra.role.assembler.RoleAssembler;
+import com.ark.center.iam.infra.role.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class RoleUpdateCmdExe {
 
     private final RoleAssembler roleAssembler;
-    private final RoleGateway roleGateway;
+    private final RoleService roleService;
     private final RoleCheckService roleCheckService;
 
     public void execute(RoleCommand cmd) {
@@ -22,7 +22,7 @@ public class RoleUpdateCmdExe {
 
         Role role = roleAssembler.toRoleDO(cmd);
 
-        roleGateway.updateByRoleId(role);
+        roleService.updateById(role);
 
     }
 

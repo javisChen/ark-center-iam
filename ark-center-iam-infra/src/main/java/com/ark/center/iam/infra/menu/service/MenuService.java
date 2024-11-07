@@ -143,4 +143,13 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
         }
     }
 
+    public List<Menu> queryByApplicationId(Long applicationId) {
+        if (applicationId == null) {
+            return Collections.emptyList();
+        }
+        return lambdaQuery()
+                .eq(Menu::getApplicationId, applicationId)
+                .list();
+    }
+
 }

@@ -7,8 +7,9 @@ import com.ark.center.iam.client.menu.dto.MenuDTO;
 import com.ark.center.iam.infra.menu.Element;
 import com.ark.center.iam.infra.menu.Menu;
 import com.ark.center.iam.infra.menu.assembler.MenuAssembler;
-import com.ark.center.iam.infra.menu.db.MenuDAO;
 
+
+import com.ark.center.iam.infra.menu.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,13 +19,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuDetailsQryExe {
 
-    private final MenuDAO menuDAO;
+    private final MenuService menuService;
     private final MenuAssembler menuAssembler;
     private final ElementService elementService;
     private final MenuBizTreeService menuHierarchyService;
 
     public MenuDTO execute(Long id) {
-        Menu menu = menuDAO.getById(id);
+        Menu menu = menuService.getById(id);
         MenuDTO menuDTO = menuAssembler.toMenuDTO(menu);
         List<Element> elements = elementService.byMenuId(id);
         setupElements(elements, menuDTO);

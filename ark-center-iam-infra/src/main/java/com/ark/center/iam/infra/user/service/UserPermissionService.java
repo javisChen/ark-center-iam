@@ -5,7 +5,8 @@ import com.ark.center.iam.infra.api.vo.ApiPermissionVO;
 import com.ark.center.iam.infra.permission.Permission;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
-import com.ark.center.iam.infra.role.gateway.RoleGateway;
+
+import com.ark.center.iam.infra.role.service.RoleService;
 import com.ark.center.iam.infra.user.User;
 import com.ark.center.iam.infra.user.gateway.UserGateway;
 import com.ark.center.iam.infra.user.support.UserConst;
@@ -29,7 +30,7 @@ public class UserPermissionService {
 
     private final PermissionService permissionGateway;
 
-    private final RoleGateway roleGateway;
+    private final RoleService roleGateway;
 
     private final UserGateway userGateway;
 

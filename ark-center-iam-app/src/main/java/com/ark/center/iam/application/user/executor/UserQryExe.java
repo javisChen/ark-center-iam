@@ -5,7 +5,8 @@ import com.ark.center.iam.client.user.dto.UserDetailsDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.client.user.query.UserPageQuery;
 import com.ark.center.iam.client.user.query.UserQuery;
-import com.ark.center.iam.infra.role.gateway.RoleGateway;
+
+import com.ark.center.iam.infra.role.service.RoleService;
 import com.ark.center.iam.infra.role.vo.UserRoleVO;
 import com.ark.center.iam.infra.user.User;
 
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 public class UserQryExe {
 
     private final UserDAO userDAO;
-    private final RoleGateway roleGateway;
+    private final RoleService roleGateway;
     private final UserGroupService userGroupService;
     private final UserBeanConverter userBeanConverter;
 

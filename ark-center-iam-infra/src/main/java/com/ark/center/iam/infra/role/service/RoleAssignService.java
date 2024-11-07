@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.role.service;
 
-import com.ark.center.iam.infra.role.gateway.RoleGateway;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleAssignService {
 
-    private final RoleGateway roleGateway;
+    private final RoleService roleGateway;
 
     /**
      * 用户角色授权

@@ -3,9 +3,9 @@ package com.ark.center.iam.application.role.executor;
 import cn.hutool.core.util.IdUtil;
 import com.ark.center.iam.client.role.command.RoleCommand;
 import com.ark.center.iam.infra.role.Role;
-import com.ark.center.iam.infra.role.gateway.RoleGateway;
 import com.ark.center.iam.infra.role.service.RoleCheckService;
 import com.ark.center.iam.infra.role.assembler.RoleAssembler;
+import com.ark.center.iam.infra.role.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RoleCreateCmdExe {
 
-    private final RoleGateway roleGateway;
+    private final RoleService roleService;
 
     private final RoleAssembler roleAssembler;
 
@@ -41,7 +41,7 @@ public class RoleCreateCmdExe {
         String code;
         do {
             code = IdUtil.fastSimpleUUID();
-        } while (roleGateway.countByCode(code) > 0);
+        } while (roleService.countByCode(code) > 0);
         return code;
     }
 
@@ -49,7 +49,7 @@ public class RoleCreateCmdExe {
 
         Role role = roleAssembler.toRoleDO(cmd);
 
-        roleGateway.insert(role);
+        roleService.save(role);
 
     }
 

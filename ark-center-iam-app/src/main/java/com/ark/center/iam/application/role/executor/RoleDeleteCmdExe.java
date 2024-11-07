@@ -1,8 +1,8 @@
 package com.ark.center.iam.application.role.executor;
 
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
-import com.ark.center.iam.infra.role.gateway.RoleGateway;
 
+import com.ark.center.iam.infra.role.service.RoleService;
 import com.ark.center.iam.infra.usergroup.service.UserGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RoleDeleteCmdExe {
 
-    private final RoleGateway roleGateway;
+    private final RoleService roleService;
     private final UserGroupService userGroupService;
     private final PermissionService permissionGateway;
 
     public void execute(Long id) {
 
-        roleGateway.logicDelete(id);
+        roleService.logicDelete(id);
 
         // 移除用户与角色关联关系
         removeUserRoleRelByRoleId(id);
@@ -36,7 +36,7 @@ public class RoleDeleteCmdExe {
     }
 
     private void removeUserRoleRelByRoleId(Long roleId) {
-        roleGateway.deleteUserRoleRelationsByRoleId(roleId);
+        roleService.deleteUserRoleRelationsByRoleId(roleId);
     }
 
 }

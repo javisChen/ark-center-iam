@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MenuCheckService extends CheckService<Menu> {
 
-    public MenuCheckService(@Qualifier("menuDAO") IService<Menu> service) {
+    public MenuCheckService(IService<Menu> service) {
         super(service);
     }
 
@@ -24,6 +24,7 @@ public class MenuCheckService extends CheckService<Menu> {
     public void ensureNameNotExists(String name, Long id) {
         ensureRecordNotExists(Menu::getName, name, id, "菜单名称已存在");
     }
+
     public void ensureCodeNotExists(String code, Long id) {
         ensureRecordNotExists(Menu::getCode, code, id, "菜单编码已存在");
     }

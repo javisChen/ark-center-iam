@@ -1,16 +1,18 @@
 package com.ark.center.iam.adapter.role.web.controller;
 
-import com.ark.center.iam.application.role.RolePermissionAppService;
+import com.ark.center.iam.application.role.RolePermissionCommandHandler;
+import com.ark.center.iam.application.role.RolePermissionQueryService;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
-import com.ark.center.iam.client.role.command.RoleApiPermissionGrantCmd;
+import com.ark.center.iam.client.role.command.RoleApiPermissionGrantCommand;
 import com.ark.center.iam.client.role.command.RoleApplicationApiPermissionUpdateCmd;
-import com.ark.center.iam.client.role.command.RoleRoutePermissionGrantCmd;
+import com.ark.center.iam.client.role.command.RoleMenuPermissionGrantCommand;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
 import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +23,8 @@ import java.util.List;
 @RequestMapping("/v1")
 public class RolePermissionController extends BaseController {
 
-    private final RolePermissionAppService rolePermissionAppService;
+    private final RolePermissionCommandHandler rolePermissionCommandHandler;
+    private final RolePermissionQueryService rolePermissionQueryService;
 
     /**
      * 角色路由权限授权
@@ -30,8 +33,8 @@ public class RolePermissionController extends BaseController {
      */
     @PostMapping("/role/permission/grant")
     @Operation(summary = "角色路由授权")
-    public ServerResponse grantRoutePermissions(@RequestBody RoleRoutePermissionGrantCmd cmd) {
-        rolePermissionAppService.grantRoutePermissions(cmd);
+    public ServerResponse grantRoutePermissions(@Validated @RequestBody RoleMenuPermissionGrantCommand command) {
+        rolePermissionCommandHandler.grantRoutePermissions(command);
         return ServerResponse.ok();
     }
 
@@ -40,8 +43,8 @@ public class RolePermissionController extends BaseController {
      */
     @GetMapping("/role/permission/menus")
     @Operation(summary = "查询角色路由权限")
-    public MultiResponse<PermissionDTO> getRoleRoutePermission(Long roleId, Long applicationId) {
-        List<PermissionDTO> vos = rolePermissionAppService.queryRoleRoutesPermissions(roleId, applicationId);
+    public MultiResponse<PermissionDTO> queryRoleRoutePermission(Long roleId, Long applicationId) {
+        List<PermissionDTO> vos = rolePermissionQueryService.queryRoleRoutesPermissions(roleId, applicationId);
         return MultiResponse.ok(vos);
     }
 
@@ -50,8 +53,8 @@ public class RolePermissionController extends BaseController {
      */
     @PostMapping("/role/permission/api")
     @Operation(summary = "角色Api授权")
-    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApiPermissionGrantCmd dto) {
-        rolePermissionAppService.grantApis(dto);
+    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApiPermissionGrantCommand dto) {
+        rolePermissionCommandHandler.grantApis(dto);
         return ServerResponse.ok();
     }
 
@@ -70,8 +73,8 @@ public class RolePermissionController extends BaseController {
      */
     @GetMapping("/role/permission/apis")
     @Operation(summary = "查询角色Api权限")
-    public MultiResponse<PermissionDTO> getRoleApiPermission(Long roleId, Long applicationId) {
-        List<PermissionDTO> vos = rolePermissionAppService.queryRoleApiPermissions(roleId, applicationId);
+    public MultiResponse<PermissionDTO> queryRoleApiPermission(Long roleId, Long applicationId) {
+        List<PermissionDTO> vos = rolePermissionQueryService.queryRoleApiPermissions(roleId, applicationId);
         return MultiResponse.ok(vos);
     }
 
@@ -81,7 +84,7 @@ public class RolePermissionController extends BaseController {
     @GetMapping("/role/permission/elements")
     @Operation(summary = "查询角色页面元素权限")
     public MultiResponse<PermissionDTO> getRoleElementPermission(Long roleId, Long applicationId) {
-        List<PermissionDTO> vos = rolePermissionAppService.queryRoleElementPermissions(roleId, applicationId);
+        List<PermissionDTO> vos = rolePermissionQueryService.queryRoleElementPermissions(roleId, applicationId);
         return MultiResponse.ok(vos);
     }
 }
