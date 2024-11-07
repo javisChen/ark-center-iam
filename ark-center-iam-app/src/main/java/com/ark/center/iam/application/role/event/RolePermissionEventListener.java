@@ -5,7 +5,7 @@ import com.ark.center.iam.client.IamMQConst;
 import com.ark.center.iam.client.user.dto.UserApiPermissionChangedDTO;
 import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.infra.api.Api;
-import com.ark.center.iam.infra.api.gateway.ApiGateway;
+import com.ark.center.iam.infra.api.service.ApiService;
 import com.ark.center.iam.infra.permission.Permission;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
@@ -37,7 +37,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
 
     private final RoleService roleService;
     private final UserGateway userGateway;
-    private final ApiGateway apiGateway;
+    private final ApiService apiService;
     private final PermissionService permissionGateway;
     private final MessageTemplate messageTemplate;
     private final CacheService cacheService;
@@ -99,7 +99,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         List<Permission> permissions = permissionGateway.selectByTypeAndRoleIds(Lists.newArrayList(roleId), PermissionType.SER_API);
         if (CollectionUtil.isNotEmpty(permissions)) {
             List<Long> permissionIds = permissions.stream().map(Permission::getResourceId).toList();
-            return apiGateway.selectByIds(permissionIds);
+            return apiService.selectByIds(permissionIds);
         }
         return Collections.emptyList();
     }

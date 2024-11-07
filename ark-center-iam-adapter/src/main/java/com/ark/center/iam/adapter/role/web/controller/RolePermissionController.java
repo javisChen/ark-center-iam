@@ -53,8 +53,8 @@ public class RolePermissionController extends BaseController {
      */
     @PostMapping("/role/permission/api")
     @Operation(summary = "角色Api授权")
-    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApiPermissionGrantCommand dto) {
-        rolePermissionCommandHandler.grantApis(dto);
+    public ServerResponse updateRoleApiPermissions(@Validated@RequestBody RoleApiPermissionGrantCommand command) {
+        rolePermissionCommandHandler.grantApis(command);
         return ServerResponse.ok();
     }
 
@@ -62,7 +62,7 @@ public class RolePermissionController extends BaseController {
      * 角色api权限授权（直接授予应用下的所有api）
      */
     @PostMapping("/role/permission/application/api")
-    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApplicationApiPermissionUpdateCmd dto) {
+    public ServerResponse updateRoleApiPermissions(@RequestBody RoleApplicationApiPermissionUpdateCmd command) {
 //        iRoleService.updateRoleApiPermissions(dto);
 //        rolePermissionAppService.grantApis(dto);
         return ServerResponse.ok();
@@ -74,8 +74,7 @@ public class RolePermissionController extends BaseController {
     @GetMapping("/role/permission/apis")
     @Operation(summary = "查询角色Api权限")
     public MultiResponse<PermissionDTO> queryRoleApiPermission(Long roleId, Long applicationId) {
-        List<PermissionDTO> vos = rolePermissionQueryService.queryRoleApiPermissions(roleId, applicationId);
-        return MultiResponse.ok(vos);
+        return MultiResponse.ok(rolePermissionQueryService.queryRoleApiPermissions(roleId, applicationId));
     }
 
     /**
@@ -84,8 +83,7 @@ public class RolePermissionController extends BaseController {
     @GetMapping("/role/permission/elements")
     @Operation(summary = "查询角色页面元素权限")
     public MultiResponse<PermissionDTO> getRoleElementPermission(Long roleId, Long applicationId) {
-        List<PermissionDTO> vos = rolePermissionQueryService.queryRoleElementPermissions(roleId, applicationId);
-        return MultiResponse.ok(vos);
+        return MultiResponse.ok(rolePermissionQueryService.queryRoleElementPermissions(roleId, applicationId));
     }
 }
 

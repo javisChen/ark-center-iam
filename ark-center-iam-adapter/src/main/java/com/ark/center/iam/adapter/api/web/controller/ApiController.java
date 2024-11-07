@@ -1,6 +1,7 @@
 package com.ark.center.iam.adapter.api.web.controller;
 
-import com.ark.center.iam.application.api.ApiAppService;
+import com.ark.center.iam.application.api.ApiCommandHandler;
+import com.ark.center.iam.application.api.ApiQueryService;
 import com.ark.center.iam.client.api.command.ApiEnableCmd;
 import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
@@ -25,26 +26,27 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ApiController extends BaseController {
 
-    private final ApiAppService apiAppService;
+    private final ApiCommandHandler apiCommandHandler;
+    private final ApiQueryService apiQueryService;
 
     @Operation(summary = "API列表（全量）")
     @GetMapping("/apis")
     public MultiResponse<ApiDetailsDTO> queryList(ApiQuery dto) {
-        return MultiResponse.ok(apiAppService.queryList(dto));
+        return MultiResponse.ok(apiQueryService.queryList(dto));
     }
 
     @Operation(summary = "创建API")
     @PostMapping("/api")
     public ServerResponse saveApi(@Validated({ValidateGroup.Add.class, Default.class})
                                   @RequestBody ApiUpdateCmd dto) {
-        apiAppService.createApplication(dto);
+        apiCommandHandler.createApplication(dto);
         return ServerResponse.ok();
     }
 
     @Operation(summary = "查询API详情")
     @GetMapping("/api")
     public SingleResponse<ApiDetailDTO> getApi(Long id) {
-        ApiDetailDTO vo = apiAppService.getApi(id);
+        ApiDetailDTO vo = apiQueryService.getApi(id);
         return SingleResponse.ok(vo);
     }
 
@@ -52,28 +54,28 @@ public class ApiController extends BaseController {
     @PutMapping("/api")
     public ServerResponse updateApi(@Validated({ValidateGroup.Update.class, Default.class})
                                     @RequestBody ApiUpdateCmd dto) {
-        apiAppService.updateApi(dto);
+        apiCommandHandler.updateApi(dto);
         return ServerResponse.ok();
     }
 
     @Operation(summary = "启用/禁用")
     @PostMapping("/api/enable")
     public ServerResponse enable(@RequestBody ApiEnableCmd dto) {
-        apiAppService.enableOrDisable(dto);
+        apiCommandHandler.enableOrDisable(dto);
         return ServerResponse.ok();
     }
 
     @Operation(summary = "删除单个接口")
     @DeleteMapping("/api/{id}")
     public ServerResponse deleteApi(@PathVariable Long id) {
-        apiAppService.deleteApi(id);
+        apiCommandHandler.deleteApi(id);
         return ServerResponse.ok();
     }
 
     @Operation(summary = "同步API", description = "同步服务API")
     @PostMapping("/api/sync")
     public ServerResponse syncApi(@RequestBody ApiSyncCmd cmd) {
-        apiAppService.syncApi(cmd);
+        apiCommandHandler.syncApi(cmd);
         return ServerResponse.ok();
     }
 

@@ -12,7 +12,7 @@ import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.client.api.query.ApiQuery;
 import com.ark.center.iam.infra.api.Api;
-import com.ark.center.iam.infra.api.gateway.ApiGateway;
+import com.ark.center.iam.infra.api.service.ApiService;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.api.assembler.ApiAssembler;
@@ -26,16 +26,16 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ApiAppService {
+public class ApiCommandHandler {
 
     private final ApiSyncCmdExe apiSyncCmdExe;
-    private final ApiGateway apiGateway;
+    private final ApiService apiService;
     private final PermissionService permissionService;
     private final ApiAssembler apiAssembler;
     private final ApplicationEventPublisher eventPublisher;
 
     public List<ApiDetailsDTO> queryList(ApiQuery dto) {
-        return apiGateway.selectList(dto);
+        return apiService.selectList(dto);
     }
 
     public void createApplication(ApiUpdateCmd dto) {
@@ -55,19 +55,19 @@ public class ApiAppService {
     }
 
     private void baseCheck(ApiUpdateCmd dto) {
-        Api api = apiGateway.selectApiByApplicationIdAndMethodAndUrl(dto.getApplicationId(), dto.getMethod(), dto.getUri());
+        Api api = apiService.selectApiByApplicationIdAndMethodAndUrl(dto.getApplicationId(), dto.getMethod(), dto.getUri());
         Assert.isTrue(api == null || dto.getId().equals(api.getId()),
                 () -> ExceptionFactory.userException("API已存在"));
     }
 
     private Api saveApi(ApiUpdateCmd dto) {
         Api apiInsert = apiAssembler.toApiDO(dto);
-        apiGateway.insert(apiInsert);
+        apiService.insert(apiInsert);
         return apiInsert;
     }
 
     public ApiDetailDTO getApi(Long id) {
-        Api api = apiGateway.selectById(id);
+        Api api = apiService.selectById(id);
         return apiAssembler.toApiDetailDTO(api);
     }
 
@@ -77,13 +77,13 @@ public class ApiAppService {
 
         Api apiUpdate = apiAssembler.toApiDO(dto);
 
-        apiGateway.updateByApiId(apiUpdate);
+        apiService.updateByApiId(apiUpdate);
 
         eventPublisher.publishEvent(new ApiChangedEvent(this));
     }
 
     public void deleteApi(Long id) {
-        apiGateway.delete(id);
+        apiService.removeById(id);
 
         eventPublisher.publishEvent(new ApiDeletedEvent(this));
     }
@@ -92,7 +92,7 @@ public class ApiAppService {
         Api api = new Api();
         api.setId(cmd.getId());
         api.setStatus(cmd.getStatus());
-        apiGateway.updateByApiId(api);
+        apiService.updateByApiId(api);
 
         eventPublisher.publishEvent(new ApiChangedEvent(this));
     }

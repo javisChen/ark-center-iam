@@ -1,8 +1,7 @@
-package com.ark.center.iam.infra.api.gateway.impl;
+package com.ark.center.iam.infra.api.service;
 
 import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 import com.ark.center.iam.infra.api.ApiCategory;
-import com.ark.center.iam.infra.api.gateway.ApiCategoryGateway;
 import com.ark.center.iam.infra.api.assembler.ApiCategoryAssembler;
 import com.ark.center.iam.infra.api.gateway.db.ApiCategoryMapper;
 import com.ark.component.web.common.DeletedEnums;
@@ -14,11 +13,10 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class ApiCategoryGatewayImpl extends ServiceImpl<ApiCategoryMapper, ApiCategory> implements ApiCategoryGateway {
+public class ApiCategoryService extends ServiceImpl<ApiCategoryMapper, ApiCategory> {
 
     private final ApiCategoryAssembler apiCategoryAssembler;
 
-    @Override
     public List<ApiCategoryBaseDTO> selectList(Long applicationId) {
         return lambdaQuery()
                 .eq(ApiCategory::getIsDeleted, DeletedEnums.NOT.getCode())
@@ -29,12 +27,10 @@ public class ApiCategoryGatewayImpl extends ServiceImpl<ApiCategoryMapper, ApiCa
                 .toList();
     }
 
-    @Override
     public void insert(ApiCategory apiCategory) {
         save(apiCategory);
     }
 
-    @Override
     public ApiCategory selectByNameAndApplicationId(String name, Long applicationId) {
         return lambdaQuery()
                 .eq(ApiCategory::getIsDeleted, DeletedEnums.NOT.getCode())
@@ -43,12 +39,10 @@ public class ApiCategoryGatewayImpl extends ServiceImpl<ApiCategoryMapper, ApiCa
                 .one();
     }
 
-    @Override
     public void update(ApiCategory apiCategory) {
         updateById(apiCategory);
     }
 
-    @Override
     public void logicDelete(Long id) {
         lambdaUpdate()
                 .eq(ApiCategory::getId, id)
@@ -58,7 +52,6 @@ public class ApiCategoryGatewayImpl extends ServiceImpl<ApiCategoryMapper, ApiCa
 
     }
 
-    @Override
     public List<ApiCategory> selectByApplicationId(Long applicationId) {
         return lambdaQuery()
                 .eq(ApiCategory::getApplicationId, applicationId)

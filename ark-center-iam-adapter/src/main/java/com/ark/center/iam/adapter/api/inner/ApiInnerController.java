@@ -1,6 +1,6 @@
 package com.ark.center.iam.adapter.api.inner;
 
-import com.ark.center.iam.application.api.ApiAppService;
+import com.ark.center.iam.application.api.ApiCommandHandler;
 import com.ark.center.iam.client.api.ApiQueryApi;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/apis")
 public class ApiInnerController extends BaseController implements ApiQueryApi {
 
-    private final ApiAppService apiAppService;
+    private final ApiCommandHandler apiCommandHandler;
 
     @Override
     public MultiResponse<ApiDetailsDTO> queryAll(ApiQuery apiQuery) {
-        return MultiResponse.ok(apiAppService.queryList(apiQuery));
+        return MultiResponse.ok(apiCommandHandler.queryList(apiQuery));
     }
 
     @Override

@@ -1,7 +1,8 @@
 package com.ark.center.iam.adapter.api.web.controller;
 
 
-import com.ark.center.iam.application.api.ApiCategoryAppService;
+import com.ark.center.iam.application.api.ApiCategoryCommandHandler;
+import com.ark.center.iam.application.api.ApiCategoryQueryService;
 import com.ark.center.iam.client.api.command.ApiCategoryCmd;
 import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 import com.ark.component.dto.MultiResponse;
@@ -30,19 +31,20 @@ import jakarta.validation.groups.Default;
 @RequiredArgsConstructor
 public class ApiCategoryController extends BaseController {
 
-    private final ApiCategoryAppService apiCategoryAppService;
+    private final ApiCategoryCommandHandler apiCategoryCommandHandler;
+    private final ApiCategoryQueryService apiCategoryQueryService;
 
     @GetMapping("/api/categories")
     @Operation(summary = "分页列表")
     public MultiResponse<ApiCategoryBaseDTO> queryList(Long applicationId) {
-        return MultiResponse.ok(apiCategoryAppService.queryList(applicationId));
+        return MultiResponse.ok(apiCategoryQueryService.queryList(applicationId));
     }
 
     @PostMapping("/api/category/create")
     @Operation(summary = "新建分类")
     public ServerResponse save(@Validated({ValidateGroup.Add.class, Default.class})
                                @RequestBody ApiCategoryCmd dto) {
-        apiCategoryAppService.createApiCategory(dto);
+        apiCategoryCommandHandler.createApiCategory(dto);
         return ServerResponse.ok();
     }
 
@@ -50,14 +52,14 @@ public class ApiCategoryController extends BaseController {
     @Operation(summary = "更新分类")
     public ServerResponse update(@Validated({ValidateGroup.Update.class, Default.class})
                                  @RequestBody ApiCategoryCmd dto) {
-        apiCategoryAppService.updateApiCategory(dto);
+        apiCategoryCommandHandler.updateApiCategory(dto);
         return ServerResponse.ok();
     }
 
     @DeleteMapping("/api/category/delete")
     @Operation(summary = "删除分类")
     public ServerResponse delete(Long id) {
-        apiCategoryAppService.deleteApiCategory(id);
+        apiCategoryCommandHandler.deleteApiCategory(id);
         return ServerResponse.ok();
     }
 

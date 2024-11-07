@@ -10,10 +10,9 @@ import com.alibaba.nacos.api.exception.NacosException;
 import com.ark.center.iam.client.api.command.ApiSyncCmd;
 import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.api.ApiCategory;
-import com.ark.center.iam.infra.api.gateway.ApiCategoryGateway;
-import com.ark.center.iam.infra.api.gateway.ApiGateway;
+import com.ark.center.iam.infra.api.service.ApiCategoryService;
+import com.ark.center.iam.infra.api.service.ApiService;
 import com.ark.center.iam.infra.application.Application;
-import com.ark.center.iam.infra.application.gateway.ApplicationGateway;
 import com.ark.center.iam.infra.application.service.ApplicationService;
 import com.ark.center.iam.infra.enums.ApiAuthTypeEnums;
 import com.ark.center.iam.infra.enums.ApiStatusEnums;
@@ -49,9 +48,9 @@ public class ApiSyncCmdExe {
 
     private final ApplicationService applicationGateway;
 
-    private final ApiGateway apiGateway;
+    private final ApiService apiService;
 
-    private final ApiCategoryGateway apiCategoryGateway;
+    private final ApiCategoryService apiCategoryService;
 
     private final NacosServiceDiscovery nacosServiceDiscovery;
 
@@ -82,7 +81,7 @@ public class ApiSyncCmdExe {
     }
 
     private List<ApiCategory> saveApiCategories(Application application, List<String> tags) {
-        List<ApiCategory> existsCategories = apiCategoryGateway.selectByApplicationId(application.getId());
+        List<ApiCategory> existsCategories = apiCategoryService.selectByApplicationId(application.getId());
         Set<String> existsCategoryNames = existsCategories.stream()
                 .map(ApiCategory::getName)
                 .collect(Collectors.toSet());
@@ -103,8 +102,8 @@ public class ApiSyncCmdExe {
                     apiCategory.setApplicationId(application.getId());
                     return apiCategory;
                 })
-                .forEach(apiCategoryGateway::insert);
-        return apiCategoryGateway.selectByApplicationId(application.getId());
+                .forEach(apiCategoryService::insert);
+        return apiCategoryService.selectByApplicationId(application.getId());
     }
 
     /**
@@ -162,12 +161,12 @@ public class ApiSyncCmdExe {
         }
 
         for (Api api : insertApis) {
-            apiGateway.insert(api);
+            apiService.insert(api);
             permissionService.addPermission(api.getId(), PermissionType.SER_API);
         }
 
         for (Api api : updateApis) {
-            apiGateway.updateByApiId(api);
+            apiService.updateByApiId(api);
         }
     }
 
@@ -180,7 +179,7 @@ public class ApiSyncCmdExe {
     }
 
     private MultiKeyMap<String, Api> queryExistsApis(Application application) {
-        List<Api> existingApis = apiGateway.selectByApplicationId(application.getId());
+        List<Api> existingApis = apiService.selectByApplicationId(application.getId());
         MultiKeyMap<String, Api> map = new MultiKeyMap<>();
         for (Api existingApi : existingApis) {
             map.put(createApiMultiKey(existingApi), existingApi);
