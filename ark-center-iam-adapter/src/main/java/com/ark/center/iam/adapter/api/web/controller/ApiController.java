@@ -2,8 +2,9 @@ package com.ark.center.iam.adapter.api.web.controller;
 
 import com.ark.center.iam.application.api.ApiCommandHandler;
 import com.ark.center.iam.application.api.ApiQueryService;
+import com.ark.center.iam.client.api.ApiQueryApi;
 import com.ark.center.iam.client.api.command.ApiEnableCmd;
-import com.ark.center.iam.client.api.command.ApiSyncCmd;
+import com.ark.center.iam.client.api.command.ApiSyncCommand;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
@@ -22,21 +23,20 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "API管理", description = "API管理")
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/apis")
 @RequiredArgsConstructor
-public class ApiController extends BaseController {
+public class ApiController extends BaseController implements ApiQueryApi {
 
     private final ApiCommandHandler apiCommandHandler;
     private final ApiQueryService apiQueryService;
 
     @Operation(summary = "API列表（全量）")
-    @GetMapping("/apis")
-    public MultiResponse<ApiDetailsDTO> queryList(ApiQuery dto) {
+    public MultiResponse<ApiDetailsDTO> queryAll(ApiQuery dto) {
         return MultiResponse.ok(apiQueryService.queryList(dto));
     }
 
     @Operation(summary = "创建API")
-    @PostMapping("/api")
+    @PostMapping("")
     public ServerResponse saveApi(@Validated({ValidateGroup.Add.class, Default.class})
                                   @RequestBody ApiUpdateCmd dto) {
         apiCommandHandler.createApplication(dto);
@@ -44,14 +44,14 @@ public class ApiController extends BaseController {
     }
 
     @Operation(summary = "查询API详情")
-    @GetMapping("/api")
-    public SingleResponse<ApiDetailDTO> getApi(Long id) {
+    @GetMapping("/details")
+    public SingleResponse<ApiDetailDTO> getApi(@RequestParam Long id) {
         ApiDetailDTO vo = apiQueryService.getApi(id);
         return SingleResponse.ok(vo);
     }
 
     @Operation(summary = "更新API")
-    @PutMapping("/api")
+    @PutMapping("")
     public ServerResponse updateApi(@Validated({ValidateGroup.Update.class, Default.class})
                                     @RequestBody ApiUpdateCmd dto) {
         apiCommandHandler.updateApi(dto);
@@ -66,16 +66,16 @@ public class ApiController extends BaseController {
     }
 
     @Operation(summary = "删除单个接口")
-    @DeleteMapping("/api/{id}")
-    public ServerResponse deleteApi(@PathVariable Long id) {
+    @DeleteMapping("")
+    public ServerResponse deleteApi(@RequestParam Long id) {
         apiCommandHandler.deleteApi(id);
         return ServerResponse.ok();
     }
 
     @Operation(summary = "同步API", description = "同步服务API")
-    @PostMapping("/api/sync")
-    public ServerResponse syncApi(@RequestBody ApiSyncCmd cmd) {
-        apiCommandHandler.syncApi(cmd);
+    @PostMapping("/sync")
+    public ServerResponse syncApi(@RequestBody ApiSyncCommand command) {
+        apiCommandHandler.syncApi(command);
         return ServerResponse.ok();
     }
 

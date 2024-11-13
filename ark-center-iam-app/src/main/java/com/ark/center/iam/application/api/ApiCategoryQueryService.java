@@ -13,7 +13,7 @@ public class ApiCategoryQueryService {
 
     private final ApiCategoryService apiCategoryService;
 
-    public List<ApiCategoryBaseDTO> queryList(Long applicationId) {
+    public List<ApiCategoryBaseDTO> queryPages(Long applicationId) {
         return apiCategoryService.selectList(applicationId);
     }
 

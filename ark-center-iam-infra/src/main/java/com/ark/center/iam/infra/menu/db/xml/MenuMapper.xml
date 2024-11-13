@@ -23,7 +23,7 @@
         modifier
     </sql>
 
-    <select id="selectDetailsPages" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
+    <select id="selectDetailsPages" resultType="com.ark.center.iam.client.menu.dto.MenuDetailDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -39,20 +39,15 @@
             <if test="params.applicationId != null">
                 AND r.application_id = #{params.applicationId}
             </if>
-            <if test="params.pid != null">
-                AND r.pid = #{params.pid}
-            </if>
             <if test="params.status != null">
                 AND r.status = #{params.status}
             </if>
         </where>
         AND p.type = 'FRONT_ROUTE'
-        AND r.pid = 0
         AND r.is_deleted = 0
-        ORDER BY r.`sequence`
     </select>
 
-    <select id="selectSubRoutes" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
+    <select id="selectSubRoutes" resultType="com.ark.center.iam.client.menu.dto.MenuDetailDTO">
         SELECT
         r.*,
         a.name as applicationName,
@@ -66,7 +61,7 @@
         AND p.type = 'FRONT_ROUTE'
     </select>
 
-    <select id="selectDetails" resultType="com.ark.center.iam.client.menu.dto.RouteDetailsDTO">
+    <select id="selectDetails" resultType="com.ark.center.iam.client.menu.dto.MenuDetailDTO">
         SELECT
         r.*,
         a.name as applicationName,

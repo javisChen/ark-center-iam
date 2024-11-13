@@ -7,7 +7,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.nacos.api.exception.NacosException;
-import com.ark.center.iam.client.api.command.ApiSyncCmd;
+import com.ark.center.iam.client.api.command.ApiSyncCommand;
 import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.api.ApiCategory;
 import com.ark.center.iam.infra.api.service.ApiCategoryService;
@@ -53,7 +53,7 @@ public class ApiSyncCmdExe {
 
     private final PermissionService permissionService;
 
-    public void execute(ApiSyncCmd cmd) {
+    public void execute(ApiSyncCommand cmd) {
 
         Application application = getApplication(cmd);
 
@@ -219,7 +219,7 @@ public class ApiSyncCmdExe {
         return api;
     }
 
-    private Application getApplication(ApiSyncCmd cmd) {
+    private Application getApplication(ApiSyncCommand cmd) {
         Long applicationId = cmd.getApplicationId();
         return applicationGateway.queryById(applicationId);
     }

@@ -1,6 +1,6 @@
 package com.ark.center.iam.adapter.user.web;
 
-import com.ark.center.iam.application.user.UserSelfAppService;
+import com.ark.center.iam.application.user.UserSelfQueryService;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.user.dto.UserMenuDTO;
 import com.ark.component.dto.MultiResponse;
@@ -18,37 +18,31 @@ import java.util.List;
 
 
 
-@Tag(name = "登录用户相关接口", description = "登录用户接口")
+@Tag(name = "登录用户", description = "登录用户")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/users/self")
 public class UserSelfController extends BaseController {
 
-    private final UserSelfAppService userSelfAppService;
+    private final UserSelfQueryService userSelfQueryService;
 
     @GetMapping("")
     @Operation(summary = "查询登录用户基本信息")
     public SingleResponse<LoginUser> queryUserSelf() {
-        return SingleResponse.ok(userSelfAppService.queryUserSelf());
+        return SingleResponse.ok(userSelfQueryService.queryUserSelf());
     }
 
-    /**
-     * 获取用户菜单权限
-     */
     @GetMapping("/menus")
     @Operation(summary = "查询登录用户的菜单权限")
-    public MultiResponse<UserMenuDTO> queryUserSelfRoutes() {
-        List<UserMenuDTO> selfRoutes = userSelfAppService.queryUserSelfRoutes();
+    public MultiResponse<UserMenuDTO> queryUserSelfMenus() {
+        List<UserMenuDTO> selfRoutes = userSelfQueryService.queryUserSelfMenus();
         return MultiResponse.ok(selfRoutes);
     }
 
-    /**
-     * 获取用户页面元素权限
-     */
     @GetMapping("/elements")
     @Operation(summary = "查询登录用户的元素权限")
     public MultiResponse<PermissionDTO> queryUserSelfElements() {
-        List<PermissionDTO> selfElements = userSelfAppService.queryUserSelfElements();
+        List<PermissionDTO> selfElements = userSelfQueryService.queryUserSelfElements();
         return MultiResponse.ok(selfElements);
     }
 

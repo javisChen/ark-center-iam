@@ -31,7 +31,7 @@ public class RolePermissionController extends BaseController {
      * /role/permission/user/
      * /role/permission/1/
      */
-    @PostMapping("/role/permission/grant")
+    @PostMapping("/role/permission/menus")
     @Operation(summary = "角色路由授权")
     public ServerResponse grantRoutePermissions(@Validated @RequestBody RoleMenuPermissionGrantCommand command) {
         rolePermissionCommandHandler.grantRoutePermissions(command);

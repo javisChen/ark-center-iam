@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RouteDetailsDTO extends MenuDTO {
+public class MenuDetailDTO extends MenuDTO {
 
     private Long applicationId;
     private String applicationName;
@@ -21,5 +21,5 @@ public class RouteDetailsDTO extends MenuDTO {
     private String permissionCode;
     private String parentRouteName;
     private List<ElementBaseDTO> elements;
-    private List<RouteDetailsDTO> children = new ArrayList<>();
+    private List<MenuDetailDTO> children = new ArrayList<>();
 }

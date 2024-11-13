@@ -2,7 +2,7 @@ package com.ark.center.iam.infra.menu.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.menu.command.MenuCommand;
-import com.ark.center.iam.client.menu.dto.RouteDetailsDTO;
+import com.ark.center.iam.client.menu.dto.MenuDetailDTO;
 import com.ark.center.iam.client.menu.query.MenuQuery;
 import com.ark.center.iam.client.user.dto.UserMenuDTO;
 import com.ark.center.iam.infra.menu.Element;
@@ -14,7 +14,6 @@ import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -45,11 +44,11 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
         return menuAssembler.toUserMenuDTO(menus);
     }
 
-    public Page<RouteDetailsDTO> selectDetailsPage(MenuQuery params) {
-        return baseMapper.selectDetailsPages(new Page<>(params.getCurrent(), params.getSize()), params);
+    public List<MenuDetailDTO> selectDetailsPage(MenuQuery params) {
+        return baseMapper.selectDetailsPages(params);
     }
 
-    public List<RouteDetailsDTO> selectSubRoutes() {
+    public List<MenuDetailDTO> selectSubRoutes() {
 //        return baseMapper.selectSubRoutes();
         return null;
 
@@ -84,7 +83,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> {
         return null;
     }
 
-    public RouteDetailsDTO selectDetailsByRouteId(Long id) {
+    public MenuDetailDTO selectDetailsByRouteId(Long id) {
         return baseMapper.selectDetails(id);
     }
 

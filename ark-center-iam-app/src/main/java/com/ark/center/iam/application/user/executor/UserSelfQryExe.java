@@ -30,6 +30,7 @@ public class UserSelfQryExe {
     private final UserPermissionService userPermissionService;
 
     private final MenuService menuService;
+    private final MenuBizTreeService menuBizTreeService;
 
     private final PermissionAssembler permissionAssembler;
     private final MenuBizTreeService menuHierarchyService;
@@ -38,27 +39,29 @@ public class UserSelfQryExe {
         LoginUser user = ServiceContext.getCurrentUser();
         Long userId = user.getUserId();
         String cacheKey = String.format(CACHE_KEY_USER_ELEMS, userId);
-        return CacheHelper.execute(cacheKey, key -> {
+//        return CacheHelper.execute(cacheKey, key -> {
             List<Permission> permissions = userPermissionService.queryUserPermissions(user.getUserId(), PAGE_ELEMENT);
             return permissions.stream()
                     .filter(Objects::nonNull)
                     .map(permissionAssembler::toPermissionDTO)
                     .toList();
-        });
+//        });
     }
 
     public List<UserMenuDTO> queryUserSelfRoutes() {
         LoginUser user = ServiceContext.getCurrentUser();
         Long userId = user.getUserId();
         String cacheKey = String.format(CACHE_KEY_USER_ROUTES, userId);
-        return CacheHelper.execute(cacheKey, key -> {
+//        return CacheHelper.execute(cacheKey, key -> {
             List<Permission> permissions = userPermissionService.queryUserPermissions(userId, FRONT_ROUTE);
             List<Long> routeIds = permissions.stream()
                     .filter(Objects::nonNull)
                     .map(Permission::getResourceId)
                     .toList();
-            return menuService.byIds(routeIds);
-        });
+        List<UserMenuDTO> userMenuDTOS = menuService.byIds(routeIds);
+        menuBizTreeService.populateNodeParams(userMenuDTOS);
+        return userMenuDTOS;
+//        });
     }
 
 

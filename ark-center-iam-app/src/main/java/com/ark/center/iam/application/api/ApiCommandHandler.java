@@ -6,7 +6,7 @@ import com.ark.center.iam.application.api.event.ApiCreatedEvent;
 import com.ark.center.iam.application.api.event.ApiDeletedEvent;
 import com.ark.center.iam.application.api.executor.ApiSyncCmdExe;
 import com.ark.center.iam.client.api.command.ApiEnableCmd;
-import com.ark.center.iam.client.api.command.ApiSyncCmd;
+import com.ark.center.iam.client.api.command.ApiSyncCommand;
 import com.ark.center.iam.client.api.command.ApiUpdateCmd;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
@@ -98,9 +98,9 @@ public class ApiCommandHandler {
     }
 
     @Transactional(rollbackFor = Throwable.class)
-    public void syncApi(ApiSyncCmd cmd) {
+    public void syncApi(ApiSyncCommand command) {
 
-        apiSyncCmdExe.execute(cmd);
+        apiSyncCmdExe.execute(command);
 
         eventPublisher.publishEvent(new ApiCreatedEvent(this));
 

@@ -36,8 +36,8 @@ public class ApiCategoryController extends BaseController {
 
     @GetMapping("/api/categories")
     @Operation(summary = "分页列表")
-    public MultiResponse<ApiCategoryBaseDTO> queryList(Long applicationId) {
-        return MultiResponse.ok(apiCategoryQueryService.queryList(applicationId));
+    public MultiResponse<ApiCategoryBaseDTO> queryPages(Long applicationId) {
+        return MultiResponse.ok(apiCategoryQueryService.queryPages(applicationId));
     }
 
     @PostMapping("/api/category/create")

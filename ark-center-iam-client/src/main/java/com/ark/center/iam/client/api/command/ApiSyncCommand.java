@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Schema(name = "Api同步命令")
-public class ApiSyncCmd {
+public class ApiSyncCommand {
 
     @Schema(description = "应用id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private Long applicationId;

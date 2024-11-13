@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserSelfAppService {
+public class UserSelfQueryService {
 
     private final UserSelfQryExe userSelfQryExe;
 
@@ -21,7 +21,7 @@ public class UserSelfAppService {
         return ServiceContext.getCurrentUser();
     }
 
-    public List<UserMenuDTO> queryUserSelfRoutes() {
+    public List<UserMenuDTO> queryUserSelfMenus() {
         return userSelfQryExe.queryUserSelfRoutes();
     }
 
