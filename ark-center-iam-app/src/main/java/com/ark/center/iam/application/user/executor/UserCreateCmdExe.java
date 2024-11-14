@@ -6,7 +6,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.ark.center.iam.client.user.command.UserCommand;
 import com.ark.center.iam.infra.role.service.RoleAssignService;
-import com.ark.center.iam.infra.user.gateway.UserGateway;
+import com.ark.center.iam.infra.user.service.UserService;
 import com.ark.center.iam.infra.user.support.IUserPasswordHelper;
 import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
@@ -26,7 +26,7 @@ public class UserCreateCmdExe {
 
     private final UserBeanConverter beanConverter;
 
-    private final UserGateway userGateway;
+    private final UserService userService;
 
     private final RoleAssignService roleAssignService;
 
@@ -67,8 +67,8 @@ public class UserCreateCmdExe {
         // 生成用户编码
         user.setCode(generateUserCode());
 
-        // 用户密码=bcrypt(前端md5(md5(password)) + salt)
-        user.setPassword(userPasswordHelper.enhancePassword(DigestUtil.md5Hex(user.getPassword())));
+        // 用户密码=
+        user.setPassword(userPasswordHelper.enhancePassword(user.getPassword()));
 
     }
 
@@ -82,7 +82,7 @@ public class UserCreateCmdExe {
     }
 
     private boolean codeExists(String code) {
-        return userGateway.countUserByCode(code) > 0;
+        return userService.countUserByCode(code) > 0;
     }
 
     /**
@@ -103,11 +103,11 @@ public class UserCreateCmdExe {
     }
 
     private void persistUser(User user) {
-        userGateway.insert(user);
+        userService.save(user);
     }
 
     private void checkUserMobile(User user) {
-        long count = userGateway.countUserByMobile(user.getMobile());
+        long count = userService.countUserByMobile(user.getMobile());
         Assert.isTrue(count == 0, () -> ExceptionFactory.userException("手机号码已存在"));
     }
 

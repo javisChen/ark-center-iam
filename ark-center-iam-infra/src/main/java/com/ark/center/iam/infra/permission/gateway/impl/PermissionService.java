@@ -111,7 +111,7 @@ public class PermissionService extends ServiceImpl<PermissionMapper, Permission>
                 .remove();
     }
 
-    public List<ApiPermissionVO> selectApiPermissionsByRoleIds(List<Long> roleIds) {
+    public List<ApiPermissionVO> queryApiPermissionsByRoleIds(List<Long> roleIds) {
         return baseMapper.selectApiPermissionsByRoleIds(roleIds);
     }
 

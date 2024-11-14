@@ -10,7 +10,7 @@ import com.ark.center.iam.client.user.query.UserPageQuery;
 import com.ark.center.iam.client.user.query.UserQuery;
 import com.ark.center.iam.infra.role.service.RoleAssignService;
 import com.ark.center.iam.infra.user.User;
-import com.ark.center.iam.infra.user.gateway.UserGateway;
+import com.ark.center.iam.infra.user.service.UserService;
 import com.ark.center.iam.infra.user.service.UserPermissionService;
 import com.ark.center.iam.infra.user.support.UserConst;
 import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
@@ -28,7 +28,7 @@ public class UserQueryService {
 
     private final UserUpdateCmdExe userUpdateCmdExe;
 
-    private final UserGateway userGateway;
+    private final UserService userGateway;
 
     private final UserQryExe userQryExe;
 

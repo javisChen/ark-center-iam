@@ -28,6 +28,6 @@ public interface UserPermissionQueryApi {
 
     @GetMapping("/api-permission")
     @Operation(summary = "用户管理（内部调用） - 查询用户拥有的API权限")
-    MultiResponse<UserApiPermissionDTO> getApiPermissions(@RequestParam("userId") Long userId);
+    MultiResponse<UserApiPermissionDTO> queryApiPermissions(@RequestParam("userId") Long userId);
 
 }

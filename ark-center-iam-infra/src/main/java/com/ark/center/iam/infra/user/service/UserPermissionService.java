@@ -8,7 +8,6 @@ import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 
 import com.ark.center.iam.infra.role.service.RoleService;
 import com.ark.center.iam.infra.user.User;
-import com.ark.center.iam.infra.user.gateway.UserGateway;
 import com.ark.center.iam.infra.user.support.UserConst;
 
 import com.ark.center.iam.infra.usergroup.service.UserGroupService;
@@ -28,26 +27,26 @@ import java.util.List;
 @Slf4j
 public class UserPermissionService {
 
-    private final PermissionService permissionGateway;
+    private final PermissionService permissionService;
 
-    private final RoleService roleGateway;
+    private final RoleService roleService;
 
-    private final UserGateway userGateway;
+    private final UserService userService;
 
     private final UserGroupService userGroupService;
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     public List<Permission> queryUserPermissions(Long userId, PermissionType permissionType) {
-        User user = userGateway.selectByUserId(userId);
+        User user = userService.selectByUserId(userId);
         String userCode = user.getCode();
         List<Permission> permissions;
         // 超管直接赋予所有权限
         if (isSuperAdmin(userCode)) {
-            permissions = permissionGateway.selectByType(permissionType);
+            permissions = permissionService.selectByType(permissionType);
         } else {
             List<Long> roleIds = queryUserRoles(userId);
-            permissions = permissionGateway.selectByTypeAndRoleIds(roleIds, permissionType);
+            permissions = permissionService.selectByTypeAndRoleIds(roleIds, permissionType);
         }
         return permissions;
     }
@@ -61,16 +60,16 @@ public class UserPermissionService {
      */
     private List<Long> queryUserRoles(Long userId) {
         // 用户自身拥有的角色
-        List<Long> roleIds = roleGateway.selectRoleIdsByUserId(userId);
+        List<Long> roleIds = roleService.queryRoleIdsByUserId(userId);
         // 用户所归属的用户组所拥有的角色
         List<Long> userGroupIds = userGroupService.selectUserGroupIdsByUserId(userId, true);
-        List<Long> userGroupsRoleIds = roleGateway.selectRoleIdsByUserGroupIds(userGroupIds);
+        List<Long> userGroupsRoleIds = roleService.selectRoleIdsByUserGroupIds(userGroupIds);
         roleIds.addAll(userGroupsRoleIds);
         return roleIds.stream().distinct().toList();
     }
 
     public boolean checkHasApiPermission(Long userId, String url, String method) {
-        User user = userGateway.selectByUserId(userId);
+        User user = userService.selectByUserId(userId);
         // 超管账号直接通过
         if (isSuperAdmin(user.getCode())) {
             return true;
@@ -88,10 +87,10 @@ public class UserPermissionService {
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();
         }
-        return permissionGateway.selectApiPermissionsByRoleIds(roleIds);
+        return permissionService.queryApiPermissionsByRoleIds(roleIds);
     }
 
-    public List<ApiPermissionVO> getUserApiPermissions(Long userId) {
+    public List<ApiPermissionVO> queryUserApiPermissions(Long userId) {
          List<Long> roleIds = queryUserRoles(userId);
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();

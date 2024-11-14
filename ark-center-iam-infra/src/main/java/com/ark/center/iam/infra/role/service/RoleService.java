@@ -47,7 +47,7 @@ public class RoleService extends ServiceImpl<RoleMapper, Role> {
         userRoleRelMapper.delete(eq);
     }
 
-    public List<Long> selectRoleIdsByUserId(Long userId) {
+    public List<Long> queryRoleIdsByUserId(Long userId) {
         LambdaQueryWrapper<UserRoleRel> eq = Wrappers.lambdaQuery(UserRoleRel.class)
                 .select(UserRoleRel::getUserId, UserRoleRel::getRoleId)
                 .eq(UserRoleRel::getUserId, userId);

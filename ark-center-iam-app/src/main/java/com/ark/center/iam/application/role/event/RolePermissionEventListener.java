@@ -11,8 +11,8 @@ import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
 import com.ark.center.iam.infra.role.service.RoleService;
 import com.ark.center.iam.infra.user.User;
-import com.ark.center.iam.infra.user.gateway.UserGateway;
 import com.ark.center.iam.infra.user.common.UserCacheKey;
+import com.ark.center.iam.infra.user.service.UserService;
 import com.ark.component.cache.CacheService;
 import com.ark.component.mq.MsgBody;
 import com.ark.component.mq.integration.MessageTemplate;
@@ -36,7 +36,7 @@ import java.util.List;
 public class RolePermissionEventListener implements ApplicationListener<RolePermissionChangedEvent> {
 
     private final RoleService roleService;
-    private final UserGateway userGateway;
+    private final UserService userService;
     private final ApiService apiService;
     private final PermissionService permissionGateway;
     private final MessageTemplate messageTemplate;
@@ -50,7 +50,7 @@ public class RolePermissionEventListener implements ApplicationListener<RolePerm
         // 写入缓存
         cache(roleId, apis);
         // 查询所有绑定该角色用户
-        List<User> users = userGateway.selectByRoleId(roleId);
+        List<User> users = userService.selectByRoleId(roleId);
         // todo 暂时不考虑性能和并发修改问题，后续优化
         for (User user : users) {
             // 发布权限变更消息

@@ -6,11 +6,11 @@ import com.ark.center.iam.client.user.command.UserCommand;
 import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.client.user.query.UserPermissionQuery;
 import com.ark.center.iam.infra.api.vo.ApiPermissionVO;
+import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.center.iam.infra.role.service.RoleAssignService;
 import com.ark.center.iam.infra.user.service.UserService;
 import com.ark.center.iam.infra.user.service.UserPermissionService;
 import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
-import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.component.cache.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_R
 
 @Service
 @RequiredArgsConstructor
-public class UserCommandHandler {
+public class UserPermissionQueryService {
 
     private final UserCreateCmdExe userCreateCmdExe;
 
@@ -69,7 +69,7 @@ public class UserCommandHandler {
         return userPermissionService.checkHasApiPermission(userId, requestUri, method);
     }
 
-    public List<UserApiPermissionDTO> getApiPermissions(Long userId) {
+    public List<UserApiPermissionDTO> queryApiPermissions(Long userId) {
         List<ApiPermissionVO> userApiPermissions = userPermissionService.queryUserApiPermissions(userId);
         return permissionAssembler.toUserApiPermissionDTO(userApiPermissions);
     }

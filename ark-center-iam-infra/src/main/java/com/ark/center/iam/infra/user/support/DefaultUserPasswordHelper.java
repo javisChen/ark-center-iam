@@ -6,9 +6,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultUserPasswordHelper implements IUserPasswordHelper {
 
+    /**
+     * 密码加强策略，bcrypt(前端md5(md5(password)) + salt)
+     */
     @Override
     public String enhancePassword(String password) {
-        return DigestUtil.bcrypt(password + SecurityConstants.PASSWORD_SALT);
+        return DigestUtil.bcrypt(DigestUtil.md5Hex(password) + SecurityConstants.PASSWORD_SALT);
     }
 
     @Override

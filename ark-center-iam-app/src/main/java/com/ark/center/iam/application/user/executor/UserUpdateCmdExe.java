@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.user.command.UserCommand;
 import com.ark.center.iam.infra.role.service.RoleAssignService;
 import com.ark.center.iam.infra.user.User;
-import com.ark.center.iam.infra.user.gateway.UserGateway;
+import com.ark.center.iam.infra.user.service.UserService;
 import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
 import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class UserUpdateCmdExe {
 
     private final UserBeanConverter beanConverter;
 
-    private final UserGateway userGateway;
+    private final UserService userGateway;
 
     private final RoleAssignService roleAssignService;
 
