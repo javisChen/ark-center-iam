@@ -321,3 +321,8 @@ INSERT INTO `us_receive` (`id`, `user_id`, `name`, `mobile`, `province`, `city`,
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2024-01-08 17:55:44
+
+
+rename table od_receive to od_order_receive;
+rename table us_receive to od_user_receive;
+
