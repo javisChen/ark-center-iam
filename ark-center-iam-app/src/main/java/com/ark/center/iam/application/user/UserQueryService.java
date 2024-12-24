@@ -42,10 +42,10 @@ public class UserQueryService {
 
     private final PermissionAssembler permissionAssembler;
 
-
     public Page<UserPageDTO> queryUsers(UserPageQuery qry) {
         return userQryExe.pageQuery(qry);
     }
+
     public UserDetailsDTO queryUserDetails(Long userId) {
         return userQryExe.queryUserDetails(userId);
     }

@@ -19,8 +19,6 @@ import lombok.EqualsAndHashCode;
 @TableName("iam_api_category")
 public class ApiCategory extends BaseEntity {
 
-    
-
     /**
      * API名称
      */
