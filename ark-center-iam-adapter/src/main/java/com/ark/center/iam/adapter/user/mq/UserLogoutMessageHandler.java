@@ -1,7 +1,7 @@
 package com.ark.center.iam.adapter.user.mq;
 
 import com.alibaba.fastjson.JSON;
-import com.ark.center.auth.client.mq.AuthMQConst;
+import com.ark.center.auth.client.mq.AuthConst;
 import com.ark.center.auth.client.mq.logout.UserLogoutMQConst;
 import com.ark.center.auth.client.mq.logout.UserLogoutMessage;
 import com.ark.center.iam.application.user.UserCommandHandler;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @MQMessageListener(
         mq = MQType.ROCKET,
         consumeMode = ConsumeMode.CLUSTERING,
-        topic = AuthMQConst.AUTH_TOPIC,
+        topic = AuthConst.TOPIC_AUTH,
         tags = UserLogoutMQConst.USER_LOGOUT_EVENT_TAG,
         consumerGroup = "user_logout_cg"
 )
