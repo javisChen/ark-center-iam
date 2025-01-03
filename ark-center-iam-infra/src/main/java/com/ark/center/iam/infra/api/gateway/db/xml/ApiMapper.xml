@@ -40,6 +40,9 @@
             <if test="qry.authType != null">
                 AND a.auth_type = #{qry.authType}
             </if>
+            <if test="qry.status != null">
+                AND a.status = #{qry.status}
+            </if>
             AND p.type = 'SER_API'
             AND a.is_deleted = 0
         </where>

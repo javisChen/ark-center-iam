@@ -18,7 +18,7 @@ public class ApiQueryService {
     private final ApiService apiService;
     private final ApiAssembler apiAssembler;
 
-    public List<ApiDetailsDTO> queryList(ApiQuery dto) {
+    public List<ApiDetailsDTO> query(ApiQuery dto) {
         return apiService.selectList(dto);
     }
 

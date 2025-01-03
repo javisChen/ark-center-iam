@@ -35,8 +35,8 @@ public class ApiController extends BaseController implements ApiQueryApi {
         summary = "查询API列表",
         description = "查询所有API接口信息，支持条件过滤"
     )
-    public MultiResponse<ApiDetailsDTO> queryAll(ApiQuery query) {
-        return MultiResponse.ok(apiQueryService.queryList(query));
+    public MultiResponse<ApiDetailsDTO> query(ApiQuery query) {
+        return MultiResponse.ok(apiQueryService.query(query));
     }
 
     @PostMapping

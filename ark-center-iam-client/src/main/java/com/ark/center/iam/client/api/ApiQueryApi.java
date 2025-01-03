@@ -28,7 +28,7 @@ public interface ApiQueryApi {
         summary = "查询API列表",
         description = "查询所有API接口信息，支持条件过滤"
     )
-    MultiResponse<ApiDetailsDTO> queryAll(@SpringQueryMap ApiQuery query);
+    MultiResponse<ApiDetailsDTO> query(@SpringQueryMap ApiQuery query);
 
     @GetMapping("/details")
     @Operation(
