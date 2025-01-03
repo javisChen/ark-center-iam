@@ -1,6 +1,8 @@
 package com.ark.center.iam.client.api.dto;
 
+import com.ark.center.iam.client.contants.ApiAuthType;
 import lombok.Data;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * @title:
@@ -8,22 +10,42 @@ import lombok.Data;
  * @author: Javis
  */
 @Data
-public class ApiBaseDTO  {
+@Schema(description = "API基础信息")
+public class ApiBaseDTO {
 
+    @Schema(description = "API ID", example = "1")
     private Long id;
 
+    @Schema(description = "API名称", example = "查询用户信息")
     private String name;
 
+    @Schema(description = "接口URI", example = "/v1/users/{id}")
     private String uri;
 
+    @Schema(description = "HTTP方法", example = "GET")
     private String method;
 
-    private Integer authType;
+    @Schema(description = "所属应用ID", example = "1")
+    private Long applicationId;
 
-    private Integer status;
+    @Schema(description = "API分类ID", example = "1")
+    private Long categoryId;
 
-    /**
-     * url是否包含路径参数，例： /user/{userId}/api/{apiId} 0-不包含 1-包含
-     */
+    @Schema(
+        description = "认证授权类型",
+        example = "ANONYMOUS",
+        enumAsRef = true,
+        implementation = ApiAuthType.class
+    )
+    private ApiAuthType authType;
+
+    @Schema(description = "是否包含路径参数", example = "true")
     private Boolean hasPathVariable;
+
+    @Schema(
+        description = "状态：1-启用 2-禁用",
+        example = "1",
+        allowableValues = {"1", "2"}
+    )
+    private Integer status;
 }
