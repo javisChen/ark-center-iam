@@ -23,7 +23,7 @@ public class ApiQueryService {
     }
 
     public ApiDetailDTO getApi(Long id) {
-        Api api = apiService.selectById(id);
+        Api api = apiService.getById(id);
         return apiAssembler.toApiDetailDTO(api);
     }
 

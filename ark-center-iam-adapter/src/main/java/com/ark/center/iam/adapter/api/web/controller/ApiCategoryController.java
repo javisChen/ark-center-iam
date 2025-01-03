@@ -1,9 +1,8 @@
 package com.ark.center.iam.adapter.api.web.controller;
 
-
 import com.ark.center.iam.application.api.ApiCategoryCommandHandler;
 import com.ark.center.iam.application.api.ApiCategoryQueryService;
-import com.ark.center.iam.client.api.command.ApiCategoryCmd;
+import com.ark.center.iam.client.api.command.ApiCategoryCommand;
 import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.ServerResponse;
@@ -25,9 +24,9 @@ import jakarta.validation.groups.Default;
  * @author
  * @since 2020-11-09
  */
-@Tag(name = "API分类", description = "API分类")
+@Tag(name = "API类目服务", description = "API类目服务")
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/api-categories")
 @RequiredArgsConstructor
 public class ApiCategoryController extends BaseController {
 
@@ -40,19 +39,17 @@ public class ApiCategoryController extends BaseController {
         return MultiResponse.ok(apiCategoryQueryService.queryPages(applicationId));
     }
 
-    @PostMapping("/api/category/create")
-    @Operation(summary = "新建分类")
-    public ServerResponse save(@Validated({ValidateGroup.Add.class, Default.class})
-                               @RequestBody ApiCategoryCmd dto) {
-        apiCategoryCommandHandler.createApiCategory(dto);
+    @PostMapping
+    @Operation(summary = "新建API分类")
+    public ServerResponse createApiCategory(@RequestBody @Validated({ValidateGroup.Add.class, Default.class}) ApiCategoryCommand command) {
+        apiCategoryCommandHandler.createApiCategory(command);
         return ServerResponse.ok();
     }
 
-    @PutMapping("/api/category/update")
-    @Operation(summary = "更新分类")
-    public ServerResponse update(@Validated({ValidateGroup.Update.class, Default.class})
-                                 @RequestBody ApiCategoryCmd dto) {
-        apiCategoryCommandHandler.updateApiCategory(dto);
+    @PutMapping
+    @Operation(summary = "更新API分类")
+    public ServerResponse updateApiCategory(@RequestBody @Validated({ValidateGroup.Update.class, Default.class}) ApiCategoryCommand command) {
+        apiCategoryCommandHandler.updateApiCategory(command);
         return ServerResponse.ok();
     }
 

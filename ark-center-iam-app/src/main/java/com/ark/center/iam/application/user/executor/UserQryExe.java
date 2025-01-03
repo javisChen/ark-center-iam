@@ -12,7 +12,7 @@ import com.ark.center.iam.infra.user.User;
 
 import com.ark.center.iam.infra.usergroup.service.UserGroupService;
 import com.ark.center.iam.infra.usergroup.vo.UserGroupVO;
-import com.ark.center.iam.infra.user.converter.UserBeanConverter;
+import com.ark.center.iam.infra.user.converter.UserDTOConverter;
 import com.ark.center.iam.infra.user.db.UserDAO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class UserQryExe {
     private final UserDAO userDAO;
     private final RoleService roleGateway;
     private final UserGroupService userGroupService;
-    private final UserBeanConverter userBeanConverter;
+    private final UserDTOConverter userDTOConverter;
 
     public Page<UserPageDTO> pageQuery(UserPageQuery qry) {
         Page<UserPageDTO> userPageDTOPage = userDAO.selectUsers(qry);
@@ -71,7 +71,7 @@ public class UserQryExe {
 
     public UserDetailsDTO queryUserDetails(Long userId) {
         User user = userDAO.selectByUserId(userId);
-        UserDetailsDTO userDetailsDTO = userBeanConverter.toUserDetailsDTO(user);
+        UserDetailsDTO userDetailsDTO = userDTOConverter.toUserDetailsDTO(user);
         userDetailsDTO.setRoleIds(roleGateway.queryRoleIdsByUserId(userId));
         userDetailsDTO.setUserGroupIds(userGroupService.selectUserGroupIdsByUserId(userId));
         return userDetailsDTO;

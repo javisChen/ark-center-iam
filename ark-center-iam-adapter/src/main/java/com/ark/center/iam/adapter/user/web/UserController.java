@@ -4,8 +4,8 @@ import com.ark.center.iam.application.user.UserCommandHandler;
 import com.ark.center.iam.application.user.UserQueryService;
 import com.ark.center.iam.client.user.UserQueryApi;
 import com.ark.center.iam.client.user.command.UserCommand;
+import com.ark.center.iam.client.user.dto.UserAuthDTO;
 import com.ark.center.iam.client.user.dto.UserDetailsDTO;
-import com.ark.center.iam.client.user.dto.UserInnerDTO;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.client.user.query.UserPageQuery;
 import com.ark.center.iam.client.user.query.UserQuery;
@@ -68,8 +68,8 @@ public class UserController implements UserQueryApi {
     }
 
     @Override
-    public SingleResponse<UserInnerDTO> queryUserSimpleInfo(UserQuery query) {
-        return SingleResponse.ok(userQueryService.getUser(query));
+    public SingleResponse<UserAuthDTO> getUserForAuth(UserQuery query) {
+        return SingleResponse.ok(userQueryService.getUserForAuth(query));
     }
 
 }

@@ -29,14 +29,6 @@ public class ApiService extends ServiceImpl<ApiMapper, Api> {
                 .one();
     }
 
-    public void insert(Api api) {
-        save(api);
-    }
-
-    public Api selectById(Long id) {
-        return getById(id);
-    }
-
     public void updateByApiId(Api api) {
         updateById(api);
     }

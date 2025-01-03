@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.ark.center.iam.client.user.dto.UserPageDTO;
 import com.ark.center.iam.client.user.query.UserPageQuery;
 import com.ark.center.iam.infra.user.User;
-import com.ark.center.iam.infra.user.converter.UserBeanConverter;
+import com.ark.center.iam.infra.user.converter.UserDTOConverter;
 import com.ark.component.orm.mybatis.base.BaseEntity;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserDAO extends ServiceImpl<UserMapper, User> {
 
-    private final UserBeanConverter beanConverter;
+    private final UserDTOConverter beanConverter;
 
     public Page<UserPageDTO> selectUsers(UserPageQuery pageQry) {
         LambdaQueryWrapper<User> qw = new LambdaQueryWrapper<User>()

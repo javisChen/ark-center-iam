@@ -1,9 +1,8 @@
 package com.ark.center.iam.infra.user.service;
 
 import com.ark.center.iam.infra.user.User;
-import com.ark.center.iam.infra.user.converter.UserBeanConverter;
+import com.ark.center.iam.infra.user.converter.UserDTOConverter;
 import com.ark.center.iam.infra.user.db.UserMapper;
-import com.ark.center.iam.infra.user.service.UserService;
 import com.ark.component.web.common.DeletedEnums;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService extends ServiceImpl<UserMapper, User> {
 
-    private final UserBeanConverter beanConverter;
+    private final UserDTOConverter beanConverter;
     
     public Long countUserByCode(String code) {
         return lambdaQuery()

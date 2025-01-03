@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         name = "${ark.center.iam.service.name:iam}",
@@ -19,14 +20,20 @@ import org.springframework.web.bind.annotation.GetMapping;
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
-@Schema(description = "API管理-内部调用")
+@Schema(description = "API查询服务")
 public interface ApiQueryApi {
 
     @GetMapping("/all")
-    @Operation(summary = "全量查询Api")
-    MultiResponse<ApiDetailsDTO> queryAll(@SpringQueryMap ApiQuery apiQuery);
+    @Operation(
+        summary = "查询API列表",
+        description = "查询所有API接口信息，支持条件过滤"
+    )
+    MultiResponse<ApiDetailsDTO> queryAll(@SpringQueryMap ApiQuery query);
 
-    @Operation(summary = "查询Api详情")
     @GetMapping("/details")
-    SingleResponse<ApiDetailDTO> getApi(Long id);
+    @Operation(
+        summary = "查询API详情",
+        description = "根据API ID查询详细信息"
+    )
+    SingleResponse<ApiDetailDTO> getApi(@RequestParam Long id);
 }

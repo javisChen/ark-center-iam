@@ -5,7 +5,7 @@ import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.user.dto.UserMenuDTO;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
-import com.ark.component.security.base.user.LoginUser;
+import com.ark.component.security.base.user.AuthUser;
 import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +28,7 @@ public class UserSelfController extends BaseController {
 
     @GetMapping("")
     @Operation(summary = "查询登录用户基本信息")
-    public SingleResponse<LoginUser> queryUserSelf() {
+    public SingleResponse<AuthUser> queryUserSelf() {
         return SingleResponse.ok(userSelfQueryService.queryUserSelf());
     }
 

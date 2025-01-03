@@ -14,7 +14,7 @@ import com.ark.center.iam.infra.api.service.ApiCategoryService;
 import com.ark.center.iam.infra.api.service.ApiService;
 import com.ark.center.iam.infra.application.Application;
 import com.ark.center.iam.infra.application.service.ApplicationService;
-import com.ark.center.iam.infra.enums.ApiAuthTypeEnums;
+import com.ark.center.iam.client.contants.ApiAuthType;
 import com.ark.center.iam.infra.enums.ApiStatusEnums;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
 import com.ark.center.iam.infra.permission.gateway.impl.PermissionService;
@@ -149,7 +149,7 @@ public class ApiSyncCmdExe {
         }
 
         for (Api api : insertApis) {
-            apiService.insert(api);
+            apiService.save(api);
             permissionService.addPermission(api.getId(), PermissionType.SER_API);
         }
 
@@ -206,7 +206,7 @@ public class ApiSyncCmdExe {
         JSONObject methodInfo = (JSONObject) operation.getValue();
         String summary = MapUtils.getString(methodInfo, "summary", uri);
         JSONArray tags = methodInfo.getJSONArray("tags");
-        String tag = String.valueOf(tags.get(0));
+        String tag = String.valueOf(tags.getFirst());
         Api api = new Api();
         api.setName(summary);
         api.setApplicationId(application.getId());
@@ -214,7 +214,7 @@ public class ApiSyncCmdExe {
         api.setHasPathVariable(false);
         api.setUri("/" + serviceInstance.getServiceId() + uri);
         api.setMethod(method.toUpperCase());
-        api.setAuthType(ApiAuthTypeEnums.NEED_AUTHENTICATION_AND_AUTHORIZATION.getValue());
+        api.setAuthType(ApiAuthType.AUTHORIZATION_REQUIRED.name());
         api.setStatus(ApiStatusEnums.ENABLED.getValue());
         return api;
     }
@@ -229,7 +229,7 @@ public class ApiSyncCmdExe {
         try {
             List<ServiceInstance> instances = nacosServiceDiscovery.getInstances(application.getCode());
             Assert.notEmpty(instances, () -> ExceptionFactory.sysException("服务不在线,无法获取Api信息"));
-            serviceInstance = instances.get(0);
+            serviceInstance = instances.getFirst();
         } catch (NacosException e) {
             log.error("读取服务实例失败", e);
             throw ExceptionFactory.sysException("获取服务实例失败");
@@ -243,8 +243,8 @@ public class ApiSyncCmdExe {
                 .GET()
                 .uri(URI.create(serviceInstance.getUri() + "/v3/api-docs"))
                 .build();
-        try {
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        try (HttpClient httpClient = HttpClient.newHttpClient()) {
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             return JSON.parseObject(response.body());
         } catch (Exception e) {
             log.error("请求服务失败", e);

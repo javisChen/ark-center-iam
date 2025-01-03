@@ -10,6 +10,7 @@ public class UserBaseDTO {
     private Long id;
     private String mobile;
     private String username;
+    private String password;
     private String userCode;
     private Boolean isSuperAdmin;
     private Integer status;

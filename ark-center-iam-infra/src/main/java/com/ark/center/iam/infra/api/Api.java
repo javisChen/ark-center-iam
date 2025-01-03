@@ -55,7 +55,7 @@ public class Api extends BaseEntity {
      * 认证授权类型 1-无需认证授权 2-只需认证无需授权 3-需要认证和授权
      */
     @TableField("auth_type")
-    private Integer authType;
+    private String authType;
 
     /**
      * url是否包含路径参数，例： /user/{userId}/api/{apiId} 0-不包含 1-包含
@@ -68,9 +68,5 @@ public class Api extends BaseEntity {
      */
     @TableField("status")
     private Integer status;
-
-    @TableField(value = "is_deleted")
-    private Long isDeleted;
-
 
 }

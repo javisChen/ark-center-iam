@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.api.assembler;
 
-import com.ark.center.iam.client.api.command.ApiUpdateCmd;
+import com.ark.center.iam.client.api.command.ApiCommand;
 import com.ark.center.iam.client.api.dto.ApiDetailDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.infra.api.Api;
@@ -26,7 +26,7 @@ public interface ApiAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    default Api toApiDO(ApiUpdateCmd dto) {
+    default Api toApiDO(ApiCommand dto) {
         Api api = new Api();
         api.setId(dto.getId());
         api.setName(dto.getName());
@@ -34,7 +34,7 @@ public interface ApiAssembler {
         api.setCategoryId(dto.getCategoryId());
         api.setUri(dto.getUri());
         api.setMethod(dto.getMethod());
-        api.setAuthType(dto.getAuthType());
+        api.setAuthType(dto.getAuthType().name());
         api.setStatus(dto.getStatus());
         // 约定规则，如果url包含了*号就代表是包含了路径参数
         api.setHasPathVariable(StringUtils.contains(dto.getUri(), "*"));

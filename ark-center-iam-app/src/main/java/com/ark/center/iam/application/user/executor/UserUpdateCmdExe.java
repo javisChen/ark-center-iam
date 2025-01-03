@@ -4,9 +4,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ark.center.iam.client.user.command.UserCommand;
 import com.ark.center.iam.infra.role.service.RoleAssignService;
 import com.ark.center.iam.infra.user.User;
+import com.ark.center.iam.infra.user.converter.UserDTOConverter;
 import com.ark.center.iam.infra.user.service.UserService;
 import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
-import com.ark.center.iam.infra.user.converter.UserBeanConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class UserUpdateCmdExe {
 
-    private final UserBeanConverter beanConverter;
+    private final UserDTOConverter beanConverter;
 
     private final UserService userGateway;
 

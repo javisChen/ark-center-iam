@@ -5,12 +5,9 @@ import com.ark.center.iam.application.api.event.ApiChangedEvent;
 import com.ark.center.iam.application.api.event.ApiCreatedEvent;
 import com.ark.center.iam.application.api.event.ApiDeletedEvent;
 import com.ark.center.iam.application.api.executor.ApiSyncCmdExe;
-import com.ark.center.iam.client.api.command.ApiEnableCmd;
+import com.ark.center.iam.client.api.command.ApiEnableCommand;
 import com.ark.center.iam.client.api.command.ApiSyncCommand;
-import com.ark.center.iam.client.api.command.ApiUpdateCmd;
-import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
-import com.ark.center.iam.client.api.query.ApiQuery;
+import com.ark.center.iam.client.api.command.ApiCommand;
 import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.api.service.ApiService;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
@@ -22,8 +19,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class ApiCommandHandler {
@@ -34,17 +29,14 @@ public class ApiCommandHandler {
     private final ApiAssembler apiAssembler;
     private final ApplicationEventPublisher eventPublisher;
 
-    public List<ApiDetailsDTO> queryList(ApiQuery dto) {
-        return apiService.selectList(dto);
-    }
+    public void save(ApiCommand command) {
 
-    public void createApplication(ApiUpdateCmd dto) {
+        baseCheck(command);
 
-        baseCheck(dto);
+        Api api = apiAssembler.toApiDO(command);
+        apiService.save(api);
 
-        Api apiInsert = saveApi(dto);
-
-        addPermission(apiInsert);
+        addPermission(api);
 
         eventPublisher.publishEvent(new ApiCreatedEvent(this));
 
@@ -54,24 +46,13 @@ public class ApiCommandHandler {
         permissionService.addPermission(apiInsert.getId(), PermissionType.SER_API);
     }
 
-    private void baseCheck(ApiUpdateCmd dto) {
+    private void baseCheck(ApiCommand dto) {
         Api api = apiService.selectApiByApplicationIdAndMethodAndUrl(dto.getApplicationId(), dto.getMethod(), dto.getUri());
         Assert.isTrue(api == null || dto.getId().equals(api.getId()),
                 () -> ExceptionFactory.userException("API已存在"));
     }
 
-    private Api saveApi(ApiUpdateCmd dto) {
-        Api apiInsert = apiAssembler.toApiDO(dto);
-        apiService.insert(apiInsert);
-        return apiInsert;
-    }
-
-    public ApiDetailDTO getApi(Long id) {
-        Api api = apiService.selectById(id);
-        return apiAssembler.toApiDetailDTO(api);
-    }
-
-    public void updateApi(ApiUpdateCmd dto) {
+    public void updateApi(ApiCommand dto) {
 
         baseCheck(dto);
 
@@ -88,7 +69,7 @@ public class ApiCommandHandler {
         eventPublisher.publishEvent(new ApiDeletedEvent(this));
     }
 
-    public void enableOrDisable(ApiEnableCmd cmd) {
+    public void enableOrDisable(ApiEnableCommand cmd) {
         Api api = new Api();
         api.setId(cmd.getId());
         api.setStatus(cmd.getStatus());

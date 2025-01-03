@@ -5,7 +5,7 @@ import com.ark.center.iam.application.user.executor.UserSelfQryExe;
 import com.ark.center.iam.client.permission.vo.PermissionDTO;
 import com.ark.center.iam.client.user.dto.UserMenuDTO;
 import com.ark.component.context.core.ServiceContext;
-import com.ark.component.security.base.user.LoginUser;
+import com.ark.component.security.base.user.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class UserSelfQueryService {
 
     private final UserSelfQryExe userSelfQryExe;
 
-    public LoginUser queryUserSelf() {
+    public AuthUser queryUserSelf() {
         return ServiceContext.getCurrentUser();
     }
 

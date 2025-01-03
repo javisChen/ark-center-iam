@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "启用/禁用Api")
-public class ApiEnableCmd {
+public class ApiEnableCommand {
 
     @NotNull(message = "id不能为空")
     @Schema(description = "id")

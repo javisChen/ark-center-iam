@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.role.event;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ark.center.iam.client.IamMQConst;
+import com.ark.center.iam.client.contants.IamMQConst;
 import com.ark.center.iam.client.user.dto.UserApiPermissionChangedDTO;
 import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.infra.api.Api;

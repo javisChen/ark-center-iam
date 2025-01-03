@@ -10,7 +10,7 @@ import com.ark.center.iam.infra.user.service.UserPermissionService;
 import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
 import com.ark.component.cache.core.CacheHelper;
 import com.ark.component.context.core.ServiceContext;
-import com.ark.component.security.base.user.LoginUser;
+import com.ark.component.security.base.user.AuthUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +36,7 @@ public class UserSelfQryExe {
     private final MenuBizTreeService menuHierarchyService;
 
     public List<PermissionDTO> queryUserSelfElements() {
-        LoginUser user = ServiceContext.getCurrentUser();
+        AuthUser user = ServiceContext.getCurrentUser();
         Long userId = user.getUserId();
         String cacheKey = String.format(CACHE_KEY_USER_ELEMS, userId);
 //        return CacheHelper.execute(cacheKey, key -> {
@@ -49,7 +49,7 @@ public class UserSelfQryExe {
     }
 
     public List<UserMenuDTO> queryUserSelfRoutes() {
-        LoginUser user = ServiceContext.getCurrentUser();
+        AuthUser user = ServiceContext.getCurrentUser();
         Long userId = user.getUserId();
         String cacheKey = String.format(CACHE_KEY_USER_ROUTES, userId);
 //        return CacheHelper.execute(cacheKey, key -> {
@@ -66,7 +66,7 @@ public class UserSelfQryExe {
 
 
     public List<Tree<Long>> queryUserSelfRoutesV2() {
-        LoginUser user = ServiceContext.getCurrentUser();
+        AuthUser user = ServiceContext.getCurrentUser();
         Long userId = user.getUserId();
 //        String cacheKey = String.format(CACHE_KEY_USER_ROUTES, userId);
 //        return CacheHelper.execute(cacheKey, key -> {

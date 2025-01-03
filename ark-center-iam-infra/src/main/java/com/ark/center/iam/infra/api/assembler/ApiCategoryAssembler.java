@@ -1,6 +1,6 @@
 package com.ark.center.iam.infra.api.assembler;
 
-import com.ark.center.iam.client.api.command.ApiCategoryCmd;
+import com.ark.center.iam.client.api.command.ApiCategoryCommand;
 import com.ark.center.iam.client.api.dto.ApiCategoryBaseDTO;
 import com.ark.center.iam.infra.api.ApiCategory;
 import org.mapstruct.Mapper;
@@ -19,5 +19,5 @@ public interface ApiCategoryAssembler {
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
-    ApiCategory toApiCategoryDO(ApiCategoryCmd cmd);
+    ApiCategory toApiCategoryDO(ApiCategoryCommand command);
 }

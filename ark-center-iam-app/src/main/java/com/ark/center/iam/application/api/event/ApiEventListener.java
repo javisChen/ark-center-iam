@@ -1,7 +1,7 @@
 package com.ark.center.iam.application.api.event;
 
-import com.ark.center.iam.client.api.common.ApiMqInfo;
 import com.ark.center.iam.client.api.dto.ApiChangedDTO;
+import com.ark.center.iam.client.contants.IamMQConst;
 import com.ark.component.mq.MsgBody;
 import com.ark.component.mq.integration.MessageTemplate;
 import lombok.RequiredArgsConstructor;
@@ -23,21 +23,21 @@ public class ApiEventListener {
 
     @EventListener
     public void onApplicationEvent(@NotNull ApiCreatedEvent event) {
-        publishMQ(ApiMqInfo.EVENT_CREATED);
+        publishMQ(IamMQConst.EVENT_CREATED);
     }
     @EventListener
     public void onApplicationEvent(@NotNull ApiChangedEvent event) {
-        publishMQ(ApiMqInfo.EVENT_CHANGED);
+        publishMQ(IamMQConst.EVENT_CHANGED);
     }
     @EventListener
     public void onApplicationEvent(@NotNull ApiDeletedEvent event) {
-        publishMQ(ApiMqInfo.EVENT_DELETED);
+        publishMQ(IamMQConst.EVENT_DELETED);
     }
 
     private void publishMQ(String event) {
         ApiChangedDTO dto = new ApiChangedDTO();
         dto.setEvent(event);
-        messageTemplate.asyncSend(ApiMqInfo.TOPIC_IAM, ApiMqInfo.TAG_APIS_CHANGED, MsgBody.of(dto));
+        messageTemplate.asyncSend(IamMQConst.TOPIC_IAM, IamMQConst.TAG_API_CHANGED, MsgBody.of(dto));
         log.info("Api变更消息已发送");
     }
 

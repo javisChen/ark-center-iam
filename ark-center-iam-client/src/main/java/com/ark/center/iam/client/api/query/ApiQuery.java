@@ -1,35 +1,63 @@
 package com.ark.center.iam.client.api.query;
 
+import com.ark.center.iam.client.contants.ApiAuthType;
 import com.ark.component.dto.PagingQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * @title:
- * @desc:
- * @author: Javis
- */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Schema(
+    description = "API查询参数",
+    title = "API查询对象",
+    example = """
+            {
+              "applicationId": 1,
+              "categoryId": 1,
+              "name": "用户查询",
+              "status": 1,
+              "authType": "ANONYMOUS"
+            }
+            """
+)
 public class ApiQuery extends PagingQuery {
 
-    @Schema(description = "应用id")
+    @Schema(
+        description = "所属应用ID",
+        example = "1",
+        title = "应用ID"
+    )
     private Long applicationId;
 
-    @Schema(description = "分类id")
+    @Schema(
+        description = "API分类ID",
+        example = "1",
+        title = "分类ID"
+    )
     private Long categoryId;
 
-    @Schema(description = "应用名称")
+    @Schema(
+        description = "API名称",
+        example = "用户查询",
+        title = "API名称"
+    )
     private String name;
 
-    @Schema(description = "状态 1-已上线；2-已下线", allowableValues = {"1", "2"})
+    @Schema(
+        description = "状态：1-启用 2-禁用",
+        example = "1",
+        allowableValues = {"1", "2"},
+        title = "API状态"
+    )
     private Integer status;
 
-    @Schema(description = "类型 1-业务系统（前后端）2-纯后台服务", allowableValues = {"1", "2"})
-    private Integer type;
-
-    @Schema(description = "认证授权类型 1-无需认证授权 2-只需认证无需授权 3-需要认证和授权", allowableValues = {"1", "2", "3"})
-    private Integer authType;
-
+    @Schema(
+        description = "认证授权类型",
+        example = "ANONYMOUS",
+        enumAsRef = true,
+        implementation = ApiAuthType.class,
+        title = "认证授权类型"
+    )
+    private ApiAuthType authType;
 }

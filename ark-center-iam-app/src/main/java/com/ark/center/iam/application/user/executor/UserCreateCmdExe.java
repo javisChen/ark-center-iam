@@ -3,13 +3,12 @@ package com.ark.center.iam.application.user.executor;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import com.ark.center.iam.client.user.command.UserCommand;
 import com.ark.center.iam.infra.role.service.RoleAssignService;
 import com.ark.center.iam.infra.user.service.UserService;
 import com.ark.center.iam.infra.user.support.IUserPasswordHelper;
 import com.ark.center.iam.infra.usergroup.service.UserGroupAssignService;
-import com.ark.center.iam.infra.user.converter.UserBeanConverter;
+import com.ark.center.iam.infra.user.converter.UserDTOConverter;
 import com.ark.center.iam.infra.user.User;
 import com.ark.component.exception.ExceptionFactory;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ import java.util.List;
 @Slf4j
 public class UserCreateCmdExe {
 
-    private final UserBeanConverter beanConverter;
+    private final UserDTOConverter beanConverter;
 
     private final UserService userService;
 
