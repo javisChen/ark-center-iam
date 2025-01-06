@@ -53,7 +53,7 @@ public class ApiCategoryController extends BaseController {
         return ServerResponse.ok();
     }
 
-    @DeleteMapping("/api/category/delete")
+    @DeleteMapping()
     @Operation(summary = "删除分类")
     public ServerResponse delete(Long id) {
         apiCategoryCommandHandler.deleteApiCategory(id);
