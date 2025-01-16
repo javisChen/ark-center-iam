@@ -211,10 +211,10 @@ public class ApiSyncCmdExe {
         api.setName(summary);
         api.setApplicationId(application.getId());
         api.setCategoryId(MapUtils.getLong(categoriesMappings, tag, 0L));
-        api.setHasPathVariable(false);
+        api.setIsDynamicPath(false);
         api.setUri("/" + serviceInstance.getServiceId() + uri);
         api.setMethod(method.toUpperCase());
-        api.setAuthType(ApiAuthType.AUTHORIZATION_REQUIRED.name());
+        api.setAuthType(ApiAuthType.AUTHENTICATION.getValue());
         api.setStatus(ApiStatusEnums.ENABLED.getValue());
         return api;
     }

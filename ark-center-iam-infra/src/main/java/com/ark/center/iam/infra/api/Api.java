@@ -58,10 +58,10 @@ public class Api extends BaseEntity {
     private String authType;
 
     /**
-     * url是否包含路径参数，例： /user/{userId}/api/{apiId} 0-不包含 1-包含
+     * uri是否动态路径，例： /user/{userId}/api/{apiId} 0-不包含 1-包含
      */
-    @TableField("has_path_variable")
-    private Boolean hasPathVariable;
+    @TableField("is_dynamic_path")
+    private Boolean isDynamicPath;
 
     /**
      * 状态 1-已启用；2-已禁用；

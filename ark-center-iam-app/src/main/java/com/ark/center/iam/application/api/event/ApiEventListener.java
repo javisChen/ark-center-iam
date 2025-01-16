@@ -1,12 +1,11 @@
 package com.ark.center.iam.application.api.event;
 
-import com.ark.center.iam.client.api.dto.ApiChangedDTO;
+import com.ark.center.iam.client.api.event.ApiChangeEventDTO;
 import com.ark.center.iam.client.contants.IamMQConst;
 import com.ark.component.mq.MsgBody;
 import com.ark.component.mq.integration.MessageTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -22,23 +21,17 @@ public class ApiEventListener {
     private final MessageTemplate messageTemplate;
 
     @EventListener
-    public void onApplicationEvent(@NotNull ApiCreatedEvent event) {
-        publishMQ(IamMQConst.EVENT_CREATED);
+    public void onApiChange(ApiChangeEvent event) {
+        ApiChangeEventDTO eventDTO = new ApiChangeEventDTO();
+        eventDTO.setApiId(event.getApiId());
+        eventDTO.setChangeType(event.getChangeType());
+        
+        messageTemplate.asyncSend(
+            IamMQConst.TOPIC_IAM, 
+            IamMQConst.TAG_API_CHANGED, 
+            MsgBody.of(eventDTO)
+        );
+        
+        log.info("API变更事件已发送 - apiId: {}, changeType: {}", event.getApiId(), event.getChangeType());
     }
-    @EventListener
-    public void onApplicationEvent(@NotNull ApiChangedEvent event) {
-        publishMQ(IamMQConst.EVENT_CHANGED);
-    }
-    @EventListener
-    public void onApplicationEvent(@NotNull ApiDeletedEvent event) {
-        publishMQ(IamMQConst.EVENT_DELETED);
-    }
-
-    private void publishMQ(String event) {
-        ApiChangedDTO dto = new ApiChangedDTO();
-        dto.setEvent(event);
-        messageTemplate.asyncSend(IamMQConst.TOPIC_IAM, IamMQConst.TAG_API_CHANGED, MsgBody.of(dto));
-        log.info("Api变更消息已发送");
-    }
-
 }

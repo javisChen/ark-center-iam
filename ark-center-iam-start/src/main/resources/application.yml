@@ -47,9 +47,9 @@ spring:
       - nacos:common.yml
 mybatis-plus:
   mapper-locations: classpath:com/ark/center/iam/infra/*/gateway/db/xml/*.xml,classpath:com/ark/center/iam/infra/*/db/xml/*.xml
-  type-handlers-package:
-  configuration:
-    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.CompositeEnumTypeHandler
+#  type-handlers-package:
+#  configuration:
+#    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
 
 management:
   endpoints:

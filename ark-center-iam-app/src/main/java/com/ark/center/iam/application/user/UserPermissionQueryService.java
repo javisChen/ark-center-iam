@@ -25,42 +25,9 @@ import static com.ark.center.iam.infra.user.common.UserCacheKey.CACHE_KEY_USER_R
 @RequiredArgsConstructor
 public class UserPermissionQueryService {
 
-    private final UserCreateCmdExe userCreateCmdExe;
-
-    private final UserUpdateCmdExe userUpdateCmdExe;
-
-    private final UserService userGateway;
-
-    private final RoleAssignService roleAssignService;
-
-    private final UserGroupAssignService userGroupAssignService;
-
     private final UserPermissionService userPermissionService;
 
     private final PermissionAssembler permissionAssembler;
-
-    private final CacheService cacheService;
-
-
-    @Transactional(rollbackFor = Throwable.class)
-    public Long createUser(UserCommand command) {
-        return userCreateCmdExe.execute(command);
-    }
-
-    @Transactional(rollbackFor = Throwable.class)
-    public void updateUser(UserCommand command) {
-        userUpdateCmdExe.execute(command);
-    }
-
-    @Transactional(rollbackFor = Throwable.class)
-    public void deleteUser(Long userId) {
-        // 逻辑删除
-        userGateway.logicDeleteByUserId(userId);
-        // 移除角色关系
-        roleAssignService.clearUserRoles(userId);
-        // 移除用户组关系
-        userGroupAssignService.clearUserAndUserGroupRelations(userId);
-    }
 
     public Boolean checkApiHasPermission(UserPermissionQuery userPermissionQuery) {
         Long userId = userPermissionQuery.getUserId();
@@ -74,8 +41,4 @@ public class UserPermissionQueryService {
         return permissionAssembler.toUserApiPermissionDTO(userApiPermissions);
     }
 
-    public void emptyCache(Long userId) {
-        cacheService.del(String.format(CACHE_KEY_USER_ROUTES, userId));
-        cacheService.del(String.format(CACHE_KEY_USER_ELEMS, userId));
-    }
 }

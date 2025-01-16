@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Length;
               "applicationId": 1,
               "categoryId": 1,
               "authType": "ANONYMOUS",
-              "hasPathVariable": true,
+              "isDynamicPath": true,
               "status": 1
             }
             """
@@ -101,13 +101,13 @@ public class ApiCommand {
     private ApiAuthType authType;
 
     @Schema(
-        description = "是否包含路径参数",
+        description = "是否动态路径路径",
         requiredMode = Schema.RequiredMode.REQUIRED,
         example = "true",
         title = "是否包含路径参数"
     )
-    @NotNull(message = "请指定是否包含路径参数", groups = {ValidateGroup.Add.class})
-    private Boolean hasPathVariable;
+    @NotNull(message = "是否动态路径路径", groups = {ValidateGroup.Add.class})
+    private Boolean isDynamicPath;
 
     @Schema(
         description = "状态：1-启用 2-禁用",

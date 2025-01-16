@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Data
 @Schema(description = "API基础信息")
-public class ApiBaseDTO {
+public class ApiDTO {
 
     @Schema(description = "API ID", example = "1")
     private Long id;
@@ -39,8 +39,8 @@ public class ApiBaseDTO {
     )
     private ApiAuthType authType;
 
-    @Schema(description = "是否包含路径参数", example = "true")
-    private Boolean hasPathVariable;
+    @Schema(description = "是否动态路径", example = "true")
+    private Boolean isDynamicPath;
 
     @Schema(
         description = "状态：1-启用 2-禁用",

@@ -6,7 +6,7 @@ import com.ark.center.iam.client.api.ApiQueryApi;
 import com.ark.center.iam.client.api.command.ApiEnableCommand;
 import com.ark.center.iam.client.api.command.ApiSyncCommand;
 import com.ark.center.iam.client.api.command.ApiCommand;
-import com.ark.center.iam.client.api.dto.ApiDetailDTO;
+import com.ark.center.iam.client.api.dto.ApiDTO;
 import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
 import com.ark.center.iam.client.api.query.ApiQuery;
 import com.ark.component.dto.MultiResponse;
@@ -29,6 +29,11 @@ public class ApiController extends BaseController implements ApiQueryApi {
 
     private final ApiCommandHandler apiCommandHandler;
     private final ApiQueryService apiQueryService;
+
+    @Override
+    public MultiResponse<ApiDTO> queryAll(ApiQuery query) {
+        return MultiResponse.ok(apiQueryService.queryAll(query));
+    }
 
     @Override
     @Operation(
@@ -55,7 +60,7 @@ public class ApiController extends BaseController implements ApiQueryApi {
         summary = "查询API详情",
         description = "根据API ID查询详细信息"
     )
-    public SingleResponse<ApiDetailDTO> getApi(@RequestParam Long id) {
+    public SingleResponse<ApiDTO> getApi(@RequestParam Long id) {
         return SingleResponse.ok(apiQueryService.getApi(id));
     }
 

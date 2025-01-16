@@ -20,6 +20,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
             }
             """
 )
-public class ApiDetailDTO extends ApiBaseDTO {
+public class ApiDetailDTO extends ApiDTO {
 
 }

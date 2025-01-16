@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApiService extends ServiceImpl<ApiMapper, Api> {
 
-    public List<ApiDetailsDTO> selectList(ApiQuery apiQuery) {
+    public List<ApiDetailsDTO> query(ApiQuery apiQuery) {
         return baseMapper.selectApiList(apiQuery);
     }
 

@@ -1,13 +1,13 @@
 package com.ark.center.iam.application.api;
 
 import cn.hutool.core.lang.Assert;
-import com.ark.center.iam.application.api.event.ApiChangedEvent;
+import com.ark.center.iam.application.api.event.ApiChangeEvent;
 import com.ark.center.iam.application.api.event.ApiCreatedEvent;
-import com.ark.center.iam.application.api.event.ApiDeletedEvent;
 import com.ark.center.iam.application.api.executor.ApiSyncCmdExe;
 import com.ark.center.iam.client.api.command.ApiEnableCommand;
 import com.ark.center.iam.client.api.command.ApiSyncCommand;
 import com.ark.center.iam.client.api.command.ApiCommand;
+import com.ark.center.iam.client.api.enums.ApiChangeType;
 import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.api.service.ApiService;
 import com.ark.center.iam.infra.permission.enums.PermissionType;
@@ -38,7 +38,7 @@ public class ApiCommandHandler {
 
         addPermission(api);
 
-        eventPublisher.publishEvent(new ApiCreatedEvent(this));
+        eventPublisher.publishEvent(new ApiChangeEvent(this, ApiChangeType.CREATED, api.getId()));
 
     }
 
@@ -60,13 +60,13 @@ public class ApiCommandHandler {
 
         apiService.updateByApiId(apiUpdate);
 
-        eventPublisher.publishEvent(new ApiChangedEvent(this));
+        eventPublisher.publishEvent(new ApiChangeEvent(this, ApiChangeType.UPDATED, dto.getId()));
     }
 
     public void deleteApi(Long id) {
         apiService.removeById(id);
 
-        eventPublisher.publishEvent(new ApiDeletedEvent(this));
+        eventPublisher.publishEvent(new ApiChangeEvent(this, ApiChangeType.DELETED, id));
     }
 
     public void enableOrDisable(ApiEnableCommand cmd) {
@@ -75,7 +75,7 @@ public class ApiCommandHandler {
         api.setStatus(cmd.getStatus());
         apiService.updateByApiId(api);
 
-        eventPublisher.publishEvent(new ApiChangedEvent(this));
+        eventPublisher.publishEvent(new ApiChangeEvent(this, ApiChangeType.STATUS_CHANGED, cmd.getId()));
     }
 
     @Transactional(rollbackFor = Throwable.class)

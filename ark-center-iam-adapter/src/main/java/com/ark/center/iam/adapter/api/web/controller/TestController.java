@@ -35,9 +35,9 @@ public class TestController extends BaseController {
         return SingleResponse.ok("detail");
     }
 
-    @GetMapping("/{id}")
+    @PostMapping("/{id}")
     public SingleResponse<String> query(@PathVariable String id) {
-        return SingleResponse.ok(id);
+        return SingleResponse.ok(id + "-path");
     }
 
 }

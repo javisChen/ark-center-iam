@@ -18,10 +18,9 @@ import jakarta.validation.groups.Default;
 
 /**
  * <p>
- * api表 前端控制器
+ * API类目服务 前端控制器
  * </p>
  *
- * @author
  * @since 2020-11-09
  */
 @Tag(name = "API类目服务", description = "API类目服务")
@@ -33,32 +32,31 @@ public class ApiCategoryController extends BaseController {
     private final ApiCategoryCommandHandler apiCategoryCommandHandler;
     private final ApiCategoryQueryService apiCategoryQueryService;
 
-    @GetMapping("/api/categories")
-    @Operation(summary = "分页列表")
+    @GetMapping("")
+    @Operation(summary = "获取API类目分页列表")
     public MultiResponse<ApiCategoryBaseDTO> queryPages(Long applicationId) {
         return MultiResponse.ok(apiCategoryQueryService.queryPages(applicationId));
     }
 
     @PostMapping
-    @Operation(summary = "新建API分类")
+    @Operation(summary = "创建API类目")
     public ServerResponse createApiCategory(@RequestBody @Validated({ValidateGroup.Add.class, Default.class}) ApiCategoryCommand command) {
         apiCategoryCommandHandler.createApiCategory(command);
         return ServerResponse.ok();
     }
 
     @PutMapping
-    @Operation(summary = "更新API分类")
+    @Operation(summary = "更新API类目")
     public ServerResponse updateApiCategory(@RequestBody @Validated({ValidateGroup.Update.class, Default.class}) ApiCategoryCommand command) {
         apiCategoryCommandHandler.updateApiCategory(command);
         return ServerResponse.ok();
     }
 
     @DeleteMapping()
-    @Operation(summary = "删除分类")
+    @Operation(summary = "删除API类目")
     public ServerResponse delete(Long id) {
         apiCategoryCommandHandler.deleteApiCategory(id);
         return ServerResponse.ok();
     }
-
 }
 

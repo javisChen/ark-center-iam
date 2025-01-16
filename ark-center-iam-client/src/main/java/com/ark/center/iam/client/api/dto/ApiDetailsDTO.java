@@ -1,6 +1,5 @@
 package com.ark.center.iam.client.api.dto;
 
-import com.ark.center.iam.client.contants.ApiAuthType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +25,7 @@ import java.time.LocalDateTime;
               "applicationId": 1,
               "categoryId": 1,
               "authType": "ANONYMOUS",
-              "hasPathVariable": true,
+              "isDynamicPath": true,
               "status": 1,
               "createTime": "2024-01-01 12:00:00",
               "updateTime": "2024-01-01 12:00:00",
@@ -35,7 +34,7 @@ import java.time.LocalDateTime;
             }
             """
 )
-public class ApiDetailsDTO extends ApiBaseDTO {
+public class ApiDetailsDTO extends ApiDTO {
 
     @Schema(description = "创建时间", example = "2024-01-01 12:00:00")
     private LocalDateTime createTime;

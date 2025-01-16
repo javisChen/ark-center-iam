@@ -1,28 +1,25 @@
 package com.ark.center.iam.infra.api.assembler;
 
 import com.ark.center.iam.client.api.command.ApiCommand;
-import com.ark.center.iam.client.api.dto.ApiDetailDTO;
-import com.ark.center.iam.client.api.dto.ApiDetailsDTO;
+import com.ark.center.iam.client.api.dto.ApiDTO;
 import com.ark.center.iam.infra.api.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
+import java.util.List;
+
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ApiAssembler {
 
-    @Mapping(target = "updateTime", ignore = true)
-    @Mapping(target = "permissionId", ignore = true)
-    @Mapping(target = "permissionCode", ignore = true)
-    @Mapping(target = "createTime", ignore = true)
-    ApiDetailsDTO toApiDTO(Api api);
+    List<ApiDTO> toApiDTO(List<Api> apis);
 
-    ApiDetailDTO toApiDetailDTO(Api api);
+    ApiDTO toApiDTO(Api api);
 
     @Mapping(target = "modifier", ignore = true)
     @Mapping(target = "isDeleted", ignore = true)
-    @Mapping(target = "hasPathVariable", ignore = true)
+    @Mapping(target = "isDynamicPath", ignore = true)
     @Mapping(target = "updateTime", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     @Mapping(target = "creator", ignore = true)
@@ -37,7 +34,7 @@ public interface ApiAssembler {
         api.setAuthType(dto.getAuthType().name());
         api.setStatus(dto.getStatus());
         // 约定规则，如果url包含了*号就代表是包含了路径参数
-        api.setHasPathVariable(StringUtils.contains(dto.getUri(), "*"));
+        api.setIsDynamicPath(StringUtils.contains(dto.getUri(), "*"));
         return api;
     }
 }

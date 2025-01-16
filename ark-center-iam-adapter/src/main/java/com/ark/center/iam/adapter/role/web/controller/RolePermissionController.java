@@ -51,7 +51,7 @@ public class RolePermissionController extends BaseController {
     /**
      * 角色api权限授权
      */
-    @PostMapping("/role/permission/api")
+    @PostMapping("/role/permission/apis")
     @Operation(summary = "角色Api授权")
     public ServerResponse updateRoleApiPermissions(@Validated@RequestBody RoleApiPermissionGrantCommand command) {
         rolePermissionCommandHandler.grantApis(command);
