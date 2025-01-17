@@ -75,7 +75,7 @@ public class ApiController extends BaseController implements ApiQueryApi {
         return ServerResponse.ok();
     }
 
-    @PostMapping("/enable")
+    @PutMapping("/status")
     @Operation(
         summary = "启用/禁用API",
         description = "修改API的启用状态"

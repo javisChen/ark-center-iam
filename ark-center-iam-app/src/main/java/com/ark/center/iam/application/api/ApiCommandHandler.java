@@ -2,7 +2,6 @@ package com.ark.center.iam.application.api;
 
 import cn.hutool.core.lang.Assert;
 import com.ark.center.iam.application.api.event.ApiChangeEvent;
-import com.ark.center.iam.application.api.event.ApiCreatedEvent;
 import com.ark.center.iam.application.api.executor.ApiSyncCmdExe;
 import com.ark.center.iam.client.api.command.ApiEnableCommand;
 import com.ark.center.iam.client.api.command.ApiSyncCommand;
@@ -82,8 +81,6 @@ public class ApiCommandHandler {
     public void syncApi(ApiSyncCommand command) {
 
         apiSyncCmdExe.execute(command);
-
-        eventPublisher.publishEvent(new ApiCreatedEvent(this));
 
     }
 }

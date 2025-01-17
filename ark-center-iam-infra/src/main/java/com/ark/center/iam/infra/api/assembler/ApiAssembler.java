@@ -34,7 +34,7 @@ public interface ApiAssembler {
         api.setAuthType(dto.getAuthType().name());
         api.setStatus(dto.getStatus());
         // 约定规则，如果url包含了*号就代表是包含了路径参数
-        api.setIsDynamicPath(StringUtils.contains(dto.getUri(), "*"));
+        api.setIsDynamicPath(StringUtils.contains(dto.getUri(), "{"));
         return api;
     }
 }

@@ -40,5 +40,10 @@ public class TestController extends BaseController {
         return SingleResponse.ok(id + "-path");
     }
 
+    @PostMapping("/post")
+    public SingleResponse<String> post() {
+        return SingleResponse.ok("post");
+    }
+
 }
 

@@ -2,12 +2,17 @@ package com.ark.center.iam.application.api.executor;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.cloud.nacos.discovery.NacosServiceDiscovery;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.nacos.api.exception.NacosException;
+import com.ark.center.iam.application.api.ApiCommandHandler;
+import com.ark.center.iam.application.api.event.ApiChangeEvent;
+import com.ark.center.iam.client.api.command.ApiCommand;
 import com.ark.center.iam.client.api.command.ApiSyncCommand;
+import com.ark.center.iam.client.api.enums.ApiChangeType;
 import com.ark.center.iam.infra.api.Api;
 import com.ark.center.iam.infra.api.ApiCategory;
 import com.ark.center.iam.infra.api.service.ApiCategoryService;
@@ -29,6 +34,7 @@ import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -44,14 +50,11 @@ import java.util.stream.Collectors;
 public class ApiSyncCmdExe {
 
     private final ApplicationService applicationGateway;
-
     private final ApiService apiService;
-
     private final ApiCategoryService apiCategoryService;
-
     private final NacosServiceDiscovery nacosServiceDiscovery;
-
     private final PermissionService permissionService;
+    private final ApplicationEventPublisher eventPublisher;
 
     public void execute(ApiSyncCommand cmd) {
 
@@ -151,10 +154,12 @@ public class ApiSyncCmdExe {
         for (Api api : insertApis) {
             apiService.save(api);
             permissionService.addPermission(api.getId(), PermissionType.SER_API);
+            eventPublisher.publishEvent(new ApiChangeEvent(this, ApiChangeType.CREATED, api.getId()));
         }
 
         for (Api api : updateApis) {
             apiService.updateByApiId(api);
+            eventPublisher.publishEvent(new ApiChangeEvent(this, ApiChangeType.UPDATED, api.getId()));
         }
     }
 
