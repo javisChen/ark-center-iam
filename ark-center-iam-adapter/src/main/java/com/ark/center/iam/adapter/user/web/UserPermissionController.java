@@ -6,31 +6,27 @@ import com.ark.center.iam.client.user.dto.UserApiPermissionDTO;
 import com.ark.center.iam.client.user.query.UserPermissionQuery;
 import com.ark.component.dto.MultiResponse;
 import com.ark.component.dto.SingleResponse;
-import com.ark.component.web.base.BaseController;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.*;
 
-
-@Tags({
-        @Tag(name = "用户管理", description = "用户管理"),
-})
-@RequiredArgsConstructor
+@Tag(name = "用户权限管理", description = "用户权限查询接口")
 @RestController
-@RequestMapping("/v1/users/permission")
-public class UserPermissionController extends BaseController implements UserPermissionQueryApi {
+@RequestMapping("/v1/users/permissions")
+@RequiredArgsConstructor
+public class UserPermissionController implements UserPermissionQueryApi {
 
     private final UserPermissionQueryService userPermissionQueryService;
 
     @Override
-    public SingleResponse<Boolean> hasApiPermission(UserPermissionQuery userPermissionQuery) {
-        return SingleResponse.ok(userPermissionQueryService.checkApiHasPermission(userPermissionQuery));
+    public SingleResponse<Boolean> checkApiPermission(@SpringQueryMap UserPermissionQuery query) {
+        return SingleResponse.ok(userPermissionQueryService.checkApiPermission(query));
     }
 
     @Override
-    public MultiResponse<UserApiPermissionDTO> queryApiPermissions(Long userId) {
-        return MultiResponse.ok(userPermissionQueryService.queryApiPermissions(userId));
+    public MultiResponse<UserApiPermissionDTO> queryUserApiPermissions(@RequestParam("userId") Long userId) {
+        return MultiResponse.ok(userPermissionQueryService.queryUserApiPermissions(userId));
     }
 }
 

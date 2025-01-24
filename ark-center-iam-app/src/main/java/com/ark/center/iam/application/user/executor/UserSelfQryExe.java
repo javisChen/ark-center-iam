@@ -8,10 +8,8 @@ import com.ark.center.iam.infra.menu.service.MenuBizTreeService;
 import com.ark.center.iam.infra.permission.Permission;
 import com.ark.center.iam.infra.user.service.UserPermissionService;
 import com.ark.center.iam.infra.permission.assembler.PermissionAssembler;
-import com.ark.component.cache.core.CacheHelper;
 import com.ark.component.context.core.ServiceContext;
-import com.ark.component.security.base.user.AuthUser;
-import lombok.RequiredArgsConstructor;
+import com.ark.component.security.base.authentication.AuthUser;import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

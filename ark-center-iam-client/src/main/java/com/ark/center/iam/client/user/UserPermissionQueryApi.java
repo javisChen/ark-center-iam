@@ -14,20 +14,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(
         name = "${ark.center.iam.service.name:iam}",
-        path = "/v1/users/permission",
+        path = "/v1/users/permissions",
         url = "${ark.center.iam.service.uri:}",
         dismiss404 = true,
         configuration = FeignCommonErrorDecoder.class
 )
-@Schema(description = "用户权限接口（查询）")
+@Schema(description = "用户权限查询服务")
 public interface UserPermissionQueryApi {
 
-    @GetMapping("/has-api-permission")
-    @Operation(summary = "用户管理（内部调用） - 查询用户是否具备API访问权限")
-    SingleResponse<Boolean> hasApiPermission(@SpringQueryMap UserPermissionQuery userPermissionQuery);
+    @GetMapping("/api/check")
+    @Operation(
+            summary = "校验用户API访问权限",
+            description = "检查用户是否具备指定API的访问权限"
+    )
+    SingleResponse<Boolean> checkApiPermission(@SpringQueryMap UserPermissionQuery query);
 
-    @GetMapping("/api-permission")
-    @Operation(summary = "用户管理（内部调用） - 查询用户拥有的API权限")
-    MultiResponse<UserApiPermissionDTO> queryApiPermissions(@RequestParam("userId") Long userId);
+    @GetMapping("/apis")
+    @Operation(
+            summary = "查询用户API权限列表",
+            description = "获取用户被授权的所有API权限列表"
+    )
+    MultiResponse<UserApiPermissionDTO> queryUserApiPermissions(@RequestParam("userId") Long userId);
 
 }
